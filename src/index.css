@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #C4A35A;
+  --color-secondary: #2D5A4A;
+  --color-accent: #E85D4C;
+  --color-background: #F5F2EB;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #6B6B6B;
+  --color-sand-light: #E8DCC8;
+  --color-sand-dark: #B89B5D;
+  --color-oasis: #3D6B5A;
+  --color-desert: #D4A857;
+  
+  --font-serif: 'Noto Serif SC', serif;
+  --font-sans: 'Noto Sans SC', sans-serif;
+  --font-decorative: 'Ma Shan Zheng', cursive;
+  
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.16);
+  --shadow-glow: 0 0 20px rgba(196, 163, 90, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+}
+
+.font-decorative {
+  font-family: var(--font-decorative);
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-6 py-3 bg-gradient-to-r from-primary to-sand-dark text-white rounded-lg font-medium;
+    @apply hover:shadow-lg hover:scale-105 transition-all duration-300;
+    @apply active:scale-95;
+  }
+  
+  .btn-secondary {
+    @apply px-6 py-3 bg-secondary text-white rounded-lg font-medium;
+    @apply hover:bg-oasis hover:shadow-lg transition-all duration-300;
+    @apply active:scale-95;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-soft p-6;
+    @apply hover:shadow-medium transition-shadow duration-300;
+  }
+  
+  .glass-effect {
+    @apply bg-white/90 backdrop-blur-md;
+  }
+  
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-sand-dark bg-clip-text text-transparent;
+  }
+}
+
+.map-container {
+  background: linear-gradient(135deg, #f5f2eb 0%, #e8dcc8 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.map-svg {
+  width: 100%;
+  height: auto;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.map-region {
+  fill: #C4A35A;
+  stroke: #B89B5D;
+  stroke-width: 2;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.map-region:hover {
+  fill: #D4A857;
+  filter: brightness(1.1);
+}
+
+.map-region.selected {
+  fill: #2D5A4A;
+  stroke: #3D6B5A;
+  stroke-width: 3;
+}
+
+.map-marker {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.map-marker:hover {
+  transform: scale(1.2);
+}
+
+@keyframes markerPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(196, 163, 90, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(196, 163, 90, 0);
+  }
+}
+
+.marker-pulse {
+  animation: markerPulse 2s infinite;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

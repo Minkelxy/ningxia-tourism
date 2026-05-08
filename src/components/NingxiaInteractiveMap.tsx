@@ -1,0 +1,589 @@
+import { useState, useEffect } from 'react';
+import { ChevronLeft, ZoomIn, ZoomOut, Home as HomeIcon, Loader } from 'lucide-react';
+
+interface GeoFeature {
+  type: string;
+  properties: {
+    name?: string;
+    fullname?: string;
+    code?: string;
+    pinyin?: string;
+    center?: [number, number];
+    level?: number;
+    filename?: string;
+  };
+  geometry: {
+    type: string;
+    coordinates: any;
+  };
+}
+
+interface NingxiaInteractiveMapProps {
+  onCityClick?: (cityName: string, cityPinyin: string) => void;
+}
+
+const cityInfo: Record<string, { area: string; population: string; description: string }> = {
+  yinchuan: { area: '1.27万平方公里', population: '约285万', description: '宁夏回族自治区首府，塞上湖城' },
+  shizuishan: { area: '5310平方公里', population: '约80万', description: '宁夏北部工业城市' },
+  wuzhong: { area: '2.14万平方公里', population: '约140万', description: '黄河金岸，回族文化特色鲜明' },
+  guyuan: { area: '1.05万平方公里', population: '约125万', description: '红色圣地，生态旅游胜地' },
+  zhongwei: { area: '1.74万平方公里', population: '约120万', description: '沙漠水城，沙坡头所在地' }
+};
+
+export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiveMapProps) {
+  const [geoFeatures, setGeoFeatures] = useState<GeoFeature[]>([]);
+  const [districtFeatures, setDistrictFeatures] = useState<GeoFeature[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [loadingDistricts, setLoadingDistricts] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [hoveredCity, setHoveredCity] = useState<string | null>(null);
+  const [hoveredDistrict, setHoveredDistrict] = useState<string | null>(null);
+  const [selectedCity, setSelectedCity] = useState<GeoFeature | null>(null);
+  const [selectedDistrict, setSelectedDistrict] = useState<GeoFeature | null>(null);
+  const [viewLevel, setViewLevel] = useState<'province' | 'city' | 'district'>('province');
+  const [zoom, setZoom] = useState(1);
+
+  useEffect(() => {
+    fetch('/src/data/ningxia-province.json')
+      .then(res => res.json())
+      .then((data: any) => {
+        if (data.type === 'FeatureCollection' && data.features) {
+          setGeoFeatures(data.features);
+        } else {
+          setError('无效的GeoJSON格式');
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+  const getBounds = (feature: GeoFeature) => {
+    const coords = feature.geometry.type === 'Polygon' 
+      ? feature.geometry.coordinates[0] 
+      : feature.geometry.coordinates[0][0];
+    
+    let minLng = Infinity, maxLng = -Infinity, minLat = Infinity, maxLat = -Infinity;
+    
+    coords.forEach((coord: number[]) => {
+      minLng = Math.min(minLng, coord[0]);
+      maxLng = Math.max(maxLng, coord[0]);
+      minLat = Math.min(minLat, coord[1]);
+      maxLat = Math.max(maxLat, coord[1]);
+    });
+    
+    return { minLng, maxLng, minLat, maxLat };
+  };
+
+  const geoToSVG = (lng: number, lat: number) => {
+    const width = 900;
+    const height = 700;
+    const padding = 40;
+    
+    let minLng, maxLng, minLat, maxLat;
+    
+    if (viewLevel === 'district' && selectedDistrict) {
+      const bounds = getBounds(selectedDistrict);
+      const pad = 0.05;
+      minLng = bounds.minLng - pad;
+      maxLng = bounds.maxLng + pad;
+      minLat = bounds.minLat - pad;
+      maxLat = bounds.maxLat + pad;
+    } else if (viewLevel === 'city' && selectedCity) {
+      const cityBounds = getBounds(selectedCity);
+      const pad = 0.1;
+      minLng = cityBounds.minLng - pad;
+      maxLng = cityBounds.maxLng + pad;
+      minLat = cityBounds.minLat - pad;
+      maxLat = cityBounds.maxLat + pad;
+    } else {
+      minLng = 105.0;
+      maxLng = 106.9;
+      minLat = 35.3;
+      maxLat = 39.4;
+    }
+    
+    const x = padding + ((lng - minLng) / (maxLng - minLng)) * (width - padding * 2);
+    const y = height - padding - ((lat - minLat) / (maxLat - minLat)) * (height - padding * 2);
+    
+    return { x, y };
+  };
+
+  const coordinatesToPath = (coords: number[][][]) => {
+    if (!coords || !coords[0]) return '';
+    
+    const pathParts: string[] = [];
+    
+    const processRing = (ring: number[][]) => {
+      if (!ring || ring.length === 0) return;
+      
+      const transformed = ring.map(coord => 
+        geoToSVG(coord[0], coord[1])
+      );
+      
+      pathParts.push(`M ${transformed[0].x} ${transformed[0].y}`);
+      for (let i = 1; i < transformed.length; i++) {
+        pathParts.push(`L ${transformed[i].x} ${transformed[i].y}`);
+      }
+      pathParts.push('Z');
+    };
+    
+    if (coords[0]) {
+      processRing(coords[0]);
+    }
+    
+    for (let i = 1; i < coords.length; i++) {
+      if (coords[i]) {
+        processRing(coords[i]);
+      }
+    }
+    
+    return pathParts.join(' ');
+  };
+
+  const loadDistrictData = async (code: string) => {
+    setLoadingDistricts(true);
+    try {
+      const response = await fetch(`https://geojson.cn/api/china/1.6.3/640000/${code}.json`);
+      if (!response.ok) {
+        throw new Error('无法获取区级数据');
+      }
+      const data = await response.json();
+      if (data.type === 'FeatureCollection' && data.features) {
+        setDistrictFeatures(data.features);
+      }
+    } catch (err) {
+      console.error('加载区级数据失败:', err);
+      setDistrictFeatures([]);
+    } finally {
+      setLoadingDistricts(false);
+    }
+  };
+
+  const handleCityClick = (feature: GeoFeature) => {
+    const cityPinyin = feature.properties?.pinyin || '';
+    const cityCode = feature.properties?.code || '';
+    const cityName = feature.properties?.fullname || feature.properties?.name || '';
+    
+    setSelectedCity(feature);
+    setSelectedDistrict(null);
+    setDistrictFeatures([]);
+    setViewLevel('city');
+    
+    loadDistrictData(cityCode);
+    
+    if (onCityClick) {
+      onCityClick(cityName, cityPinyin);
+    }
+  };
+
+  const handleDistrictClick = (feature: GeoFeature) => {
+    setSelectedDistrict(feature);
+    setViewLevel('district');
+  };
+
+  const handleBackToProvince = () => {
+    setSelectedCity(null);
+    setSelectedDistrict(null);
+    setDistrictFeatures([]);
+    setViewLevel('province');
+  };
+
+  const handleBackToCity = () => {
+    setSelectedDistrict(null);
+    setViewLevel('city');
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">正在加载地图数据...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="text-red-600 text-center">
+          <p className="text-xl font-bold mb-2">加载失败</p>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  const currentCityInfo = selectedCity ? cityInfo[selectedCity.properties?.pinyin || ''] : null;
+  const currentFeatures = viewLevel === 'district' ? districtFeatures : 
+                         viewLevel === 'city' ? [] : geoFeatures;
+
+  return (
+    <div className="relative w-full">
+      <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
+        <button
+          onClick={() => setZoom(z => Math.min(z * 1.2, 3))}
+          className="bg-white/95 backdrop-blur-sm rounded-lg p-2 shadow-md hover:bg-gray-50 transition-colors"
+          title="放大"
+        >
+          <ZoomIn className="w-5 h-5 text-gray-700" />
+        </button>
+        <button
+          onClick={() => setZoom(z => Math.max(z / 1.2, 0.5))}
+          className="bg-white/95 backdrop-blur-sm rounded-lg p-2 shadow-md hover:bg-gray-50 transition-colors"
+          title="缩小"
+        >
+          <ZoomOut className="w-5 h-5 text-gray-700" />
+        </button>
+        {viewLevel !== 'province' && (
+          <button
+            onClick={viewLevel === 'city' ? handleBackToProvince : handleBackToCity}
+            className="bg-white/95 backdrop-blur-sm rounded-lg p-2 shadow-md hover:bg-gray-50 transition-colors"
+            title="返回"
+          >
+            <HomeIcon className="w-5 h-5 text-gray-700" />
+          </button>
+        )}
+      </div>
+
+      <div className="absolute top-4 left-4 z-20 flex gap-2">
+        {viewLevel === 'city' && selectedCity && (
+          <button
+            onClick={handleBackToProvince}
+            className="bg-white/95 backdrop-blur-sm rounded-lg px-4 py-2 shadow-md hover:bg-gray-50 transition-colors flex items-center gap-2"
+          >
+            <ChevronLeft className="w-5 h-5 text-gray-700" />
+            <span className="font-medium text-gray-700">返回宁夏全区</span>
+          </button>
+        )}
+        {viewLevel === 'district' && selectedCity && (
+          <button
+            onClick={handleBackToCity}
+            className="bg-white/95 backdrop-blur-sm rounded-lg px-4 py-2 shadow-md hover:bg-gray-50 transition-colors flex items-center gap-2"
+          >
+            <ChevronLeft className="w-5 h-5 text-gray-700" />
+            <span className="font-medium text-gray-700">返回{selectedCity.properties?.fullname || selectedCity.properties?.name}</span>
+          </button>
+        )}
+      </div>
+
+      {loadingDistricts && (
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 bg-white/90 backdrop-blur-sm rounded-lg px-6 py-4 shadow-lg">
+          <div className="flex items-center gap-3">
+            <Loader className="w-5 h-5 animate-spin text-primary" />
+            <span className="text-gray-700">正在加载区级数据...</span>
+          </div>
+        </div>
+      )}
+
+      <svg
+        viewBox="0 0 900 700"
+        className="w-full h-auto"
+        style={{ 
+          maxHeight: 'calc(100vh - 250px)',
+          transform: `scale(${zoom})`,
+          transformOrigin: 'center center'
+        }}
+      >
+        <defs>
+          <linearGradient id="sandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#E8DCC8" />
+            <stop offset="100%" stopColor="#C4A35A" />
+          </linearGradient>
+          
+          <linearGradient id="selectedGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#2D5A4A" />
+            <stop offset="100%" stopColor="#3D6B5A" />
+          </linearGradient>
+
+          <linearGradient id="districtGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#A8D5BA" />
+            <stop offset="100%" stopColor="#7CB894" />
+          </linearGradient>
+
+          <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="2" dy="2" stdDeviation="3" floodOpacity="0.3"/>
+          </filter>
+        </defs>
+
+        <rect x="0" y="0" width="900" height="700" fill="#F5F2EB" rx="12" />
+
+        <g filter="url(#shadow)">
+          {viewLevel === 'province' && geoFeatures.map((feature: GeoFeature, index: number) => {
+            const name = feature.properties?.name || '未知';
+            const cityId = feature.properties?.pinyin || name.toLowerCase();
+            const cityFullName = feature.properties?.fullname || name;
+            const center = feature.properties?.center;
+            const isHovered = hoveredCity === cityId;
+            const isSelected = selectedCity?.properties?.pinyin === cityId;
+
+            const svgCenter = center ? geoToSVG(center[0], center[1]) : { x: 450, y: 350 };
+
+            let pathD = '';
+            if (feature.geometry?.type === 'Polygon') {
+              pathD = coordinatesToPath(feature.geometry.coordinates);
+            } else if (feature.geometry?.type === 'MultiPolygon') {
+              feature.geometry.coordinates.forEach((poly: number[][][]) => {
+                pathD += coordinatesToPath(poly) + ' ';
+              });
+            }
+
+            return (
+              <g key={`city-${cityId}-${index}`}>
+                <path
+                  d={pathD}
+                  fill={isSelected ? 'url(#selectedGradient)' : isHovered ? '#D4A857' : 'url(#sandGradient)'}
+                  stroke={isSelected ? '#1A3A2A' : isHovered ? '#2D5A4A' : '#B89B5D'}
+                  strokeWidth={isSelected ? 3 : isHovered ? 2.5 : 2}
+                  className="cursor-pointer transition-all duration-300"
+                  onMouseEnter={() => setHoveredCity(cityId)}
+                  onMouseLeave={() => setHoveredCity(null)}
+                  onClick={() => handleCityClick(feature)}
+                />
+                
+                <text
+                  x={svgCenter.x}
+                  y={svgCenter.y}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className="text-sm font-serif font-bold pointer-events-none select-none"
+                  style={{ 
+                    fill: '#1A1A1A',
+                    fontSize: '14px',
+                    fontWeight: 700,
+                    textShadow: '2px 2px 4px rgba(255,255,255,0.9)'
+                  }}
+                >
+                  {cityFullName}
+                </text>
+              </g>
+            );
+          })}
+
+          {viewLevel === 'city' && selectedCity && !loadingDistricts && (
+            <>
+              <path
+                d={(() => {
+                  let pathD = '';
+                  if (selectedCity.geometry?.type === 'Polygon') {
+                    pathD = coordinatesToPath(selectedCity.geometry.coordinates);
+                  } else if (selectedCity.geometry?.type === 'MultiPolygon') {
+                    selectedCity.geometry.coordinates.forEach((poly: number[][][]) => {
+                      pathD += coordinatesToPath(poly) + ' ';
+                    });
+                  }
+                  return pathD;
+                })()}
+                fill="url(#sandGradient)"
+                stroke="#B89B5D"
+                strokeWidth={2}
+              />
+              {districtFeatures.length > 0 && districtFeatures.map((feature: GeoFeature, index: number) => {
+                const name = feature.properties?.name || feature.properties?.fullname || '未知';
+                const districtId = feature.properties?.pinyin || name.toLowerCase();
+                const center = feature.properties?.center;
+                const isHovered = hoveredDistrict === districtId;
+                const isSelected = selectedDistrict?.properties?.pinyin === districtId;
+
+                const svgCenter = center ? geoToSVG(center[0], center[1]) : { x: 450, y: 350 };
+
+                let pathD = '';
+                if (feature.geometry?.type === 'Polygon') {
+                  pathD = coordinatesToPath(feature.geometry.coordinates);
+                } else if (feature.geometry?.type === 'MultiPolygon') {
+                  feature.geometry.coordinates.forEach((poly: number[][][]) => {
+                    pathD += coordinatesToPath(poly) + ' ';
+                  });
+                }
+
+                return (
+                  <g key={`district-${districtId}-${index}`}>
+                    <path
+                      d={pathD}
+                      fill={isSelected ? 'url(#selectedGradient)' : isHovered ? '#8BC49E' : 'url(#districtGradient)'}
+                      stroke={isSelected ? '#1A3A2A' : isHovered ? '#2D5A4A' : '#5A9B6E'}
+                      strokeWidth={isSelected ? 2 : isHovered ? 1.5 : 1}
+                      className="cursor-pointer transition-all duration-300"
+                      onMouseEnter={() => setHoveredDistrict(districtId)}
+                      onMouseLeave={() => setHoveredDistrict(null)}
+                      onClick={() => handleDistrictClick(feature)}
+                    />
+                    
+                    <text
+                      x={svgCenter.x}
+                      y={svgCenter.y}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      className="text-xs font-serif font-bold pointer-events-none select-none"
+                      style={{ 
+                        fill: '#1A1A1A',
+                        fontSize: '10px',
+                        fontWeight: 600,
+                        textShadow: '2px 2px 4px rgba(255,255,255,0.9)'
+                      }}
+                    >
+                      {name}
+                    </text>
+                  </g>
+                );
+              })}
+            </>
+          )}
+
+          {viewLevel === 'district' && selectedDistrict && (
+            <>
+              <path
+                d={(() => {
+                  let pathD = '';
+                  if (selectedCity?.geometry?.type === 'Polygon') {
+                    pathD = coordinatesToPath(selectedCity.geometry.coordinates);
+                  } else if (selectedCity?.geometry?.type === 'MultiPolygon') {
+                    selectedCity.geometry.coordinates.forEach((poly: number[][][]) => {
+                      pathD += coordinatesToPath(poly) + ' ';
+                    });
+                  }
+                  return pathD;
+                })()}
+                fill="url(#sandGradient)"
+                stroke="#B89B5D"
+                strokeWidth={1}
+                opacity={0.5}
+              />
+              {districtFeatures.map((feature: GeoFeature, index: number) => {
+                const name = feature.properties?.name || feature.properties?.fullname || '未知';
+                const districtId = feature.properties?.pinyin || name.toLowerCase();
+                const isSelected = selectedDistrict?.properties?.pinyin === districtId;
+                const isHovered = hoveredDistrict === districtId;
+
+                let pathD = '';
+                if (feature.geometry?.type === 'Polygon') {
+                  pathD = coordinatesToPath(feature.geometry.coordinates);
+                } else if (feature.geometry?.type === 'MultiPolygon') {
+                  feature.geometry.coordinates.forEach((poly: number[][][]) => {
+                    pathD += coordinatesToPath(poly) + ' ';
+                  });
+                }
+
+                return (
+                  <path
+                    key={`district-view-${districtId}-${index}`}
+                    d={pathD}
+                    fill={isSelected ? 'url(#selectedGradient)' : isHovered ? '#8BC49E' : 'url(#districtGradient)'}
+                    stroke={isSelected ? '#1A3A2A' : isHovered ? '#2D5A4A' : '#5A9B6E'}
+                    strokeWidth={isSelected ? 3 : isHovered ? 2 : 1}
+                    opacity={isSelected || isHovered ? 1 : 0.7}
+                    className="cursor-pointer transition-all duration-300"
+                    onClick={() => setSelectedDistrict(feature)}
+                  />
+                );
+              })}
+            </>
+          )}
+        </g>
+
+        <text x="450" y="680" textAnchor="middle" style={{ fill: '#6B6B6B', fontSize: '12px' }}>
+          {viewLevel === 'district' && selectedDistrict 
+            ? `${selectedDistrict.properties?.fullname || selectedDistrict.properties?.name} · 点击区级区域查看详情`
+            : viewLevel === 'city' && selectedCity 
+            ? `${selectedCity.properties?.fullname || selectedCity.properties?.name} · 点击区级进入下一级 · 点击空白处返回全区`
+            : '宁夏回族自治区 · 点击城市进入下一级'}
+        </text>
+      </svg>
+
+      {viewLevel === 'city' && currentCityInfo && (
+        <div className="mt-4 bg-white rounded-xl shadow-soft p-6">
+          <h3 className="text-2xl font-serif font-bold text-text-primary mb-4">
+            {selectedCity?.properties?.fullname || selectedCity?.properties?.name}
+          </h3>
+          <div className="grid grid-cols-3 gap-4 mb-4">
+            <div className="bg-blue-50 rounded-lg p-3">
+              <p className="text-xs text-blue-600 mb-1">面积</p>
+              <p className="font-bold text-blue-800">{currentCityInfo.area}</p>
+            </div>
+            <div className="bg-green-50 rounded-lg p-3">
+              <p className="text-xs text-green-600 mb-1">人口</p>
+              <p className="font-bold text-green-800">{currentCityInfo.population}</p>
+            </div>
+            <div className="bg-purple-50 rounded-lg p-3">
+              <p className="text-xs text-purple-600 mb-1">区县级数量</p>
+              <p className="font-bold text-purple-800">{districtFeatures.length} 个</p>
+            </div>
+          </div>
+          <p className="text-text-secondary">{currentCityInfo.description}</p>
+          {districtFeatures.length > 0 && (
+            <div className="mt-4">
+              <p className="text-sm font-medium text-text-primary mb-2">点击下方区/县进入下一级：</p>
+              <div className="flex flex-wrap gap-2">
+                {districtFeatures.map((feature: GeoFeature) => {
+                  const name = feature.properties?.name || feature.properties?.fullname || '';
+                  return (
+                    <button
+                      key={feature.properties?.code}
+                      onClick={() => handleDistrictClick(feature)}
+                      className="px-3 py-1 bg-green-50 hover:bg-green-100 rounded-full text-sm text-green-800 transition-colors"
+                    >
+                      {name}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {viewLevel === 'district' && selectedDistrict && (
+        <div className="mt-4 bg-white rounded-xl shadow-soft p-6">
+          <h3 className="text-2xl font-serif font-bold text-text-primary mb-4">
+            {selectedDistrict.properties?.fullname || selectedDistrict.properties?.name}
+          </h3>
+          <p className="text-text-secondary">
+            所属：{selectedCity?.properties?.fullname || selectedCity?.properties?.name}
+          </p>
+          <p className="text-xs text-text-secondary mt-2">
+            行政区划代码：{selectedDistrict.properties?.code}
+          </p>
+        </div>
+      )}
+
+      {viewLevel === 'province' && (
+        <div className="mt-4 bg-white rounded-lg shadow-md p-4">
+          <h3 className="text-sm font-bold mb-3 text-gray-700">🏙️ 宁夏5个地级市（点击进入）</h3>
+          <div className="grid grid-cols-5 gap-2 text-xs">
+            {geoFeatures.map((feature: GeoFeature) => {
+              const name = feature.properties?.fullname || feature.properties?.name;
+              const pinyin = feature.properties?.pinyin;
+              return (
+                <button
+                  key={pinyin}
+                  onClick={() => handleCityClick(feature)}
+                  className="px-3 py-2 bg-blue-50 hover:bg-blue-100 rounded transition-colors text-blue-800 font-medium"
+                >
+                  {name}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-4 shadow-soft">
+        <h4 className="text-sm font-serif font-bold mb-2">图例</h4>
+        <div className="space-y-1 text-xs text-text-secondary">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-3 rounded bg-primary"></div>
+            <span>地级市</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-3 rounded" style={{ backgroundColor: '#A8D5BA' }}></div>
+            <span>区/县级</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
