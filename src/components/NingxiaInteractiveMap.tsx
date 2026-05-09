@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ZoomIn, ZoomOut, Home as HomeIcon, Loader } from 'lucide-react';
+import { themePresets, defaultMapConfig } from '../config/map-config';
 
 interface GeoFeature {
   type: string;
@@ -331,18 +332,18 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
       >
         <defs>
           <linearGradient id="sandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#E8DCC8" />
-            <stop offset="100%" stopColor="#C4A35A" />
+            <stop offset="0%" stopColor={themePresets['default'].colors.gradient.start} />
+            <stop offset="100%" stopColor={themePresets['default'].colors.gradient.end} />
           </linearGradient>
           
           <linearGradient id="selectedGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#2D5A4A" />
-            <stop offset="100%" stopColor="#3D6B5A" />
+            <stop offset="0%" stopColor={themePresets['default'].colors.selectedGradient.start} />
+            <stop offset="100%" stopColor={themePresets['default'].colors.selectedGradient.end} />
           </linearGradient>
 
           <linearGradient id="districtGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#A8D5BA" />
-            <stop offset="100%" stopColor="#7CB894" />
+            <stop offset="0%" stopColor={themePresets['default'].colors.districtGradient.start} />
+            <stop offset="100%" stopColor={themePresets['default'].colors.districtGradient.end} />
           </linearGradient>
 
           <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
@@ -350,7 +351,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
           </filter>
         </defs>
 
-        <rect x="0" y="0" width="900" height="1944" fill="#F5F2EB" rx="12" />
+        <rect x="0" y="0" width="900" height="1944" fill={themePresets['default'].colors.background} rx="12" />
 
         <g filter="url(#shadow)">
           {viewLevel === 'province' && geoFeatures.map((feature: GeoFeature, index: number) => {
@@ -376,8 +377,8 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
               <g key={`city-${cityId}-${index}`}>
                 <path
                   d={pathD}
-                  fill={isSelected ? 'url(#selectedGradient)' : isHovered ? '#D4A857' : 'url(#sandGradient)'}
-                  stroke={isSelected ? '#1A3A2A' : isHovered ? '#2D5A4A' : '#B89B5D'}
+                  fill={isSelected ? 'url(#selectedGradient)' : isHovered ? themePresets['default'].colors.province.fillHover : 'url(#sandGradient)'}
+                  stroke={isSelected ? themePresets['default'].colors.province.strokeSelected : isHovered ? themePresets['default'].colors.province.strokeHover : themePresets['default'].colors.province.stroke}
                   strokeWidth={isSelected ? 3 : isHovered ? 2.5 : 2}
                   className="cursor-pointer transition-all duration-300"
                   onMouseEnter={() => setHoveredCity(cityId)}
@@ -392,10 +393,10 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
                   dominantBaseline="middle"
                   className="text-sm font-serif font-bold pointer-events-none select-none"
                   style={{ 
-                    fill: '#1A1A1A',
+                    fill: themePresets['default'].colors.text.primary,
                     fontSize: '14px',
                     fontWeight: 700,
-                    textShadow: '2px 2px 4px rgba(255,255,255,0.9)'
+                    textShadow: '2px 2px 4px ' + themePresets['default'].colors.text.shadow
                   }}
                 >
                   {cityFullName}
@@ -444,8 +445,8 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
                   <g key={`district-${districtId}-${index}`}>
                     <path
                       d={pathD}
-                      fill={isSelected ? 'url(#selectedGradient)' : isHovered ? '#8BC49E' : 'url(#districtGradient)'}
-                      stroke={isSelected ? '#1A3A2A' : isHovered ? '#2D5A4A' : '#5A9B6E'}
+                      fill={isSelected ? 'url(#selectedGradient)' : isHovered ? themePresets['default'].colors.district.fillHover : 'url(#districtGradient)'}
+                      stroke={isSelected ? themePresets['default'].colors.province.strokeSelected : isHovered ? themePresets['default'].colors.province.strokeHover : themePresets['default'].colors.district.stroke}
                       strokeWidth={isSelected ? 2 : isHovered ? 1.5 : 1}
                       className="cursor-pointer transition-all duration-300"
                       onMouseEnter={() => setHoveredDistrict(districtId)}

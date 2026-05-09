@@ -1,0 +1,21 @@
+{
+  "id": "your-attraction-id",
+  "name": "景点名称",
+  "city": "所属城市",
+  "type": "nature",
+  "coordinates": { "x": 500, "y": 200 },
+  "rating": 4.5,
+  "description": "景点描述（建议50-200字）",
+  "images": [
+    "https://images.unsplash.com/photo-XXXXXXXX?w=800"
+  ],
+  "openingHours": "08:00-18:00",
+  "ticketPrice": "门票价格",
+  "bestSeason": "最佳季节",
+  "transportation": "交通信息",
+  "highlights": [
+    "亮点1",
+    "亮点2"
+  ],
+  "nearbyAttractions": []
+}
