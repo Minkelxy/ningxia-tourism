@@ -97,7 +97,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
 
   const geoToSVG = (lng: number, lat: number) => {
     const width = 900;
-    const height = 700;
+    const height = 1944;
     const padding = 40;
     
     let minLng, maxLng, minLat, maxLat;
@@ -319,7 +319,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
       )}
 
       <svg
-        viewBox="0 0 900 700"
+        viewBox="0 0 900 1944"
         preserveAspectRatio="xMidYMid meet"
         className="w-full h-auto max-w-full"
         style={{ 
@@ -350,7 +350,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
           </filter>
         </defs>
 
-        <rect x="0" y="0" width="900" height="700" fill="#F5F2EB" rx="12" />
+        <rect x="0" y="0" width="900" height="1944" fill="#F5F2EB" rx="12" />
 
         <g filter="url(#shadow)">
           {viewLevel === 'province' && geoFeatures.map((feature: GeoFeature, index: number) => {
