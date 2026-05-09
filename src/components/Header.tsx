@@ -9,6 +9,7 @@ export default function Header() {
   const navLinks = [
     { path: '/', label: '首页地图' },
     { path: '/attractions', label: '景点导览' },
+    { path: '/routes', label: '路线推荐' },
     { path: '/cities', label: '城市概览' },
     { path: '/about', label: '关于我们' },
   ];

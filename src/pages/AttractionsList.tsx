@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, MapPin, Star } from 'lucide-react';
-import attractionsData from '../data/attractions-list.json';
+import attractionsData from '../data/attractions.json';
 
 interface Attraction {
   id: string;
   name: string;
   city: string;
-  cityPinyin: string;
+  cityPinyin?: string;
   type: string;
   description: string;
   highlights: string[];
+  images?: string[];
+  rating?: number;
+  coordinates?: { x: number; y: number };
 }
 
 const typeLabels: Record<string, { label: string; color: string }> = {

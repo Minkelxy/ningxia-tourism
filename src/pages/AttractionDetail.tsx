@@ -91,12 +91,12 @@ export default function AttractionDetail() {
               e.stopPropagation();
               navigate('/');
             }}
-            className="absolute top-20 left-4 md:left-8 bg-white/90 backdrop-blur-sm rounded-full p-3 hover:bg-white transition-colors shadow-soft"
+            className="absolute top-6 left-4 md:left-8 bg-white/90 backdrop-blur-sm rounded-full p-3 hover:bg-white transition-colors shadow-soft z-10"
           >
             <ArrowLeft className="w-5 h-5 text-text-primary" />
           </button>
 
-          <div className="absolute top-20 right-4 md:right-8 flex gap-2">
+          <div className="absolute top-6 right-4 md:right-8 flex gap-2 z-10">
             <button className="bg-white/90 backdrop-blur-sm rounded-full p-3 hover:bg-white transition-colors shadow-soft">
               <Share2 className="w-5 h-5 text-text-primary" />
             </button>
@@ -121,7 +121,7 @@ export default function AttractionDetail() {
             </div>
           </div>
 
-          <div className="absolute bottom-8 right-8 flex gap-2">
+          <div className="absolute bottom-8 right-8 flex gap-2 z-10">
             <button
               onClick={prevImage}
               className="bg-white/90 backdrop-blur-sm rounded-full p-2 hover:bg-white transition-colors shadow-soft"
