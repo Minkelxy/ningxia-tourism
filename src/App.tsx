@@ -9,8 +9,6 @@ const CityOverview = lazy(() => import('./pages/CityOverview'));
 const RouteRecommendation = lazy(() => import('./pages/RouteRecommendation'));
 const GeoJSONViewer = lazy(() => import('./pages/GeoJSONViewer'));
 const GeoJSONEditor = lazy(() => import('./pages/GeoJSONEditor'));
-const TopoMapPage = lazy(() => import('./pages/TopoMapPage'));
-const GeoJSONMapPage = lazy(() => import('./pages/GeoJSONMapPage'));
 const AttractionsList = lazy(() => import('./pages/AttractionsList'));
 
 function Loading() {
@@ -66,8 +64,10 @@ function About() {
 }
 
 function App() {
+  const basename = import.meta.env.BASE_URL || '/';
+  
   return (
-    <Router>
+    <Router basename={basename}>
       <div className="min-h-screen bg-background flex flex-col">
         <Header />
         <main className="flex-1 pt-16">
@@ -81,8 +81,6 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/geojson" element={<GeoJSONViewer />} />
               <Route path="/editor" element={<GeoJSONEditor />} />
-              <Route path="/topomap" element={<TopoMapPage />} />
-              <Route path="/geojsonmap" element={<GeoJSONMapPage />} />
               <Route path="/attractions" element={<AttractionsList />} />
             </Routes>
           </Suspense>

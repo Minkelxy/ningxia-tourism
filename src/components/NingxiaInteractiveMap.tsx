@@ -44,8 +44,25 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
   const [zoom, setZoom] = useState(1);
 
   useEffect(() => {
-    fetch('/src/data/ningxia-province.json')
-      .then(res => res.json())
+    const baseUrl = import.meta.env.BASE_URL || '/';
+    fetch(`${baseUrl}data/ningxia-province.json`)
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.text();
+      })
+      .then(text => {
+        if (!text || text.trim().length === 0) {
+          throw new Error('Empty response from server');
+        }
+        try {
+          return JSON.parse(text);
+        } catch (parseError) {
+          console.error('Failed to parse JSON:', text.substring(0, 100));
+          throw new Error('Invalid JSON response');
+        }
+      })
       .then((data: any) => {
         if (data.type === 'FeatureCollection' && data.features) {
           setGeoFeatures(data.features);
@@ -55,7 +72,8 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
         setLoading(false);
       })
       .catch(err => {
-        setError(err.message);
+        console.error('Failed to load map data:', err);
+        setError(err.message || '加载地图数据失败');
         setLoading(false);
       });
   }, []);
@@ -147,12 +165,32 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
     setLoadingDistricts(true);
     try {
       const response = await fetch(`https://geojson.cn/api/china/1.6.3/640000/${code}.json`);
+      
       if (!response.ok) {
-        throw new Error('无法获取区级数据');
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
-      if (data.type === 'FeatureCollection' && data.features) {
+      
+      const text = await response.text();
+      if (!text || text.trim().length === 0) {
+        throw new Error('Empty response from server');
+      }
+      
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (parseError) {
+        console.error('Failed to parse JSON:', text.substring(0, 100));
+        throw new Error('Invalid JSON response from server');
+      }
+      
+      if (data && data.type === 'FeatureCollection' && data.features) {
         setDistrictFeatures(data.features);
+      } else if (data && data.code === -1) {
+        console.warn('API returned error:', data.msg);
+        setDistrictFeatures([]);
+      } else {
+        console.warn('Invalid GeoJSON format');
+        setDistrictFeatures([]);
       }
     } catch (err) {
       console.error('加载区级数据失败:', err);
@@ -224,49 +262,49 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
 
   return (
     <div className="relative w-full">
-      <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
+      <div className="absolute top-2 md:top-4 right-2 md:right-4 z-20 flex flex-col gap-1 md:gap-2">
         <button
           onClick={() => setZoom(z => Math.min(z * 1.2, 3))}
-          className="bg-white/95 backdrop-blur-sm rounded-lg p-2 shadow-md hover:bg-gray-50 transition-colors"
+          className="bg-white/95 backdrop-blur-sm rounded-lg p-1.5 md:p-2 shadow-md hover:bg-gray-50 transition-colors"
           title="放大"
         >
-          <ZoomIn className="w-5 h-5 text-gray-700" />
+          <ZoomIn className="w-4 h-4 md:w-5 md:h-5 text-gray-700" />
         </button>
         <button
           onClick={() => setZoom(z => Math.max(z / 1.2, 0.5))}
-          className="bg-white/95 backdrop-blur-sm rounded-lg p-2 shadow-md hover:bg-gray-50 transition-colors"
+          className="bg-white/95 backdrop-blur-sm rounded-lg p-1.5 md:p-2 shadow-md hover:bg-gray-50 transition-colors"
           title="缩小"
         >
-          <ZoomOut className="w-5 h-5 text-gray-700" />
+          <ZoomOut className="w-4 h-4 md:w-5 md:h-5 text-gray-700" />
         </button>
         {viewLevel !== 'province' && (
           <button
             onClick={viewLevel === 'city' ? handleBackToProvince : handleBackToCity}
-            className="bg-white/95 backdrop-blur-sm rounded-lg p-2 shadow-md hover:bg-gray-50 transition-colors"
+            className="bg-white/95 backdrop-blur-sm rounded-lg p-1.5 md:p-2 shadow-md hover:bg-gray-50 transition-colors"
             title="返回"
           >
-            <HomeIcon className="w-5 h-5 text-gray-700" />
+            <HomeIcon className="w-4 h-4 md:w-5 md:h-5 text-gray-700" />
           </button>
         )}
       </div>
 
-      <div className="absolute top-4 left-4 z-20 flex gap-2">
+      <div className="absolute top-2 md:top-4 left-2 md:left-4 z-20 flex gap-1 md:gap-2">
         {viewLevel === 'city' && selectedCity && (
           <button
             onClick={handleBackToProvince}
-            className="bg-white/95 backdrop-blur-sm rounded-lg px-4 py-2 shadow-md hover:bg-gray-50 transition-colors flex items-center gap-2"
+            className="bg-white/95 backdrop-blur-sm rounded-lg px-2 md:px-4 py-1.5 md:py-2 shadow-md hover:bg-gray-50 transition-colors flex items-center gap-1 md:gap-2"
           >
-            <ChevronLeft className="w-5 h-5 text-gray-700" />
-            <span className="font-medium text-gray-700">返回宁夏全区</span>
+            <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 text-gray-700" />
+            <span className="font-medium text-gray-700 text-xs md:text-base">返回宁夏全区</span>
           </button>
         )}
         {viewLevel === 'district' && selectedCity && (
           <button
             onClick={handleBackToCity}
-            className="bg-white/95 backdrop-blur-sm rounded-lg px-4 py-2 shadow-md hover:bg-gray-50 transition-colors flex items-center gap-2"
+            className="bg-white/95 backdrop-blur-sm rounded-lg px-2 md:px-4 py-1.5 md:py-2 shadow-md hover:bg-gray-50 transition-colors flex items-center gap-1 md:gap-2"
           >
-            <ChevronLeft className="w-5 h-5 text-gray-700" />
-            <span className="font-medium text-gray-700">返回{selectedCity.properties?.fullname || selectedCity.properties?.name}</span>
+            <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 text-gray-700" />
+            <span className="font-medium text-gray-700 text-xs md:text-base">返回{selectedCity.properties?.fullname || selectedCity.properties?.name}</span>
           </button>
         )}
       </div>
@@ -282,9 +320,11 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
 
       <svg
         viewBox="0 0 900 700"
-        className="w-full h-auto"
+        preserveAspectRatio="xMidYMid meet"
+        className="w-full h-auto max-w-full"
         style={{ 
           maxHeight: 'calc(100vh - 250px)',
+          minHeight: '300px',
           transform: `scale(${zoom})`,
           transformOrigin: 'center center'
         }}
@@ -495,36 +535,36 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
       </svg>
 
       {viewLevel === 'city' && currentCityInfo && (
-        <div className="mt-4 bg-white rounded-xl shadow-soft p-6">
-          <h3 className="text-2xl font-serif font-bold text-text-primary mb-4">
+        <div className="mt-4 bg-white rounded-xl shadow-soft p-4 md:p-6">
+          <h3 className="text-xl md:text-2xl font-serif font-bold text-text-primary mb-3 md:mb-4">
             {selectedCity?.properties?.fullname || selectedCity?.properties?.name}
           </h3>
-          <div className="grid grid-cols-3 gap-4 mb-4">
-            <div className="bg-blue-50 rounded-lg p-3">
+          <div className="grid grid-cols-3 gap-2 md:gap-4 mb-3 md:mb-4">
+            <div className="bg-blue-50 rounded-lg p-2 md:p-3">
               <p className="text-xs text-blue-600 mb-1">面积</p>
-              <p className="font-bold text-blue-800">{currentCityInfo.area}</p>
+              <p className="font-bold text-blue-800 text-sm md:text-base">{currentCityInfo.area}</p>
             </div>
-            <div className="bg-green-50 rounded-lg p-3">
+            <div className="bg-green-50 rounded-lg p-2 md:p-3">
               <p className="text-xs text-green-600 mb-1">人口</p>
-              <p className="font-bold text-green-800">{currentCityInfo.population}</p>
+              <p className="font-bold text-green-800 text-sm md:text-base">{currentCityInfo.population}</p>
             </div>
-            <div className="bg-purple-50 rounded-lg p-3">
+            <div className="bg-purple-50 rounded-lg p-2 md:p-3">
               <p className="text-xs text-purple-600 mb-1">区县级数量</p>
-              <p className="font-bold text-purple-800">{districtFeatures.length} 个</p>
+              <p className="font-bold text-purple-800 text-sm md:text-base">{districtFeatures.length} 个</p>
             </div>
           </div>
-          <p className="text-text-secondary">{currentCityInfo.description}</p>
+          <p className="text-text-secondary text-sm md:text-base">{currentCityInfo.description}</p>
           {districtFeatures.length > 0 && (
-            <div className="mt-4">
-              <p className="text-sm font-medium text-text-primary mb-2">点击下方区/县进入下一级：</p>
-              <div className="flex flex-wrap gap-2">
+            <div className="mt-3 md:mt-4">
+              <p className="text-xs md:text-sm font-medium text-text-primary mb-2">点击下方区/县进入下一级：</p>
+              <div className="flex flex-wrap gap-1 md:gap-2">
                 {districtFeatures.map((feature: GeoFeature) => {
                   const name = feature.properties?.name || feature.properties?.fullname || '';
                   return (
                     <button
                       key={feature.properties?.code}
                       onClick={() => handleDistrictClick(feature)}
-                      className="px-3 py-1 bg-green-50 hover:bg-green-100 rounded-full text-sm text-green-800 transition-colors"
+                      className="px-2 md:px-3 py-1 bg-green-50 hover:bg-green-100 rounded-full text-xs md:text-sm text-green-800 transition-colors"
                     >
                       {name}
                     </button>
@@ -537,11 +577,11 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
       )}
 
       {viewLevel === 'district' && selectedDistrict && (
-        <div className="mt-4 bg-white rounded-xl shadow-soft p-6">
-          <h3 className="text-2xl font-serif font-bold text-text-primary mb-4">
+        <div className="mt-4 bg-white rounded-xl shadow-soft p-4 md:p-6">
+          <h3 className="text-xl md:text-2xl font-serif font-bold text-text-primary mb-3 md:mb-4">
             {selectedDistrict.properties?.fullname || selectedDistrict.properties?.name}
           </h3>
-          <p className="text-text-secondary">
+          <p className="text-text-secondary text-sm md:text-base">
             所属：{selectedCity?.properties?.fullname || selectedCity?.properties?.name}
           </p>
           <p className="text-xs text-text-secondary mt-2">
@@ -551,9 +591,9 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
       )}
 
       {viewLevel === 'province' && (
-        <div className="mt-4 bg-white rounded-lg shadow-md p-4">
-          <h3 className="text-sm font-bold mb-3 text-gray-700">🏙️ 宁夏5个地级市（点击进入）</h3>
-          <div className="grid grid-cols-5 gap-2 text-xs">
+        <div className="mt-4 bg-white rounded-lg shadow-md p-3 md:p-4">
+          <h3 className="text-xs md:text-sm font-bold mb-2 md:mb-3 text-gray-700">🏙️ 宁夏5个地级市（点击进入）</h3>
+          <div className="grid grid-cols-3 md:grid-cols-5 gap-1 md:gap-2 text-xs">
             {geoFeatures.map((feature: GeoFeature) => {
               const name = feature.properties?.fullname || feature.properties?.name;
               const pinyin = feature.properties?.pinyin;
@@ -561,7 +601,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
                 <button
                   key={pinyin}
                   onClick={() => handleCityClick(feature)}
-                  className="px-3 py-2 bg-blue-50 hover:bg-blue-100 rounded transition-colors text-blue-800 font-medium"
+                  className="px-2 md:px-3 py-1.5 md:py-2 bg-blue-50 hover:bg-blue-100 rounded transition-colors text-blue-800 font-medium text-xs md:text-sm"
                 >
                   {name}
                 </button>
@@ -571,15 +611,15 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
         </div>
       )}
 
-      <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-4 shadow-soft">
-        <h4 className="text-sm font-serif font-bold mb-2">图例</h4>
+      <div className="absolute bottom-2 md:bottom-4 left-2 md:left-4 bg-white/90 backdrop-blur-sm rounded-lg p-2 md:p-4 shadow-soft max-w-[180px] md:max-w-none">
+        <h4 className="text-xs md:text-sm font-serif font-bold mb-1 md:mb-2">图例</h4>
         <div className="space-y-1 text-xs text-text-secondary">
           <div className="flex items-center gap-2">
-            <div className="w-4 h-3 rounded bg-primary"></div>
+            <div className="w-3 h-3 md:w-4 md:h-3 rounded bg-primary"></div>
             <span>地级市</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-3 rounded" style={{ backgroundColor: '#A8D5BA' }}></div>
+            <div className="w-3 h-3 md:w-4 md:h-3 rounded" style={{ backgroundColor: '#A8D5BA' }}></div>
             <span>区/县级</span>
           </div>
         </div>

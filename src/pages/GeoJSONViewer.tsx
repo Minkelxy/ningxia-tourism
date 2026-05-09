@@ -7,14 +7,32 @@ export default function GeoJSONViewer() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/src/data/ningxia.geojson')
-      .then(res => res.json())
+    const baseUrl = import.meta.env.BASE_URL || '/';
+    fetch(`${baseUrl}data/ningxia.geojson`)
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.text();
+      })
+      .then(text => {
+        if (!text || text.trim().length === 0) {
+          throw new Error('Empty response from server');
+        }
+        try {
+          return JSON.parse(text);
+        } catch (parseError) {
+          console.error('Failed to parse JSON:', text.substring(0, 100));
+          throw new Error('Invalid JSON response');
+        }
+      })
       .then(data => {
         setGeoData(data);
         setLoading(false);
       })
       .catch(err => {
-        setError(err.message);
+        console.error('Failed to load map data:', err);
+        setError(err.message || '加载地图数据失败');
         setLoading(false);
       });
   }, []);

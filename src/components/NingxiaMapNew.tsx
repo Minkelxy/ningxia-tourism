@@ -13,8 +13,25 @@ export default function NingxiaMap({ onCityClick }: NingxiaMapProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/src/data/ningxia-geojson.json')
-      .then(res => res.json())
+    const baseUrl = import.meta.env.BASE_URL || '/';
+    fetch(`${baseUrl}data/ningxia.geojson`)
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.text();
+      })
+      .then(text => {
+        if (!text || text.trim().length === 0) {
+          throw new Error('Empty response from server');
+        }
+        try {
+          return JSON.parse(text);
+        } catch (parseError) {
+          console.error('Failed to parse JSON:', text.substring(0, 100));
+          throw new Error('Invalid JSON response');
+        }
+      })
       .then((data: any) => {
         if (data.type === 'FeatureCollection' && data.features) {
           setGeoFeatures(data.features);
@@ -24,7 +41,8 @@ export default function NingxiaMap({ onCityClick }: NingxiaMapProps) {
         setLoading(false);
       })
       .catch(err => {
-        setError(err.message);
+        console.error('Failed to load map data:', err);
+        setError(err.message || '加载地图数据失败');
         setLoading(false);
       });
   }, []);
@@ -97,8 +115,9 @@ export default function NingxiaMap({ onCityClick }: NingxiaMapProps) {
     <div className="relative w-full">
       <svg
         viewBox="0 0 800 600"
-        className="w-full h-auto"
-        style={{ maxHeight: 'calc(100vh - 250px)' }}
+        preserveAspectRatio="xMidYMid meet"
+        className="w-full h-auto max-w-full"
+        style={{ maxHeight: 'calc(100vh - 250px)', minHeight: '300px' }}
       >
         <defs>
           <linearGradient id="sandGradientNew" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -181,9 +200,9 @@ export default function NingxiaMap({ onCityClick }: NingxiaMapProps) {
         </text>
       </svg>
 
-      <div className="mt-4 bg-white rounded-lg shadow-md p-4">
-        <h3 className="text-sm font-bold mb-3 text-gray-700">🏙️ 宁夏5个地级市</h3>
-        <div className="grid grid-cols-5 gap-2 text-xs">
+      <div className="mt-4 bg-white rounded-lg shadow-md p-3 md:p-4">
+        <h3 className="text-xs md:text-sm font-bold mb-2 md:mb-3 text-gray-700">🏙️ 宁夏5个地级市</h3>
+        <div className="grid grid-cols-3 md:grid-cols-5 gap-1 md:gap-2 text-xs">
           {geoFeatures.map((feature: any) => {
             const name = feature.properties?.fullname || feature.properties?.name;
             const pinyin = feature.properties?.pinyin;
@@ -197,7 +216,7 @@ export default function NingxiaMap({ onCityClick }: NingxiaMapProps) {
                     navigate(`/city/${pinyin}`);
                   }
                 }}
-                className="px-3 py-2 bg-blue-50 hover:bg-blue-100 rounded transition-colors text-blue-800 font-medium"
+                className="px-2 md:px-3 py-1.5 md:py-2 bg-blue-50 hover:bg-blue-100 rounded transition-colors text-blue-800 font-medium text-xs md:text-sm"
               >
                 {name}
               </button>
@@ -206,11 +225,11 @@ export default function NingxiaMap({ onCityClick }: NingxiaMapProps) {
         </div>
       </div>
 
-      <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-4 shadow-soft">
-        <h4 className="text-sm font-serif font-bold mb-2">图例说明</h4>
+      <div className="absolute bottom-2 md:bottom-4 left-2 md:left-4 bg-white/90 backdrop-blur-sm rounded-lg p-2 md:p-4 shadow-soft max-w-[180px] md:max-w-none">
+        <h4 className="text-xs md:text-sm font-serif font-bold mb-1 md:mb-2">图例说明</h4>
         <div className="space-y-1 text-xs text-text-secondary">
           <div className="flex items-center gap-2">
-            <div className="w-4 h-3 rounded bg-primary"></div>
+            <div className="w-3 h-3 md:w-4 md:h-3 rounded bg-primary"></div>
             <span>地级市区域</span>
           </div>
           <div className="flex items-center gap-2 text-text-secondary mt-2">
