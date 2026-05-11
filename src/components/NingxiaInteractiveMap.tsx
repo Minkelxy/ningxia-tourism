@@ -34,6 +34,22 @@ const cityInfo: Record<string, { area: string; population: string; description: 
   zhongwei: { area: '1.74万平方公里', population: '约120万', description: '沙漠水城，沙坡头所在地' }
 };
 
+interface MarkerPoint {
+  name: string;
+  lng: number;
+  lat: number;
+  type: 'province-capital' | 'city-capital';
+}
+
+const governmentMarkers: MarkerPoint[] = [
+  { name: '宁夏回族自治区政府', lng: 106.230977, lat: 38.487783, type: 'province-capital' },
+  { name: '银川市人民政府', lng: 106.278568, lat: 38.463147, type: 'city-capital' },
+  { name: '石嘴山市人民政府', lng: 106.384147, lat: 39.019302, type: 'city-capital' },
+  { name: '吴忠市人民政府', lng: 106.198933, lat: 37.997821, type: 'city-capital' },
+  { name: '固原市人民政府', lng: 106.246143, lat: 36.016084, type: 'city-capital' },
+  { name: '中卫市人民政府', lng: 105.196754, lat: 37.500229, type: 'city-capital' },
+];
+
 export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiveMapProps) {
   const navigate = useNavigate();
   const [geoFeatures, setGeoFeatures] = useState<GeoFeature[]>([]);
@@ -44,6 +60,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
   const [hoveredCity, setHoveredCity] = useState<string | null>(null);
   const [hoveredDistrict, setHoveredDistrict] = useState<string | null>(null);
   const [hoveredAttraction, setHoveredAttraction] = useState<string | null>(null);
+  const [hoveredGovernment, setHoveredGovernment] = useState<string | null>(null);
   const [selectedCity, setSelectedCity] = useState<GeoFeature | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<GeoFeature | null>(null);
   const [viewLevel, setViewLevel] = useState<'province' | 'city' | 'district'>('province');
@@ -799,6 +816,91 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
             }
           </g>
         )}
+        
+        <g className="government-markers">
+          {governmentMarkers
+            .filter(marker => {
+              if (viewLevel === 'province') {
+                return marker.type === 'province-capital' || marker.type === 'city-capital';
+              } else if (viewLevel === 'city' && selectedCity) {
+                return marker.type === 'city-capital' && 
+                  marker.name.includes(selectedCity.properties?.name || '');
+              }
+              return false;
+            })
+            .map((marker) => {
+              const pos = geoToSVG(marker.lng, marker.lat);
+              const isHovered = hoveredGovernment === marker.name;
+              const isProvinceCapital = marker.type === 'province-capital';
+              
+              return (
+                <g
+                  key={marker.name}
+                  className="cursor-pointer"
+                  onMouseEnter={() => setHoveredGovernment(marker.name)}
+                  onMouseLeave={() => setHoveredGovernment(null)}
+                >
+                  <circle
+                    cx={pos.x}
+                    cy={pos.y}
+                    r={isHovered ? 18 : 15}
+                    fill={isProvinceCapital ? '#2563EB' : '#059669'}
+                    stroke="#FFFFFF"
+                    strokeWidth="4"
+                    className="transition-all duration-300"
+                  />
+                  <text
+                    x={pos.x}
+                    y={pos.y + 5}
+                    textAnchor="middle"
+                    style={{ fill: '#FFFFFF', fontSize: '10px', fontWeight: 700 }}
+                  >
+                    {isProvinceCapital ? '★' : '●'}
+                  </text>
+                  {isHovered && (
+                    <g>
+                      <rect
+                        x={pos.x - 100}
+                        y={pos.y - 90}
+                        width="200"
+                        height="75"
+                        rx="10"
+                        fill="#FFFFFF"
+                        filter="url(#shadow)"
+                      />
+                      <text
+                        x={pos.x}
+                        y={pos.y - 60}
+                        textAnchor="middle"
+                        className="text-sm font-serif font-bold"
+                        style={{ fill: '#1A1A1A', fontSize: '13px' }}
+                      >
+                        {marker.name}
+                      </text>
+                      <text
+                        x={pos.x}
+                        y={pos.y - 38}
+                        textAnchor="middle"
+                        className="text-xs"
+                        style={{ fill: isProvinceCapital ? '#2563EB' : '#059669', fontSize: '11px' }}
+                      >
+                        {isProvinceCapital ? '🏛️ 省级政府' : '🏢 市级政府'}
+                      </text>
+                      <text
+                        x={pos.x}
+                        y={pos.y - 20}
+                        textAnchor="middle"
+                        className="text-xs"
+                        style={{ fill: '#6B6B6B', fontSize: '10px' }}
+                      >
+                        {marker.lng.toFixed(4)}°E, {marker.lat.toFixed(4)}°N
+                      </text>
+                    </g>
+                  )}
+                </g>
+              );
+            })}
+        </g>
         </svg>
       </div>
       
