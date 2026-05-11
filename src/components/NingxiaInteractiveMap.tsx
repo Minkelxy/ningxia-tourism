@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ZoomIn, ZoomOut, Home as HomeIcon, Loader } from 'lucide-react';
 import { themePresets } from '../config/map-config';
 
@@ -44,6 +44,9 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
   const [viewLevel, setViewLevel] = useState<'province' | 'city' | 'district'>('province');
   const [zoom, setZoom] = useState(1);
   const [viewBoxDimensions, setViewBoxDimensions] = useState({ width: 900, height: 1944 });
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [lastTouchDistance, setLastTouchDistance] = useState<number | null>(null);
+  const svgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const baseUrl = import.meta.env.BASE_URL || '/';
@@ -271,6 +274,40 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
     
     const districtBounds = getBounds(feature);
     updateViewBoxForBounds(districtBounds);
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
+  };
+  
+  const getTouchDistance = (touches: React.TouchList) => {
+    if (touches.length < 2) return 0;
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
+  
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      setLastTouchDistance(getTouchDistance(e.touches));
+    }
+  };
+  
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (e.touches.length === 2 && lastTouchDistance) {
+      const currentDistance = getTouchDistance(e.touches);
+      const scale = currentDistance / lastTouchDistance;
+      
+      if (scale > 1.1) {
+        setZoom(z => Math.min(z * 1.05, 3));
+      } else if (scale < 0.9) {
+        setZoom(z => Math.max(z / 1.05, 0.5));
+      }
+      
+      setLastTouchDistance(currentDistance);
+    }
+  };
+  
+  const handleTouchEnd = () => {
+    setLastTouchDistance(null);
   };
 
   const handleBackToProvince = () => {
@@ -279,6 +316,8 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
     setDistrictFeatures([]);
     setViewLevel('province');
     setViewBoxDimensions({ width: 900, height: 1944 });
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
   };
 
   const handleBackToCity = () => {
@@ -373,17 +412,24 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
         </div>
       )}
 
-      <svg
-        viewBox={`0 0 ${viewBoxDimensions.width} ${viewBoxDimensions.height}`}
-        preserveAspectRatio="xMidYMid meet"
-        className="w-full h-auto max-w-full"
-        style={{ 
-          maxHeight: 'calc(100vh - 250px)',
-          minHeight: '300px',
-          transform: `scale(${zoom})`,
-          transformOrigin: 'center center'
-        }}
+      <div 
+        ref={svgRef}
+        className="w-full touch-none"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
+        <svg
+          viewBox={`0 0 ${viewBoxDimensions.width} ${viewBoxDimensions.height}`}
+          preserveAspectRatio="xMidYMid meet"
+          className="w-full h-auto max-w-full cursor-grab active:cursor-grabbing"
+          style={{ 
+            maxHeight: 'calc(100vh - 250px)',
+            minHeight: '300px',
+            transform: `scale(${zoom}) translate(${pan.x}px, ${pan.y}px)`,
+            transformOrigin: 'center center'
+          }}
+        >
         <defs>
           <linearGradient id="sandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor={themePresets['default'].colors.gradient.start} />
@@ -594,8 +640,9 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
             ? `${selectedCity.properties?.fullname || selectedCity.properties?.name} · 点击区级进入下一级 · 点击空白处返回全区`
             : '宁夏回族自治区 · 点击城市进入下一级'}
         </text>
-      </svg>
-
+        </svg>
+      </div>
+      
       {viewLevel === 'city' && currentCityInfo && (
         <div className="mt-4 bg-white rounded-xl shadow-soft p-4 md:p-6">
           <h3 className="text-xl md:text-2xl font-serif font-bold text-text-primary mb-3 md:mb-4">
