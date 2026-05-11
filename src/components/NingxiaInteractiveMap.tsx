@@ -43,6 +43,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
   const [selectedDistrict, setSelectedDistrict] = useState<GeoFeature | null>(null);
   const [viewLevel, setViewLevel] = useState<'province' | 'city' | 'district'>('province');
   const [zoom, setZoom] = useState(1);
+  const [viewBoxDimensions, setViewBoxDimensions] = useState({ width: 900, height: 1944 });
 
   useEffect(() => {
     const baseUrl = import.meta.env.BASE_URL || '/';
@@ -97,9 +98,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
   };
 
   const geoToSVG = (lng: number, lat: number) => {
-    const width = 900;
-    const height = 1944;
-    const padding = 40;
+    const { width, height } = viewBoxDimensions;
     
     let minLng, maxLng, minLat, maxLat;
     
@@ -124,8 +123,24 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
       maxLat = 39.4;
     }
     
-    const x = padding + ((lng - minLng) / (maxLng - minLng)) * (width - padding * 2);
-    const y = height - padding - ((lat - minLat) / (maxLat - minLat)) * (height - padding * 2);
+    const lngRange = maxLng - minLng;
+    const latRange = maxLat - minLat;
+    const aspectRatio = lngRange / latRange;
+    
+    let adjustedWidth = width;
+    let adjustedHeight = height;
+    
+    if (lngRange / latRange > width / height) {
+      adjustedHeight = Math.round(width / aspectRatio);
+    } else {
+      adjustedWidth = Math.round(height * aspectRatio);
+    }
+    
+    const actualPaddingX = (width - adjustedWidth) / 2;
+    const actualPaddingY = (height - adjustedHeight) / 2;
+    
+    const x = actualPaddingX + ((lng - minLng) / lngRange) * adjustedWidth;
+    const y = height - actualPaddingY - ((lat - minLat) / latRange) * adjustedHeight;
     
     return { x, y };
   };
@@ -201,6 +216,27 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
     }
   };
 
+  const updateViewBoxForBounds = (bounds: { minLng: number; maxLng: number; minLat: number; maxLat: number }, containerWidth = 900) => {
+    const padding = 0.15;
+    const lngRange = (bounds.maxLng - bounds.minLng) * (1 + padding * 2);
+    const latRange = (bounds.maxLat - bounds.minLat) * (1 + padding * 2);
+    
+    const geoAspectRatio = lngRange / latRange;
+    const containerAspectRatio = containerWidth / 1944;
+    
+    let width, height;
+    
+    if (geoAspectRatio > containerAspectRatio) {
+      width = containerWidth;
+      height = Math.round(containerWidth / geoAspectRatio);
+    } else {
+      height = 1944;
+      width = Math.round(1944 * geoAspectRatio);
+    }
+    
+    setViewBoxDimensions({ width, height });
+  };
+  
   const handleCityClick = (feature: GeoFeature) => {
     const cityPinyin = feature.properties?.pinyin || '';
     const cityCode = feature.properties?.code || '';
@@ -210,6 +246,9 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
     setSelectedDistrict(null);
     setDistrictFeatures([]);
     setViewLevel('city');
+    
+    const cityBounds = getBounds(feature);
+    updateViewBoxForBounds(cityBounds);
     
     loadDistrictData(cityCode);
     
@@ -221,6 +260,9 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
   const handleDistrictClick = (feature: GeoFeature) => {
     setSelectedDistrict(feature);
     setViewLevel('district');
+    
+    const districtBounds = getBounds(feature);
+    updateViewBoxForBounds(districtBounds);
   };
 
   const handleBackToProvince = () => {
@@ -228,11 +270,17 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
     setSelectedDistrict(null);
     setDistrictFeatures([]);
     setViewLevel('province');
+    setViewBoxDimensions({ width: 900, height: 1944 });
   };
 
   const handleBackToCity = () => {
     setSelectedDistrict(null);
     setViewLevel('city');
+    
+    if (selectedCity) {
+      const cityBounds = getBounds(selectedCity);
+      updateViewBoxForBounds(cityBounds);
+    }
   };
 
   if (loading) {
@@ -318,7 +366,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
       )}
 
       <svg
-        viewBox="0 0 900 1944"
+        viewBox={`0 0 ${viewBoxDimensions.width} ${viewBoxDimensions.height}`}
         preserveAspectRatio="xMidYMid meet"
         className="w-full h-auto max-w-full"
         style={{ 
@@ -349,7 +397,14 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
           </filter>
         </defs>
 
-        <rect x="0" y="0" width="900" height="1944" fill={themePresets['default'].colors.background} rx="12" />
+        <rect 
+          x="0" 
+          y="0" 
+          width={viewBoxDimensions.width} 
+          height={viewBoxDimensions.height} 
+          fill={themePresets['default'].colors.background} 
+          rx="12" 
+        />
 
         <g filter="url(#shadow)">
           {viewLevel === 'province' && geoFeatures.map((feature: GeoFeature, index: number) => {
