@@ -81,18 +81,26 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
   }, []);
 
   const getBounds = (feature: GeoFeature) => {
-    const coords = feature.geometry.type === 'Polygon' 
-      ? feature.geometry.coordinates[0] 
-      : feature.geometry.coordinates[0][0];
-    
     let minLng = Infinity, maxLng = -Infinity, minLat = Infinity, maxLat = -Infinity;
     
-    coords.forEach((coord: number[]) => {
-      minLng = Math.min(minLng, coord[0]);
-      maxLng = Math.max(maxLng, coord[0]);
-      minLat = Math.min(minLat, coord[1]);
-      maxLat = Math.max(maxLat, coord[1]);
-    });
+    const processCoords = (coords: any) => {
+      if (typeof coords[0] === 'number') {
+        minLng = Math.min(minLng, coords[0]);
+        maxLng = Math.max(maxLng, coords[0]);
+        minLat = Math.min(minLat, coords[1]);
+        maxLat = Math.max(maxLat, coords[1]);
+      } else if (Array.isArray(coords)) {
+        coords.forEach((coord: any) => processCoords(coord));
+      }
+    };
+    
+    if (feature.geometry.type === 'Polygon') {
+      feature.geometry.coordinates.forEach((ring: any) => processCoords(ring));
+    } else if (feature.geometry.type === 'MultiPolygon') {
+      feature.geometry.coordinates.forEach((polygon: any) => {
+        polygon.forEach((ring: any) => processCoords(ring));
+      });
+    }
     
     return { minLng, maxLng, minLat, maxLat };
   };
