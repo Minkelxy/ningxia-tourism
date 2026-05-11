@@ -2,19 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, MapPin, Star } from 'lucide-react';
 import attractionsData from '../data/attractions.json';
-
-interface Attraction {
-  id: string;
-  name: string;
-  city: string;
-  cityPinyin?: string;
-  type: string;
-  description: string;
-  highlights: string[];
-  images?: string[];
-  rating?: number;
-  coordinates?: { x: number; y: number };
-}
+import { Attraction } from '../types';
 
 const typeLabels: Record<string, { label: string; color: string }> = {
   nature: { label: '自然风光', color: 'bg-green-100 text-green-800' },

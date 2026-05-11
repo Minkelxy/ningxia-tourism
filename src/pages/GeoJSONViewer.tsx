@@ -102,7 +102,7 @@ export default function GeoJSONViewer() {
             {/* 绘制每个城市的区域 */}
             {features.map((feature: any) => {
               const coords = feature.geometry.coordinates[0];
-              const name = feature.properties.NAME;
+              const name = feature.properties.NAME || feature.properties.name || '未知';
               const center = calculateCenter(coords);
               
               // 构建SVG路径
@@ -147,7 +147,7 @@ export default function GeoJSONViewer() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {features.map((feature: any) => {
               const coords = feature.geometry.coordinates[0];
-              const name = feature.properties.NAME;
+              const name = feature.properties.NAME || feature.properties.name || '未知';
               const center = calculateCenter(coords);
               
               return (

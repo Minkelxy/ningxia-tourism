@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 interface Point {
   x: number;
@@ -12,6 +12,13 @@ interface GeoJSONEditorProps {
   onSave?: (data: any) => void;
 }
 
+const GEO_BOUNDS = {
+  minLng: 104.5,
+  maxLng: 107.0,
+  minLat: 35.6,
+  maxLat: 39.4
+};
+
 export default function GeoJSONEditor({ onSave }: GeoJSONEditorProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [points, setPoints] = useState<Point[]>([]);
@@ -20,27 +27,17 @@ export default function GeoJSONEditor({ onSave }: GeoJSONEditorProps) {
   const [showGrid, setShowGrid] = useState(true);
   const [showCoordinates, setShowCoordinates] = useState(true);
 
-  // 地理范围设置
-  const geoBounds = {
-    minLng: 104.5,
-    maxLng: 107.0,
-    minLat: 35.6,
-    maxLat: 39.4
-  };
-
-  // 将地理坐标转换为画布坐标
-  const geoToCanvas = (lng: number, lat: number, width: number, height: number) => {
-    const x = ((lng - geoBounds.minLng) / (geoBounds.maxLng - geoBounds.minLng)) * width;
-    const y = height - ((lat - geoBounds.minLat) / (geoBounds.maxLat - geoBounds.minLat)) * height;
+  const geoToCanvas = useCallback((lng: number, lat: number, width: number, height: number) => {
+    const x = ((lng - GEO_BOUNDS.minLng) / (GEO_BOUNDS.maxLng - GEO_BOUNDS.minLng)) * width;
+    const y = height - ((lat - GEO_BOUNDS.minLat) / (GEO_BOUNDS.maxLat - GEO_BOUNDS.minLat)) * height;
     return { x, y };
-  };
+  }, []);
 
-  // 将画布坐标转换为地理坐标
-  const canvasToGeo = (x: number, y: number, width: number, height: number) => {
-    const lng = (x / width) * (geoBounds.maxLng - geoBounds.minLng) + geoBounds.minLng;
-    const lat = ((height - y) / height) * (geoBounds.maxLat - geoBounds.minLat) + geoBounds.minLat;
+  const canvasToGeo = useCallback((x: number, y: number, width: number, height: number) => {
+    const lng = (x / width) * (GEO_BOUNDS.maxLng - GEO_BOUNDS.minLng) + GEO_BOUNDS.minLng;
+    const lat = ((height - y) / height) * (GEO_BOUNDS.maxLat - GEO_BOUNDS.minLat) + GEO_BOUNDS.minLat;
     return { lng, lat };
-  };
+  }, []);
 
   // 绘制画布
   useEffect(() => {
@@ -64,8 +61,8 @@ export default function GeoJSONEditor({ onSave }: GeoJSONEditorProps) {
       
       // 经线
       for (let i = 0; i <= 10; i++) {
-        const lng = geoBounds.minLng + (i / 10) * (geoBounds.maxLng - geoBounds.minLng);
-        const x = geoToCanvas(lng, geoBounds.minLat, width, height).x;
+        const lng = GEO_BOUNDS.minLng + (i / 10) * (GEO_BOUNDS.maxLng - GEO_BOUNDS.minLng);
+        const x = geoToCanvas(lng, GEO_BOUNDS.minLat, width, height).x;
         ctx.beginPath();
         ctx.moveTo(x, 0);
         ctx.lineTo(x, height);
@@ -79,8 +76,8 @@ export default function GeoJSONEditor({ onSave }: GeoJSONEditorProps) {
       
       // 纬线
       for (let i = 0; i <= 10; i++) {
-        const lat = geoBounds.minLat + (i / 10) * (geoBounds.maxLat - geoBounds.minLat);
-        const y = geoToCanvas(geoBounds.minLng, lat, width, height).y;
+        const lat = GEO_BOUNDS.minLat + (i / 10) * (GEO_BOUNDS.maxLat - GEO_BOUNDS.minLat);
+        const y = geoToCanvas(GEO_BOUNDS.minLng, lat, width, height).y;
         ctx.beginPath();
         ctx.moveTo(0, y);
         ctx.lineTo(width, y);
@@ -157,7 +154,7 @@ export default function GeoJSONEditor({ onSave }: GeoJSONEditorProps) {
       }
     });
 
-  }, [points, selectedPoint, showGrid, showCoordinates]);
+  }, [points, selectedPoint, showGrid, showCoordinates, geoToCanvas]);
 
   // 处理画布点击
   const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -521,18 +518,18 @@ export default function GeoJSONEditor({ onSave }: GeoJSONEditorProps) {
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div className="bg-blue-50 p-3 rounded-lg">
                   <div className="text-gray-600">经度范围</div>
-                  <div className="font-mono">{geoBounds.minLng}°E - {geoBounds.maxLng}°E</div>
+                  <div className="font-mono">{GEO_BOUNDS.minLng}°E - {GEO_BOUNDS.maxLng}°E</div>
                 </div>
                 <div className="bg-green-50 p-3 rounded-lg">
                   <div className="text-gray-600">纬度范围</div>
-                  <div className="font-mono">{geoBounds.minLat}°N - {geoBounds.maxLat}°N</div>
+                  <div className="font-mono">{GEO_BOUNDS.minLat}°N - {GEO_BOUNDS.maxLat}°N</div>
                 </div>
               </div>
               
               <div className="mt-4 text-xs text-gray-500">
                 <p>当前范围适合宁夏地区使用</p>
-                <p className="mt-1">经度跨度: {(geoBounds.maxLng - geoBounds.minLng).toFixed(1)}°</p>
-                <p>纬度跨度: {(geoBounds.maxLat - geoBounds.minLat).toFixed(1)}°</p>
+                <p className="mt-1">经度跨度: {(GEO_BOUNDS.maxLng - GEO_BOUNDS.minLng).toFixed(1)}°</p>
+                <p>纬度跨度: {(GEO_BOUNDS.maxLat - GEO_BOUNDS.minLat).toFixed(1)}°</p>
               </div>
             </div>
 
