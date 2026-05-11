@@ -1,8 +1,8 @@
 export type AttractionType = 'nature' | 'history' | 'religion' | 'experience';
 
 export interface Coordinates {
-  x: number;
-  y: number;
+  lng: number;
+  lat: number;
 }
 
 export interface Attraction {
@@ -10,17 +10,18 @@ export interface Attraction {
   name: string;
   nameEn?: string;
   city: string;
-  type: AttractionType;
-  coordinates: Coordinates;
-  rating: number;
+  cityPinyin?: string;
+  type: AttractionType | string;
   description: string;
-  images: string[];
-  openingHours: string;
-  ticketPrice: string;
-  bestSeason: string;
-  transportation: string;
   highlights: string[];
-  nearbyAttractions: string[];
+  images?: string[];
+  rating: number;
+  coordinates: Coordinates;
+  openingHours?: string;
+  ticketPrice?: string;
+  bestSeason?: string;
+  transportation?: string;
+  nearbyAttractions?: string[];
 }
 
 export interface City {

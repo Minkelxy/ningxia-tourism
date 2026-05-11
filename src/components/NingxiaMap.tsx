@@ -3,6 +3,31 @@ import { useNavigate } from 'react-router-dom';
 import { Attraction } from '../types';
 import attractionsData from '../data/attractions.json';
 
+const svgWidth = 1020;
+const svgHeight = 1100;
+const minLng = 105.0;
+const maxLng = 106.9;
+const minLat = 35.3;
+const maxLat = 39.4;
+
+const geoToSVGLocal = (lng: number, lat: number) => {
+  const lngRange = maxLng - minLng;
+  const latRange = maxLat - minLat;
+  let adjW = svgWidth;
+  let adjH = svgHeight;
+  if (lngRange / latRange > svgWidth / svgHeight) {
+    adjH = Math.round((svgWidth / lngRange) * latRange);
+  } else {
+    adjW = Math.round((svgHeight * lngRange) / latRange);
+  }
+  const padX = (svgWidth - adjW) / 2;
+  const padY = (svgHeight - adjH) / 2;
+  return {
+    x: padX + ((lng - minLng) / lngRange) * adjW,
+    y: svgHeight - padY - ((lat - minLat) / latRange) * adjH,
+  };
+};
+
 interface NingxiaMapProps {
   onAttractionClick?: (attraction: Attraction) => void;
   selectedCity?: string | null;
@@ -166,8 +191,8 @@ export default function NingxiaMap({
               onClick={() => handleAttractionClick(attraction as Attraction)}
             >
               <circle
-                cx={attraction.coordinates.x}
-                cy={attraction.coordinates.y}
+                cx={geoToSVGLocal(attraction.coordinates.lng, attraction.coordinates.lat).x}
+                cy={geoToSVGLocal(attraction.coordinates.lng, attraction.coordinates.lat).y}
                 r={isHovered ? 16 : 12}
                 fill="#E85D4C"
                 stroke="#FFFFFF"
@@ -176,13 +201,13 @@ export default function NingxiaMap({
                 className="transition-all duration-300"
                 style={{
                   transform: isHovered ? 'scale(1.2)' : 'scale(1)',
-                  transformOrigin: `${attraction.coordinates.x}px ${attraction.coordinates.y}px`,
+                  transformOrigin: `${geoToSVGLocal(attraction.coordinates.lng, attraction.coordinates.lat).x}px ${geoToSVGLocal(attraction.coordinates.lng, attraction.coordinates.lat).y}px`,
                 }}
               />
               
               <text
-                x={attraction.coordinates.x}
-                y={attraction.coordinates.y + 4}
+                x={geoToSVGLocal(attraction.coordinates.lng, attraction.coordinates.lat).x}
+                y={geoToSVGLocal(attraction.coordinates.lng, attraction.coordinates.lat).y + 4}
                 textAnchor="middle"
                 className="text-xs pointer-events-none"
                 style={{ fill: '#FFFFFF', fontSize: '8px', fontWeight: 600 }}
@@ -193,8 +218,8 @@ export default function NingxiaMap({
               {isHovered && (
                 <g>
                   <rect
-                    x={attraction.coordinates.x - 75}
-                    y={attraction.coordinates.y - 80}
+                    x={geoToSVGLocal(attraction.coordinates.lng, attraction.coordinates.lat).x - 75}
+                    y={geoToSVGLocal(attraction.coordinates.lng, attraction.coordinates.lat).y - 80}
                     width="150"
                     height="70"
                     rx="8"
@@ -203,8 +228,8 @@ export default function NingxiaMap({
                   />
                   
                   <text
-                    x={attraction.coordinates.x}
-                    y={attraction.coordinates.y - 55}
+                    x={geoToSVGLocal(attraction.coordinates.lng, attraction.coordinates.lat).x}
+                    y={geoToSVGLocal(attraction.coordinates.lng, attraction.coordinates.lat).y - 55}
                     textAnchor="middle"
                     className="text-sm font-serif font-bold"
                     style={{ fill: '#1A1A1A', fontSize: '12px' }}
@@ -213,8 +238,8 @@ export default function NingxiaMap({
                   </text>
                   
                   <text
-                    x={attraction.coordinates.x}
-                    y={attraction.coordinates.y - 38}
+                    x={geoToSVGLocal(attraction.coordinates.lng, attraction.coordinates.lat).x}
+                    y={geoToSVGLocal(attraction.coordinates.lng, attraction.coordinates.lat).y - 38}
                     textAnchor="middle"
                     className="text-xs"
                     style={{ fill: '#6B6B6B', fontSize: '9px' }}
@@ -223,8 +248,8 @@ export default function NingxiaMap({
                   </text>
                   
                   <text
-                    x={attraction.coordinates.x}
-                    y={attraction.coordinates.y - 22}
+                    x={geoToSVGLocal(attraction.coordinates.lng, attraction.coordinates.lat).x}
+                    y={geoToSVGLocal(attraction.coordinates.lng, attraction.coordinates.lat).y - 22}
                     textAnchor="middle"
                     style={{ fill: '#C4A35A', fontSize: '10px' }}
                   >
@@ -232,8 +257,8 @@ export default function NingxiaMap({
                   </text>
                   
                   <text
-                    x={attraction.coordinates.x}
-                    y={attraction.coordinates.y - 8}
+                    x={geoToSVGLocal(attraction.coordinates.lng, attraction.coordinates.lat).x}
+                    y={geoToSVGLocal(attraction.coordinates.lng, attraction.coordinates.lat).y - 8}
                     textAnchor="middle"
                     className="text-xs"
                     style={{ fill: '#6B6B6B', fontSize: '8px' }}

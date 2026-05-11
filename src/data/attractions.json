@@ -1,727 +1,266 @@
 [
   {
-    "id": "sahu",
+    "id": "shahu",
     "name": "沙湖",
-    "city": "石嘴山市",
-    "type": "nature",
-    "coordinates": { "x": 680, "y": 60 },
+    "city": "石嘴山",
+    "cityPinyin": "shizuishan",
+    "type": "natural",
+    "description": "中国35个王牌景点之一，以其独特的沙水相依、芦苇丛生的美景著称。",
+    "highlights": ["沙漠与湖泊共存", "丰富的鸟类资源", "水上娱乐项目"],
+    "images": ["https://images.unsplash.com/photo-1506905925346-21bda4d32df4"],
     "rating": 4.7,
-    "description": "沙湖是中国最美的沙漠湖泊之一，位于石嘴山市平罗县。这里集江南水乡之灵秀与塞北大漠之雄浑于一体，形成了独特的景观。湖水与沙漠共存，金色的沙丘倒映在碧波荡漾的湖面上，构成了举世罕见的奇观。",
-    "images": [
-      "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800",
-      "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=800",
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800"
-    ],
-    "openingHours": "08:00-18:00（夏季）08:30-17:30（冬季）",
-    "ticketPrice": "门票60元/人，游船票另付",
-    "bestSeason": "5月-10月",
-    "transportation": "银川汽车站有班车直达沙湖景区，车程约1小时",
-    "highlights": [
-      "沙漠与湖泊共存的奇观",
-      "乘坐快艇穿梭于芦苇荡中",
-      "体验沙漠越野和滑沙项目",
-      "观鸟胜地，候鸟迁徙时节最为壮观"
-    ],
-    "nearbyAttractions": ["shizuishan-lake", "shizuishan-shengtai"]
+    "coordinates": { "lng": 106.37, "lat": 38.80 }
   },
   {
-    "id": "xixia-wangling",
+    "id": "xixiawangling",
     "name": "西夏王陵",
-    "city": "银川市",
-    "type": "history",
-    "coordinates": { "x": 550, "y": 140 },
-    "rating": 4.8,
-    "description": "西夏王陵是中国现存规模最大、地面遗迹最完整的帝王陵园之一，也是西夏文化的重要载体。陵区分布在银川市西郊贺兰山东麓，方圆53平方公里的范围内分布着9座帝陵和200余座陪葬墓。陵墓建筑融合了汉族文化与党项族特色，具有极高的历史和艺术价值。",
-    "images": [
-      "https://images.unsplash.com/photo-1590059390047-f5e617391beb?w=800",
-      "https://images.unsplash.com/photo-1569587112025-0d460e81a126?w=800",
-      "https://images.unsplash.com/photo-1533669955142-6a73332af4db?w=800"
-    ],
-    "openingHours": "08:00-18:00",
-    "ticketPrice": "门票75元/人（含区间车）",
-    "bestSeason": "4月-10月",
-    "transportation": "银川市区乘坐公交3路、7路至西夏陵站下车",
-    "highlights": [
-      "东方金字塔的神秘魅力",
-      "西夏博物馆深入了解党项文明",
-      "3D/4D电影体验西夏历史",
-      "贺兰山下的壮阔陵园风光"
-    ],
-    "nearbyAttractions": ["zhenbeibu", "suyukou", "helanshan-rock"]
-  },
-  {
-    "id": "shapatou",
-    "name": "沙坡头",
-    "city": "中卫市",
-    "type": "experience",
-    "coordinates": { "x": 180, "y": 320 },
-    "rating": 4.9,
-    "description": "沙坡头旅游区位于宁夏中卫市，是国家5A级旅游景区。这里集大漠、黄河、高山、绿洲于一体，既具有西北风光的雄奇壮美，又体现了江南景色的秀美宜人。沙坡头是《爸爸去哪儿》等热门综艺节目的取景地，以其独特的沙漠体验项目闻名。",
-    "images": [
-      "https://images.unsplash.com/photo-1542401886-65d6c61db217?w=800",
-      "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800",
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800"
-    ],
-    "openingHours": "08:30-18:00（夏季）09:00-17:30（冬季）",
-    "ticketPrice": "门票80元/人，娱乐项目套票280元起",
-    "bestSeason": "5月-10月",
-    "transportation": "中卫市乘坐公交或出租车前往，车程约30分钟",
-    "highlights": [
-      "沙漠骆驼骑行穿越鸣沙山",
-      "黄河漂流和羊皮筏子漂流",
-      "沙漠冲浪车和飞索横跨黄河",
-      "住沙漠营地观星赏日出"
-    ],
-    "nearbyAttractions": ["gaomiao", "hetaotan", "tengger-desert"]
-  },
-  {
-    "id": "suyukou",
-    "name": "苏峪口国家森林公园",
-    "city": "银川市",
-    "type": "nature",
-    "coordinates": { "x": 580, "y": 110 },
+    "city": "银川",
+    "cityPinyin": "yinchuan",
+    "type": "cultural",
+    "description": "中国现存规模最大、地面遗址最完整的帝王陵园之一，被称为东方金字塔。",
+    "highlights": ["西夏文化遗址", "神秘帝王陵寝", "历史考古价值"],
+    "images": ["https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b"],
     "rating": 4.6,
-    "description": "苏峪口国家森林公园位于银川市西北部贺兰山国家级自然保护区，地处阿拉善温暖带半干旱区。公园总面积9586公顷，森林覆盖率高达75%以上。这里沟谷幽深，林木葱茏，是天然的氧吧，也是众多野生动植物的栖息地。",
-    "images": [
-      "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800",
-      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800",
-      "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=800"
-    ],
-    "openingHours": "09:00-17:00",
-    "ticketPrice": "门票60元/人，观光车20元/人",
-    "bestSeason": "5月-10月",
-    "transportation": "银川市区乘坐快速旅游专线或自驾前往",
-    "highlights": [
-      "登山健身的绝佳选择",
-      "原始森林探秘",
-      "观赏野生岩羊和马鹿",
-      "拜寺口双塔的历史遗迹"
-    ],
-    "nearbyAttractions": ["xixia-wangling", "zhenbeibu", "helanshan-rock"]
+    "coordinates": { "lng": 105.98, "lat": 38.43 }
+  },
+  {
+    "id": "shapotou",
+    "name": "沙坡头",
+    "city": "中卫",
+    "cityPinyin": "zhongwei",
+    "type": "natural",
+    "description": "集沙、河、山、园为一体的综合旅游区，被评为中国十大最好玩的地方。",
+    "highlights": ["沙漠探险", "黄河漂流", "滑沙体验"],
+    "images": ["https://images.unsplash.com/photo-1509316785289-025f5b846b35"],
+    "rating": 4.8,
+    "coordinates": { "lng": 105.19, "lat": 37.51 }
+  },
+  {
+    "id": "liupanshan",
+    "name": "六盘山",
+    "city": "固原",
+    "cityPinyin": "guyuan",
+    "type": "natural",
+    "description": "红军长征途中的最后一座高山，也是黄土高原上重要的生态屏障。",
+    "highlights": ["红色旅游圣地", "天然氧吧", "生物多样性"],
+    "images": ["https://images.unsplash.com/photo-1469474968028-56623f02e42e"],
+    "rating": 4.5,
+    "coordinates": { "lng": 106.20, "lat": 35.60 }
   },
   {
     "id": "zhenbeibu",
     "name": "镇北堡西部影城",
-    "city": "银川市",
-    "type": "history",
-    "coordinates": { "x": 560, "y": 130 },
-    "rating": 4.7,
-    "description": "镇北堡西部影城是银川著名的影视拍摄基地，由著名作家张贤亮创办。这里曾是《大话西游》、《红高粱》、《牧马人》等数百部经典影视作品的取景地。影城保持了西部荒凉、古朴的自然风貌，让游客能够亲身体验电影拍摄的乐趣。",
-    "images": [
-      "https://images.unsplash.com/photo-1537953773345-d172ccf13cf4?w=800",
-      "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800",
-      "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=800"
-    ],
-    "openingHours": "08:00-18:00",
-    "ticketPrice": "门票80元/人",
-    "bestSeason": "全年皆宜",
-    "transportation": "银川市区乘坐公交54路或旅游专线直达",
-    "highlights": [
-      "探访紫霞仙子与至尊宝的经典场景",
-      "换上戏服体验角色扮演",
-      "观看民间杂耍和皮影戏表演",
-      "感受西北古堡的沧桑与浪漫"
-    ],
-    "nearbyAttractions": ["xixia-wangling", "suyukou", "helanshan-rock"]
+    "city": "银川",
+    "cityPinyin": "yinchuan",
+    "type": "cultural",
+    "description": "中国西部唯一著名影视城，红高粱、大话西游等经典影片拍摄地。",
+    "highlights": ["影视文化体验", "西北风情", "明星同款场景"],
+    "images": ["https://images.unsplash.com/photo-1533121458141-4e28c5153496"],
+    "rating": 4.4,
+    "coordinates": { "lng": 106.11, "lat": 38.43 }
   },
   {
-    "id": "liupan",
-    "name": "六盘山红军长征景区",
-    "city": "固原市",
-    "type": "history",
-    "coordinates": { "x": 560, "y": 480 },
-    "rating": 4.8,
-    "description": "六盘山是中国最年轻的山脉之一，也是红军长征翻越的最后一座大山，被誉为'幸运之山'。这里自然风光秀美，林木茂密，气候宜人，是中国黄土高原上的'绿岛'。六盘山国家级自然保护区是黄土高原上重要的生态屏障。",
-    "images": [
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800",
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
-      "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800"
-    ],
-    "openingHours": "08:00-17:30",
-    "ticketPrice": "门票65元/人，景区交通车40元/人",
-    "bestSeason": "5月-10月",
-    "transportation": "固原市长途汽车站有班车直达六盘山景区",
-    "highlights": [
-      "红军长征纪念馆传承红色精神",
-      "徒步穿越红军小道",
-      "观赏原始森林和珍稀植物",
-      "登顶观景台俯瞰云海"
-    ],
-    "nearbyAttractions": ["huoshizhai", "jiangtaibao", "xumushan"]
-  },
-  {
-    "id": "gaomiao",
-    "name": "中卫高庙",
-    "city": "中卫市",
-    "type": "religion",
-    "coordinates": { "x": 150, "y": 300 },
+    "id": "suyukou",
+    "name": "苏峪口",
+    "city": "银川",
+    "cityPinyin": "yinchuan",
+    "type": "natural",
+    "description": "贺兰山国家级自然保护区的重要组成部分，以其独特的峡谷风光和丰富的动植物资源著称。",
+    "highlights": ["贺兰山风光", "野生动植物", "登山探险"],
+    "images": ["https://images.unsplash.com/photo-1454496522488-7a8e488e8606"],
     "rating": 4.5,
-    "description": "中卫高庙是一座藏在古城中的宗教建筑群，始建于明洪武年间，距今已有600多年历史。高庙集佛教、道教、儒家文化于一体，体现了宁夏多元宗教文化和谐共存的特色。庙内建筑层层叠叠，砖雕木刻精美绝伦，具有很高的艺术价值。",
-    "images": [
-      "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800",
-      "https://images.unsplash.com/photo-1548625149-720754926d35?w=800",
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800"
-    ],
-    "openingHours": "08:30-18:00",
-    "ticketPrice": "门票30元/人",
-    "bestSeason": "3月-11月",
-    "transportation": "中卫市中心步行即可到达",
-    "highlights": [
-      "登高望远俯瞰中卫全景",
-      "欣赏精美的砖雕艺术",
-      "感受宗教文化的融合",
-      "体验古城的宁静氛围"
-    ],
-    "nearbyAttractions": ["shapatou", "hetaotan", "sikou"]
+    "coordinates": { "lng": 106.08, "lat": 38.56 }
   },
   {
-    "id": "hetaotan",
+    "id": "huanghetan",
     "name": "黄河坛",
-    "city": "吴忠市",
-    "type": "history",
-    "coordinates": { "x": 420, "y": 380 },
-    "rating": 4.6,
-    "description": "黄河坛位于吴忠市青铜峡市，是黄河金岸的标志性建筑，也是黄河文化主题公园。景区以'祭拜黄河母亲'为主题，融合了黄河文化、回族文化和现代休闲观光理念，是了解黄河文明的重要窗口。",
-    "images": [
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
-      "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=800",
-      "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800"
-    ],
-    "openingHours": "08:30-18:00",
-    "ticketPrice": "门票50元/人",
-    "bestSeason": "4月-10月",
-    "transportation": "银川或吴忠乘坐班车至青铜峡市，再转乘公交",
-    "highlights": [
-      "震撼的黄河祭坛建筑群",
-      "了解黄河农耕文明",
-      "黄河边的休闲漫步",
-      "青铜峡水库的壮丽风光"
-    ],
-    "nearbyAttractions": ["qingtongxia", "huanghelou", "tengger-desert"]
-  },
-  {
-    "id": "huangshagudu",
-    "name": "黄沙古渡生态旅游区",
-    "city": "银川市",
-    "type": "experience",
-    "coordinates": { "x": 480, "y": 160 },
-    "rating": 4.5,
-    "description": "黄沙古渡是银川市东郊的一处历史文化景区，这里是古代丝绸之路的重要渡口，也是明清时期银川八景之一。景区内保留了古渡口遗址、长城遗迹等历史遗存，是了解宁夏古代交通和军事防御的重要窗口。",
-    "images": [
-      "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800",
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800",
-      "https://images.unsplash.com/photo-1473660408210-1e00cc8a06e9?w=800"
-    ],
-    "openingHours": "08:00-18:00",
-    "ticketPrice": "门票60元/人",
-    "bestSeason": "5月-10月",
-    "transportation": "银川市区乘坐公交13路或出租车前往",
-    "highlights": [
-      "体验古丝绸之路的商旅文化",
-      "观赏沙漠与黄河交织的美景",
-      "参与古渡船渡体验项目",
-      "参观明长城遗址"
-    ],
-    "nearbyAttractions": ["xixia-wangling", "zhenbeibu", "ningxia-museum"]
+    "city": "青铜峡",
+    "cityPinyin": "qingtongxia",
+    "type": "cultural",
+    "description": "展示黄河文明的大型文化景区，依山而建，气势恢宏。",
+    "highlights": ["黄河文化", "仿古建筑", "祈福圣地"],
+    "images": ["https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d"],
+    "rating": 4.3,
+    "coordinates": { "lng": 105.93, "lat": 37.83 }
   },
   {
     "id": "mingcuihu",
-    "name": "鸣翠湖国家湿地公园",
-    "city": "银川市",
-    "type": "nature",
-    "coordinates": { "x": 500, "y": 130 },
-    "rating": 4.5,
-    "description": "鸣翠湖是银川市南部的一片城市湿地公园，因'翠'字得名，是塞上湖城的重要组成部分。湖光山色与城市景观融为一体，是银川市民休闲健身的好去处，也是摄影爱好者的取景天堂。",
-    "images": [
-      "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800",
-      "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800",
-      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800"
-    ],
-    "openingHours": "08:30-17:30",
-    "ticketPrice": "门票40元/人",
-    "bestSeason": "4月-10月",
-    "transportation": "银川市区乘坐公交15路、32路直达",
-    "highlights": [
-      "城市中的天然氧吧",
-      "观鸟和生态探险",
-      "湖上游船和垂钓",
-      "欣赏塞上湖城风光"
-    ],
-    "nearbyAttractions": ["nanguan", "xixia-wangling", "yuehai-park"]
+    "name": "鸣翠湖",
+    "city": "银川",
+    "cityPinyin": "yinchuan",
+    "type": "natural",
+    "description": "中国西部最具影响力的湿地保护区之一，被誉为银川之肾。",
+    "highlights": ["湿地生态", "鸟类天堂", "自然科普"],
+    "images": ["https://images.unsplash.com/photo-1464822759023-fed622ff2c3b"],
+    "rating": 4.4,
+    "coordinates": { "lng": 106.22, "lat": 38.27 }
   },
   {
     "id": "nanguan",
     "name": "南关清真寺",
-    "city": "银川市",
-    "type": "religion",
-    "coordinates": { "x": 520, "y": 115 },
-    "rating": 4.6,
-    "description": "南关清真寺是银川市最具代表性的伊斯兰建筑，也是宁夏最大的清真寺之一。寺庙融合了阿拉伯建筑风格与中国传统建筑元素，具有独特的建筑美学。寺内每天都有礼拜活动，是了解伊斯兰文化的重要场所。",
-    "images": [
-      "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800",
-      "https://images.unsplash.com/photo-1548625149-720754926d35?w=800",
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800"
-    ],
-    "openingHours": "08:00-20:00（礼拜时间不对外开放）",
-    "ticketPrice": "门票20元/人",
-    "bestSeason": "全年皆宜",
-    "transportation": "银川市区乘坐公交1路、12路、36路可达",
-    "highlights": [
-      "欣赏中西合璧的建筑风格",
-      "了解伊斯兰教文化与礼仪",
-      "参观精美的阿拉伯书法装饰",
-      "体验宁静祥和的宗教氛围"
-    ],
-    "nearbyAttractions": ["xixia-wangling", "mingcuihu", "ningxia-museum"]
+    "city": "银川",
+    "cityPinyin": "yinchuan",
+    "type": "cultural",
+    "description": "宁夏最大的清真寺之一，具有阿拉伯风格和民族特色，是回族宗教活动中心。",
+    "highlights": ["伊斯兰建筑", "宗教文化", "历史悠久"],
+    "images": ["https://images.unsplash.com/photo-1565967511849-76a60a516170"],
+    "rating": 4.3,
+    "coordinates": { "lng": 106.27, "lat": 38.47 }
   },
   {
-    "id": "helanshan-rock",
-    "name": "贺兰山岩画",
-    "city": "银川市",
-    "type": "history",
-    "coordinates": { "x": 600, "y": 100 },
-    "rating": 4.7,
-    "description": "贺兰山岩画是古代游牧民族在贺兰山岩壁上刻制的精美壁画，距今已有3000-10000年的历史。岩画内容丰富，包括人面像、动物图案、狩猎场景等，是研究古代北方游牧民族文化的重要资料。2010年列入世界遗产名录。",
-    "images": [
-      "https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=800",
-      "https://images.unsplash.com/photo-1590739293931-a4f0715ee163?w=800",
-      "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=800"
-    ],
-    "openingHours": "09:00-17:30",
-    "ticketPrice": "门票70元/人（含电瓶车）",
-    "bestSeason": "4月-10月",
-    "transportation": "银川旅游汽车站乘坐班车直达，车程约1小时",
-    "highlights": [
-      "世界遗产的远古艺术瑰宝",
-      "太阳神岩画的神秘魅力",
-      "岩羊在山间跳跃的生态奇观",
-      "贺兰山壮美的自然风光"
-    ],
-    "nearbyAttractions": ["suyukou", "xixia-wangling", "zhenbeibu"]
-  },
-  {
-    "id": "ningxia-museum",
-    "name": "宁夏回族自治区博物馆",
-    "city": "银川市",
-    "type": "history",
-    "coordinates": { "x": 540, "y": 125 },
-    "rating": 4.7,
-    "description": "宁夏博物馆是省级综合性博物馆，收藏了大量反映宁夏历史文化的珍贵文物。馆内设有《朔色长天》《文明曙光》《天下黄河》等多个展览，全方位展示了宁夏从远古到现代的历史变迁和回族文化特色。",
-    "images": [
-      "https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?w=800",
-      "https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=800",
-      "https://images.unsplash.com/photo-1564399579883-451a5d44ec08?w=800"
-    ],
-    "openingHours": "09:00-17:00（周一闭馆）",
-    "ticketPrice": "免费参观",
-    "bestSeason": "全年皆宜",
-    "transportation": "银川市区乘坐公交34路、44路、201路可达",
-    "highlights": [
-      "免费参观的文物宝库",
-      "了解宁夏和西夏历史",
-      "精美的回族文物收藏",
-      "不定期的临时展览"
-    ],
-    "nearbyAttractions": ["nanguan", "xixia-wangling", "mingcuihu"]
-  },
-  {
-    "id": "zhonghuahuixiang",
-    "name": "中华回乡文化园",
-    "city": "吴忠市",
-    "type": "culture",
-    "coordinates": { "x": 400, "y": 340 },
-    "rating": 4.6,
-    "description": "中华回乡文化园位于吴忠市同心县，是中国唯一以回族文化为主题的大型文化园区。园区以金色礼仪大殿为核心建筑，整体设计融合了阿拉伯风格与中国传统建筑特色，是了解中国回族文化的重要窗口。",
-    "images": [
-      "https://images.unsplash.com/photo-1589308454676-22c0253d7c2b?w=800",
-      "https://images.unsplash.com/photo-1533669955142-6a73332af4db?w=800",
-      "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800"
-    ],
-    "openingHours": "08:30-18:00",
-    "ticketPrice": "门票60元/人",
-    "bestSeason": "4月-10月",
-    "transportation": "银川或吴忠乘坐班车至同心县，车程约1.5小时",
-    "highlights": [
-      "金色礼仪大殿的宏伟建筑",
-      "了解回族的历史与文化",
-      "回族民俗村体验传统生活",
-      "品尝正宗回族美食"
-    ],
-    "nearbyAttractions": ["hetaotan", "huanghelou", "qingtongxia"]
+    "id": "ningxiamuseum",
+    "name": "宁夏博物馆",
+    "city": "银川",
+    "cityPinyin": "yinchuan",
+    "type": "cultural",
+    "description": "宁夏回族自治区最大的综合性博物馆，馆藏文物丰富。",
+    "highlights": ["回族文化", "历史文物", "免费参观"],
+    "images": ["https://images.unsplash.com/photo-1558618666-fcd25c85cd64"],
+    "rating": 4.4,
+    "coordinates": { "lng": 106.24, "lat": 38.48 }
   },
   {
     "id": "shuidonggou",
-    "name": "水洞沟遗址旅游区",
-    "city": "银川市",
-    "type": "history",
-    "coordinates": { "x": 430, "y": 80 },
-    "rating": 4.8,
-    "description": "水洞沟是中国最早发掘的旧石器时代文化遗址之一，被誉为'中国史前考古的发祥地'。这里发现了大量旧石器时代的石器和古生物化石，证明三万多年前这里就有人类活动。景区融合了遗址观光、实景体验和休闲娱乐。",
-    "images": [
-      "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=800",
-      "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800",
-      "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=800"
-    ],
-    "openingHours": "08:00-18:00",
-    "ticketPrice": "门票140元/人（含交通套票）",
-    "bestSeason": "3月-11月",
-    "transportation": "银川旅游汽车站乘坐班车直达，车程约50分钟",
-    "highlights": [
-      "三万年前的远古人类遗址",
-      "实景体验疯狂原始人",
-      "藏兵洞的军事防御奇观",
-      "明长城和芦花谷的壮美"
-    ],
-    "nearbyAttractions": ["huangshagudu", "sahu", "yuehai-park"]
-  },
-  {
-    "id": "qingtongxia",
-    "name": "青铜峡黄河大峡谷",
-    "city": "吴忠市",
-    "type": "nature",
-    "coordinates": { "x": 380, "y": 360 },
-    "rating": 4.7,
-    "description": "青铜峡黄河大峡谷是黄河上游最壮观的峡谷之一，两岸山壁陡峭，黄河水流湍急。峡谷中最著名的是青铜峡水利枢纽工程，是新中国成立后建设的第一座低水头河床式水电站。景区内还有108塔等历史遗迹。",
-    "images": [
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
-      "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=800",
-      "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800"
-    ],
-    "openingHours": "08:30-17:30",
-    "ticketPrice": "门票+船票120元/人",
-    "bestSeason": "5月-10月",
-    "transportation": "银川或吴忠乘坐班车至青铜峡市，车程约1.5小时",
-    "highlights": [
-      "乘船游览黄河大峡谷",
-      "参观壮观的108塔群",
-      "青铜峡水利枢纽工程",
-      "峡谷两岸的丹霞地貌"
-    ],
-    "nearbyAttractions": ["hetaotan", "huanghelou", "zhonghuahuixiang"]
-  },
-  {
-    "id": "huanghelou",
-    "name": "黄河楼",
-    "city": "吴忠市",
-    "type": "history",
-    "coordinates": { "x": 400, "y": 350 },
-    "rating": 4.5,
-    "description": "黄河楼位于吴忠市青铜峡市，是黄河金岸的标志性建筑。楼高108米，共11层，采用仿古建筑风格，集观光、展览、文化交流于一体。登楼可俯瞰黄河美景，是了解黄河文化的新地标。",
-    "images": [
-      "https://images.unsplash.com/photo-1548873902-8b69fb85c2d5?w=800",
-      "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800",
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800"
-    ],
-    "openingHours": "09:00-17:30",
-    "ticketPrice": "门票40元/人",
-    "bestSeason": "4月-10月",
-    "transportation": "青铜峡市乘坐公交或出租车前往",
-    "highlights": [
-      "登楼俯瞰黄河九曲",
-      "了解黄河历史文化",
-      "精美的仿古建筑艺术",
-      "夜景灯光秀"
-    ],
-    "nearbyAttractions": ["hetaotan", "qingtongxia", "zhonghuahuixiang"]
-  },
-  {
-    "id": "tengger-desert",
-    "name": "腾格里沙漠湿地金沙岛",
-    "city": "中卫市",
-    "type": "nature",
-    "coordinates": { "x": 200, "y": 340 },
+    "name": "水洞沟",
+    "city": "灵武",
+    "cityPinyin": "lingwu",
+    "type": "cultural",
+    "description": "中国最早发现的旧石器时代古人类文化遗址，被誉为中国史前考古的发祥地。",
+    "highlights": ["史前文明", "考古发现", "藏兵洞"],
+    "images": ["https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d"],
     "rating": 4.6,
-    "description": "腾格里沙漠湿地金沙岛位于中卫市腾格里沙漠东南缘，是沙漠中的一片绿洲。这里湖泊、沙漠、草原交织，形成了独特的湿地景观。景区内沙山连绵，湖光倒映，美不胜收。",
-    "images": [
-      "https://images.unsplash.com/photo-1542401886-65d6c61db217?w=800",
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800",
-      "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800"
-    ],
-    "openingHours": "08:30-18:00",
-    "ticketPrice": "门票50元/人",
-    "bestSeason": "5月-10月",
-    "transportation": "中卫市乘坐出租车前往，车程约40分钟",
-    "highlights": [
-      "沙漠中的神秘绿洲",
-      "沙水相映的独特景观",
-      "沙漠越野和冲浪",
-      "星空露营和沙漠观星"
-    ],
-    "nearbyAttractions": ["shapatou", "gaomiao", "hetaotan"]
+    "coordinates": { "lng": 106.52, "lat": 38.29 }
   },
   {
-    "id": "yuehai-park",
-    "name": "阅海国家湿地公园",
-    "city": "银川市",
-    "type": "nature",
-    "coordinates": { "x": 520, "y": 100 },
-    "rating": 4.5,
-    "description": "阅海国家湿地公园是银川市最大的湿地公园，位于城市西北部。这里水域辽阔，芦苇丛生，是鸟类的重要栖息地。公园内设有骑行道、亲水平台和观景塔，是银川市民休闲健身的好去处。",
-    "images": [
-      "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800",
-      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800",
-      "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800"
-    ],
-    "openingHours": "08:00-19:00",
-    "ticketPrice": "门票20元/人",
-    "bestSeason": "4月-10月",
-    "transportation": "银川市区乘坐公交15路、52路可达",
-    "highlights": [
-      "城市边缘的生态绿洲",
-      "骑行和徒步的绝佳场所",
-      "观鸟爱好者的天堂",
-      "登塔俯瞰湿地全景"
-    ],
-    "nearbyAttractions": ["shuidonggou", "mingcuihu", "ningxia-museum"]
+    "id": "zhongweigaomiao",
+    "name": "中卫高庙",
+    "city": "中卫",
+    "cityPinyin": "zhongwei",
+    "type": "cultural",
+    "description": "位于中卫市区，是一座保安寺以其独特的层层叠叠的建筑结构著称。",
+    "highlights": ["三教合一", "古建筑群", "精巧布局"],
+    "images": ["https://images.unsplash.com/photo-1520186994231-6ea00148d6dd"],
+    "rating": 4.3,
+    "coordinates": { "lng": 105.19, "lat": 37.52 }
   },
   {
-    "id": "shizuishan-lake",
-    "name": "星海湖",
-    "city": "石嘴山市",
-    "type": "nature",
-    "coordinates": { "x": 690, "y": 55 },
+    "id": "zhonghuahuanghelou",
+    "name": "中华黄河楼",
+    "city": "吴忠",
+    "cityPinyin": "wuzhong",
+    "type": "cultural",
+    "description": "黄河金岸标志性建筑，高108米，展现黄河文化的精华。",
+    "highlights": ["黄河文化", "登高望远", "夜景璀璨"],
+    "images": ["https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d"],
     "rating": 4.4,
-    "description": "星海湖位于石嘴山市大武口区，是一座因采煤塌陷而形成的人工湖泊。湖面波光粼粼，周围绿树成荫，是石嘴山市转型发展的生态典范。景区内有音乐喷泉、观光栈道等设施。",
-    "images": [
-      "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800",
-      "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800",
-      "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=800"
-    ],
-    "openingHours": "全天开放",
-    "ticketPrice": "免费参观",
-    "bestSeason": "4月-10月",
-    "transportation": "石嘴山市区乘坐公交或出租车前往",
-    "highlights": [
-      "免费的城市湿地公园",
-      "夜晚音乐喷泉表演",
-      "环湖骑行和散步",
-      "工业遗产转型的典范"
-    ],
-    "nearbyAttractions": ["sahu", "shizuishan-shengtai", "huashi-temple"]
+    "coordinates": { "lng": 106.12, "lat": 38.00 }
   },
   {
-    "id": "shizuishan-shengtai",
-    "name": "石嘴子公园",
-    "city": "石嘴山市",
-    "type": "culture",
-    "coordinates": { "x": 695, "y": 50 },
-    "rating": 4.3,
-    "description": "石嘴子公园位于石嘴山市区，因河岸岩石形似石嘴而得名。公园内有黄河文化广场、灌溉文化展示区等，是了解石嘴山历史和黄河灌溉文化的重要场所，也是市民休闲娱乐的好去处。",
-    "images": [
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
-      "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800",
-      "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800"
-    ],
-    "openingHours": "全天开放",
-    "ticketPrice": "免费参观",
-    "bestSeason": "全年皆宜",
-    "transportation": "石嘴山市区步行或乘坐公交可达",
-    "highlights": [
-      "免费的城市公园",
-      "黄河文化的展示窗口",
-      "了解石嘴山地名由来",
-      "河岸休闲漫步"
-    ],
-    "nearbyAttractions": ["sahu", "shizuishan-lake", "huashi-temple"]
-  },
-  {
-    "id": "huashi-temple",
-    "name": "花马寺",
-    "city": "吴忠市",
-    "type": "religion",
-    "coordinates": { "x": 450, "y": 300 },
-    "rating": 4.3,
-    "description": "花马寺位于吴忠市盐池县，是一座历史悠久的佛教寺庙。寺庙始建于唐代，历经多次重修。寺内有古塔、古树和精美的壁画，是了解佛教文化和盐池历史的重要场所。",
-    "images": [
-      "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800",
-      "https://images.unsplash.com/photo-1548625149-720754926d35?w=800",
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800"
-    ],
-    "openingHours": "08:00-18:00",
-    "ticketPrice": "免费参观",
-    "bestSeason": "3月-11月",
-    "transportation": "吴忠市或盐池县乘坐班车前往",
-    "highlights": [
-      "千年古刹的历史韵味",
-      "精美的佛教壁画艺术",
-      "寺内古树的沧桑岁月",
-      "感受佛教文化的宁静"
-    ],
-    "nearbyAttractions": ["zhonghuahuixiang", "hetaotan", "qingtongxia"]
-  },
-  {
-    "id": "huoshizhai",
-    "name": "火石寨国家地质公园",
-    "city": "固原市",
-    "type": "nature",
-    "coordinates": { "x": 530, "y": 450 },
-    "rating": 4.6,
-    "description": "火石寨国家地质公园位于固原市西吉县，因山体岩石呈暗红色如火焰而得名。这里丹霞地貌典型，石林、峡谷、峰丛交织，景观独特。火石寨也是红色旅游圣地，邻近红军长征会师地。",
-    "images": [
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800",
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
-      "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800"
-    ],
-    "openingHours": "08:00-18:00",
-    "ticketPrice": "门票60元/人，观光车30元/人",
-    "bestSeason": "5月-10月",
-    "transportation": "固原或西吉县乘坐班车前往",
-    "highlights": [
-      "典型的丹霞地貌奇观",
-      "火红山体的壮美景色",
-      "天然氧吧的自然体验",
-      "周边红色旅游的延伸"
-    ],
-    "nearbyAttractions": ["liupan", "jiangtaibao", "xumushan"]
-  },
-  {
-    "id": "xumushan",
+    "id": "xumishan",
     "name": "须弥山石窟",
-    "city": "固原市",
-    "type": "history",
-    "coordinates": { "x": 480, "y": 420 },
-    "rating": 4.7,
-    "description": "须弥山石窟是丝绸之路上的重要石窟寺，始凿于北魏，历经西魏、北周、隋、唐等多个朝代，距今已有1500多年历史。石窟分布在八个山峦上，共有洞窟162个，雕像1000余尊，是研究中国古代佛教艺术的重要资料。",
-    "images": [
-      "https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=800",
-      "https://images.unsplash.com/photo-1590739293931-a4f0715ee163?w=800",
-      "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800"
-    ],
-    "openingHours": "08:30-17:30",
-    "ticketPrice": "门票60元/人",
-    "bestSeason": "4月-10月",
-    "transportation": "固原市长途汽车站乘坐班车至须弥山",
-    "highlights": [
-      "丝绸之路上的艺术宝库",
-      "保存完整的北魏至唐代造像",
-      "须弥山壮美的自然风光",
-      "佛教文化的历史见证"
-    ],
-    "nearbyAttractions": ["liupan", "huoshizhai", "jiangtaibao"]
-  },
-  {
-    "id": "jiangtaibao",
-    "name": "将台堡",
-    "city": "固原市",
-    "type": "history",
-    "coordinates": { "x": 580, "y": 500 },
+    "city": "固原",
+    "cityPinyin": "guyuan",
+    "type": "cultural",
+    "description": "丝绸之路上的重要文化遗产，石窟艺术与丹霞地貌交相辉映。",
+    "highlights": ["石窟艺术", "丹霞地貌", "佛教文化"],
+    "images": ["https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d"],
     "rating": 4.6,
-    "description": "将台堡位于固原市西吉县，是中国工农红军长征胜利会师的纪念地。1936年10月，红一方面军与红二方面军在将台堡胜利会师，标志着长征的胜利结束。会师纪念碑和纪念馆记录了这一历史性时刻。",
-    "images": [
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
-      "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800",
-      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800"
-    ],
-    "openingHours": "09:00-17:00",
-    "ticketPrice": "免费参观",
-    "bestSeason": "全年皆宜",
-    "transportation": "固原或西吉县乘坐班车前往将台堡镇",
-    "highlights": [
-      "长征胜利的历史见证",
-      "缅怀革命先烈的纪念地",
-      "红色教育的重要基地",
-      "免费参观的爱国主义教育基地"
-    ],
-    "nearbyAttractions": ["liupan", "huoshizhai", "xumushan"]
+    "coordinates": { "lng": 106.16, "lat": 36.27 }
   },
   {
-    "id": "sanguan-pass",
-    "name": "三关口明长城",
-    "city": "固原市",
-    "type": "history",
-    "coordinates": { "x": 510, "y": 400 },
-    "rating": 4.4,
-    "description": "三关口明长城位于固原市泾源县，是明代西北边防的重要关隘。长城依山势而建，地势险要，有'固原门户'之称。三关口由头道关、二道关、三道关组成，是研究明代军事防御体系的重要遗迹。",
-    "images": [
-      "https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=800",
-      "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800",
-      "https://images.unsplash.com/photo-1590739293931-a4f0715ee163?w=800"
-    ],
-    "openingHours": "全天开放",
-    "ticketPrice": "免费参观",
-    "bestSeason": "4月-10月",
-    "transportation": "固原或泾源县乘坐班车前往",
-    "highlights": [
-      "明代长城的历史遗迹",
-      "险要的地理形势",
-      "徒步探索古长城",
-      "了解明代边防历史"
-    ],
-    "nearbyAttractions": ["liupan", "xumushan", "huoshizhai"]
-  },
-  {
-    "id": "guyuan-museum",
-    "name": "固原博物馆",
-    "city": "固原市",
-    "type": "history",
-    "coordinates": { "x": 555, "y": 465 },
+    "id": "yibaisiba",
+    "name": "一百零八塔",
+    "city": "青铜峡",
+    "cityPinyin": "qingtongxia",
+    "type": "cultural",
+    "description": "中国古塔建筑中的珍品，排列在黄河岸边的山坡上蔚为壮观。",
+    "highlights": ["古塔群", "佛教遗产", "黄河风光"],
+    "images": ["https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d"],
     "rating": 4.5,
-    "description": "固原博物馆是宁夏南部最大的综合性博物馆，收藏了大量反映固原地区历史文化的文物。馆内设有《丝路要塞·固原》基本陈列，展示了固原在丝绸之路上的重要地位和深厚的历史文化底蕴。",
-    "images": [
-      "https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?w=800",
-      "https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=800",
-      "https://images.unsplash.com/photo-1564399579883-451a5d44ec08?w=800"
-    ],
-    "openingHours": "09:00-17:00（周一闭馆）",
-    "ticketPrice": "免费参观",
-    "bestSeason": "全年皆宜",
-    "transportation": "固原市区乘坐公交1路、5路可达",
-    "highlights": [
-      "丝路文化的重要展示窗口",
-      "北周圆教寺塔等珍贵文物",
-      "免费参观的文化殿堂",
-      "了解固原历史的绝佳场所"
-    ],
-    "nearbyAttractions": ["liupan", "jiangtaibao", "xumushan"]
+    "coordinates": { "lng": 105.97, "lat": 37.87 }
   },
   {
-    "id": "sikou",
-    "name": "寺口风景区",
-    "city": "中卫市",
-    "type": "nature",
-    "coordinates": { "x": 220, "y": 280 },
-    "rating": 4.5,
-    "description": "寺口风景区位于中卫市宣和镇，是一处集丹霞地貌、峡谷风光和历史文化于一体的自然风景区。景区分为东景区和西景区，有西夏行宫、苏武牧羊遗址等历史遗迹，是户外探险和历史探秘的好去处。",
-    "images": [
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800",
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
-      "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800"
-    ],
-    "openingHours": "08:00-18:00",
-    "ticketPrice": "门票40元/人",
-    "bestSeason": "4月-10月",
-    "transportation": "中卫市乘坐班车或出租车前往宣和镇",
-    "highlights": [
-      "丹霞地貌与峡谷风光",
-      "西夏行宫的历史遗迹",
-      "苏武牧羊的传说故事",
-      "攀岩和探险的户外天堂"
-    ],
-    "nearbyAttractions": ["gaomiao", "shapatou", "tengger-desert"]
-  },
-  {
-    "id": "yongling",
-    "name": "永宁回乡文化园",
-    "city": "银川市",
-    "type": "culture",
-    "coordinates": { "x": 480, "y": 160 },
+    "id": "huixiang",
+    "name": "中华回乡文化园",
+    "city": "永宁",
+    "cityPinyin": "yongning",
+    "type": "cultural",
+    "description": "中国最大的回族文化主题园区，展示伊斯兰建筑和回族民俗。",
+    "highlights": ["回族文化", "博物馆", "民俗体验"],
+    "images": ["https://images.unsplash.com/photo-1565967511849-76a60a516170"],
     "rating": 4.4,
-    "description": "永宁回乡文化园位于银川市永宁县，是一处展示回族文化的主题园区。园区以伊斯兰风格建筑群为核心，结合回族民俗展示和休闲观光，让游客深入了解中国回族的风土人情。",
-    "images": [
-      "https://images.unsplash.com/photo-1589308454676-22c0253d7c2b?w=800",
-      "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800",
-      "https://images.unsplash.com/photo-1533669955142-6a73332af4db?w=800"
-    ],
-    "openingHours": "09:00-17:30",
-    "ticketPrice": "门票50元/人",
-    "bestSeason": "4月-10月",
-    "transportation": "银川市区乘坐班车前往永宁县",
-    "highlights": [
-      "伊斯兰风格的建筑艺术",
-      "回族民俗文化展示",
-      "特色回乡美食体验",
-      "感受浓郁的民族风情"
-    ],
-    "nearbyAttractions": ["huangshagudu", "shuidonggou", "ningxia-museum"]
+    "coordinates": { "lng": 106.24, "lat": 38.29 }
+  },
+  {
+    "id": "zhongweijinshadao",
+    "name": "中卫金沙岛",
+    "city": "中卫",
+    "cityPinyin": "zhongwei",
+    "type": "natural",
+    "description": "位于腾格里沙漠东南边缘，沙漠与湖泊交相辉映的休闲度假区。",
+    "highlights": ["沙漠湿地", "薰衣草花海", "休闲度假"],
+    "images": ["https://images.unsplash.com/photo-1509316785289-025f5b846b35"],
+    "rating": 4.3,
+    "coordinates": { "lng": 105.11, "lat": 37.54 }
+  },
+  {
+    "id": "huangyeguda",
+    "name": "青铜峡黄河大峡谷",
+    "city": "青铜峡",
+    "cityPinyin": "qingtongxia",
+    "type": "natural",
+    "description": "黄河上最美的峡谷之一，被誉为黄河小三峡。",
+    "highlights": ["峡谷风光", "黄河游船", "自然奇观"],
+    "images": ["https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d"],
+    "rating": 4.5,
+    "coordinates": { "lng": 105.93, "lat": 37.89 }
+  },
+  {
+    "id": "huangshagudu",
+    "name": "黄沙古渡",
+    "city": "灵武",
+    "cityPinyin": "lingwu",
+    "type": "cultural",
+    "description": "明清时期最负盛名的黄河古渡口之一，明代诗人王越曾在此赋诗。",
+    "highlights": ["黄河古渡", "历史遗迹", "沙漠湿地"],
+    "images": ["https://images.unsplash.com/photo-1509316785289-025f5b846b35"],
+    "rating": 4.2,
+    "coordinates": { "lng": 106.55, "lat": 38.57 }
+  },
+  {
+    "id": "yanchilie",
+    "name": "盐池革命烈士纪念园",
+    "city": "盐池",
+    "cityPinyin": "yanchi",
+    "type": "cultural",
+    "description": "全国100个红色旅游经典景区之一，纪念革命先烈的爱国主义教育基地。",
+    "highlights": ["红色旅游", "革命历史", "爱国主义教育"],
+    "images": ["https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b"],
+    "rating": 4.3,
+    "coordinates": { "lng": 107.04, "lat": 37.78 }
+  },
+  {
+    "id": "pengyangtitian",
+    "name": "彭阳梯田",
+    "city": "彭阳",
+    "cityPinyin": "pengyang",
+    "type": "natural",
+    "description": "黄土高原上最美梯田之一，春夏秋冬呈现出不同的色彩画卷。",
+    "highlights": ["壮美梯田", "摄影胜地", "乡村风光"],
+    "images": ["https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d"],
+    "rating": 4.4,
+    "coordinates": { "lng": 106.40, "lat": 36.00 }
+  },
+  {
+    "id": "jinjiping",
+    "name": "金鸡坪梯田",
+    "city": "彭阳",
+    "cityPinyin": "pengyang",
+    "type": "natural",
+    "description": "彭阳县最著名的梯田景观，站在山顶可俯瞰层层叠叠的彩色田野。",
+    "highlights": ["彩色梯田", "云海日出", "田园诗画"],
+    "images": ["https://images.unsplash.com/photo-1469474968028-56623f02e42e"],
+    "rating": 4.5,
+    "coordinates": { "lng": 106.63, "lat": 36.15 }
   }
 ]

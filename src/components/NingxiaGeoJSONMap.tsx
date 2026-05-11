@@ -180,10 +180,7 @@ export default function NingxiaGeoJSONMap({
 
         {filteredAttractions.map((attraction, index) => {
           const isHovered = hoveredAttraction === attraction.id;
-          const pos = toSVG(
-            attraction.coordinates.x / 100 + 105.0, 
-            attraction.coordinates.y / 100 + 35.3
-          );
+          const pos = toSVG(attraction.coordinates.lng, attraction.coordinates.lat);
           
           return (
             <g
