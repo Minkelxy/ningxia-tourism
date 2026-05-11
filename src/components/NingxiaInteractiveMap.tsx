@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ZoomIn, ZoomOut, Home as HomeIcon, Loader } from 'lucide-react';
 import { themePresets } from '../config/map-config';
+import { Attraction } from '../types';
+import attractionsData from '../data/attractions.json';
 
 interface GeoFeature {
   type: string;
@@ -32,6 +35,7 @@ const cityInfo: Record<string, { area: string; population: string; description: 
 };
 
 export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiveMapProps) {
+  const navigate = useNavigate();
   const [geoFeatures, setGeoFeatures] = useState<GeoFeature[]>([]);
   const [districtFeatures, setDistrictFeatures] = useState<GeoFeature[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,6 +43,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
   const [error, setError] = useState<string | null>(null);
   const [hoveredCity, setHoveredCity] = useState<string | null>(null);
   const [hoveredDistrict, setHoveredDistrict] = useState<string | null>(null);
+  const [hoveredAttraction, setHoveredAttraction] = useState<string | null>(null);
   const [selectedCity, setSelectedCity] = useState<GeoFeature | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<GeoFeature | null>(null);
   const [viewLevel, setViewLevel] = useState<'province' | 'city' | 'district'>('province');
@@ -640,6 +645,160 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
             ? `${selectedCity.properties?.fullname || selectedCity.properties?.name} · 点击区级进入下一级 · 点击空白处返回全区`
             : '宁夏回族自治区 · 点击城市进入下一级'}
         </text>
+        
+        {(viewLevel === 'province' || viewLevel === 'city') && (
+          <g className="attractions-layer">
+            {viewLevel === 'city' && selectedCity && 
+              attractionsData
+                .filter((attr: Attraction) => attr.city.includes(selectedCity.properties?.name || ''))
+                .map((attraction: Attraction) => {
+                  const pos = geoToSVG(
+                    attraction.coordinates.x / 100 + 105.0,
+                    attraction.coordinates.y / 100 + 35.3
+                  );
+                  const isHovered = hoveredAttraction === attraction.id;
+                  return (
+                    <g
+                      key={attraction.id}
+                      className="cursor-pointer"
+                      onMouseEnter={() => setHoveredAttraction(attraction.id)}
+                      onMouseLeave={() => setHoveredAttraction(null)}
+                      onClick={() => navigate(`/attraction/${attraction.id}`)}
+                    >
+                      <circle
+                        cx={pos.x}
+                        cy={pos.y}
+                        r={isHovered ? 14 : 10}
+                        fill="#E85D4C"
+                        stroke="#FFFFFF"
+                        strokeWidth="3"
+                        className="transition-all duration-300"
+                      />
+                      {isHovered && (
+                        <g>
+                          <rect
+                            x={pos.x - 80}
+                            y={pos.y - 85}
+                            width="160"
+                            height="70"
+                            rx="8"
+                            fill="#FFFFFF"
+                            filter="url(#shadow)"
+                          />
+                          <text
+                            x={pos.x}
+                            y={pos.y - 60}
+                            textAnchor="middle"
+                            className="text-sm font-serif font-bold"
+                            style={{ fill: '#1A1A1A', fontSize: '12px' }}
+                          >
+                            {attraction.name}
+                          </text>
+                          <text
+                            x={pos.x}
+                            y={pos.y - 43}
+                            textAnchor="middle"
+                            className="text-xs"
+                            style={{ fill: '#6B6B6B', fontSize: '9px' }}
+                          >
+                            {attraction.city}
+                          </text>
+                          <text
+                            x={pos.x}
+                            y={pos.y - 27}
+                            textAnchor="middle"
+                            className="text-xs flex items-center justify-center gap-1"
+                            style={{ fill: '#C4A35A', fontSize: '10px' }}
+                          >
+                            ⭐ {attraction.rating}
+                          </text>
+                        </g>
+                      )}
+                    </g>
+                  );
+                })
+            }
+            {viewLevel === 'province' && 
+              attractionsData
+                .filter((attr: Attraction) => attr.rating >= 4.5)
+                .map((attraction: Attraction) => {
+                  const pos = geoToSVG(
+                    attraction.coordinates.x / 100 + 105.0,
+                    attraction.coordinates.y / 100 + 35.3
+                  );
+                  const isHovered = hoveredAttraction === attraction.id;
+                  return (
+                    <g
+                      key={attraction.id}
+                      className="cursor-pointer"
+                      onMouseEnter={() => setHoveredAttraction(attraction.id)}
+                      onMouseLeave={() => setHoveredAttraction(null)}
+                      onClick={() => navigate(`/attraction/${attraction.id}`)}
+                    >
+                      <circle
+                        cx={pos.x}
+                        cy={pos.y}
+                        r={isHovered ? 16 : 12}
+                        fill="#E85D4C"
+                        stroke="#FFFFFF"
+                        strokeWidth="3"
+                        className="transition-all duration-300"
+                      />
+                      {isHovered && (
+                        <g>
+                          <rect
+                            x={pos.x - 90}
+                            y={pos.y - 95}
+                            width="180"
+                            height="80"
+                            rx="10"
+                            fill="#FFFFFF"
+                            filter="url(#shadow)"
+                          />
+                          <text
+                            x={pos.x}
+                            y={pos.y - 65}
+                            textAnchor="middle"
+                            className="text-sm font-serif font-bold"
+                            style={{ fill: '#1A1A1A', fontSize: '13px' }}
+                          >
+                            {attraction.name}
+                          </text>
+                          <text
+                            x={pos.x}
+                            y={pos.y - 45}
+                            textAnchor="middle"
+                            className="text-xs"
+                            style={{ fill: '#6B6B6B', fontSize: '10px' }}
+                          >
+                            {attraction.city}
+                          </text>
+                          <text
+                            x={pos.x}
+                            y={pos.y - 27}
+                            textAnchor="middle"
+                            className="text-xs flex items-center justify-center gap-1"
+                            style={{ fill: '#C4A35A', fontSize: '11px' }}
+                          >
+                            ⭐ {attraction.rating}
+                          </text>
+                          <text
+                            x={pos.x}
+                            y={pos.y - 10}
+                            textAnchor="middle"
+                            className="text-xs"
+                            style={{ fill: '#007BFF', fontSize: '9px' }}
+                          >
+                            点击查看详情 →
+                          </text>
+                        </g>
+                      )}
+                    </g>
+                  );
+                })
+            }
+          </g>
+        )}
         </svg>
       </div>
       
