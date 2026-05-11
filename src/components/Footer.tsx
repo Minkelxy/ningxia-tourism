@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { MapPin, Heart } from 'lucide-react';
 
 export default function Footer() {
@@ -20,16 +21,16 @@ export default function Footer() {
             <h4 className="text-lg font-serif font-bold mb-4">快速链接</h4>
             <ul className="space-y-2 text-sm text-gray-300">
               <li>
-                <a href="/" className="hover:text-primary transition-colors">首页地图</a>
+                <Link to="/" className="hover:text-primary transition-colors">首页地图</Link>
               </li>
               <li>
-                <a href="/cities" className="hover:text-primary transition-colors">城市概览</a>
+                <Link to="/cities" className="hover:text-primary transition-colors">城市概览</Link>
               </li>
               <li>
-                <a href="/routes" className="hover:text-primary transition-colors">路线推荐</a>
+                <Link to="/routes" className="hover:text-primary transition-colors">路线推荐</Link>
               </li>
               <li>
-                <a href="/about" className="hover:text-primary transition-colors">关于我们</a>
+                <Link to="/about" className="hover:text-primary transition-colors">关于我们</Link>
               </li>
             </ul>
           </div>
@@ -47,7 +48,7 @@ export default function Footer() {
 
         <div className="border-t border-white/20 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-400">
-            © 2024 宁夏旅游地图. 探索塞上江南，发现神奇宁夏。
+            © 2024-2025 宁夏旅游地图. 探索塞上江南，发现神奇宁夏。
           </p>
           <p className="text-sm text-gray-400 flex items-center gap-1">
             Made with <Heart className="w-4 h-4 text-accent fill-current" /> in Ningxia

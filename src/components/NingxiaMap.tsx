@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Star } from 'lucide-react';
 import { Attraction } from '../types';
 import attractionsData from '../data/attractions.json';
 
@@ -33,13 +32,13 @@ const cityRegions = [
   {
     id: 'guyuan',
     name: '固原市',
-    path: 'M 265 370 L 270 374 L 295 375 L 312 376 L 330 378 L 345 380 L 358 380 L 368 378 L 375 380 L 390 386 L 405 384 L 412 380 L 425 378 L 438 380 L 448 385 L 455 392 L 462 398 L 472 400 L 475 405 L 482 408 L 495 415 L 500 420 L 505 425 L 512 430 L 525 438 L 528 442 L 532 445 L 540 450 L 552 458 L 555 462 L 560 465 L 572 468 L 575 472 L 580 475 L 588 480 L 590 488 L 608 486 L 618 484 L 640 482 L 652 482 L 672 485 L 640 492 L 668 502 L 680 508 L 685 518 L 680 525 L 678 528 L 672 532 L 688 532 L 712 532 L 735 536 L 758 540 L 785 540 L 790 542 L 798 548 L 802 554 L 815 560 L 816 580 L 790 590 L 802 604 L 808 614 L 782 614 L 775 622 L 762 620 L 755 618 L 742 625 L 680 200 Z',
+    path: 'M 265 370 L 270 374 L 295 375 L 312 376 L 330 378 L 345 380 L 358 380 L 368 378 L 375 380 L 390 386 L 405 384 L 412 380 L 425 378 L 438 380 L 448 385 L 455 392 L 462 398 L 472 400 L 475 405 L 482 408 L 495 415 L 500 420 L 505 425 L 512 430 L 525 438 L 528 442 L 532 445 L 540 450 L 552 458 L 555 462 L 560 465 L 572 468 L 575 472 L 580 475 L 588 480 L 590 488 L 608 486 L 618 484 L 640 482 L 652 482 L 672 485 L 640 492 L 668 502 L 680 508 L 685 518 L 680 525 L 678 528 L 672 532 L 688 532 L 712 532 L 735 536 L 758 540 L 785 540 L 790 542 L 798 548 L 802 554 L 815 560 L 816 580 L 790 590 L 802 604 L 808 614 L 782 614 L 775 622 L 762 620 L 755 618 L 742 625 Z',
     labelPosition: { x: 550, y: 480 },
   },
   {
     id: 'zhongwei',
     name: '中卫市',
-    path: 'M 378 268 L 355 252 L 360 262 L 355 262 L 330 264 L 300 260 L 292 258 L 252 262 L 202 274 L 182 278 L 148 284 L 125 288 L 88 286 L 38 282 L 12 288 L -17 290 L -35 298 L -68 294 L -87 302 L -70 302 L -45 302 L -22 304 L 8 302 L 32 304 L 52 306 L 75 305 L 95 302 L 100 302 L 105 305 L 100 308 L 86 314 L 80 316 L 68 320 L 60 322 L 50 323 L 42 328 L 50 333 L 58 336 L 82 336 L 115 338 L 128 350 L 140 355 L 148 360 L 168 364 L 196 368 L 208 373 L 225 370 L 238 367 L 252 365 L 265 370 L 742 625 L 755 618 L 762 620 L 775 622 L 782 614 L 808 614 L 378 268 Z',
+    path: 'M 378 268 L 355 252 L 360 262 L 355 262 L 330 264 L 300 260 L 292 258 L 252 262 L 202 274 L 182 278 L 148 284 L 125 288 L 88 286 L 38 282 L 12 288 L -17 290 L -35 298 L -68 294 L -87 302 L -70 302 L -45 302 L -22 304 L 8 302 L 32 304 L 52 306 L 75 305 L 95 302 L 100 302 L 105 305 L 100 308 L 86 314 L 80 316 L 68 320 L 60 322 L 50 323 L 42 328 L 50 333 L 58 336 L 82 336 L 115 338 L 128 350 L 140 355 L 148 360 L 168 364 L 196 368 L 208 373 L 225 370 L 238 367 L 252 365 L 265 370 Z',
     labelPosition: { x: 350, y: 440 },
   },
 ];
@@ -227,11 +226,9 @@ export default function NingxiaMap({
                     x={attraction.coordinates.x}
                     y={attraction.coordinates.y - 22}
                     textAnchor="middle"
-                    className="text-xs flex items-center justify-center gap-1"
                     style={{ fill: '#C4A35A', fontSize: '10px' }}
                   >
-                    <Star className="w-3 h-3 fill-current" />
-                    {attraction.rating}
+                    ⭐ {attraction.rating}
                   </text>
                   
                   <text

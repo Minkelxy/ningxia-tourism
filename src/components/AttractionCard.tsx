@@ -98,7 +98,7 @@ export default function AttractionCard({
   return (
     <Link
       to={`/attraction/${attraction.id}`}
-      className="block bg-white rounded-xl overflow-hidden shadow-soft hover:shadow-medium transition-all duration-300 hover:-translate-y-1"
+      className="group block bg-white rounded-xl overflow-hidden shadow-soft hover:shadow-medium transition-all duration-300 hover:-translate-y-1"
     >
       <div className="relative overflow-hidden">
         <img

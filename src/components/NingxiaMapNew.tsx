@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { geoToSVG, coordinatesToPath, NINGXIA_BOUNDS } from '@/lib/utils';
 
 interface NingxiaMapProps {
   onCityClick?: (cityName: string, cityPinyin: string) => void;
 }
+
+const SVG_WIDTH = 800;
+const SVG_HEIGHT = 600;
 
 export default function NingxiaMap({ onCityClick }: NingxiaMapProps) {
   const [geoFeatures, setGeoFeatures] = useState<any[]>([]);
@@ -47,47 +51,11 @@ export default function NingxiaMap({ onCityClick }: NingxiaMapProps) {
       });
   }, []);
 
-  const coordinatesToPath = (coords: number[][][]) => {
-    if (!coords || !coords[0]) return '';
-    
-    const pathParts: string[] = [];
-    
-    const processRing = (ring: number[][]) => {
-      if (!ring || ring.length === 0) return;
-      
-      const transformed = ring.map(coord => 
-        geoToSVG(coord[0], coord[1])
-      );
-      
-      pathParts.push(`M ${transformed[0].x} ${transformed[0].y}`);
-      for (let i = 1; i < transformed.length; i++) {
-        pathParts.push(`L ${transformed[i].x} ${transformed[i].y}`);
-      }
-      pathParts.push('Z');
-    };
-    
-    if (coords[0]) {
-      processRing(coords[0]);
-    }
-    
-    for (let i = 1; i < coords.length; i++) {
-      if (coords[i]) {
-        processRing(coords[i]);
-      }
-    }
-    
-    return pathParts.join(' ');
-  };
+  const toSVG = (lng: number, lat: number) =>
+    geoToSVG(lng, lat, NINGXIA_BOUNDS, SVG_WIDTH, SVG_HEIGHT);
 
-  const geoToSVG = (lng: number, lat: number) => {
-    const width = 800;
-    const height = 600;
-    
-    const x = ((lng - 105.0) / (1.9)) * width;
-    const y = height - ((lat - 35.3) / (4.1)) * height;
-    
-    return { x, y };
-  };
+  const toPath = (coords: number[][][]) =>
+    coordinatesToPath(coords, NINGXIA_BOUNDS, SVG_WIDTH, SVG_HEIGHT);
 
   if (loading) {
     return (
@@ -114,7 +82,7 @@ export default function NingxiaMap({ onCityClick }: NingxiaMapProps) {
   return (
     <div className="relative w-full">
       <svg
-        viewBox="0 0 800 600"
+        viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
         preserveAspectRatio="xMidYMid meet"
         className="w-full h-auto max-w-full"
         style={{ maxHeight: 'calc(100vh - 250px)', minHeight: '300px' }}
@@ -135,7 +103,7 @@ export default function NingxiaMap({ onCityClick }: NingxiaMapProps) {
           </filter>
         </defs>
 
-        <rect x="0" y="0" width="800" height="600" fill="#F5F2EB" rx="20" />
+        <rect x="0" y="0" width={SVG_WIDTH} height={SVG_HEIGHT} fill="#F5F2EB" rx="20" />
 
         <g filter="url(#shadowNew)">
           {geoFeatures.map((feature: any, index: number) => {
@@ -145,14 +113,14 @@ export default function NingxiaMap({ onCityClick }: NingxiaMapProps) {
             const center = feature.properties?.center;
             const isHovered = hoveredCity === cityId;
 
-            const svgCenter = center ? geoToSVG(center[0], center[1]) : { x: 400, y: 300 };
+            const svgCenter = center ? toSVG(center[0], center[1]) : { x: 400, y: 300 };
 
             let pathD = '';
             if (feature.geometry?.type === 'Polygon') {
-              pathD = coordinatesToPath(feature.geometry.coordinates);
+              pathD = toPath(feature.geometry.coordinates);
             } else if (feature.geometry?.type === 'MultiPolygon') {
               feature.geometry.coordinates.forEach((poly: number[][][]) => {
-                pathD += coordinatesToPath(poly) + ' ';
+                pathD += toPath(poly) + ' ';
               });
             }
 

@@ -4,7 +4,7 @@ import { MapPin, Clock, DollarSign, Sparkles, Calendar, Mountain, Landmark, Sun 
 import attractionsData from '../data/attractions.json';
 import { Attraction } from '../types';
 
-interface Route {
+interface RouteDisplay {
   id: string;
   name: string;
   theme: string;
@@ -17,7 +17,7 @@ interface Route {
   gradient: string;
 }
 
-const routes: Route[] = [
+const routes: RouteDisplay[] = [
   {
     id: 'desert-adventure',
     name: '沙漠探险之旅',
@@ -70,7 +70,7 @@ const routes: Route[] = [
 
 export default function RouteRecommendation() {
   const navigate = useNavigate();
-  const [selectedRoute, setSelectedRoute] = useState<Route | null>(null);
+  const [selectedRoute, setSelectedRoute] = useState<RouteDisplay | null>(null);
 
   const getAttractionById = (id: string): Attraction | undefined => {
     return attractionsData.find(a => a.id === id) as Attraction | undefined;
