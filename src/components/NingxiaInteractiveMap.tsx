@@ -1,6 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ZoomIn, ZoomOut, Home as HomeIcon, Loader } from 'lucide-react';
-import { themePresets, defaultMapConfig } from '../config/map-config';
+import { themePresets } from '../config/map-config';
+import { Attraction } from '../types';
+import attractionsData from '../data/attractions.json';
 
 interface GeoFeature {
   type: string;
@@ -31,7 +34,24 @@ const cityInfo: Record<string, { area: string; population: string; description: 
   zhongwei: { area: '1.74万平方公里', population: '约120万', description: '沙漠水城，沙坡头所在地' }
 };
 
+interface MarkerPoint {
+  name: string;
+  lng: number;
+  lat: number;
+  type: 'province-capital' | 'city-capital';
+}
+
+const governmentMarkers: MarkerPoint[] = [
+  { name: '宁夏回族自治区政府', lng: 106.230977, lat: 38.487783, type: 'province-capital' },
+  { name: '银川市人民政府', lng: 106.278568, lat: 38.463147, type: 'city-capital' },
+  { name: '石嘴山市人民政府', lng: 106.384147, lat: 39.019302, type: 'city-capital' },
+  { name: '吴忠市人民政府', lng: 106.198933, lat: 37.997821, type: 'city-capital' },
+  { name: '固原市人民政府', lng: 106.246143, lat: 36.016084, type: 'city-capital' },
+  { name: '中卫市人民政府', lng: 105.196754, lat: 37.500229, type: 'city-capital' },
+];
+
 export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiveMapProps) {
+  const navigate = useNavigate();
   const [geoFeatures, setGeoFeatures] = useState<GeoFeature[]>([]);
   const [districtFeatures, setDistrictFeatures] = useState<GeoFeature[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,10 +59,16 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
   const [error, setError] = useState<string | null>(null);
   const [hoveredCity, setHoveredCity] = useState<string | null>(null);
   const [hoveredDistrict, setHoveredDistrict] = useState<string | null>(null);
+  const [hoveredAttraction, setHoveredAttraction] = useState<string | null>(null);
+  const [hoveredGovernment, setHoveredGovernment] = useState<string | null>(null);
   const [selectedCity, setSelectedCity] = useState<GeoFeature | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<GeoFeature | null>(null);
   const [viewLevel, setViewLevel] = useState<'province' | 'city' | 'district'>('province');
   const [zoom, setZoom] = useState(1);
+  const [viewBoxDimensions, setViewBoxDimensions] = useState({ width: 900, height: 1944 });
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [lastTouchDistance, setLastTouchDistance] = useState<number | null>(null);
+  const svgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const baseUrl = import.meta.env.BASE_URL || '/';
@@ -59,7 +85,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
         }
         try {
           return JSON.parse(text);
-        } catch (parseError) {
+        } catch {
           console.error('Failed to parse JSON:', text.substring(0, 100));
           throw new Error('Invalid JSON response');
         }
@@ -80,26 +106,32 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
   }, []);
 
   const getBounds = (feature: GeoFeature) => {
-    const coords = feature.geometry.type === 'Polygon' 
-      ? feature.geometry.coordinates[0] 
-      : feature.geometry.coordinates[0][0];
-    
     let minLng = Infinity, maxLng = -Infinity, minLat = Infinity, maxLat = -Infinity;
     
-    coords.forEach((coord: number[]) => {
-      minLng = Math.min(minLng, coord[0]);
-      maxLng = Math.max(maxLng, coord[0]);
-      minLat = Math.min(minLat, coord[1]);
-      maxLat = Math.max(maxLat, coord[1]);
-    });
+    const processCoords = (coords: any) => {
+      if (typeof coords[0] === 'number') {
+        minLng = Math.min(minLng, coords[0]);
+        maxLng = Math.max(maxLng, coords[0]);
+        minLat = Math.min(minLat, coords[1]);
+        maxLat = Math.max(maxLat, coords[1]);
+      } else if (Array.isArray(coords)) {
+        coords.forEach((coord: any) => processCoords(coord));
+      }
+    };
+    
+    if (feature.geometry.type === 'Polygon') {
+      feature.geometry.coordinates.forEach((ring: any) => processCoords(ring));
+    } else if (feature.geometry.type === 'MultiPolygon') {
+      feature.geometry.coordinates.forEach((polygon: any) => {
+        polygon.forEach((ring: any) => processCoords(ring));
+      });
+    }
     
     return { minLng, maxLng, minLat, maxLat };
   };
 
   const geoToSVG = (lng: number, lat: number) => {
-    const width = 900;
-    const height = 1944;
-    const padding = 40;
+    const { width, height } = viewBoxDimensions;
     
     let minLng, maxLng, minLat, maxLat;
     
@@ -124,8 +156,24 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
       maxLat = 39.4;
     }
     
-    const x = padding + ((lng - minLng) / (maxLng - minLng)) * (width - padding * 2);
-    const y = height - padding - ((lat - minLat) / (maxLat - minLat)) * (height - padding * 2);
+    const lngRange = maxLng - minLng;
+    const latRange = maxLat - minLat;
+    const aspectRatio = lngRange / latRange;
+    
+    let adjustedWidth = width;
+    let adjustedHeight = height;
+    
+    if (lngRange / latRange > width / height) {
+      adjustedHeight = Math.round(width / aspectRatio);
+    } else {
+      adjustedWidth = Math.round(height * aspectRatio);
+    }
+    
+    const actualPaddingX = (width - adjustedWidth) / 2;
+    const actualPaddingY = (height - adjustedHeight) / 2;
+    
+    const x = actualPaddingX + ((lng - minLng) / lngRange) * adjustedWidth;
+    const y = height - actualPaddingY - ((lat - minLat) / latRange) * adjustedHeight;
     
     return { x, y };
   };
@@ -179,7 +227,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
       let data;
       try {
         data = JSON.parse(text);
-      } catch (parseError) {
+      } catch {
         console.error('Failed to parse JSON:', text.substring(0, 100));
         throw new Error('Invalid JSON response from server');
       }
@@ -201,6 +249,27 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
     }
   };
 
+  const updateViewBoxForBounds = (bounds: { minLng: number; maxLng: number; minLat: number; maxLat: number }, containerWidth = 900) => {
+    const padding = 0.15;
+    const lngRange = (bounds.maxLng - bounds.minLng) * (1 + padding * 2);
+    const latRange = (bounds.maxLat - bounds.minLat) * (1 + padding * 2);
+    
+    const geoAspectRatio = lngRange / latRange;
+    const containerAspectRatio = containerWidth / 1944;
+    
+    let width, height;
+    
+    if (geoAspectRatio > containerAspectRatio) {
+      width = containerWidth;
+      height = Math.round(containerWidth / geoAspectRatio);
+    } else {
+      height = 1944;
+      width = Math.round(1944 * geoAspectRatio);
+    }
+    
+    setViewBoxDimensions({ width, height });
+  };
+  
   const handleCityClick = (feature: GeoFeature) => {
     const cityPinyin = feature.properties?.pinyin || '';
     const cityCode = feature.properties?.code || '';
@@ -210,6 +279,9 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
     setSelectedDistrict(null);
     setDistrictFeatures([]);
     setViewLevel('city');
+    
+    const cityBounds = getBounds(feature);
+    updateViewBoxForBounds(cityBounds);
     
     loadDistrictData(cityCode);
     
@@ -221,6 +293,43 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
   const handleDistrictClick = (feature: GeoFeature) => {
     setSelectedDistrict(feature);
     setViewLevel('district');
+    
+    const districtBounds = getBounds(feature);
+    updateViewBoxForBounds(districtBounds);
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
+  };
+  
+  const getTouchDistance = (touches: React.TouchList) => {
+    if (touches.length < 2) return 0;
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
+  
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      setLastTouchDistance(getTouchDistance(e.touches));
+    }
+  };
+  
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (e.touches.length === 2 && lastTouchDistance) {
+      const currentDistance = getTouchDistance(e.touches);
+      const scale = currentDistance / lastTouchDistance;
+      
+      if (scale > 1.1) {
+        setZoom(z => Math.min(z * 1.05, 3));
+      } else if (scale < 0.9) {
+        setZoom(z => Math.max(z / 1.05, 0.5));
+      }
+      
+      setLastTouchDistance(currentDistance);
+    }
+  };
+  
+  const handleTouchEnd = () => {
+    setLastTouchDistance(null);
   };
 
   const handleBackToProvince = () => {
@@ -228,11 +337,19 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
     setSelectedDistrict(null);
     setDistrictFeatures([]);
     setViewLevel('province');
+    setViewBoxDimensions({ width: 900, height: 1944 });
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
   };
 
   const handleBackToCity = () => {
     setSelectedDistrict(null);
     setViewLevel('city');
+    
+    if (selectedCity) {
+      const cityBounds = getBounds(selectedCity);
+      updateViewBoxForBounds(cityBounds);
+    }
   };
 
   if (loading) {
@@ -258,8 +375,6 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
   }
 
   const currentCityInfo = selectedCity ? cityInfo[selectedCity.properties?.pinyin || ''] : null;
-  const currentFeatures = viewLevel === 'district' ? districtFeatures : 
-                         viewLevel === 'city' ? [] : geoFeatures;
 
   return (
     <div className="relative w-full">
@@ -319,17 +434,24 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
         </div>
       )}
 
-      <svg
-        viewBox="0 0 900 1944"
-        preserveAspectRatio="xMidYMid meet"
-        className="w-full h-auto max-w-full"
-        style={{ 
-          maxHeight: 'calc(100vh - 250px)',
-          minHeight: '300px',
-          transform: `scale(${zoom})`,
-          transformOrigin: 'center center'
-        }}
+      <div 
+        ref={svgRef}
+        className="w-full touch-none"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
+        <svg
+          viewBox={`0 0 ${viewBoxDimensions.width} ${viewBoxDimensions.height}`}
+          preserveAspectRatio="xMidYMid meet"
+          className="w-full h-auto max-w-full cursor-grab active:cursor-grabbing"
+          style={{ 
+            maxHeight: 'calc(100vh - 250px)',
+            minHeight: '300px',
+            transform: `scale(${zoom}) translate(${pan.x}px, ${pan.y}px)`,
+            transformOrigin: 'center center'
+          }}
+        >
         <defs>
           <linearGradient id="sandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor={themePresets['default'].colors.gradient.start} />
@@ -351,7 +473,14 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
           </filter>
         </defs>
 
-        <rect x="0" y="0" width="900" height="1944" fill={themePresets['default'].colors.background} rx="12" />
+        <rect 
+          x="0" 
+          y="0" 
+          width={viewBoxDimensions.width} 
+          height={viewBoxDimensions.height} 
+          fill={themePresets['default'].colors.background} 
+          rx="12" 
+        />
 
         <g filter="url(#shadow)">
           {viewLevel === 'province' && geoFeatures.map((feature: GeoFeature, index: number) => {
@@ -533,8 +662,248 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
             ? `${selectedCity.properties?.fullname || selectedCity.properties?.name} · 点击区级进入下一级 · 点击空白处返回全区`
             : '宁夏回族自治区 · 点击城市进入下一级'}
         </text>
-      </svg>
-
+        
+        {(viewLevel === 'province' || viewLevel === 'city') && (
+          <g className="attractions-layer">
+            {viewLevel === 'city' && selectedCity && 
+              attractionsData
+                .filter((attr: Attraction) => attr.city.includes(selectedCity.properties?.name || ''))
+                .map((attraction: Attraction) => {
+                  const pos = geoToSVG(
+                    attraction.coordinates.x / 100 + 105.0,
+                    attraction.coordinates.y / 100 + 35.3
+                  );
+                  const isHovered = hoveredAttraction === attraction.id;
+                  return (
+                    <g
+                      key={attraction.id}
+                      className="cursor-pointer"
+                      onMouseEnter={() => setHoveredAttraction(attraction.id)}
+                      onMouseLeave={() => setHoveredAttraction(null)}
+                      onClick={() => navigate(`/attraction/${attraction.id}`)}
+                    >
+                      <circle
+                        cx={pos.x}
+                        cy={pos.y}
+                        r={isHovered ? 14 : 10}
+                        fill="#E85D4C"
+                        stroke="#FFFFFF"
+                        strokeWidth="3"
+                        className="transition-all duration-300"
+                      />
+                      {isHovered && (
+                        <g>
+                          <rect
+                            x={pos.x - 80}
+                            y={pos.y - 85}
+                            width="160"
+                            height="70"
+                            rx="8"
+                            fill="#FFFFFF"
+                            filter="url(#shadow)"
+                          />
+                          <text
+                            x={pos.x}
+                            y={pos.y - 60}
+                            textAnchor="middle"
+                            className="text-sm font-serif font-bold"
+                            style={{ fill: '#1A1A1A', fontSize: '12px' }}
+                          >
+                            {attraction.name}
+                          </text>
+                          <text
+                            x={pos.x}
+                            y={pos.y - 43}
+                            textAnchor="middle"
+                            className="text-xs"
+                            style={{ fill: '#6B6B6B', fontSize: '9px' }}
+                          >
+                            {attraction.city}
+                          </text>
+                          <text
+                            x={pos.x}
+                            y={pos.y - 27}
+                            textAnchor="middle"
+                            className="text-xs flex items-center justify-center gap-1"
+                            style={{ fill: '#C4A35A', fontSize: '10px' }}
+                          >
+                            ⭐ {attraction.rating}
+                          </text>
+                        </g>
+                      )}
+                    </g>
+                  );
+                })
+            }
+            {viewLevel === 'province' && 
+              attractionsData
+                .filter((attr: Attraction) => attr.rating >= 4.5)
+                .map((attraction: Attraction) => {
+                  const pos = geoToSVG(
+                    attraction.coordinates.x / 100 + 105.0,
+                    attraction.coordinates.y / 100 + 35.3
+                  );
+                  const isHovered = hoveredAttraction === attraction.id;
+                  return (
+                    <g
+                      key={attraction.id}
+                      className="cursor-pointer"
+                      onMouseEnter={() => setHoveredAttraction(attraction.id)}
+                      onMouseLeave={() => setHoveredAttraction(null)}
+                      onClick={() => navigate(`/attraction/${attraction.id}`)}
+                    >
+                      <circle
+                        cx={pos.x}
+                        cy={pos.y}
+                        r={isHovered ? 16 : 12}
+                        fill="#E85D4C"
+                        stroke="#FFFFFF"
+                        strokeWidth="3"
+                        className="transition-all duration-300"
+                      />
+                      {isHovered && (
+                        <g>
+                          <rect
+                            x={pos.x - 90}
+                            y={pos.y - 95}
+                            width="180"
+                            height="80"
+                            rx="10"
+                            fill="#FFFFFF"
+                            filter="url(#shadow)"
+                          />
+                          <text
+                            x={pos.x}
+                            y={pos.y - 65}
+                            textAnchor="middle"
+                            className="text-sm font-serif font-bold"
+                            style={{ fill: '#1A1A1A', fontSize: '13px' }}
+                          >
+                            {attraction.name}
+                          </text>
+                          <text
+                            x={pos.x}
+                            y={pos.y - 45}
+                            textAnchor="middle"
+                            className="text-xs"
+                            style={{ fill: '#6B6B6B', fontSize: '10px' }}
+                          >
+                            {attraction.city}
+                          </text>
+                          <text
+                            x={pos.x}
+                            y={pos.y - 27}
+                            textAnchor="middle"
+                            className="text-xs flex items-center justify-center gap-1"
+                            style={{ fill: '#C4A35A', fontSize: '11px' }}
+                          >
+                            ⭐ {attraction.rating}
+                          </text>
+                          <text
+                            x={pos.x}
+                            y={pos.y - 10}
+                            textAnchor="middle"
+                            className="text-xs"
+                            style={{ fill: '#007BFF', fontSize: '9px' }}
+                          >
+                            点击查看详情 →
+                          </text>
+                        </g>
+                      )}
+                    </g>
+                  );
+                })
+            }
+          </g>
+        )}
+        
+        <g className="government-markers">
+          {governmentMarkers
+            .filter(marker => {
+              if (viewLevel === 'province') {
+                return marker.type === 'province-capital' || marker.type === 'city-capital';
+              } else if (viewLevel === 'city' && selectedCity) {
+                return marker.type === 'city-capital' && 
+                  marker.name.includes(selectedCity.properties?.name || '');
+              }
+              return false;
+            })
+            .map((marker) => {
+              const pos = geoToSVG(marker.lng, marker.lat);
+              const isHovered = hoveredGovernment === marker.name;
+              const isProvinceCapital = marker.type === 'province-capital';
+              
+              return (
+                <g
+                  key={marker.name}
+                  className="cursor-pointer"
+                  onMouseEnter={() => setHoveredGovernment(marker.name)}
+                  onMouseLeave={() => setHoveredGovernment(null)}
+                >
+                  <circle
+                    cx={pos.x}
+                    cy={pos.y}
+                    r={isHovered ? 18 : 15}
+                    fill={isProvinceCapital ? '#2563EB' : '#059669'}
+                    stroke="#FFFFFF"
+                    strokeWidth="4"
+                    className="transition-all duration-300"
+                  />
+                  <text
+                    x={pos.x}
+                    y={pos.y + 5}
+                    textAnchor="middle"
+                    style={{ fill: '#FFFFFF', fontSize: '10px', fontWeight: 700 }}
+                  >
+                    {isProvinceCapital ? '★' : '●'}
+                  </text>
+                  {isHovered && (
+                    <g>
+                      <rect
+                        x={pos.x - 100}
+                        y={pos.y - 90}
+                        width="200"
+                        height="75"
+                        rx="10"
+                        fill="#FFFFFF"
+                        filter="url(#shadow)"
+                      />
+                      <text
+                        x={pos.x}
+                        y={pos.y - 60}
+                        textAnchor="middle"
+                        className="text-sm font-serif font-bold"
+                        style={{ fill: '#1A1A1A', fontSize: '13px' }}
+                      >
+                        {marker.name}
+                      </text>
+                      <text
+                        x={pos.x}
+                        y={pos.y - 38}
+                        textAnchor="middle"
+                        className="text-xs"
+                        style={{ fill: isProvinceCapital ? '#2563EB' : '#059669', fontSize: '11px' }}
+                      >
+                        {isProvinceCapital ? '🏛️ 省级政府' : '🏢 市级政府'}
+                      </text>
+                      <text
+                        x={pos.x}
+                        y={pos.y - 20}
+                        textAnchor="middle"
+                        className="text-xs"
+                        style={{ fill: '#6B6B6B', fontSize: '10px' }}
+                      >
+                        {marker.lng.toFixed(4)}°E, {marker.lat.toFixed(4)}°N
+                      </text>
+                    </g>
+                  )}
+                </g>
+              );
+            })}
+        </g>
+        </svg>
+      </div>
+      
       {viewLevel === 'city' && currentCityInfo && (
         <div className="mt-4 bg-white rounded-xl shadow-soft p-4 md:p-6">
           <h3 className="text-xl md:text-2xl font-serif font-bold text-text-primary mb-3 md:mb-4">

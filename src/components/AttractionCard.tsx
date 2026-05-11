@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Star, Clock, DollarSign } from 'lucide-react';
 import { Attraction } from '../types';
@@ -12,8 +11,6 @@ export default function AttractionCard({
   attraction, 
   variant = 'default' 
 }: AttractionCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
-
   const typeLabels = {
     nature: '自然风光',
     history: '历史文化',
@@ -33,8 +30,6 @@ export default function AttractionCard({
       <Link
         to={`/attraction/${attraction.id}`}
         className="block bg-white rounded-lg p-3 shadow-soft hover:shadow-medium transition-all duration-300 hover:scale-105"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
       >
         <div className="flex gap-3">
           <img
@@ -65,8 +60,6 @@ export default function AttractionCard({
       <Link
         to={`/attraction/${attraction.id}`}
         className="block group"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
       >
         <div className="relative overflow-hidden rounded-xl shadow-soft group-hover:shadow-medium transition-all duration-300">
           <img
@@ -106,8 +99,6 @@ export default function AttractionCard({
     <Link
       to={`/attraction/${attraction.id}`}
       className="block bg-white rounded-xl overflow-hidden shadow-soft hover:shadow-medium transition-all duration-300 hover:-translate-y-1"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       <div className="relative overflow-hidden">
         <img

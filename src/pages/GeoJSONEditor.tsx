@@ -12,19 +12,13 @@ interface GeoJSONEditorProps {
   onSave?: (data: any) => void;
 }
 
-export default function GeoJSONEditor({ initialData, onSave }: GeoJSONEditorProps) {
+export default function GeoJSONEditor({ onSave }: GeoJSONEditorProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [points, setPoints] = useState<Point[]>([]);
   const [selectedPoint, setSelectedPoint] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [showGrid, setShowGrid] = useState(true);
   const [showCoordinates, setShowCoordinates] = useState(true);
-  const [viewBox, setViewBox] = useState({
-    minLng: 104.5,
-    maxLng: 107.0,
-    minLat: 35.6,
-    maxLat: 39.4
-  });
 
   // 地理范围设置
   const geoBounds = {
@@ -325,7 +319,7 @@ export default function GeoJSONEditor({ initialData, onSave }: GeoJSONEditorProp
           }));
           setPoints(importPoints);
         }
-      } catch (error) {
+      } catch {
         alert('无效的GeoJSON文件');
       }
     };
