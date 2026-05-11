@@ -178,6 +178,19 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
     return { x, y };
   };
 
+  const svgWidth = 900;
+  const svgHeight = 1944;
+  const ningxiaMinLng = 105.0;
+  const ningxiaMaxLng = 106.9;
+  const ningxiaMinLat = 35.3;
+  const ningxiaMaxLat = 39.4;
+
+  const attractionToSVG = (x: number, y: number) => {
+    const lng = ningxiaMinLng + (x / svgWidth) * (ningxiaMaxLng - ningxiaMinLng);
+    const lat = ningxiaMaxLat - (y / svgHeight) * (ningxiaMaxLat - ningxiaMinLat);
+    return geoToSVG(lng, lat);
+  };
+
   const coordinatesToPath = (coords: number[][][]) => {
     if (!coords || !coords[0]) return '';
     
@@ -669,10 +682,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
               attractionsData
                 .filter((attr: Attraction) => attr.city.includes(selectedCity.properties?.name || ''))
                 .map((attraction: Attraction) => {
-                  const pos = geoToSVG(
-                    attraction.coordinates.x / 100 + 105.0,
-                    attraction.coordinates.y / 100 + 35.3
-                  );
+                  const pos = attractionToSVG(attraction.coordinates.x, attraction.coordinates.y);
                   const isHovered = hoveredAttraction === attraction.id;
                   return (
                     <g
@@ -739,10 +749,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
               attractionsData
                 .filter((attr: Attraction) => attr.rating >= 4.5)
                 .map((attraction: Attraction) => {
-                  const pos = geoToSVG(
-                    attraction.coordinates.x / 100 + 105.0,
-                    attraction.coordinates.y / 100 + 35.3
-                  );
+                  const pos = attractionToSVG(attraction.coordinates.x, attraction.coordinates.y);
                   const isHovered = hoveredAttraction === attraction.id;
                   return (
                     <g
