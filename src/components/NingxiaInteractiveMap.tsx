@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ZoomIn, ZoomOut, Home as HomeIcon, Loader } from 'lucide-react';
-import { themePresets, defaultMapConfig } from '../config/map-config';
+import { themePresets } from '../config/map-config';
 
 interface GeoFeature {
   type: string;
@@ -59,7 +59,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
         }
         try {
           return JSON.parse(text);
-        } catch (parseError) {
+        } catch {
           console.error('Failed to parse JSON:', text.substring(0, 100));
           throw new Error('Invalid JSON response');
         }
@@ -179,7 +179,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
       let data;
       try {
         data = JSON.parse(text);
-      } catch (parseError) {
+      } catch {
         console.error('Failed to parse JSON:', text.substring(0, 100));
         throw new Error('Invalid JSON response from server');
       }
@@ -258,8 +258,6 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
   }
 
   const currentCityInfo = selectedCity ? cityInfo[selectedCity.properties?.pinyin || ''] : null;
-  const currentFeatures = viewLevel === 'district' ? districtFeatures : 
-                         viewLevel === 'city' ? [] : geoFeatures;
 
   return (
     <div className="relative w-full">

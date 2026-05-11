@@ -77,9 +77,6 @@ export const defaultMapColors: MapColors = {
     primary: '#1A1A1A',
     shadow: 'rgba(255,255,255,0.9)',
   },
-  animation: {
-    duration: 300,
-  },
 };
 
 export const defaultMapConfig: MapConfig = {
