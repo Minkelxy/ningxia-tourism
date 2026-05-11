@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, ZoomIn, ZoomOut, Home as HomeIcon, Loader } from 'lucide-react';
+import { ChevronLeft, ZoomIn, ZoomOut, Home as HomeIcon, Loader, RotateCcw } from 'lucide-react';
 import { themePresets } from '../config/map-config';
 import { Attraction } from '../types';
 import attractionsData from '../data/attractions.json';
@@ -67,8 +67,11 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
   const [zoom, setZoom] = useState(1);
   const [viewBoxDimensions, setViewBoxDimensions] = useState({ width: 900, height: 1944 });
   const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [lastTouchDistance, setLastTouchDistance] = useState<number | null>(null);
   const svgRef = useRef<HTMLDivElement>(null);
+  const svgElementRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
     const baseUrl = import.meta.env.BASE_URL || '/';
@@ -302,6 +305,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
     updateViewBoxForBounds(districtBounds);
     setZoom(1);
     setPan({ x: 0, y: 0 });
+    setIsDragging(false);
   };
   
   const getTouchDistance = (touches: React.TouchList) => {
@@ -336,6 +340,32 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
     setLastTouchDistance(null);
   };
 
+  const handleMouseDown = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
+    if (e.button !== 0) return;
+    setIsDragging(true);
+    setDragStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
+  }, [pan]);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
+    if (!isDragging) return;
+    setPan({
+      x: e.clientX - dragStart.x,
+      y: e.clientY - dragStart.y
+    });
+  }, [isDragging, dragStart]);
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  const resetPan = () => {
+    setPan({ x: 0, y: 0 });
+  };
+
   const handleBackToProvince = () => {
     setSelectedCity(null);
     setSelectedDistrict(null);
@@ -344,11 +374,14 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
     setViewBoxDimensions({ width: 900, height: 1944 });
     setZoom(1);
     setPan({ x: 0, y: 0 });
+    setIsDragging(false);
   };
 
   const handleBackToCity = () => {
     setSelectedDistrict(null);
     setViewLevel('city');
+    setPan({ x: 0, y: 0 });
+    setIsDragging(false);
     
     if (selectedCity) {
       const cityBounds = getBounds(selectedCity);
@@ -397,13 +430,22 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
         >
           <ZoomOut className="w-4 h-4 md:w-5 md:h-5 text-gray-700" />
         </button>
+        {(pan.x !== 0 || pan.y !== 0 || zoom !== 1) && (
+          <button
+            onClick={resetPan}
+            className="bg-white/95 backdrop-blur-sm rounded-lg p-1.5 md:p-2 shadow-md hover:bg-gray-50 transition-colors"
+            title="重置视图"
+          >
+            <HomeIcon className="w-4 h-4 md:w-5 md:h-5 text-gray-700" />
+          </button>
+        )}
         {viewLevel !== 'province' && (
           <button
             onClick={viewLevel === 'city' ? handleBackToProvince : handleBackToCity}
             className="bg-white/95 backdrop-blur-sm rounded-lg p-1.5 md:p-2 shadow-md hover:bg-gray-50 transition-colors"
             title="返回"
           >
-            <HomeIcon className="w-4 h-4 md:w-5 md:h-5 text-gray-700" />
+            <RotateCcw className="w-4 h-4 md:w-5 md:h-5 text-gray-700" />
           </button>
         )}
       </div>
@@ -446,6 +488,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
         onTouchEnd={handleTouchEnd}
       >
         <svg
+          ref={svgElementRef}
           viewBox={`0 0 ${viewBoxDimensions.width} ${viewBoxDimensions.height}`}
           preserveAspectRatio="xMidYMid meet"
           className="w-full h-auto max-w-full cursor-grab active:cursor-grabbing"
@@ -455,6 +498,10 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
             transform: `scale(${zoom}) translate(${pan.x}px, ${pan.y}px)`,
             transformOrigin: 'center center'
           }}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
         >
         <defs>
           <linearGradient id="sandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
