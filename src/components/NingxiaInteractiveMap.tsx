@@ -2,8 +2,9 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ZoomIn, ZoomOut, Home as HomeIcon, Loader, RotateCcw } from 'lucide-react';
 import { themePresets, cityColors, CityName, getDistrictColor } from '../config/map-config';
-import { Attraction } from '../types';
+import { Attraction, TransportHub } from '../types';
 import attractionsData from '../data/attractions.json';
+import transportHubsData from '../data/transport-hubs.json';
 
 interface GeoFeature {
   type: string;
@@ -61,6 +62,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
   const [hoveredDistrict, setHoveredDistrict] = useState<string | null>(null);
   const [hoveredAttraction, setHoveredAttraction] = useState<string | null>(null);
   const [hoveredGovernment, setHoveredGovernment] = useState<string | null>(null);
+  const [hoveredTransport, setHoveredTransport] = useState<string | null>(null);
   const [selectedCity, setSelectedCity] = useState<GeoFeature | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<GeoFeature | null>(null);
   const [viewLevel, setViewLevel] = useState<'province' | 'city' | 'district'>('province');
@@ -962,6 +964,110 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
               );
             })}
         </g>
+
+        <g className="transport-hubs-layer">
+          {transportHubsData
+            .filter((hub: TransportHub) => {
+              if (viewLevel === 'province') {
+                return true;
+              } else if (viewLevel === 'city' && selectedCity) {
+                return hub.city.includes(selectedCity.properties?.name || '');
+              }
+              return false;
+            })
+            .map((hub: TransportHub) => {
+              const pos = geoToSVG(hub.coordinates.lng, hub.coordinates.lat);
+              const isHovered = hoveredTransport === hub.id;
+              
+              let hubColor = '#7C3AED';
+              let hubIcon = '🚄';
+              if (hub.type === 'railway') {
+                hubColor = '#059669';
+                hubIcon = '🚉';
+              } else if (hub.type === 'bus') {
+                hubColor = '#F59E0B';
+                hubIcon = '🚌';
+              }
+              
+              return (
+                <g
+                  key={hub.id}
+                  className="cursor-pointer"
+                  onMouseEnter={() => setHoveredTransport(hub.id)}
+                  onMouseLeave={() => setHoveredTransport(null)}
+                >
+                  <circle
+                    cx={pos.x}
+                    cy={pos.y}
+                    r={isHovered ? 16 : 12}
+                    fill={hubColor}
+                    stroke="#FFFFFF"
+                    strokeWidth="3"
+                    className="transition-all duration-300"
+                  />
+                  <text
+                    x={pos.x}
+                    y={pos.y + 4}
+                    textAnchor="middle"
+                    style={{ fontSize: '14px' }}
+                  >
+                    {hubIcon}
+                  </text>
+                  {isHovered && (
+                    <g>
+                      <rect
+                        x={pos.x - 100}
+                        y={pos.y - 105}
+                        width="200"
+                        height="90"
+                        rx="10"
+                        fill="#FFFFFF"
+                        filter="url(#shadow)"
+                      />
+                      <text
+                        x={pos.x}
+                        y={pos.y - 75}
+                        textAnchor="middle"
+                        className="text-sm font-serif font-bold"
+                        style={{ fill: '#1A1A1A', fontSize: '13px' }}
+                      >
+                        {hub.name}
+                      </text>
+                      <text
+                        x={pos.x}
+                        y={pos.y - 53}
+                        textAnchor="middle"
+                        className="text-xs"
+                        style={{ fill: hubColor, fontSize: '11px' }}
+                      >
+                        {hub.type === 'highspeed_rail' ? '🚄 高铁站' : hub.type === 'railway' ? '🚉 火车站' : '🚌 汽车站'}
+                      </text>
+                      <text
+                        x={pos.x}
+                        y={pos.y - 33}
+                        textAnchor="middle"
+                        className="text-xs"
+                        style={{ fill: '#6B6B6B', fontSize: '10px' }}
+                      >
+                        {hub.city}
+                      </text>
+                      {hub.address && (
+                        <text
+                          x={pos.x}
+                          y={pos.y - 15}
+                          textAnchor="middle"
+                          className="text-xs"
+                          style={{ fill: '#6B6B6B', fontSize: '9px' }}
+                        >
+                          {hub.address}
+                        </text>
+                      )}
+                    </g>
+                  )}
+                </g>
+              );
+            })}
+        </g>
         </svg>
       </div>
       
@@ -1071,6 +1177,21 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 md:w-4 md:h-3 rounded" style={{ backgroundColor: '#A8D5BA' }}></div>
             <span>区/县级</span>
+          </div>
+        </div>
+        <h4 className="text-xs md:text-sm font-serif font-bold mt-2 mb-1">交通枢纽</h4>
+        <div className="space-y-1 text-xs text-text-secondary">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 md:w-4 md:h-3 rounded" style={{ backgroundColor: '#7C3AED' }}></div>
+            <span>🚄 高铁站</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 md:w-4 md:h-3 rounded" style={{ backgroundColor: '#059669' }}></div>
+            <span>🚉 火车站</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 md:w-4 md:h-3 rounded" style={{ backgroundColor: '#F59E0B' }}></div>
+            <span>🚌 汽车站</span>
           </div>
         </div>
       </div>

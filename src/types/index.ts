@@ -1,5 +1,7 @@
 export type AttractionType = 'nature' | 'history' | 'religion' | 'experience';
 
+export type TransportType = 'highspeed_rail' | 'railway' | 'bus';
+
 export interface Coordinates {
   lng: number;
   lat: number;
@@ -22,6 +24,18 @@ export interface Attraction {
   bestSeason?: string;
   transportation?: string;
   nearbyAttractions?: string[];
+}
+
+export interface TransportHub {
+  id: string;
+  name: string;
+  city: string;
+  cityPinyin: string;
+  type: TransportType | string;
+  description: string;
+  coordinates: Coordinates;
+  address?: string;
+  phone?: string;
 }
 
 export interface City {
