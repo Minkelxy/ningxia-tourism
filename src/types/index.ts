@@ -2,9 +2,31 @@ export type AttractionType = 'nature' | 'history' | 'religion' | 'experience';
 
 export type TransportType = 'highspeed_rail' | 'railway' | 'bus';
 
+export type FoodCategory = '羊肉类' | '面食类' | '特色小吃' | '饮品' | '家常菜' | '水果' | '特产';
+
 export interface Coordinates {
   lng: number;
   lat: number;
+}
+
+export interface Restaurant {
+  name: string;
+  city: string;
+  address?: string;
+  recommend?: string;
+}
+
+export interface Food {
+  id: string;
+  name: string;
+  nameEn?: string;
+  category: FoodCategory | string;
+  description: string;
+  origin: string;
+  bestSeason?: string;
+  priceRange?: string;
+  restaurants: Restaurant[];
+  tips?: string;
 }
 
 export interface Attraction {
