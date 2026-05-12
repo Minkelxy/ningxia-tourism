@@ -92,6 +92,118 @@ export const defaultMapConfig: MapConfig = {
   },
 };
 
+export interface CityColors {
+  fill: string;
+  fillHover: string;
+  stroke: string;
+  strokeHover: string;
+}
+
+export interface DistrictColors {
+  fill: string;
+  fillHover: string;
+  stroke: string;
+  strokeHover: string;
+}
+
+export type CityName = 'yinchuan' | 'shizuishan' | 'wuzhong' | 'guyuan' | 'zhongwei';
+
+export const cityColors: Record<CityName, CityColors> = {
+  yinchuan: {
+    fill: '#7EB8D9',
+    fillHover: '#4A90B8',
+    stroke: '#3D7A9E',
+    strokeHover: '#2A5A7A',
+  },
+  shizuishan: {
+    fill: '#A8D5BA',
+    fillHover: '#7CB894',
+    stroke: '#5A9B6E',
+    strokeHover: '#3D6B5A',
+  },
+  wuzhong: {
+    fill: '#F5CBA7',
+    fillHover: '#E59866',
+    stroke: '#C47D4A',
+    strokeHover: '#A0522D',
+  },
+  guyuan: {
+    fill: '#D7BDE2',
+    fillHover: '#B49CD0',
+    stroke: '#9B7BB2',
+    strokeHover: '#7A5FA0',
+  },
+  zhongwei: {
+    fill: '#F9DC5C',
+    fillHover: '#E8C43D',
+    stroke: '#C9A727',
+    strokeHover: '#A6881F',
+  },
+};
+
+const districtColorPalette = [
+  { fill: '#FFE4B5', fillHover: '#FFD700', stroke: '#DAA520', strokeHover: '#B8860B' },
+  { fill: '#ADD8E6', fillHover: '#87CEEB', stroke: '#4682B4', strokeHover: '#1E90FF' },
+  { fill: '#98FB98', fillHover: '#90EE90', stroke: '#228B22', strokeHover: '#006400' },
+  { fill: '#DDA0DD', fillHover: '#DA70D6', stroke: '#8B008B', strokeHover: '#4B0082' },
+  { fill: '#F0E68C', fillHover: '#EEE8AA', stroke: '#BDB76B', strokeHover: '#8B8B00' },
+  { fill: '#E6E6FA', fillHover: '#D8BFD8', stroke: '#9370DB', strokeHover: '#8A2BE2' },
+];
+
+export const districtColors: Record<string, DistrictColors> = {
+  xingqing: districtColorPalette[0],
+  xixia: districtColorPalette[1],
+  jinfeng: districtColorPalette[2],
+  yongning: districtColorPalette[3],
+  helan: districtColorPalette[4],
+  lingwu: districtColorPalette[5],
+  dawukou: districtColorPalette[0],
+  huinong: districtColorPalette[1],
+  pingluo: districtColorPalette[2],
+  litong: districtColorPalette[3],
+  hongshipu: districtColorPalette[4],
+  yanchi: districtColorPalette[5],
+  tongxin: districtColorPalette[0],
+  qingtongxia: districtColorPalette[1],
+  yuanzhou: districtColorPalette[2],
+  xiji: districtColorPalette[3],
+  longde: districtColorPalette[4],
+  jingyuan: districtColorPalette[5],
+  pengyang: districtColorPalette[0],
+  shapotou: districtColorPalette[1],
+  zhongning: districtColorPalette[2],
+  haiyuan: districtColorPalette[3],
+};
+
+export const getDistrictColor = (name: string): DistrictColors => {
+  const pinyinMap: Record<string, string> = {
+    '兴庆区': 'xingqing',
+    '西夏区': 'xixia',
+    '金凤区': 'jinfeng',
+    '永宁县': 'yongning',
+    '贺兰县': 'helan',
+    '灵武市': 'lingwu',
+    '大武口区': 'dawukou',
+    '惠农区': 'huinong',
+    '平罗县': 'pingluo',
+    '利通区': 'litong',
+    '红寺堡区': 'hongshipu',
+    '盐池县': 'yanchi',
+    '同心县': 'tongxin',
+    '青铜峡市': 'qingtongxia',
+    '原州区': 'yuanzhou',
+    '西吉县': 'xiji',
+    '隆德县': 'longde',
+    '泾源县': 'jingyuan',
+    '彭阳县': 'pengyang',
+    '沙坡头区': 'shapotou',
+    '中宁县': 'zhongning',
+    '海原县': 'haiyuan',
+  };
+  const key = pinyinMap[name] || name;
+  return districtColors[key] || districtColorPalette[0];
+};
+
 export type ThemeName = 'default' | 'desert' | 'forest' | 'ocean' | 'sunset';
 
 export interface ThemePreset {
