@@ -92,6 +92,48 @@ export const defaultMapConfig: MapConfig = {
   },
 };
 
+export interface CityColors {
+  fill: string;
+  fillHover: string;
+  stroke: string;
+  strokeHover: string;
+}
+
+export type CityName = 'yinchuan' | 'shizuishan' | 'wuzhong' | 'guyuan' | 'zhongwei';
+
+export const cityColors: Record<CityName, CityColors> = {
+  yinchuan: {
+    fill: '#7EB8D9',
+    fillHover: '#4A90B8',
+    stroke: '#3D7A9E',
+    strokeHover: '#2A5A7A',
+  },
+  shizuishan: {
+    fill: '#A8D5BA',
+    fillHover: '#7CB894',
+    stroke: '#5A9B6E',
+    strokeHover: '#3D6B5A',
+  },
+  wuzhong: {
+    fill: '#F5CBA7',
+    fillHover: '#E59866',
+    stroke: '#C47D4A',
+    strokeHover: '#A0522D',
+  },
+  guyuan: {
+    fill: '#D7BDE2',
+    fillHover: '#B49CD0',
+    stroke: '#9B7BB2',
+    strokeHover: '#7A5FA0',
+  },
+  zhongwei: {
+    fill: '#F9DC5C',
+    fillHover: '#E8C43D',
+    stroke: '#C9A727',
+    strokeHover: '#A6881F',
+  },
+};
+
 export type ThemeName = 'default' | 'desert' | 'forest' | 'ocean' | 'sunset';
 
 export interface ThemePreset {
