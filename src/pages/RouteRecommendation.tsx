@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  MapPin, Clock, DollarSign, Sparkles, Calendar, Mountain, Landmark, Sun,
-  Utensils, Home, Bus, Star, ChevronRight, Info, Coffee, Moon, Camera
+  Clock, DollarSign, Sparkles, Calendar, Mountain, Landmark, Sun,
+  Utensils, Home, Bus, Star, ChevronRight, Info, Coffee, Camera
 } from 'lucide-react';
 import attractionsData from '../data/attractions.json';
 import { Attraction } from '../types';
@@ -388,7 +388,6 @@ export default function RouteRecommendation() {
   const navigate = useNavigate();
   const [selectedRoute, setSelectedRoute] = useState<string | null>(null);
   const [durationFilter, setDurationFilter] = useState<string>('all');
-  const [themeFilter, setThemeFilter] = useState<string>('all');
 
   const getAttractionById = (id: string): Attraction | undefined => {
     return attractionsData.find(a => a.id === id) as Attraction | undefined;
@@ -400,81 +399,78 @@ export default function RouteRecommendation() {
       (durationFilter === '2day' && route.durationDays === 2) ||
       (durationFilter === '3day' && route.durationDays === 3) ||
       (durationFilter === '4day' && route.durationDays >= 4);
-    const themeMatch = themeFilter === 'all' || route.theme.includes(themeFilter);
-    return durationMatch && themeMatch;
+    return durationMatch;
   });
-
-  const themes = [...new Set(routes.map(r => r.theme))];
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-12">
+      <div className="bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-6 md:py-12">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-text-primary mb-4">
+          <div className="text-center mb-6 md:mb-8">
+            <h1 className="text-3xl md:text-5xl font-serif font-bold text-text-primary mb-3 md:mb-4">
               精选路线推荐
             </h1>
-            <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+            <p className="text-sm md:text-base text-text-secondary max-w-2xl mx-auto px-2">
               根据不同主题和时长，为您精心规划宁夏之旅，发现最适合您的行程
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
-            <div className="flex flex-wrap gap-2">
+          <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4 mb-6 md:mb-8">
+            <div className="flex flex-wrap justify-center gap-2">
               <button
                 onClick={() => setDurationFilter('all')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                   durationFilter === 'all'
                     ? 'bg-primary text-white'
                     : 'bg-white text-text-secondary hover:bg-primary/10'
                 }`}
               >
-                全部时长
+                全部
               </button>
               <button
                 onClick={() => setDurationFilter('1day')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                   durationFilter === '1day'
                     ? 'bg-primary text-white'
                     : 'bg-white text-text-secondary hover:bg-primary/10'
                 }`}
               >
-                1日游
+                1日
               </button>
               <button
                 onClick={() => setDurationFilter('2day')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                   durationFilter === '2day'
                     ? 'bg-primary text-white'
                     : 'bg-white text-text-secondary hover:bg-primary/10'
                 }`}
               >
-                2日游
+                2日
               </button>
               <button
                 onClick={() => setDurationFilter('3day')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                   durationFilter === '3day'
                     ? 'bg-primary text-white'
                     : 'bg-white text-text-secondary hover:bg-primary/10'
                 }`}
               >
-                3日游
+                3日
               </button>
               <button
                 onClick={() => setDurationFilter('4day')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                   durationFilter === '4day'
                     ? 'bg-primary text-white'
                     : 'bg-white text-text-secondary hover:bg-primary/10'
                 }`}
               >
-                4日及以上
+                4日+
               </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
             {filteredRoutes.map((route, index) => {
               const IconComponent = route.icon;
               const routeAttractions = route.attractions.map(id => getAttractionById(id)).filter(Boolean) as Attraction[];
@@ -486,59 +482,59 @@ export default function RouteRecommendation() {
                   className="bg-white rounded-xl overflow-hidden shadow-soft hover:shadow-medium transition-all duration-300"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div className={`bg-gradient-to-r ${route.gradient} p-6 text-white`}>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                          <IconComponent className="w-6 h-6" />
+                  <div className={`bg-gradient-to-r ${route.gradient} p-4 md:p-6 text-white`}>
+                    <div className="flex items-center justify-between mb-3 md:mb-4">
+                      <div className="flex items-center gap-2 md:gap-3">
+                        <div className="w-10 h-10 md:w-12 md:h-12 bg-white/20 backdrop-blur-sm rounded-lg md:rounded-xl flex items-center justify-center">
+                          <IconComponent className="w-5 h-5 md:w-6 md:h-6" />
                         </div>
                         <div>
-                          <h3 className="text-xl font-serif font-bold">{route.name}</h3>
-                          <p className="text-white/80 text-sm">{route.theme}</p>
+                          <h3 className="text-lg md:text-xl font-serif font-bold">{route.name}</h3>
+                          <p className="text-white/80 text-xs md:text-sm">{route.theme}</p>
                         </div>
                       </div>
-                      <span className="px-3 py-1 bg-white/20 rounded-full text-sm">
+                      <span className="px-2 py-1 md:px-3 md:py-1 bg-white/20 rounded-full text-xs md:text-sm">
                         {route.duration}
                       </span>
                     </div>
                     
-                    <div className="grid grid-cols-3 gap-3 text-sm">
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4" />
+                    <div className="grid grid-cols-3 gap-2 md:gap-3 text-xs md:text-sm">
+                      <div className="flex items-center gap-1 md:gap-2">
+                        <Clock className="w-3 h-3 md:w-4 md:h-4" />
                         <span>{route.duration}</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <DollarSign className="w-4 h-4" />
-                        <span>{route.budget}</span>
+                      <div className="flex items-center gap-1 md:gap-2">
+                        <DollarSign className="w-3 h-3 md:w-4 md:h-4" />
+                        <span className="truncate text-xs">{route.budget.split('/')[0]}</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Sun className="w-4 h-4" />
+                      <div className="flex items-center gap-1 md:gap-2">
+                        <Sun className="w-3 h-3 md:w-4 md:h-4" />
                         <span>{route.bestSeason}</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="p-6">
-                    <p className="text-text-secondary mb-4">{route.description}</p>
+                  <div className="p-4 md:p-6">
+                    <p className="text-text-secondary text-sm mb-3 md:mb-4 line-clamp-2">{route.description}</p>
 
-                    <div className="mb-4">
-                      <h4 className="text-sm font-serif font-bold text-text-primary mb-2 flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-primary" />
+                    <div className="mb-3 md:mb-4">
+                      <h4 className="text-xs md:text-sm font-serif font-bold text-text-primary mb-2 flex items-center gap-2">
+                        <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-primary" />
                         途经景点
                       </h4>
-                      <div className="flex flex-wrap gap-2">
-                        {routeAttractions.slice(0, 4).map((attraction) => (
+                      <div className="flex flex-wrap gap-1.5 md:gap-2">
+                        {routeAttractions.slice(0, 3).map((attraction) => (
                           <span
                             key={attraction.id}
                             onClick={() => navigate(`/attraction/${attraction.id}`)}
-                            className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full cursor-pointer hover:bg-primary/20 transition-colors"
+                            className="px-2 py-1 md:px-3 md:py-1 bg-primary/10 text-primary text-xs rounded-full cursor-pointer hover:bg-primary/20 transition-colors"
                           >
                             {attraction.name}
                           </span>
                         ))}
-                        {routeAttractions.length > 4 && (
-                          <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
-                            +{routeAttractions.length - 4}更多
+                        {routeAttractions.length > 3 && (
+                          <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+                            +{routeAttractions.length - 3}
                           </span>
                         )}
                       </div>
@@ -546,34 +542,34 @@ export default function RouteRecommendation() {
 
                     <button
                       onClick={() => setSelectedRoute(isExpanded ? null : route.id)}
-                      className="w-full py-3 bg-primary text-white font-medium rounded-lg hover:bg-sand-dark transition-colors flex items-center justify-center gap-2"
+                      className="w-full py-2.5 md:py-3 bg-primary text-white font-medium rounded-lg hover:bg-sand-dark transition-colors flex items-center justify-center gap-2 text-sm md:text-base"
                     >
                       {isExpanded ? '收起详情' : '查看详细行程'}
                       <ChevronRight className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
                     </button>
 
                     {isExpanded && (
-                      <div className="mt-4 space-y-4 animate-slide-up">
+                      <div className="mt-4 space-y-3 md:space-y-4 animate-slide-up">
                         {route.dayPlans.map((dayPlan) => (
-                          <div key={dayPlan.day} className="border border-gray-100 rounded-lg p-4">
-                            <div className="flex items-center gap-2 mb-3">
-                              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                                <span className="text-primary font-bold text-sm">D{dayPlan.day}</span>
+                          <div key={dayPlan.day} className="border border-gray-100 rounded-lg p-3 md:p-4">
+                            <div className="flex items-center gap-2 mb-2 md:mb-3">
+                              <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                                <span className="text-primary font-bold text-xs md:text-sm">D{dayPlan.day}</span>
                               </div>
-                              <h5 className="font-serif font-bold text-text-primary">{dayPlan.title}</h5>
+                              <h5 className="font-serif font-bold text-sm md:text-base text-text-primary">{dayPlan.title}</h5>
                             </div>
                             
-                            <div className="space-y-3 mb-3">
+                            <div className="space-y-2 md:space-y-3 mb-2 md:mb-3">
                               {dayPlan.activities.map((activity, idx) => (
-                                <div key={idx} className="flex gap-3">
-                                  <div className="flex-shrink-0 w-20 text-xs text-primary font-medium">
+                                <div key={idx} className="flex gap-2 md:gap-3">
+                                  <div className="flex-shrink-0 w-16 md:w-20 text-xs text-primary font-medium">
                                     {activity.time}
                                   </div>
-                                  <div className="flex-1">
-                                    <p className="text-sm font-medium text-text-primary">{activity.location}</p>
-                                    <p className="text-xs text-text-secondary">{activity.description}</p>
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-xs md:text-sm font-medium text-text-primary truncate">{activity.location}</p>
+                                    <p className="text-xs text-text-secondary line-clamp-2">{activity.description}</p>
                                     {activity.tips && (
-                                      <p className="text-xs text-amber-600 mt-1">💡 {activity.tips}</p>
+                                      <p className="text-xs text-amber-600 mt-0.5 md:mt-1">💡 {activity.tips}</p>
                                     )}
                                   </div>
                                 </div>
@@ -581,15 +577,15 @@ export default function RouteRecommendation() {
                             </div>
 
                             {dayPlan.meals && (
-                              <div className="flex items-center gap-2 text-xs text-text-secondary mb-2">
-                                <Utensils className="w-3 h-3" />
-                                <span>{dayPlan.meals.join(' → ')}</span>
+                              <div className="flex items-center gap-1.5 md:gap-2 text-xs text-text-secondary mb-1.5 md:mb-2">
+                                <Utensils className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
+                                <span className="truncate">{dayPlan.meals.join(' → ')}</span>
                               </div>
                             )}
 
                             {dayPlan.accommodation && dayPlan.day < route.durationDays && (
-                              <div className="flex items-center gap-2 text-xs text-text-secondary">
-                                <Home className="w-3 h-3" />
+                              <div className="flex items-center gap-1.5 md:gap-2 text-xs text-text-secondary">
+                                <Home className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
                                 <span>住宿: {dayPlan.accommodation}</span>
                               </div>
                             )}
@@ -598,7 +594,7 @@ export default function RouteRecommendation() {
 
                         <button
                           onClick={() => navigate(`/attraction/${routeAttractions[0]?.id}`)}
-                          className="w-full py-2 border border-primary text-primary rounded-lg hover:bg-primary/5 transition-colors text-sm"
+                          className="w-full py-2 border border-primary text-primary rounded-lg hover:bg-primary/5 transition-colors text-xs md:text-sm"
                         >
                           从{routeAttractions[0]?.name}开始规划
                         </button>
@@ -610,24 +606,24 @@ export default function RouteRecommendation() {
             })}
           </div>
 
-          <div className="mt-16 bg-gradient-to-r from-secondary to-oasis rounded-2xl p-8 md:p-12 text-white">
+          <div className="mt-12 md:mt-16 bg-gradient-to-r from-secondary to-oasis rounded-xl md:rounded-2xl p-6 md:p-12 text-white">
             <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl font-serif font-bold mb-4">
+              <h2 className="text-xl md:text-3xl font-serif font-bold mb-3 md:mb-4">
                 需要定制专属路线？
               </h2>
-              <p className="text-white/90 mb-6">
+              <p className="text-white/90 mb-4 md:mb-6 text-sm md:text-base">
                 根据您的偏好和时间，为您量身打造专属的宁夏之旅
               </p>
-              <div className="flex flex-wrap justify-center gap-4">
+              <div className="flex flex-col sm:flex-row justify-center gap-2 md:gap-4">
                 <button
                   onClick={() => navigate('/')}
-                  className="px-6 py-3 bg-white text-secondary font-bold rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
+                  className="px-4 py-2 md:px-6 md:py-3 bg-white text-secondary font-bold rounded-lg hover:bg-gray-100 transition-colors shadow-lg text-sm md:text-base"
                 >
                   查看景点地图
                 </button>
                 <button
                   onClick={() => navigate('/attractions')}
-                  className="px-6 py-3 bg-white/20 backdrop-blur-sm text-white font-bold rounded-lg hover:bg-white/30 transition-colors border border-white/30"
+                  className="px-4 py-2 md:px-6 md:py-3 bg-white/20 backdrop-blur-sm text-white font-bold rounded-lg hover:bg-white/30 transition-colors border border-white/30 text-sm md:text-base"
                 >
                   浏览全部景点
                 </button>
@@ -635,37 +631,37 @@ export default function RouteRecommendation() {
             </div>
           </div>
 
-          <div className="mt-12 bg-white rounded-xl p-6 shadow-soft">
-            <h3 className="text-lg font-serif font-bold text-text-primary mb-4 flex items-center gap-2">
-              <Info className="w-5 h-5 text-primary" />
+          <div className="mt-8 md:mt-12 bg-white rounded-xl p-4 md:p-6 shadow-soft">
+            <h3 className="text-base md:text-lg font-serif font-bold text-text-primary mb-3 md:mb-4 flex items-center gap-2">
+              <Info className="w-4 h-4 md:w-5 md:h-5 text-primary" />
               旅行小贴士
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
               <div className="flex gap-3">
-                <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
-                  <Sun className="w-5 h-5 text-amber-600" />
+                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+                  <Sun className="w-4 h-4 md:w-5 md:h-5 text-amber-600" />
                 </div>
                 <div>
-                  <h4 className="font-medium text-text-primary mb-1">最佳时间</h4>
-                  <p className="text-sm text-text-secondary">5-6月天气凉爽，9-10月秋高气爽，沙漠温度适宜</p>
+                  <h4 className="font-medium text-text-primary mb-1 text-sm md:text-base">最佳时间</h4>
+                  <p className="text-xs md:text-sm text-text-secondary">5-6月天气凉爽，9-10月秋高气爽</p>
                 </div>
               </div>
               <div className="flex gap-3">
-                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                  <Bus className="w-5 h-5 text-blue-600" />
+                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                  <Bus className="w-4 h-4 md:w-5 md:h-5 text-blue-600" />
                 </div>
                 <div>
-                  <h4 className="font-medium text-text-primary mb-1">交通建议</h4>
-                  <p className="text-sm text-text-secondary">区内高铁便捷，银川到中卫约1.5小时，建议包车更灵活</p>
+                  <h4 className="font-medium text-text-primary mb-1 text-sm md:text-base">交通建议</h4>
+                  <p className="text-xs md:text-sm text-text-secondary">区内高铁便捷，银川到中卫约1.5小时</p>
                 </div>
               </div>
               <div className="flex gap-3">
-                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                  <Coffee className="w-5 h-5 text-green-600" />
+                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                  <Coffee className="w-4 h-4 md:w-5 md:h-5 text-green-600" />
                 </div>
                 <div>
-                  <h4 className="font-medium text-text-primary mb-1">美食推荐</h4>
-                  <p className="text-sm text-text-secondary">盐池滩羊、手抓羊肉、辣糊糊、羊杂碎、吴忠早茶</p>
+                  <h4 className="font-medium text-text-primary mb-1 text-sm md:text-base">美食推荐</h4>
+                  <p className="text-xs md:text-sm text-text-secondary">盐池滩羊、辣糊糊、羊杂碎</p>
                 </div>
               </div>
             </div>

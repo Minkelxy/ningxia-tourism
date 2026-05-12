@@ -508,8 +508,9 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
           preserveAspectRatio="xMidYMid meet"
           className="w-full h-auto max-w-full cursor-grab active:cursor-grabbing"
           style={{ 
-            maxHeight: 'calc(100vh - 250px)',
-            minHeight: '300px',
+            maxHeight: 'calc(100vh - 280px)',
+            minHeight: '280px',
+            maxWidth: '100%',
             transform: `scale(${zoom}) translate(${pan.x}px, ${pan.y}px)`,
             transformOrigin: 'center center'
           }}
@@ -1130,7 +1131,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
       {viewLevel === 'province' && (
         <div className="mt-4 bg-white rounded-lg shadow-md p-3 md:p-4">
           <h3 className="text-xs md:text-sm font-bold mb-2 md:mb-3 text-gray-700">🏙️ 宁夏5个地级市（点击进入）</h3>
-          <div className="grid grid-cols-3 md:grid-cols-5 gap-1 md:gap-2 text-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-1.5 md:gap-2 text-xs">
             {geoFeatures.map((feature: GeoFeature) => {
               const name = feature.properties?.fullname || feature.properties?.name;
               const pinyin = feature.properties?.pinyin;
@@ -1138,7 +1139,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
                 <button
                   key={pinyin}
                   onClick={() => handleCityClick(feature)}
-                  className="px-2 md:px-3 py-1.5 md:py-2 bg-blue-50 hover:bg-blue-100 rounded transition-colors text-blue-800 font-medium text-xs md:text-sm"
+                  className="px-2 md:px-3 py-2 md:py-2.5 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors text-blue-800 font-medium text-xs md:text-sm"
                 >
                   {name}
                 </button>
@@ -1148,50 +1149,51 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
         </div>
       )}
 
-      <div className="absolute bottom-2 md:bottom-4 left-2 md:left-4 bg-white/90 backdrop-blur-sm rounded-lg p-2 md:p-4 shadow-soft max-w-[180px] md:max-w-none">
+      <div className="absolute bottom-2 md:bottom-4 left-2 md:left-4 bg-white/90 backdrop-blur-sm rounded-lg p-2 md:p-4 shadow-soft max-w-[160px] sm:max-w-[200px]">
         <h4 className="text-xs md:text-sm font-serif font-bold mb-1 md:mb-2">地级市</h4>
-        <div className="space-y-1 text-xs text-text-secondary">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 md:w-4 md:h-3 rounded" style={{ backgroundColor: cityColors.yinchuan.fill }}></div>
-            <span>银川市</span>
+        <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-xs text-text-secondary">
+          <div className="flex items-center gap-1.5">
+            <div className="w-2.5 h-2.5 md:w-3 md:h-2.5 rounded flex-shrink-0" style={{ backgroundColor: cityColors.yinchuan.fill }}></div>
+            <span className="truncate">银川</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 md:w-4 md:h-3 rounded" style={{ backgroundColor: cityColors.shizuishan.fill }}></div>
-            <span>石嘴山</span>
+          <div className="flex items-center gap-1.5">
+            <div className="w-2.5 h-2.5 md:w-3 md:h-2.5 rounded flex-shrink-0" style={{ backgroundColor: cityColors.shizuishan.fill }}></div>
+            <span className="truncate">石嘴山</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 md:w-4 md:h-3 rounded" style={{ backgroundColor: cityColors.wuzhong.fill }}></div>
-            <span>吴忠市</span>
+          <div className="flex items-center gap-1.5">
+            <div className="w-2.5 h-2.5 md:w-3 md:h-2.5 rounded flex-shrink-0" style={{ backgroundColor: cityColors.wuzhong.fill }}></div>
+            <span className="truncate">吴忠</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 md:w-4 md:h-3 rounded" style={{ backgroundColor: cityColors.guyuan.fill }}></div>
-            <span>固原市</span>
+          <div className="flex items-center gap-1.5">
+            <div className="w-2.5 h-2.5 md:w-3 md:h-2.5 rounded flex-shrink-0" style={{ backgroundColor: cityColors.guyuan.fill }}></div>
+            <span className="truncate">固原</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 md:w-4 md:h-3 rounded" style={{ backgroundColor: cityColors.zhongwei.fill }}></div>
-            <span>中卫市</span>
+          <div className="flex items-center gap-1.5 col-span-2">
+            <div className="w-2.5 h-2.5 md:w-3 md:h-2.5 rounded flex-shrink-0" style={{ backgroundColor: cityColors.zhongwei.fill }}></div>
+            <span className="truncate">中卫</span>
           </div>
         </div>
-        <h4 className="text-xs md:text-sm font-serif font-bold mt-2 mb-1">其他</h4>
-        <div className="space-y-1 text-xs text-text-secondary">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 md:w-4 md:h-3 rounded" style={{ backgroundColor: '#A8D5BA' }}></div>
+        <div className="mt-2 border-t border-gray-200 pt-2">
+          <div className="flex items-center gap-1.5 text-xs text-text-secondary">
+            <div className="w-2.5 h-2.5 md:w-3 md:h-2.5 rounded flex-shrink-0" style={{ backgroundColor: '#A8D5BA' }}></div>
             <span>区/县级</span>
           </div>
         </div>
-        <h4 className="text-xs md:text-sm font-serif font-bold mt-2 mb-1">交通枢纽</h4>
-        <div className="space-y-1 text-xs text-text-secondary">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 md:w-4 md:h-3 rounded" style={{ backgroundColor: '#7C3AED' }}></div>
-            <span>🚄 高铁站</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 md:w-4 md:h-3 rounded" style={{ backgroundColor: '#059669' }}></div>
-            <span>🚉 火车站</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 md:w-4 md:h-3 rounded" style={{ backgroundColor: '#F59E0B' }}></div>
-            <span>🚌 汽车站</span>
+        <div className="mt-2 border-t border-gray-200 pt-2">
+          <h4 className="text-xs md:text-sm font-serif font-bold mb-1">交通</h4>
+          <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-xs text-text-secondary">
+            <div className="flex items-center gap-1.5">
+              <div className="w-2.5 h-2.5 md:w-3 md:h-2.5 rounded flex-shrink-0" style={{ backgroundColor: '#7C3AED' }}></div>
+              <span>🚄</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div className="w-2.5 h-2.5 md:w-3 md:h-2.5 rounded flex-shrink-0" style={{ backgroundColor: '#059669' }}></div>
+              <span>🚉</span>
+            </div>
+            <div className="flex items-center gap-1.5 col-span-2">
+              <div className="w-2.5 h-2.5 md:w-3 md:h-2.5 rounded flex-shrink-0" style={{ backgroundColor: '#F59E0B' }}></div>
+              <span>🚌 汽车站</span>
+            </div>
           </div>
         </div>
       </div>
