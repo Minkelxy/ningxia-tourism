@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ZoomIn, ZoomOut, Home as HomeIcon, Loader, RotateCcw } from 'lucide-react';
-import { themePresets, cityColors, CityName } from '../config/map-config';
+import { themePresets, cityColors, CityName, getDistrictColor } from '../config/map-config';
 import { Attraction } from '../types';
 import attractionsData from '../data/attractions.json';
 
@@ -220,7 +220,22 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
   const loadDistrictData = async (code: string) => {
     setLoadingDistricts(true);
     try {
-      const response = await fetch(`https://geojson.cn/api/china/1.6.3/640000/${code}.json`);
+      const cityPinyinMap: Record<string, string> = {
+        '640100': 'yinchuan',
+        '640200': 'shizuishan',
+        '640300': 'wuzhong',
+        '640400': 'guyuan',
+        '640500': 'zhongwei',
+      };
+      
+      const cityPinyin = cityPinyinMap[code];
+      if (!cityPinyin) {
+        console.warn('Unknown city code:', code);
+        setDistrictFeatures([]);
+        return;
+      }
+      
+      const response = await fetch(`/data/ningxia/districts/${cityPinyin}.json`);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -241,9 +256,6 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
       
       if (data && data.type === 'FeatureCollection' && data.features) {
         setDistrictFeatures(data.features);
-      } else if (data && data.code === -1) {
-        console.warn('API returned error:', data.msg);
-        setDistrictFeatures([]);
       } else {
         console.warn('Invalid GeoJSON format');
         setDistrictFeatures([]);
@@ -610,6 +622,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
                 const center = feature.properties?.center;
                 const isHovered = hoveredDistrict === districtId;
                 const isSelected = selectedDistrict?.properties?.pinyin === districtId;
+                const colors = getDistrictColor(name);
 
                 const svgCenter = center ? geoToSVG(center[0], center[1]) : { x: 450, y: 350 };
 
@@ -626,8 +639,8 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
                   <g key={`district-${districtId}-${index}`}>
                     <path
                       d={pathD}
-                      fill={isSelected ? 'url(#selectedGradient)' : isHovered ? themePresets['default'].colors.district.fillHover : 'url(#districtGradient)'}
-                      stroke={isSelected ? themePresets['default'].colors.province.strokeSelected : isHovered ? themePresets['default'].colors.province.strokeHover : themePresets['default'].colors.district.stroke}
+                      fill={isSelected ? 'url(#selectedGradient)' : isHovered ? colors.fillHover : colors.fill}
+                      stroke={isSelected ? themePresets['default'].colors.province.strokeSelected : isHovered ? colors.strokeHover : colors.stroke}
                       strokeWidth={isSelected ? 2 : isHovered ? 1.5 : 1}
                       className="cursor-pointer transition-all duration-300"
                       onMouseEnter={() => setHoveredDistrict(districtId)}
@@ -680,6 +693,7 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
                 const districtId = feature.properties?.pinyin || name.toLowerCase();
                 const isSelected = selectedDistrict?.properties?.pinyin === districtId;
                 const isHovered = hoveredDistrict === districtId;
+                const colors = getDistrictColor(name);
 
                 let pathD = '';
                 if (feature.geometry?.type === 'Polygon') {
@@ -694,10 +708,10 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
                   <path
                     key={`district-view-${districtId}-${index}`}
                     d={pathD}
-                    fill={isSelected ? 'url(#selectedGradient)' : isHovered ? '#8BC49E' : 'url(#districtGradient)'}
-                    stroke={isSelected ? '#1A3A2A' : isHovered ? '#2D5A4A' : '#5A9B6E'}
+                    fill={isSelected ? 'url(#selectedGradient)' : isHovered ? colors.fillHover : colors.fill}
+                    stroke={isSelected ? themePresets['default'].colors.province.strokeSelected : isHovered ? colors.strokeHover : colors.stroke}
                     strokeWidth={isSelected ? 3 : isHovered ? 2 : 1}
-                    opacity={isSelected || isHovered ? 1 : 0.7}
+                    opacity={isSelected || isHovered ? 1 : 0.8}
                     className="cursor-pointer transition-all duration-300"
                     onClick={() => setSelectedDistrict(feature)}
                   />
