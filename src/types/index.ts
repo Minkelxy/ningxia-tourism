@@ -13,6 +13,7 @@ export interface Restaurant {
   name: string;
   city: string;
   address?: string;
+  coordinates?: Coordinates;
   recommend?: string;
 }
 
