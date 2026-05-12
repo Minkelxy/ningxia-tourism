@@ -235,7 +235,8 @@ export default function NingxiaInteractiveMap({ onCityClick }: NingxiaInteractiv
         return;
       }
       
-      const response = await fetch(`/data/ningxia/districts/${cityPinyin}.json`);
+      const baseUrl = import.meta.env.BASE_URL || '/';
+      const response = await fetch(`${baseUrl}data/ningxia/districts/${cityPinyin}.json`);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
