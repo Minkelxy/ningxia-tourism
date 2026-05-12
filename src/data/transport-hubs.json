@@ -1,0 +1,167 @@
+[
+  {
+    "id": "yinchuan_railway_station",
+    "name": "银川站",
+    "city": "银川",
+    "cityPinyin": "yinchuan",
+    "type": "railway",
+    "description": "银川市主要铁路客运站，是包兰铁路、太中银铁路等多条铁路的交汇点。",
+    "coordinates": { "lng": 106.26, "lat": 38.48 },
+    "address": "宁夏回族自治区银川市兴庆区上海西路",
+    "phone": "0951-12306"
+  },
+  {
+    "id": "yinchuan_highspeed_station",
+    "name": "银川东站",
+    "city": "银川",
+    "cityPinyin": "yinchuan",
+    "type": "highspeed_rail",
+    "description": "银川市高速铁路客运站，主要服务银西高铁、银兰高铁等线路。",
+    "coordinates": { "lng": 106.22, "lat": 38.37 },
+    "address": "宁夏回族自治区银川市兴庆区",
+    "phone": "0951-12306"
+  },
+  {
+    "id": "yinchuan_bus_station",
+    "name": "银川汽车站",
+    "city": "银川",
+    "cityPinyin": "yinchuan",
+    "type": "bus",
+    "description": "银川市主要长途汽车客运站，提供发往区内各地及周边省市的班车。",
+    "coordinates": { "lng": 106.25, "lat": 38.44 },
+    "address": "宁夏回族自治区银川市兴庆区清和南街",
+    "phone": "0951-7899633"
+  },
+  {
+    "id": "shizuishan_railway_station",
+    "name": "石嘴山站",
+    "city": "石嘴山",
+    "cityPinyin": "shizuishan",
+    "type": "railway",
+    "description": "石嘴山市铁路客运站，位于包兰铁路线上。",
+    "coordinates": { "lng": 106.38, "lat": 39.04 },
+    "address": "宁夏回族自治区石嘴山市大武口区",
+    "phone": "0951-12306"
+  },
+  {
+    "id": "shizuishan_bus_station",
+    "name": "石嘴山汽车站",
+    "city": "石嘴山",
+    "cityPinyin": "shizuishan",
+    "type": "bus",
+    "description": "石嘴山市主要长途汽车客运站。",
+    "coordinates": { "lng": 106.37, "lat": 39.02 },
+    "address": "宁夏回族自治区石嘴山市大武口区",
+    "phone": "0952-2013105"
+  },
+  {
+    "id": "wuzhong_railway_station",
+    "name": "吴忠站",
+    "city": "吴忠",
+    "cityPinyin": "wuzhong",
+    "type": "railway",
+    "description": "吴忠市铁路客运站，位于太中银铁路线上。",
+    "coordinates": { "lng": 106.20, "lat": 37.99 },
+    "address": "宁夏回族自治区吴忠市利通区",
+    "phone": "0951-12306"
+  },
+  {
+    "id": "wuzhong_highspeed_station",
+    "name": "吴忠东站",
+    "city": "吴忠",
+    "cityPinyin": "wuzhong",
+    "type": "highspeed_rail",
+    "description": "吴忠市高速铁路客运站，服务银西高铁。",
+    "coordinates": { "lng": 106.23, "lat": 37.97 },
+    "address": "宁夏回族自治区吴忠市利通区",
+    "phone": "0951-12306"
+  },
+  {
+    "id": "wuzhong_bus_station",
+    "name": "吴忠汽车站",
+    "city": "吴忠",
+    "cityPinyin": "wuzhong",
+    "type": "bus",
+    "description": "吴忠市主要长途汽车客运站。",
+    "coordinates": { "lng": 106.21, "lat": 38.00 },
+    "address": "宁夏回族自治区吴忠市利通区",
+    "phone": "0953-2012144"
+  },
+  {
+    "id": "guyuan_railway_station",
+    "name": "固原站",
+    "city": "固原",
+    "cityPinyin": "guyuan",
+    "type": "railway",
+    "description": "固原市铁路客运站，位于宝中铁路线上。",
+    "coordinates": { "lng": 106.28, "lat": 36.00 },
+    "address": "宁夏回族自治区固原市原州区",
+    "phone": "0951-12306"
+  },
+  {
+    "id": "guyuan_bus_station",
+    "name": "固原汽车站",
+    "city": "固原",
+    "cityPinyin": "guyuan",
+    "type": "bus",
+    "description": "固原市主要长途汽车客运站。",
+    "coordinates": { "lng": 106.27, "lat": 35.99 },
+    "address": "宁夏回族自治区固原市原州区",
+    "phone": "0954-2031155"
+  },
+  {
+    "id": "zhongwei_railway_station",
+    "name": "中卫站",
+    "city": "中卫",
+    "cityPinyin": "zhongwei",
+    "type": "railway",
+    "description": "中卫市铁路客运站，是包兰铁路、太中银铁路等多条铁路的交汇点。",
+    "coordinates": { "lng": 105.18, "lat": 37.50 },
+    "address": "宁夏回族自治区中卫市沙坡头区",
+    "phone": "0951-12306"
+  },
+  {
+    "id": "zhongwei_highspeed_station",
+    "name": "中卫南站",
+    "city": "中卫",
+    "cityPinyin": "zhongwei",
+    "type": "highspeed_rail",
+    "description": "中卫市高速铁路客运站，服务银兰高铁。",
+    "coordinates": { "lng": 105.16, "lat": 37.45 },
+    "address": "宁夏回族自治区中卫市沙坡头区",
+    "phone": "0951-12306"
+  },
+  {
+    "id": "zhongwei_bus_station",
+    "name": "中卫汽车站",
+    "city": "中卫",
+    "cityPinyin": "zhongwei",
+    "type": "bus",
+    "description": "中卫市主要长途汽车客运站。",
+    "coordinates": { "lng": 105.19, "lat": 37.51 },
+    "address": "宁夏回族自治区中卫市沙坡头区",
+    "phone": "0955-7012164"
+  },
+  {
+    "id": "zhongning_railway_station",
+    "name": "中宁站",
+    "city": "吴忠",
+    "cityPinyin": "wuzhong",
+    "type": "railway",
+    "description": "中宁县铁路客运站，位于包兰铁路线上。",
+    "coordinates": { "lng": 105.67, "lat": 37.49 },
+    "address": "宁夏回族自治区吴忠市中宁县",
+    "phone": "0951-12306"
+  },
+  {
+    "id": "lingwu_railway_station",
+    "name": "灵武站",
+    "city": "银川",
+    "cityPinyin": "yinchuan",
+    "type": "railway",
+    "description": "灵武市铁路客运站，位于太中银铁路线上。",
+    "coordinates": { "lng": 106.34, "lat": 38.08 },
+    "address": "宁夏回族自治区银川市灵武市",
+    "phone": "0951-12306"
+  }
+]

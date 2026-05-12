@@ -1,0 +1,207 @@
+[
+  {
+    "id": "shouzhua-yangrou",
+    "name": "手抓羊肉",
+    "nameEn": "Hand-grasped Lamb",
+    "category": "羊肉类",
+    "description": "宁夏最具代表性的美食，选用盐池滩羊，肉质鲜嫩无膻味，蘸蒜汁或醋食用。",
+    "origin": "宁夏各地",
+    "bestSeason": "秋冬最佳",
+    "priceRange": "60-120元/斤",
+    "restaurants": [
+      {"name": "国强手抓", "city": "银川", "address": "银川市兴庆区民族南街", "coordinates": {"lng": 106.28, "lat": 38.47}, "recommend": "手抓羊肉、八宝茶"},
+      {"name": "老毛手抓", "city": "银川", "address": "银川市金凤区北京中路", "coordinates": {"lng": 106.27, "lat": 38.46}, "recommend": "精品手抓、羊肉臊子面"},
+      {"name": "马记手抓", "city": "吴忠", "address": "吴忠市利通区迎宾大街", "coordinates": {"lng": 106.22, "lat": 37.98}, "recommend": "清汤手抓、羊杂碎"}
+    ],
+    "tips": "选择盐池滩羊，蘸料用醋+蒜末最佳"
+  },
+  {
+    "id": "yangzasui",
+    "name": "羊杂碎",
+    "nameEn": "Lamb Offal Soup",
+    "category": "羊肉类",
+    "description": "羊肠、羊肚、羊心、羊肝等羊内脏熬制的浓汤，配烙饼或米饭食用，是宁夏人早餐的最爱。",
+    "origin": "宁夏各地",
+    "bestSeason": "秋冬最佳",
+    "priceRange": "15-30元/碗",
+    "restaurants": [
+      {"name": "马三妹羊杂碎", "city": "银川", "address": "银川市西夏区怀远路", "coordinates": {"lng": 106.18, "lat": 38.45}, "recommend": "羊杂碎配饼子"},
+      {"name": "老吴羊杂", "city": "吴忠", "address": "吴忠市利通区早市", "coordinates": {"lng": 106.20, "lat": 37.99}, "recommend": "清真羊杂"}
+    ],
+    "tips": "早上吃最地道，配馍馍或米饭"
+  },
+  {
+    "id": "yangrou-saozimian",
+    "name": "羊肉臊子面",
+    "nameEn": "Lamb Noodles",
+    "category": "面食类",
+    "description": "筋道的手工面条配上浓郁的羊肉臊子，是宁夏经典主食。",
+    "origin": "吴忠",
+    "bestSeason": "全年适宜",
+    "priceRange": "15-30元/碗",
+    "restaurants": [
+      {"name": "吴忠老毛手抓", "city": "吴忠", "address": "吴忠市利通区", "coordinates": {"lng": 106.21, "lat": 37.98}, "recommend": "羊肉臊子面"},
+      {"name": "陕北面馆", "city": "银川", "address": "银川市兴庆区解放街", "coordinates": {"lng": 106.29, "lat": 38.48}, "recommend": "臊子面"}
+    ],
+    "tips": "吴忠的羊肉臊子面最正宗"
+  },
+  {
+    "id": "làhúhu",
+    "name": "辣糊糊",
+    "nameEn": "Spicy Paste Hot Pot",
+    "category": "特色小吃",
+    "description": "麻辣烫的升级版，自选食材蘸秘制辣酱，银川夜市必吃。",
+    "origin": "银川",
+    "bestSeason": "全年适宜",
+    "priceRange": "30-60元/人",
+    "restaurants": [
+      {"name": "怀远一品辣糊糊", "city": "银川", "address": "银川市西夏区怀远夜市", "coordinates": {"lng": 106.17, "lat": 38.44}, "recommend": "辣糊糊、炸年糕"},
+      {"name": "老丁辣糊糊", "city": "银川", "address": "银川市兴庆区新华街", "coordinates": {"lng": 106.30, "lat": 38.47}, "recommend": "秘制辣糊糊"}
+    ],
+    "tips": "微辣即可，配酸梅汤解辣"
+  },
+  {
+    "id": "haozi-mian",
+    "name": "蒿子面",
+    "nameEn": "Artemisia Noodles",
+    "category": "面食类",
+    "description": "细如发丝的手工面条，配羊肉臊子，是中卫非遗美食。",
+    "origin": "中卫",
+    "bestSeason": "全年适宜",
+    "priceRange": "15-25元/碗",
+    "restaurants": [
+      {"name": "中卫蒿子面馆", "city": "中卫", "address": "中卫市沙坡头区鼓楼街", "coordinates": {"lng": 105.19, "lat": 37.51}, "recommend": "蒿子面"},
+      {"name": "马家面馆", "city": "中卫", "address": "中卫市沙坡头区", "coordinates": {"lng": 105.18, "lat": 37.52}, "recommend": "羊肉蒿子面"}
+    ],
+    "tips": "面很细，吃起来很筋道"
+  },
+  {
+    "id": "youxiang",
+    "name": "油香",
+    "nameEn": "Fried Cake",
+    "category": "特色小吃",
+    "description": "回族传统油炸面食，外酥里软，配八宝茶绝配。",
+    "origin": "宁夏各地",
+    "bestSeason": "全年适宜",
+    "priceRange": "2-5元/个",
+    "restaurants": [
+      {"name": "伊味斋清真糕点", "city": "银川", "address": "银川市兴庆区南薰西街", "coordinates": {"lng": 106.28, "lat": 38.46}, "recommend": "油香、馓子"},
+      {"name": "吴忠早茶店", "city": "吴忠", "address": "吴忠市利通区", "coordinates": {"lng": 106.20, "lat": 37.99}, "recommend": "油香配八宝茶"}
+    ],
+    "tips": "刚炸出来的最好吃"
+  },
+  {
+    "id": "baba-cha",
+    "name": "八宝茶",
+    "nameEn": "Eight Treasure Tea",
+    "category": "饮品",
+    "description": "茶叶、冰糖、枸杞、红枣、桂圆、葡萄干、芝麻、核桃八种原料冲泡，回族待客佳品。",
+    "origin": "宁夏各地",
+    "bestSeason": "秋冬最佳",
+    "priceRange": "5-15元/碗",
+    "restaurants": [
+      {"name": "国强手抓旗舰店", "city": "银川", "address": "银川市兴庆区民族南街", "coordinates": {"lng": 106.28, "lat": 38.47}, "recommend": "八宝茶"}
+    ],
+    "tips": "盖碗茶三泡茶，越喝越甜"
+  },
+  {
+    "id": "sanzha",
+    "name": "馓子",
+    "nameEn": "Fried Dough Twists",
+    "category": "特色小吃",
+    "description": "回族传统油炸面食，香脆可口，配茶或粥食用。",
+    "origin": "宁夏各地",
+    "bestSeason": "全年适宜",
+    "priceRange": "10-20元/份",
+    "restaurants": [
+      {"name": "伊味斋清真糕点", "city": "银川", "address": "银川市兴庆区南薰西街", "coordinates": {"lng": 106.28, "lat": 38.46}, "recommend": "馓子"}
+    ],
+    "tips": "现炸的最脆"
+  },
+  {
+    "id": "xiang-cai",
+    "name": "烩菜",
+    "nameEn": "Braised Mixed Vegetables",
+    "category": "家常菜",
+    "description": "多种蔬菜和肉类一起炖煮，味道浓郁，下饭神器。",
+    "origin": "宁夏各地",
+    "bestSeason": "秋冬最佳",
+    "priceRange": "20-50元/份",
+    "restaurants": [
+      {"name": "塞外香农家菜", "city": "银川", "address": "银川市西夏区", "coordinates": {"lng": 106.16, "lat": 38.44}, "recommend": "大烩菜"}
+    ],
+    "tips": "配米饭或馒头"
+  },
+  {
+    "id": "xisha-gua",
+    "name": "中卫硒砂瓜",
+    "nameEn": "Zhongwei Watermelon",
+    "category": "水果",
+    "description": "沙漠种植的西瓜，甜度高达18度以上，7-9月成熟。",
+    "origin": "中卫",
+    "bestSeason": "7-9月",
+    "priceRange": "1-2元/斤",
+    "restaurants": [
+      {"name": "中卫果蔬批发市场", "city": "中卫", "address": "中卫市沙坡头区", "coordinates": {"lng": 105.19, "lat": 37.50}, "recommend": "硒砂瓜"}
+    ],
+    "tips": "夏天解暑佳品"
+  },
+  {
+    "id": "gouqi",
+    "name": "中宁枸杞",
+    "nameEn": "Zhongning Wolfberry",
+    "category": "特产",
+    "description": "中国最好的枸杞，颗粒饱满，营养丰富。",
+    "origin": "中宁",
+    "bestSeason": "6-8月",
+    "priceRange": "50-200元/斤",
+    "restaurants": [
+      {"name": "中宁枸杞交易中心", "city": "中宁", "address": "中宁县枸杞西街", "coordinates": {"lng": 105.67, "lat": 37.49}, "recommend": "枸杞"},
+      {"name": "早康枸杞专卖店", "city": "银川", "address": "银川市兴庆区", "coordinates": {"lng": 106.28, "lat": 38.47}, "recommend": "枸杞"}
+    ],
+    "tips": "泡水、煲汤、直接吃都可以"
+  },
+  {
+    "id": "hongzao",
+    "name": "灵武长枣",
+    "nameEn": "Lingwu Jujube",
+    "category": "水果",
+    "description": "灵武特产，枣大核小，甜脆可口。",
+    "origin": "灵武",
+    "bestSeason": "9-10月",
+    "priceRange": "15-30元/斤",
+    "restaurants": [
+      {"name": "灵武长枣采摘园", "city": "灵武", "address": "灵武市临河镇", "coordinates": {"lng": 106.45, "lat": 38.15}, "recommend": "鲜枣"}
+    ],
+    "tips": "新鲜的最好吃"
+  },
+  {
+    "id": "putaojiu",
+    "name": "贺兰山东麓葡萄酒",
+    "nameEn": "Helan Mountain Wine",
+    "category": "特产",
+    "description": "宁夏贺兰山东麓是世界顶级葡萄酒产区，张裕、长城等酒庄云集。",
+    "origin": "银川",
+    "bestSeason": "全年适宜",
+    "priceRange": "50-500元/瓶",
+    "restaurants": [
+      {"name": "张裕摩塞尔十五世酒庄", "city": "银川", "address": "银川市西夏区镇北堡", "coordinates": {"lng": 106.12, "lat": 38.42}, "recommend": "红酒品鉴"},
+      {"name": "志辉源石酒庄", "city": "银川", "address": "银川市西夏区镇北堡", "coordinates": {"lng": 106.11, "lat": 38.41}, "recommend": "红酒品鉴"}
+    ],
+    "tips": "9-10月采摘季可参观酒窖"
+  },
+  {
+    "id": "hua jianao",
+    "name": "中卫拉条子",
+    "nameEn": "Zhongwei Hand-pulled Noodles",
+    "category": "面食类",
+    "description": "手工拉制的面条，配各种浇头，是中卫家常美食。",
+    "origin": "中卫",
+    "bestSeason": "全年适宜",
+    "priceRange": "15-25元/碗",
+    "restaurants": [
+      {"name": "马记拉条子", "city": "中卫", "address": "中卫市沙坡头区", "coordinates": {"lng": 105.20, "lat": 37.51}, "recommend": "牛肉拉条子"}
+    ],
+    "tips": "面条劲道有嚼劲"
+  }
+]
