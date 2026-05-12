@@ -3,9 +3,12 @@ import react from '@vitejs/plugin-react'
 import tsconfigPaths from "vite-tsconfig-paths";
 import { traeBadgePlugin } from 'vite-plugin-trae-solo-badge';
 
-// https://vite.dev/config/
+const base = process.env.GITHUB_ACTIONS 
+  ? '/ningxia-tourism/' 
+  : process.env.VITE_BASE_URL || '/ningxia/';
+
 export default defineConfig({
-  base: '/ningxia/',
+  base,
   build: {
     sourcemap: 'hidden',
   },
