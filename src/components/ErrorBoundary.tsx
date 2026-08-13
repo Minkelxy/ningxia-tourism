@@ -1,84 +1,30 @@
-import { Component, ReactNode, ErrorInfo } from 'react';
-import { Home } from 'lucide-react';
+import { Component, type ErrorInfo, type ReactNode } from 'react';
+import { Home, RotateCcw, TriangleAlert } from 'lucide-react';
 
-interface Props {
-  children: ReactNode;
-  fallback?: ReactNode;
-}
-
-interface State {
-  hasError: boolean;
-  error?: Error;
-}
+interface Props { children: ReactNode }
+interface State { hasError: boolean }
 
 export default class ErrorBoundary extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { hasError: false };
-  }
+  state: State = { hasError: false };
 
-  static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error };
-  }
+  static getDerivedStateFromError(): State { return { hasError: true }; }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    if (import.meta.env.DEV) console.error('页面渲染失败', error, info);
   }
-
-  resetError = () => {
-    this.setState({ hasError: false, error: undefined });
-  };
 
   render() {
-    if (this.state.hasError) {
-      if (this.props.fallback) {
-        return this.props.fallback;
-      }
-
-      return (
-        <div className="min-h-screen bg-background flex items-center justify-center px-4">
-          <div className="text-center max-w-lg">
-            <div className="w-24 h-24 bg-gradient-to-br from-accent/10 to-red-100 rounded-full mx-auto mb-8 flex items-center justify-center">
-              <span className="text-5xl">⚠️</span>
-            </div>
-            
-            <h1 className="text-4xl font-serif font-bold text-text-primary mb-4">
-              出错了
-            </h1>
-            <p className="text-text-secondary mb-8">
-              页面加载时发生了错误，请尝试刷新或返回首页。
-            </p>
-            
-            {this.state.error && (
-              <div className="bg-red-50 rounded-lg p-4 mb-8 text-left">
-                <p className="text-sm text-red-600 font-medium mb-2">错误信息:</p>
-                <p className="text-xs text-red-500 font-mono break-all">
-                  {this.state.error.message}
-                </p>
-              </div>
-            )}
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={this.resetError}
-                className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-primary text-white rounded-lg font-medium hover:bg-sand-dark transition-colors"
-              >
-                重试
-              </button>
-              
-              <a
-                href="/"
-                className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-secondary text-white rounded-lg font-medium hover:bg-oasis transition-colors"
-              >
-                <Home className="w-5 h-5" />
-                返回首页
-              </a>
-            </div>
-          </div>
+    if (this.state.hasError) return (
+      <main className="full-state" role="alert">
+        <TriangleAlert aria-hidden="true" />
+        <h1>页面暂时没有打开</h1>
+        <p>这通常是一次临时加载问题。你可以重试当前页面，或返回首页继续浏览。</p>
+        <div className="state-actions">
+          <button type="button" className="btn-primary" onClick={() => window.location.reload()}><RotateCcw aria-hidden="true" />重新加载</button>
+          <a className="btn-quiet" href={import.meta.env.BASE_URL}><Home aria-hidden="true" />返回首页</a>
         </div>
-      );
-    }
-
+      </main>
+    );
     return this.props.children;
   }
 }

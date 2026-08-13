@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Verify and deploy to GitHub Pages
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: false
 
 env:
@@ -26,15 +26,29 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'npm'
+          node-version: "22"
+          cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Build
+      - name: Validate content data
+        run: npm run validate:data
+      - name: Type check
+        run: npm run check
+      - name: Lint
+        run: npm run lint
+      - name: Unit tests
+        run: npm test
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: End-to-end tests
+        run: npm run test:e2e
+        env:
+          VITE_BASE_URL: /ningxia-tourism/
+      - name: Production build
         run: npm run build
         env:
-          VITE_BASE_URL: '/ningxia-tourism/'
-      - name: Upload artifact
+          VITE_BASE_URL: /ningxia-tourism/
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
