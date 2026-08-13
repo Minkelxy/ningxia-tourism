@@ -6,6 +6,7 @@ const navLinks = [
   { path: '/', label: '地图探索' },
   { path: '/attractions', label: '精选景点' },
   { path: '/routes', label: '推荐路线' },
+  { path: '/journal', label: '旅行手记' },
   { path: '/cities', label: '五城概览' },
   { path: '/about', label: '关于本站' },
 ];

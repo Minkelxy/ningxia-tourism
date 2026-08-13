@@ -116,7 +116,7 @@ export const routes: RoutePlan[] = [
         { time: '14:00', title: '宁夏博物馆', attractionId: 'ningxiamuseum', description: '关注近现代史与宁夏地方历史展陈。' },
       ] },
       { day: 2, title: '盐池红色记忆', summary: '早出发前往盐池，当晚视体力住盐池或固原。', accommodation: '盐池县或固原市区', meals: ['午餐：盐池县城', '晚餐：住宿地'], stops: [
-        { time: '10:30', title: '盐池革命烈士纪念园', attractionId: 'yanchilie', description: '参观纪念空间和主题展陈。', transport: '包车或自驾' },
+        { time: '10:30', title: '盐池革命烈士纪念园', mapQuery: '盐池革命烈士纪念园', description: '该地点资料仍在复核，作为路线地理参考保留。', transport: '包车或自驾', tips: '出发前向主管部门确认开放和团队接待安排。' },
         { time: '15:00', title: '盐池县城人文走读', mapQuery: '盐池县', description: '结合县城历史与长城文化安排，具体点位以当地开放情况为准。' },
       ] },
       { day: 3, title: '六盘山长征文化', summary: '山地天气变化快，行程不要排得过满。', accommodation: '无', meals: ['午餐：泾源或隆德', '晚餐：固原市区'], stops: [

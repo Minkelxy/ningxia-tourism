@@ -3,6 +3,7 @@ export type CityId = 'yinchuan' | 'shizuishan' | 'wuzhong' | 'guyuan' | 'zhongwe
 export type AttractionCategory = 'nature' | 'history' | 'religion' | 'experience';
 
 export type ContentStatus = 'published' | 'draft';
+export type VerificationLevel = 'verified' | 'review';
 
 export interface Coordinates {
   lng: number;
@@ -36,6 +37,7 @@ export interface VisitInfo {
 export interface Attraction {
   id: string;
   status: ContentStatus;
+  verificationLevel: VerificationLevel;
   name: string;
   cityId: CityId;
   locality: string;
@@ -54,8 +56,8 @@ export interface City {
   id: CityId;
   name: string;
   pinyin: CityId;
-  population: string;
-  area: string;
+  travelRole: string;
+  connectionNote: string;
   nickname: string;
   introduction: string;
   history: string;
@@ -64,6 +66,51 @@ export interface City {
   culture: string;
   image: AttractionImage;
 }
+
+export type JournalType = 'travel' | 'food';
+
+export interface JournalCommon {
+  slug: string;
+  type: JournalType;
+  status: ContentStatus;
+  title: string;
+  excerpt: string;
+  author: string;
+  publishedAt: string;
+  cityId: CityId;
+  locality: string;
+  tags: string[];
+  cover: AttractionImage;
+  gallery: AttractionImage[];
+  relatedAttractionIds: string[];
+  relatedRouteIds: string[];
+  body: string;
+}
+
+export interface TravelJournal extends JournalCommon {
+  type: 'travel';
+  tripDate: string;
+  duration: string;
+  transport: string;
+  budgetNote: string;
+  highlights: string[];
+}
+
+export interface FoodJournal extends JournalCommon {
+  type: 'food';
+  visitedAt: string;
+  venueName: string;
+  cuisine: string;
+  address: string;
+  mapQuery: string;
+  pricePerPerson: string;
+  dishes: string[];
+  queueNote: string;
+  suitableFor: string;
+  revisitNote: string;
+}
+
+export type JournalEntry = TravelJournal | FoodJournal;
 
 export type RouteTheme = 'first-visit' | 'weekend' | 'panorama' | 'culture' | 'food';
 
