@@ -1,0 +1,42 @@
+import type { City, CityId } from '../types';
+
+export const cities: City[] = [
+  {
+    id: 'yinchuan', name: '银川市', pinyin: 'yinchuan', population: '约 289 万', area: '约 9,025 平方公里', nickname: '塞上湖城',
+    introduction: '宁夏回族自治区首府，贺兰山、黄河与银川平原共同塑造了城市格局，也是探索西夏历史和宁夏博物馆资源的主要落脚点。',
+    history: '银川长期是西北交通与文化交流的重要节点。西夏时期都城兴庆府位于今银川一带，留下西夏陵等重要遗产。',
+    foods: ['手抓羊肉', '羊杂碎', '辣糊糊', '八宝茶', '酿皮'], bestSeason: '4—10 月', culture: '西夏文化、黄河文化、回族文化',
+    image: { src: 'images/attractions/xixia.webp', alt: '贺兰山下的西夏陵遗址', credit: 'BabelStone', license: 'CC BY-SA 3.0', sourceUrl: 'https://commons.wikimedia.org/wiki/File:XiXia_Tomb_3_gate_tower_(west).jpg' },
+  },
+  {
+    id: 'shizuishan', name: '石嘴山市', pinyin: 'shizuishan', population: '约 75 万', area: '约 5,310 平方公里', nickname: '沙湖之城',
+    introduction: '宁夏北部城市，贺兰山与黄河平原在此相接，沙湖是最具代表性的旅游名片。',
+    history: '石嘴山近现代工业发展特色鲜明，如今正在以生态修复、湿地保护和工业遗产推动城市转型。',
+    foods: ['沙湖大鱼头', '羊肉臊子面', '酿皮', '羊肉串'], bestSeason: '5—10 月', culture: '湿地生态、工业遗产、黄河文化',
+    image: { src: 'images/attractions/shahu.webp', alt: '宁夏平原水域与田野景观', credit: 'GHOSTGHOSTH2O', license: 'CC BY-SA 4.0', sourceUrl: 'https://commons.wikimedia.org/wiki/File:宁夏平原稻田风光.png' },
+  },
+  {
+    id: 'wuzhong', name: '吴忠市', pinyin: 'wuzhong', population: '约 138 万', area: '约 2.14 万平方公里', nickname: '黄河金岸',
+    introduction: '黄河穿城而过，青铜峡水利工程、黄河文化景观与回族饮食传统共同构成吴忠的旅行特色。',
+    history: '吴忠是古丝绸之路北道的重要区域，长期受黄河灌溉滋养，形成了鲜明的农耕、商贸与多民族文化。',
+    foods: ['吴忠早茶', '手抓羊肉', '羊肉臊子面', '油香', '八宝茶'], bestSeason: '4—10 月', culture: '黄河文化、回族文化、灌溉文明',
+    image: { src: 'images/attractions/qingtongxia.webp', alt: '青铜峡黄河沿线景观', credit: 'AddisWang', license: 'CC BY-SA 3.0', sourceUrl: 'https://commons.wikimedia.org/wiki/File:青铜峡黄河铁桥.JPG' },
+  },
+  {
+    id: 'guyuan', name: '固原市', pinyin: 'guyuan', population: '约 114 万', area: '约 1.05 万平方公里', nickname: '丝路古城',
+    introduction: '宁夏南部山地城市，六盘山生态、丝路遗存、红色文化和黄土高原乡村景观彼此交织。',
+    history: '古原州是丝绸之路北道重镇。六盘山及周边保存着从古代交通到红军长征的多层历史记忆。',
+    foods: ['固原生汆面', '羊肉垫卷子', '洋芋擦擦', '荞面饸饹'], bestSeason: '5—9 月', culture: '丝路文化、长征文化、山地生态',
+    image: { src: 'images/attractions/liupanshan.webp', alt: '六盘山区域景观', credit: '董辰兴', license: 'CC BY-SA 4.0', sourceUrl: 'https://commons.wikimedia.org/wiki/File:六盘山红军长征纪念馆西眺.jpg' },
+  },
+  {
+    id: 'zhongwei', name: '中卫市', pinyin: 'zhongwei', population: '约 108 万', area: '约 1.74 万平方公里', nickname: '沙漠水城',
+    introduction: '腾格里沙漠与黄河在这里相遇，沙坡头、中卫高庙和老城生活共同组成宁夏最经典的旅行组合。',
+    history: '中卫地处河西走廊与宁夏平原之间，长期承担边塞、交通和黄河灌溉节点功能。',
+    foods: ['蒿子面', '手抓羊肉', '中宁枸杞', '硒砂瓜', '卤豆腐'], bestSeason: '5—10 月', culture: '沙漠文化、黄河文化、枸杞文化',
+    image: { src: 'images/attractions/shapotou.webp', alt: '沙坡头沙漠景观', credit: 'Fred Feng', license: 'Public domain', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Shapotou.jpg' },
+  },
+];
+
+export const getCityById = (cityId?: string) => cities.find((city) => city.id === cityId);
+export const cityName = (cityId: CityId) => getCityById(cityId)?.name ?? cityId;

@@ -1,140 +1,56 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Search, MapPin, Star } from 'lucide-react';
-import attractionsData from '../data/attractions.json';
-import { Attraction } from '../types';
-
-const typeLabels: Record<string, { label: string; color: string }> = {
-  nature: { label: '自然风光', color: 'bg-green-100 text-green-800' },
-  history: { label: '历史文化', color: 'bg-amber-100 text-amber-800' },
-  religion: { label: '宗教建筑', color: 'bg-purple-100 text-purple-800' },
-  experience: { label: '特色体验', color: 'bg-blue-100 text-blue-800' },
-};
+import { ArrowRight, Clock3, MapPin, Search, SlidersHorizontal } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
+import SEO from '../components/SEO';
+import ResponsiveImage from '../components/ResponsiveImage';
+import { publishedAttractions } from '../data/attractions';
+import { cities, cityName } from '../data/cities';
+import { categoryMeta } from '../data/meta';
+import type { AttractionCategory, CityId } from '../types';
 
 export default function AttractionsList() {
-  const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCity, setSelectedCity] = useState<string>('all');
-  const [selectedType, setSelectedType] = useState<string>('all');
+  const [params, setParams] = useSearchParams();
+  const query = params.get('q') ?? '';
+  const city = params.get('city') ?? 'all';
+  const category = params.get('category') ?? 'all';
 
-  const cities = Array.from(new Set(attractionsData.map(a => a.city)));
+  const setFilter = (name: string, value: string) => {
+    const next = new URLSearchParams(params);
+    if (!value || value === 'all') next.delete(name); else next.set(name, value);
+    setParams(next, { replace: true });
+  };
 
-  const filteredAttractions = attractionsData.filter((attraction: Attraction) => {
-    const matchesSearch = attraction.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      attraction.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCity = selectedCity === 'all' || attraction.city === selectedCity;
-    const matchesType = selectedType === 'all' || attraction.type === selectedType;
-    return matchesSearch && matchesCity && matchesType;
+  const attractions = publishedAttractions.filter((item) => {
+    const normalized = query.trim().toLocaleLowerCase('zh-CN');
+    const matchesQuery = !normalized || `${item.name}${item.locality}${item.summary}${item.highlights.join('')}`.toLocaleLowerCase('zh-CN').includes(normalized);
+    return matchesQuery && (city === 'all' || item.cityId === city) && (category === 'all' || item.category === category);
   });
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-serif font-bold text-text-primary mb-8 text-center">
-          宁夏景点导览
-        </h1>
+    <>
+      <SEO title="精选景点 · 宁夏旅行地图" description="浏览十二个已核实的宁夏代表性景点，按城市和主题筛选实用旅行信息。" />
+      <header className="page-hero compact-hero">
+        <div className="section-shell"><p className="eyebrow">精选目的地</p><h1>十二个景点，认识宁夏的不同侧面</h1><p>只展示已经补齐来源和出行信息的内容。开放时间、票价仍可能变化，出发前请再次查看官方公告。</p></div>
+      </header>
+      <main className="section-shell page-content">
+        <section className="filter-panel" aria-label="景点筛选">
+          <label className="search-field"><Search aria-hidden="true" /><span className="sr-only">搜索景点</span><input value={query} onChange={(event) => setFilter('q', event.target.value)} placeholder="搜索景点、城市或亮点" /></label>
+          <label><span><MapPin aria-hidden="true" /> 城市</span><select value={city} onChange={(event) => setFilter('city', event.target.value)}><option value="all">全部城市</option>{cities.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
+          <label><span><SlidersHorizontal aria-hidden="true" /> 类型</span><select value={category} onChange={(event) => setFilter('category', event.target.value)}><option value="all">全部类型</option>{Object.entries(categoryMeta).map(([value, meta]) => <option key={value} value={value}>{meta.label}</option>)}</select></label>
+        </section>
 
-        <div className="max-w-4xl mx-auto mb-8 space-y-4">
-          <div className="bg-white rounded-xl shadow-soft p-4">
-            <div className="flex items-center gap-3 mb-4">
-              <Search className="w-5 h-5 text-text-secondary" />
-              <input
-                type="text"
-                placeholder="搜索景点名称或描述..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="flex-1 outline-none text-text-primary placeholder:text-text-secondary"
-              />
-            </div>
+        <div className="result-summary"><strong>{attractions.length}</strong> 个符合条件的景点{(query || city !== 'all' || category !== 'all') && <button type="button" onClick={() => setParams({})}>清除筛选</button>}</div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-text-secondary mb-2">按城市筛选</label>
-                <select
-                  value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none"
-                >
-                  <option value="all">全部城市</option>
-                  {cities.map(city => (
-                    <option key={city} value={city}>{city}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-text-secondary mb-2">按类型筛选</label>
-                <select
-                  value={selectedType}
-                  onChange={(e) => setSelectedType(e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none"
-                >
-                  <option value="all">全部类型</option>
-                  <option value="nature">自然风光</option>
-                  <option value="history">历史文化</option>
-                  <option value="religion">宗教建筑</option>
-                  <option value="experience">特色体验</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center text-text-secondary">
-            共找到 <span className="font-bold text-primary">{filteredAttractions.length}</span> 个景点
-          </div>
-        </div>
-
-        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filteredAttractions.map((attraction: Attraction) => (
-            <div
-              key={attraction.id}
-              onClick={() => navigate(`/attraction/${attraction.id}`)}
-              className="bg-white rounded-xl shadow-soft overflow-hidden cursor-pointer hover:shadow-lg transition-shadow duration-300"
-            >
-              <div className="p-6">
-                <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-xl font-serif font-bold text-text-primary">
-                    {attraction.name}
-                  </h3>
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${typeLabels[attraction.type]?.color || 'bg-gray-100 text-gray-800'}`}>
-                    {typeLabels[attraction.type]?.label || attraction.type}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2 text-sm text-text-secondary mb-3">
-                  <MapPin className="w-4 h-4" />
-                  <span>{attraction.city}</span>
-                </div>
-
-                <p className="text-text-secondary text-sm line-clamp-3 mb-4">
-                  {attraction.description}
-                </p>
-
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2 text-sm font-medium text-text-primary">
-                    <Star className="w-4 h-4 text-primary" />
-                    <span>特色亮点</span>
-                  </div>
-                  <ul className="text-xs text-text-secondary space-y-1 ml-6">
-                    {attraction.highlights.slice(0, 3).map((highlight, index) => (
-                      <li key={index} className="flex items-center gap-2">
-                        <span className="w-1 h-1 rounded-full bg-primary"></span>
-                        {highlight}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {filteredAttractions.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-text-secondary text-lg">未找到符合条件的景点</p>
-          </div>
-        )}
-      </div>
-    </div>
+        {attractions.length ? <div className="attraction-grid">{attractions.map((item) => {
+          const meta = categoryMeta[item.category as AttractionCategory];
+          const cover = item.images[0];
+          return (
+            <article className="attraction-card" key={item.id}>
+              <Link to={`/attraction/${item.id}`} className="card-image"><ResponsiveImage src={cover.src} alt={cover.alt} loading="lazy" width="720" height="450" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 390px" /><span className={`category-badge ${meta.className}`}>{meta.label}</span></Link>
+              <div className="card-content"><p className="card-location"><MapPin aria-hidden="true" /> {cityName(item.cityId as CityId)} · {item.locality}</p><h2><Link to={`/attraction/${item.id}`}>{item.name}</Link></h2><p>{item.summary}</p><div className="card-meta"><span><Clock3 aria-hidden="true" /> {item.visitInfo.duration}</span><span>{item.visitInfo.bestSeason}</span></div><Link to={`/attraction/${item.id}`} className="text-link">查看出行信息 <ArrowRight aria-hidden="true" /></Link></div>
+            </article>
+          );
+        })}</div> : <div className="empty-state"><Search aria-hidden="true" /><h2>没有找到匹配的景点</h2><p>换一个关键词，或者清除城市与类型筛选再试试。</p><button type="button" className="btn-primary" onClick={() => setParams({})}>查看全部景点</button></div>}
+      </main>
+    </>
   );
 }

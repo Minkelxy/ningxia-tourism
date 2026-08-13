@@ -1,28 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="description" content="探索宁夏回族自治区的独特魅力，发现壮丽的沙漠风光、深厚的历史文化和浓郁的民族风情" />
-    <meta name="keywords" content="宁夏旅游,塞上江南,沙坡头,西夏王陵,宁夏景点,银川旅游,中卫旅游" />
-    <meta name="theme-color" content="#C4A35A" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    
-    <meta property="og:title" content="塞上江南·神奇宁夏 - 宁夏旅游地图" />
-    <meta property="og:description" content="探索宁夏回族自治区的独特魅力，发现壮丽的沙漠风光、深厚的历史文化和浓郁的民族风情" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="用地图探索宁夏五座城市、十二个已核实景点与七条主题旅行路线。" />
+    <meta name="theme-color" content="#315f4f" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="zh_CN" />
-    <meta property="og:site_name" content="宁夏旅游地图" />
-    
+    <meta property="og:site_name" content="宁夏旅行地图" />
+    <meta property="og:title" content="塞上江南 · 宁夏旅行地图" />
+    <meta property="og:description" content="五城、十二个已核实景点、七条实用路线，一张地图规划宁夏旅行。" />
+    <meta property="og:image" content="%BASE_URL%og.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="塞上江南·神奇宁夏 - 宁夏旅游地图" />
-    <meta name="twitter:description" content="探索宁夏回族自治区的独特魅力，发现壮丽的沙漠风光、深厚的历史文化和浓郁的民族风情" />
-    
-    <title>塞上江南·神奇宁夏 - 宁夏旅游地图</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>塞上江南 · 宁夏旅行地图</title>
+    <script>
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var redirect = params.get('redirect');
+        if (!redirect) return;
+        window.history.replaceState(null, '', redirect + window.location.hash);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

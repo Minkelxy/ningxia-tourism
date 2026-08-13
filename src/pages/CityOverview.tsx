@@ -1,181 +1,49 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { MapPin, Users, Expand, Utensils, Calendar, Sparkles } from 'lucide-react';
-import citiesData from '../data/cities.json';
-import attractionsData from '../data/attractions.json';
-import { City } from '../types';
+import { ArrowLeft, ArrowRight, CalendarDays, MapPin, Ruler, Sparkles, Utensils, Users } from 'lucide-react';
+import { Link, useParams } from 'react-router-dom';
+import SEO from '../components/SEO';
+import ResponsiveImage from '../components/ResponsiveImage';
+import { getPublishedAttractionsByCity } from '../data/attractions';
+import { cities, getCityById } from '../data/cities';
+import { routes } from '../data/routes';
 
 export default function CityOverview() {
-  const navigate = useNavigate();
-  const [selectedCity, setSelectedCity] = useState<City | null>(null);
+  const { name } = useParams();
+  const city = getCityById(name);
 
-  const getCityAttractions = (cityName: string) => {
-    return attractionsData.filter(a => a.city.includes(cityName));
-  };
+  if (name && !city) return <main className="full-state"><SEO title="城市未找到 · 宁夏旅行地图" noIndex /><MapPin aria-hidden="true" /><h1>没有找到这座城市</h1><p>宁夏旅行地图目前覆盖五个地级市。</p><Link to="/cities" className="btn-primary">查看五城概览</Link></main>;
+
+  if (city) {
+    const attractions = getPublishedAttractionsByCity(city.id);
+    const attractionIds = new Set(attractions.map((item) => item.id));
+    const relatedRoutes = routes.filter((route) => route.days.some((day) => day.stops.some((stop) => stop.attractionId && attractionIds.has(stop.attractionId))));
+    return (
+      <>
+        <SEO title={`${city.name}旅行指南 · 宁夏旅行地图`} description={city.introduction} image={city.image.src} />
+        <main>
+          <header className="city-detail-hero"><ResponsiveImage src={city.image.src} alt={city.image.alt} width="1600" height="960" sizes="100vw" /><div className="detail-overlay" /><div className="city-detail-copy"><Link to="/cities" className="back-link"><ArrowLeft aria-hidden="true" /> 五城概览</Link><p className="eyebrow">{city.nickname}</p><h1>{city.name}</h1><p>{city.introduction}</p></div></header>
+          <div className="section-shell city-detail-layout">
+            <article>
+              <section className="city-facts"><div><Users aria-hidden="true" /><span>常住人口</span><strong>{city.population}</strong></div><div><Ruler aria-hidden="true" /><span>地域面积</span><strong>{city.area}</strong></div><div><CalendarDays aria-hidden="true" /><span>推荐季节</span><strong>{city.bestSeason}</strong></div></section>
+              <section className="detail-section"><p className="eyebrow">城市脉络</p><h2>从哪里读懂{city.name.replace('市', '')}</h2><p className="detail-summary">{city.history}</p><div className="culture-note"><Sparkles aria-hidden="true" /><span>关键词</span><strong>{city.culture}</strong></div></section>
+              <section className="detail-section"><p className="eyebrow">城市味道</p><h2>值得留意的本地风味</h2><div className="food-tags">{city.foods.map((food) => <span key={food}><Utensils aria-hidden="true" />{food}</span>)}</div><p className="fine-print">餐饮门店变化较快，本站只提供品类参考，请选择证照齐全、明码标价的正规商户。</p></section>
+            </article>
+            <aside className="city-side-note"><p className="eyebrow">旅行节奏</p><h2>{attractions.length ? `${attractions.length} 个已核实景点` : '更多内容正在核实'}</h2><p>景点数量不是唯一标准。宁夏各城市之间距离较大，请为跨城交通留出弹性。</p></aside>
+          </div>
+          <section className="section-shell detail-section"><div className="split-heading section-heading"><div><p className="eyebrow">精选目的地</p><h2>{city.name}从这里开始</h2></div><Link to={`/attractions?city=${city.id}`} className="text-link">查看全部 <ArrowRight aria-hidden="true" /></Link></div>{attractions.length ? <div className="city-attraction-row">{attractions.map((item) => <Link key={item.id} to={`/attraction/${item.id}`}><ResponsiveImage src={item.images[0].src} alt={item.images[0].alt} loading="lazy" width="240" height="180" sizes="120px" /><span><strong>{item.name}</strong><small>{item.visitInfo.duration}</small></span></Link>)}</div> : <div className="empty-state compact"><p>该城市的正式内容正在逐条核实。</p></div>}</section>
+          <section className="city-routes"><div className="section-shell"><p className="eyebrow">把城市放进行程</p><h2>包含{city.name}的推荐路线</h2><div className="route-mini-grid">{relatedRoutes.slice(0, 3).map((route) => <Link key={route.id} to={`/routes/${route.id}`}><span>{route.durationLabel}</span><strong>{route.name}</strong><ArrowRight aria-hidden="true" /></Link>)}</div></div></section>
+        </main>
+      </>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-12">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-text-primary mb-4">
-              塞上江南·城市概览
-            </h1>
-            <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-              探索宁夏五座城市的独特魅力，感受塞上江南的多彩风情
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {citiesData.map((city, index) => {
-              const attractions = getCityAttractions(city.name);
-              const isSelected = selectedCity?.id === city.id;
-              
-              return (
-                <div
-                  key={city.id}
-                  className={`bg-white rounded-xl overflow-hidden shadow-soft hover:shadow-medium transition-all duration-300 cursor-pointer ${
-                    isSelected ? 'ring-2 ring-primary' : ''
-                  }`}
-                  onClick={() => setSelectedCity(isSelected ? null : city as City)}
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={city.image}
-                      alt={city.name}
-                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                    
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <h3 className="text-2xl font-serif font-bold text-white mb-1">
-                        {city.name}
-                      </h3>
-                      <p className="text-white/90 text-sm flex items-center gap-1">
-                        <MapPin className="w-4 h-4" />
-                        {city.nickname}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="p-5">
-                    <div className="grid grid-cols-2 gap-3 mb-4">
-                      <div className="flex items-center gap-2 text-sm text-text-secondary">
-                        <Users className="w-4 h-4 text-primary" />
-                        <span>{city.population}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-text-secondary">
-                        <Expand className="w-4 h-4 text-primary" />
-                        <span>{city.area}</span>
-                      </div>
-                    </div>
-
-                    <p className="text-sm text-text-secondary mb-4 line-clamp-2">
-                      {city.introduction}
-                    </p>
-
-                    {isSelected && (
-                      <div className="space-y-4 animate-slide-up">
-                        <div>
-                          <h4 className="text-sm font-serif font-bold text-text-primary mb-2 flex items-center gap-2">
-                            <Sparkles className="w-4 h-4 text-primary" />
-                            特色文化
-                          </h4>
-                          <p className="text-sm text-text-secondary">{city.culture}</p>
-                        </div>
-
-                        <div>
-                          <h4 className="text-sm font-serif font-bold text-text-primary mb-2 flex items-center gap-2">
-                            <Calendar className="w-4 h-4 text-primary" />
-                            最佳季节
-                          </h4>
-                          <p className="text-sm text-text-secondary">{city.bestSeason}</p>
-                        </div>
-
-                        <div>
-                          <h4 className="text-sm font-serif font-bold text-text-primary mb-2 flex items-center gap-2">
-                            <Utensils className="w-4 h-4 text-primary" />
-                            代表美食
-                          </h4>
-                          <div className="flex flex-wrap gap-2">
-                            {city.foods.slice(0, 3).map((food, idx) => (
-                              <span
-                                key={idx}
-                                className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full"
-                              >
-                                {food}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div>
-                          <h4 className="text-sm font-serif font-bold text-text-primary mb-2">
-                            热门景点 ({attractions.length})
-                          </h4>
-                          <div className="space-y-2">
-                            {attractions.slice(0, 3).map((attraction) => (
-                              <div
-                                key={attraction.id}
-                                className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg hover:bg-primary/5 transition-colors cursor-pointer"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  navigate(`/attraction/${attraction.id}`);
-                                }}
-                              >
-                                <img
-                                  src={attraction.images[0]}
-                                  alt={attraction.name}
-                                  className="w-12 h-12 rounded-lg object-cover"
-                                />
-                                <div className="flex-1 min-w-0">
-                                  <p className="text-sm font-medium text-text-primary truncate">
-                                    {attraction.name}
-                                  </p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    <button
-                      className="w-full mt-4 py-2 text-sm text-primary font-medium hover:text-primary/80 transition-colors"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/city/${city.pinyin}`);
-                      }}
-                    >
-                      查看完整介绍 →
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      <div className="container mx-auto px-4 py-12">
-        <div className="bg-gradient-to-r from-secondary to-oasis rounded-2xl p-8 md:p-12 text-white">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl font-serif font-bold mb-4">
-              开启您的宁夏之旅
-            </h2>
-            <p className="text-white/90 mb-8">
-              无论是探索历史文化、体验沙漠风情，还是感受回族文化，宁夏都能满足您的期待
-            </p>
-            <button
-              onClick={() => navigate('/')}
-              className="px-8 py-4 bg-white text-secondary font-bold rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
-            >
-              探索交互式地图
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <>
+      <SEO title="宁夏五城概览 · 宁夏旅行地图" description="认识银川、石嘴山、吴忠、固原和中卫五座城市的旅行气质。" />
+      <header className="page-hero compact-hero"><div className="section-shell"><p className="eyebrow">五座城市 · 五种旅行气质</p><h1>宁夏不只有沙漠</h1><p>黄河自南向北穿过平原，贺兰山守住西侧，六盘山抬起南部。选择一座城市，开始理解它的历史、味道与旅行节奏。</p></div></header>
+      <main className="section-shell page-content"><div className="city-grid">{cities.map((item) => {
+        const count = getPublishedAttractionsByCity(item.id).length;
+        return <article className="city-card" key={item.id}><Link to={`/city/${item.id}`} className="city-card-image"><ResponsiveImage src={item.image.src} alt={item.image.alt} loading="lazy" width="720" height="720" sizes="(max-width: 768px) 100vw, 44vw" /><span>{item.nickname}</span></Link><div><p className="eyebrow"><MapPin aria-hidden="true" /> {count} 个已核实景点</p><h2>{item.name}</h2><p>{item.introduction}</p><div className="city-card-meta"><span>{item.bestSeason}</span><span>{item.culture.split('、')[0]}</span></div><Link to={`/city/${item.id}`} className="text-link">查看城市指南 <ArrowRight aria-hidden="true" /></Link></div></article>;
+      })}</div></main>
+    </>
   );
 }

@@ -1,40 +1,7 @@
+import { Compass } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Home, MapPin } from 'lucide-react';
+import SEO from '../components/SEO';
 
 export default function NotFound() {
-  return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4">
-      <div className="text-center max-w-lg">
-        <div className="w-24 h-24 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full mx-auto mb-8 flex items-center justify-center">
-          <MapPin className="w-12 h-12 text-primary" />
-        </div>
-        
-        <h1 className="text-6xl font-serif font-bold text-text-primary mb-4">404</h1>
-        <h2 className="text-2xl font-serif font-semibold text-text-primary mb-4">
-          页面未找到
-        </h2>
-        <p className="text-text-secondary mb-8">
-          您访问的页面不存在或已被移除，请返回首页继续探索宁夏美景。
-        </p>
-        
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-primary text-white rounded-lg font-medium hover:bg-sand-dark transition-colors"
-          >
-            <Home className="w-5 h-5" />
-            返回首页
-          </Link>
-          
-          <Link
-            to="/attractions"
-            className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-secondary text-white rounded-lg font-medium hover:bg-oasis transition-colors"
-          >
-            <MapPin className="w-5 h-5" />
-            浏览景点
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
+  return <main className="full-state"><SEO title="页面未找到 · 宁夏旅行地图" noIndex /><Compass aria-hidden="true" /><p className="eyebrow">404 · 走到地图之外了</p><h1>这条路暂时没有内容</h1><p>返回地图，或者从十二个已核实景点中重新选择。</p><div className="state-actions"><Link to="/" className="btn-primary">返回地图</Link><Link to="/attractions" className="btn-quiet">浏览景点</Link></div></main>;
 }

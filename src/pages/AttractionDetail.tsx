@@ -1,327 +1,71 @@
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { 
-  ArrowLeft, 
-  MapPin, 
-  Star, 
-  Clock, 
-  DollarSign, 
-  Car, 
-  Calendar,
-  Share2,
-  ChevronLeft,
-  ChevronRight,
-  X
-} from 'lucide-react';
-import attractionsData from '../data/attractions.json';
-import { Attraction } from '../types';
+import { ArrowLeft, ArrowRight, CalendarDays, Clock3, ExternalLink, ImageOff, Info, MapPin, Navigation, Share2, ShieldCheck, Ticket } from 'lucide-react';
+import { Link, useParams } from 'react-router-dom';
+import SEO from '../components/SEO';
+import ResponsiveImage from '../components/ResponsiveImage';
+import { getAttractionById, publishedAttractions } from '../data/attractions';
+import { cityName } from '../data/cities';
+import { categoryMeta } from '../data/meta';
+import { attractionMapUrl, formatVerifiedDate, sharePage } from '../lib/site';
 
 export default function AttractionDetail() {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const { id } = useParams();
+  const attraction = getAttractionById(id);
+  const [imageIndex, setImageIndex] = useState(0);
+  const [shareStatus, setShareStatus] = useState('');
 
-  const attraction = attractionsData.find(a => a.id === id) as Attraction | undefined;
-
-  if (!attraction) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-serif font-bold text-text-primary mb-4">
-            景点未找到
-          </h1>
-          <button
-            onClick={() => navigate('/')}
-            className="btn-primary"
-          >
-            返回首页
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  const nearbyAttractions = attractionsData.filter(a => 
-    attraction.nearbyAttractions.includes(a.id)
+  if (!attraction) return (
+    <main className="full-state"><SEO title="景点未找到 · 宁夏旅行地图" noIndex /><ImageOff aria-hidden="true" /><h1>没有找到这个景点</h1><p>链接可能已经变更，回到精选景点继续探索。</p><Link to="/attractions" className="btn-primary">浏览精选景点</Link></main>
   );
 
-  const typeLabels = {
-    nature: '自然风光',
-    history: '历史文化',
-    religion: '宗教建筑',
-    experience: '特色体验',
-  };
+  if (attraction.status === 'draft') return (
+    <main className="full-state"><SEO title={`${attraction.name}资料核实中 · 宁夏旅行地图`} noIndex /><ShieldCheck aria-hidden="true" /><p className="eyebrow">资料核实中</p><h1>{attraction.name}</h1><p>我们正在核对开放安排、交通信息和图片授权。为避免误导，核实完成前不展示旧资料。</p><div className="state-actions"><Link to="/attractions" className="btn-primary">查看已核实景点</Link><Link to="/" className="btn-quiet">返回地图</Link></div></main>
+  );
 
-  const typeColors = {
-    nature: 'bg-green-100 text-green-700',
-    history: 'bg-amber-100 text-amber-700',
-    religion: 'bg-purple-100 text-purple-700',
-    experience: 'bg-blue-100 text-blue-700',
-  };
+  const category = categoryMeta[attraction.category];
+  const currentImage = attraction.images[imageIndex];
+  const nearby = publishedAttractions.filter((item) => attraction.nearbyIds.includes(item.id));
 
-  const nextImage = () => {
-    setCurrentImageIndex((prev) => 
-      prev === attraction.images.length - 1 ? 0 : prev + 1
-    );
-  };
-
-  const prevImage = () => {
-    setCurrentImageIndex((prev) => 
-      prev === 0 ? attraction.images.length - 1 : prev - 1
-    );
+  const handleShare = async () => {
+    try { setShareStatus(await sharePage(attraction.name, attraction.summary)); }
+    catch { setShareStatus('分享已取消'); }
+    window.setTimeout(() => setShareStatus(''), 2400);
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="relative">
-        <div 
-          className="h-[50vh] md:h-[60vh] relative cursor-pointer"
-          onClick={() => setIsLightboxOpen(true)}
-        >
-          <img
-            src={attraction.images[currentImageIndex]}
-            alt={attraction.name}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-          
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate('/');
-            }}
-            className="absolute top-6 left-4 md:left-8 bg-white/90 backdrop-blur-sm rounded-full p-3 hover:bg-white transition-colors shadow-soft z-10"
-          >
-            <ArrowLeft className="w-5 h-5 text-text-primary" />
-          </button>
-
-          <div className="absolute top-6 right-4 md:right-8 flex gap-2 z-10">
-            <button className="bg-white/90 backdrop-blur-sm rounded-full p-3 hover:bg-white transition-colors shadow-soft">
-              <Share2 className="w-5 h-5 text-text-primary" />
-            </button>
-          </div>
-
-          <div className="absolute bottom-8 left-4 md:left-8 right-4 md:right-8">
-            <div className="flex items-center gap-3 mb-3">
-              <span className={`px-4 py-1.5 rounded-full text-sm font-medium ${typeColors[attraction.type]}`}>
-                {typeLabels[attraction.type]}
-              </span>
-              <div className="flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-full px-4 py-1.5">
-                <Star className="w-5 h-5 text-primary fill-current" />
-                <span className="text-lg font-bold text-primary">{attraction.rating}</span>
-              </div>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-2">
-              {attraction.name}
-            </h1>
-            <div className="flex items-center gap-2 text-white/90">
-              <MapPin className="w-5 h-5" />
-              <span className="text-lg">{attraction.city}</span>
-            </div>
-          </div>
-
-          <div className="absolute bottom-8 right-8 flex gap-2 z-10">
-            <button
-              onClick={prevImage}
-              className="bg-white/90 backdrop-blur-sm rounded-full p-2 hover:bg-white transition-colors shadow-soft"
-            >
-              <ChevronLeft className="w-5 h-5 text-text-primary" />
-            </button>
-            <button
-              onClick={nextImage}
-              className="bg-white/90 backdrop-blur-sm rounded-full p-2 hover:bg-white transition-colors shadow-soft"
-            >
-              <ChevronRight className="w-5 h-5 text-text-primary" />
-            </button>
-          </div>
+    <>
+      <SEO title={`${attraction.name}旅行指南 · 宁夏旅行地图`} description={attraction.summary} image={currentImage.src} />
+      <main className="detail-page">
+        <div className="detail-hero">
+          <ResponsiveImage src={currentImage.src} alt={currentImage.alt} width="1600" height="960" sizes="100vw" />
+          <div className="detail-overlay" />
+          <div className="detail-top-actions"><Link to="/attractions" className="icon-button" aria-label="返回景点列表"><ArrowLeft aria-hidden="true" /></Link><button type="button" className="icon-button" onClick={handleShare} aria-label="分享此景点"><Share2 aria-hidden="true" /></button></div>
+          <div className="detail-title"><span className={`category-badge ${category.className}`}>{category.label}</span><h1>{attraction.name}</h1><p><MapPin aria-hidden="true" /> {cityName(attraction.cityId)} · {attraction.locality}</p></div>
+          {attraction.images.length > 1 && <div className="image-dots" aria-label="选择图片">{attraction.images.map((item, index) => <button type="button" key={item.src} onClick={() => setImageIndex(index)} aria-label={`查看第 ${index + 1} 张图片`} aria-pressed={imageIndex === index} />)}</div>}
         </div>
+        {shareStatus && <div className="toast" role="status">{shareStatus}</div>}
 
-        {isLightboxOpen && (
-          <div 
-            className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center"
-            onClick={() => setIsLightboxOpen(false)}
-          >
-            <button
-              className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 rounded-full p-3 transition-colors"
-              onClick={() => setIsLightboxOpen(false)}
-            >
-              <X className="w-6 h-6 text-white" />
-            </button>
-            
-            <img
-              src={attraction.images[currentImageIndex]}
-              alt={attraction.name}
-              className="max-w-[90vw] max-h-[90vh] object-contain"
-              onClick={(e) => e.stopPropagation()}
-            />
-            
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                prevImage();
-              }}
-              className="absolute left-4 bg-white/10 hover:bg-white/20 rounded-full p-3 transition-colors"
-            >
-              <ChevronLeft className="w-6 h-6 text-white" />
-            </button>
-            
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                nextImage();
-              }}
-              className="absolute right-4 bg-white/10 hover:bg-white/20 rounded-full p-3 transition-colors"
-            >
-              <ChevronRight className="w-6 h-6 text-white" />
-            </button>
-            
-            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2">
-              {attraction.images.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setCurrentImageIndex(index);
-                  }}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    index === currentImageIndex ? 'bg-white' : 'bg-white/40'
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+        <div className="detail-layout section-shell">
+          <article className="detail-main">
+            <p className="eyebrow">目的地概览</p><h2>为什么值得去</h2><p className="detail-summary">{attraction.summary}</p>
+            <ul className="highlight-list">{attraction.highlights.map((item) => <li key={item}><span>✓</span>{item}</li>)}</ul>
+            <section className="detail-section"><div className="section-heading-inline"><Info aria-hidden="true" /><div><p className="eyebrow">出发前必看</p><h2>实用信息</h2></div></div><div className="info-grid">
+              <div><Clock3 aria-hidden="true" /><span>开放时间</span><strong>{attraction.visitInfo.openingHours}</strong></div>
+              <div><Ticket aria-hidden="true" /><span>票价参考</span><strong>{attraction.visitInfo.ticketPrice}</strong></div>
+              <div><CalendarDays aria-hidden="true" /><span>建议时长／季节</span><strong>{attraction.visitInfo.duration} · {attraction.visitInfo.bestSeason}</strong></div>
+              <div><MapPin aria-hidden="true" /><span>地址</span><strong>{attraction.visitInfo.address}</strong></div>
+            </div></section>
+            <section className="detail-section travel-note"><h2>预约与交通</h2><div><strong>预约提示</strong><p>{attraction.visitInfo.reservation}</p></div><div><strong>到达方式</strong><p>{attraction.visitInfo.transportation}</p></div></section>
+            {nearby.length > 0 && <section className="detail-section"><p className="eyebrow">顺路看看</p><h2>周边推荐</h2><div className="nearby-grid">{nearby.map((item) => <Link key={item.id} to={`/attraction/${item.id}`}><ResponsiveImage src={item.images[0].src} alt={item.images[0].alt} loading="lazy" width="180" height="180" sizes="90px" /><span><strong>{item.name}</strong><small>{item.visitInfo.duration}</small></span><ArrowRight aria-hidden="true" /></Link>)}</div></section>}
+          </article>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-8">
-            <section className="bg-white rounded-xl p-6 shadow-soft">
-              <h2 className="text-2xl font-serif font-bold text-text-primary mb-4">
-                景点介绍
-              </h2>
-              <p className="text-text-secondary leading-relaxed text-base">
-                {attraction.description}
-              </p>
-            </section>
-
-            <section className="bg-white rounded-xl p-6 shadow-soft">
-              <h2 className="text-2xl font-serif font-bold text-text-primary mb-4">
-                游览亮点
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {attraction.highlights.map((highlight, index) => (
-                  <div 
-                    key={index}
-                    className="flex items-start gap-3 p-4 bg-gradient-to-r from-primary/5 to-transparent rounded-lg"
-                  >
-                    <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-primary font-bold text-sm">{index + 1}</span>
-                    </div>
-                    <p className="text-text-secondary">{highlight}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {nearbyAttractions.length > 0 && (
-              <section className="bg-white rounded-xl p-6 shadow-soft">
-                <h2 className="text-2xl font-serif font-bold text-text-primary mb-4">
-                  周边推荐
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {nearbyAttractions.map((nearby) => (
-                    <div 
-                      key={nearby.id}
-                      className="flex gap-4 p-4 bg-gray-50 rounded-lg hover:bg-primary/5 transition-colors cursor-pointer"
-                      onClick={() => navigate(`/attraction/${nearby.id}`)}
-                    >
-                      <img
-                        src={nearby.images[0]}
-                        alt={nearby.name}
-                        className="w-24 h-24 rounded-lg object-cover flex-shrink-0"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-serif font-bold text-text-primary mb-1">
-                          {nearby.name}
-                        </h3>
-                        <p className="text-sm text-text-secondary mb-2 line-clamp-2">
-                          {nearby.description}
-                        </p>
-                        <div className="flex items-center gap-1 text-sm">
-                          <Star className="w-4 h-4 text-primary fill-current" />
-                          <span className="text-primary font-medium">{nearby.rating}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-          </div>
-
-          <div className="lg:col-span-1">
-            <div className="sticky top-24 space-y-6">
-              <div className="bg-white rounded-xl p-6 shadow-soft">
-                <h3 className="text-lg font-serif font-bold text-text-primary mb-4">
-                  实用信息
-                </h3>
-                
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Clock className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-text-secondary mb-1">开放时间</p>
-                      <p className="text-text-primary font-medium">{attraction.openingHours}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <DollarSign className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-text-secondary mb-1">门票价格</p>
-                      <p className="text-text-primary font-medium">{attraction.ticketPrice}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Calendar className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-text-secondary mb-1">最佳季节</p>
-                      <p className="text-text-primary font-medium">{attraction.bestSeason}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Car className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-text-secondary mb-1">交通指南</p>
-                      <p className="text-text-primary font-medium">{attraction.transportation}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                onClick={() => navigate('/')}
-                className="w-full btn-primary flex items-center justify-center gap-2"
-              >
-                <MapPin className="w-5 h-5" />
-                查看更多景点
-              </button>
-            </div>
-          </div>
+          <aside className="detail-sidebar">
+            <div className="planning-card"><p className="eyebrow">准备出发</p><h2>在地图中查看位置</h2><p>使用高德 URI 打开地点页面。本站不会获取或保存你的位置。</p><a href={attractionMapUrl(attraction)} target="_blank" rel="noreferrer" className="btn-primary"><Navigation aria-hidden="true" /> 高德查看／导航</a></div>
+            <div className="source-card"><ShieldCheck aria-hidden="true" /><div><h2>资料可追溯</h2><p>资料校订于 {formatVerifiedDate(attraction.verifiedAt)}。实时安排请以官方公告为准。</p></div>{attraction.sources.map((source) => <a key={source.url} href={source.url} target="_blank" rel="noreferrer">{source.label}<ExternalLink aria-hidden="true" /></a>)}</div>
+            <div className="image-credit"><span>图片来源</span><a href={currentImage.sourceUrl} target="_blank" rel="noreferrer">{currentImage.credit} · {currentImage.license}<ExternalLink aria-hidden="true" /></a></div>
+          </aside>
         </div>
-      </div>
-    </div>
+      </main>
+    </>
   );
 }

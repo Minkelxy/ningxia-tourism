@@ -32,6 +32,9 @@ dist-ssr
 
 # Testing
 coverage
+test-results
+playwright-report
+.tmp
 
 # GitHub Pages build
 docs-build

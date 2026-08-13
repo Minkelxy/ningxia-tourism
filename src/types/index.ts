@@ -1,70 +1,59 @@
-export type AttractionType = 'nature' | 'history' | 'religion' | 'experience';
+export type CityId = 'yinchuan' | 'shizuishan' | 'wuzhong' | 'guyuan' | 'zhongwei';
 
-export type TransportType = 'highspeed_rail' | 'railway' | 'bus';
+export type AttractionCategory = 'nature' | 'history' | 'religion' | 'experience';
 
-export type FoodCategory = '羊肉类' | '面食类' | '特色小吃' | '饮品' | '家常菜' | '水果' | '特产';
+export type ContentStatus = 'published' | 'draft';
 
 export interface Coordinates {
   lng: number;
   lat: number;
 }
 
-export interface Restaurant {
-  name: string;
-  city: string;
-  address?: string;
-  coordinates?: Coordinates;
-  recommend?: string;
+export interface SourceRef {
+  label: string;
+  url: string;
+  kind: 'official' | 'image';
 }
 
-export interface Food {
-  id: string;
-  name: string;
-  nameEn?: string;
-  category: FoodCategory | string;
-  description: string;
-  origin: string;
-  bestSeason?: string;
-  priceRange?: string;
-  restaurants: Restaurant[];
-  tips?: string;
+export interface AttractionImage {
+  src: string;
+  alt: string;
+  credit: string;
+  license: string;
+  sourceUrl: string;
+}
+
+export interface VisitInfo {
+  openingHours: string;
+  ticketPrice: string;
+  reservation: string;
+  duration: string;
+  bestSeason: string;
+  transportation: string;
+  address: string;
 }
 
 export interface Attraction {
   id: string;
+  status: ContentStatus;
   name: string;
-  nameEn?: string;
-  city: string;
-  cityPinyin?: string;
-  type: AttractionType | string;
-  description: string;
+  cityId: CityId;
+  locality: string;
+  category: AttractionCategory;
+  coordinates: Coordinates;
+  summary: string;
   highlights: string[];
-  images?: string[];
-  rating: number;
-  coordinates: Coordinates;
-  openingHours?: string;
-  ticketPrice?: string;
-  bestSeason?: string;
-  transportation?: string;
-  nearbyAttractions?: string[];
-}
-
-export interface TransportHub {
-  id: string;
-  name: string;
-  city: string;
-  cityPinyin: string;
-  type: TransportType | string;
-  description: string;
-  coordinates: Coordinates;
-  address?: string;
-  phone?: string;
+  visitInfo: VisitInfo;
+  images: AttractionImage[];
+  nearbyIds: string[];
+  sources: SourceRef[];
+  verifiedAt: string;
 }
 
 export interface City {
-  id: string;
+  id: CityId;
   name: string;
-  pinyin: string;
+  pinyin: CityId;
   population: string;
   area: string;
   nickname: string;
@@ -73,31 +62,52 @@ export interface City {
   foods: string[];
   bestSeason: string;
   culture: string;
-  image: string;
+  image: AttractionImage;
 }
 
-export interface Route {
-  id: string;
-  name: string;
-  theme: string;
-  duration: string;
-  budget: string;
+export type RouteTheme = 'first-visit' | 'weekend' | 'panorama' | 'culture' | 'food';
+
+export interface RouteStop {
+  time: string;
+  title: string;
   description: string;
-  attractions: string[];
-  highlights: string[];
+  attractionId?: string;
+  mapQuery?: string;
+  transport?: string;
+  tips?: string;
 }
 
-export interface MapPath {
+export interface RouteDay {
+  day: number;
+  title: string;
+  summary: string;
+  stops: RouteStop[];
+  meals: string[];
+  accommodation: string;
+}
+
+export interface RoutePlan {
   id: string;
   name: string;
-  path: string;
-  labelPosition: Coordinates;
+  theme: RouteTheme;
+  themeLabel: string;
+  durationDays: number;
+  durationLabel: string;
+  audience: string;
+  budget: string;
+  bestSeason: string;
+  summary: string;
+  highlights: string[];
+  days: RouteDay[];
+  verifiedAt: string;
 }
 
-export interface AppState {
-  selectedAttraction: Attraction | null;
-  selectedCity: string | null;
-  filterType: AttractionType | 'all';
-  zoomLevel: number;
-  isMapLoaded: boolean;
+export type TransportType = 'highspeed_rail' | 'railway' | 'bus';
+
+export interface TransportHub {
+  id: string;
+  name: string;
+  cityId: CityId;
+  type: TransportType;
+  coordinates: Coordinates;
 }
