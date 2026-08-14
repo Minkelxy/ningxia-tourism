@@ -34,13 +34,13 @@ npm run quality:lighthouse
 - `src/data/cities.ts`：五城资料，以固定 `cityId` 关联景点。
 - `src/data/routes.ts`：七条路线及逐日停靠点。
 - `src/data/validate.ts`：构建期校验，检查字段、ID、坐标和跨数据引用。
-- `src/content/journal/`：公开或草稿手记 Markdown；内容在构建时解析，不把解析器和 YAML 运行时发送给访客。维护模板位于 `docs/templates/`，不会参与发布。
+- `src/content/journal/`：公开或草稿的手记、探店与旅行专题 Markdown；内容在构建时解析，不把解析器和 YAML 运行时发送给访客。维护模板位于 `docs/templates/`，不会参与发布。
 - `src/data/guide.ts`：行前指南的四季建议、跨城原则、清单和网络来源。
 - `public/images/attractions/`：授权图片及站内资源。
 
 正式景点必须补齐开放信息、参考票价、预约、时长、季节、交通、WGS84 坐标、来源、核实日期和图片许可。只有来源与图片同时达到严格标准才标为 `verified`；其余公开内容标为 `review`，资料不足时保留为 `draft`。
 
-旅行手记只有同时标记为 `status: published` 与 `contentKind: firsthand` 才会进入公开列表和站点地图；演示模板、占位字段、未来日期或越界引用会让构建失败。当前示例均保持草稿，不作为真实经历公开。
+个人游记与探店只有同时标记为 `status: published` 与 `contentKind: firsthand` 才会公开；资料型旅行专题使用 `type: guide` 与 `contentKind: editorial`，必须包含来源、核对日期和适用范围。演示模板、占位字段、未来日期或越界引用会让构建失败。
 
 ## 路由与部署
 

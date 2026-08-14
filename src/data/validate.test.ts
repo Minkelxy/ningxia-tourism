@@ -17,7 +17,8 @@ describe('公开内容数据', () => {
     expect(reviewAttractions).toHaveLength(2);
     expect(attractions.filter((item) => item.status === 'draft')).toHaveLength(11);
     expect(routes).toHaveLength(7);
-    expect(publishedJournalEntries).toHaveLength(0);
+    expect(publishedJournalEntries).toHaveLength(3);
+    expect(publishedJournalEntries.every((entry) => entry.type === 'guide' && entry.contentKind === 'editorial')).toBe(true);
   });
 
   it('首页级来源不能通过严格核实', () => {

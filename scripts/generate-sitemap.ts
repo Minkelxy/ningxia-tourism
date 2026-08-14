@@ -9,7 +9,8 @@ import { loadJournalFiles } from './load-journal-files';
 const base = 'https://minkelxy.github.io/ningxia-tourism';
 const journal = loadJournalFiles();
 if (journal.errors.length) throw new Error(journal.errors.join('\n'));
-const articles = journal.entries.filter((item) => item.status === 'published' && item.contentKind === 'firsthand');
+const articles = journal.entries.filter((item) => item.status === 'published'
+  && ((item.type === 'guide' && item.contentKind === 'editorial') || (item.type !== 'guide' && item.contentKind === 'firsthand')));
 const latest = (dates: string[]) => dates.filter(Boolean).sort().at(-1);
 const attractionDate = latest(publishedAttractions.map((item) => item.verifiedAt));
 const routeDate = latest(routes.map((item) => item.verifiedAt));

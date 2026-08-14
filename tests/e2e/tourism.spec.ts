@@ -91,7 +91,21 @@ test('旅行手记双栏目、键盘切换和未知详情可恢复', async ({ pa
   await expect(page.getByRole('tab', { name: '探店记录' })).toBeFocused();
   await expect(page.getByText('第一份探店记录还没上桌')).toBeVisible();
 
+  await page.getByRole('tab', { name: '探店记录' }).press('ArrowRight');
+  await expect(page).toHaveURL(/type=guide/);
+  await expect(page.getByRole('tab', { name: '旅行专题' })).toBeFocused();
+  await expect(page.locator('.journal-card')).toHaveCount(3);
+
   await page.goto(`${appBase}journal/travel/not-published`);
-  await expect(page.getByRole('heading', { name: '这篇手记还没有公开' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '这篇内容还没有公开' })).toBeVisible();
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex,nofollow');
+});
+
+test('旅行专题展示资料边界、来源与相关目的地', async ({ page }) => {
+  await page.goto(`${appBase}journal/guide/liupanshan-two-destinations`);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('隆德长征景区和泾源森林公园');
+  await expect(page.getByText('这是一篇资料型专题')).toBeVisible();
+  await expect(page.getByText(/资料整理，不是亲历记录/)).toBeVisible();
+  await expect(page.locator('.journal-sources a')).toHaveCount(3);
+  await expect(page.getByRole('link', { name: '六盘山红军长征旅游区' })).toBeVisible();
 });

@@ -74,8 +74,14 @@ export interface City {
   image: AttractionImage;
 }
 
-export type JournalType = 'travel' | 'food';
-export type JournalContentKind = 'firsthand' | 'demo';
+export type JournalType = 'travel' | 'food' | 'guide';
+export type JournalContentKind = 'firsthand' | 'editorial' | 'demo';
+
+export interface JournalReference {
+  label: string;
+  url: string;
+  checkedAt: string;
+}
 
 export interface JournalCommon {
   slug: string;
@@ -120,7 +126,15 @@ export interface FoodJournal extends JournalCommon {
   revisitNote: string;
 }
 
-export type JournalEntry = TravelJournal | FoodJournal;
+export interface EditorialJournal extends JournalCommon {
+  type: 'guide';
+  reviewedAt: string;
+  scopeNote: string;
+  keyPoints: string[];
+  references: JournalReference[];
+}
+
+export type JournalEntry = TravelJournal | FoodJournal | EditorialJournal;
 
 export type RouteTheme = 'first-visit' | 'weekend' | 'panorama' | 'culture' | 'food';
 

@@ -1,5 +1,5 @@
 import { parse } from 'yaml';
-import type { FoodJournal, JournalContentKind, JournalEntry, JournalType, TravelJournal } from '../types';
+import type { EditorialJournal, FoodJournal, JournalContentKind, JournalEntry, JournalReference, JournalType, TravelJournal } from '../types';
 
 export interface JournalParseResult {
   entries: JournalEntry[];
@@ -13,12 +13,16 @@ const splitDocument = (source: string) => {
 };
 
 const list = (value: unknown) => Array.isArray(value) ? value.map(String) : [];
+const references = (value: unknown): JournalReference[] => Array.isArray(value) ? value.map((item) => {
+  const source = item && typeof item === 'object' ? item as Record<string, unknown> : {};
+  return { label: String(source.label ?? ''), url: String(source.url ?? ''), checkedAt: String(source.checkedAt ?? '') };
+}) : [];
 
 export const parseJournalSource = (source: string, filename = 'unknown.md'): JournalEntry => {
   const { metadata, body } = splitDocument(source);
   const type = metadata.type as JournalType;
   if (metadata.status !== 'published' && metadata.status !== 'draft') throw new Error(`${filename}: status 必须为 published 或 draft`);
-  if (metadata.contentKind !== 'firsthand' && metadata.contentKind !== 'demo') throw new Error(`${filename}: contentKind 必须为 firsthand 或 demo`);
+  if (metadata.contentKind !== 'firsthand' && metadata.contentKind !== 'editorial' && metadata.contentKind !== 'demo') throw new Error(`${filename}: contentKind 必须为 firsthand、editorial 或 demo`);
 
   const common = {
     slug: String(metadata.slug ?? ''),
@@ -27,7 +31,7 @@ export const parseJournalSource = (source: string, filename = 'unknown.md'): Jou
     contentKind: metadata.contentKind as JournalContentKind,
     title: String(metadata.title ?? ''),
     excerpt: String(metadata.excerpt ?? ''),
-    author: String(metadata.author || '站主手记'),
+    author: String(metadata.author || (type === 'guide' ? '站点编辑' : '站主手记')),
     publishedAt: String(metadata.publishedAt ?? ''),
     updatedAt: String(metadata.updatedAt ?? ''),
     cityId: String(metadata.cityId ?? '') as JournalEntry['cityId'],
@@ -68,7 +72,17 @@ export const parseJournalSource = (source: string, filename = 'unknown.md'): Jou
       revisitNote: String(metadata.revisitNote ?? ''),
     } as FoodJournal;
   }
-  throw new Error(`${filename}: type 必须为 travel 或 food`);
+  if (type === 'guide') {
+    return {
+      ...common,
+      type,
+      reviewedAt: String(metadata.reviewedAt ?? ''),
+      scopeNote: String(metadata.scopeNote ?? ''),
+      keyPoints: list(metadata.keyPoints),
+      references: references(metadata.references),
+    } as EditorialJournal;
+  }
+  throw new Error(`${filename}: type 必须为 travel、food 或 guide`);
 };
 
 export const loadJournalEntries = (sources: Record<string, string>): JournalParseResult => {

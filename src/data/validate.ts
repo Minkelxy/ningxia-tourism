@@ -34,16 +34,26 @@ export const validateJournalContent = (entries: JournalEntry[], parseErrors: str
     for (const id of entry.relatedAttractionIds) if (!publishedIds.has(id)) errors.push(`${key}: 引用了未发布景点 ${id}`);
     for (const id of entry.relatedRouteIds) if (!routeIds.has(id)) errors.push(`${key}: 引用了无效路线 ${id}`);
     if (entry.status !== 'published') continue;
-    if (entry.contentKind !== 'firsthand') errors.push(`${key}: 演示内容不能发布`);
+    const validContentKind = entry.type === 'guide' ? entry.contentKind === 'editorial' : entry.contentKind === 'firsthand';
+    if (entry.contentKind === 'demo') errors.push(`${key}: 演示内容不能发布`);
+    else if (!validContentKind) errors.push(`${key}: 内容类型与发布栏目不匹配`);
     if (placeholderPattern.test(JSON.stringify(entry))) errors.push(`${key}: 正式内容包含示例或占位文本`);
     if (!validDate(entry.publishedAt) || entry.publishedAt > today) errors.push(`${key}: 发布日期无效或晚于当前日期`);
     if (!validDate(entry.updatedAt) || entry.updatedAt < entry.publishedAt || entry.updatedAt > today) errors.push(`${key}: 更新日期无效`);
-    const expectedImagePrefix = `images/journal/${entry.slug}/`;
-    if ([entry.cover, ...entry.gallery].some((image) => !image.src.startsWith(expectedImagePrefix))) errors.push(`${key}: 正式手记图片必须位于 ${expectedImagePrefix}`);
+    if (entry.contentKind === 'firsthand') {
+      const expectedImagePrefix = `images/journal/${entry.slug}/`;
+      if ([entry.cover, ...entry.gallery].some((image) => !image.src.startsWith(expectedImagePrefix))) errors.push(`${key}: 正式手记图片必须位于 ${expectedImagePrefix}`);
+    }
     if (entry.type === 'travel') {
       if (!validDate(entry.tripDate) || entry.tripDate > entry.publishedAt || !entry.duration || !entry.transport || !entry.budgetNote || !entry.highlights.length) errors.push(`${key}: 游记字段不完整或日期顺序错误`);
-    } else if (!validDate(entry.visitedAt) || entry.visitedAt > entry.publishedAt || !entry.venueName || !entry.cuisine || !entry.address || !entry.mapQuery || !entry.pricePerPerson || !entry.dishes.length || !entry.queueNote || !entry.suitableFor || !entry.revisitNote) {
+    } else if (entry.type === 'food' && (!validDate(entry.visitedAt) || entry.visitedAt > entry.publishedAt || !entry.venueName || !entry.cuisine || !entry.address || !entry.mapQuery || !entry.pricePerPerson || !entry.dishes.length || !entry.queueNote || !entry.suitableFor || !entry.revisitNote)) {
       errors.push(`${key}: 探店字段不完整`);
+    } else if (entry.type === 'guide') {
+      if (!validDate(entry.reviewedAt) || entry.reviewedAt > entry.updatedAt || !entry.scopeNote || !entry.keyPoints.length || entry.references.length < 2) errors.push(`${key}: 旅行专题字段不完整`);
+      for (const source of entry.references) {
+        if (!source.label || !validDate(source.checkedAt) || source.checkedAt > entry.reviewedAt) errors.push(`${key}: 专题来源信息不完整`);
+        try { new URL(source.url); } catch { errors.push(`${key}: 专题来源链接无效`); }
+      }
     }
   }
   return errors;
