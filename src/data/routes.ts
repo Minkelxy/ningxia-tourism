@@ -68,7 +68,7 @@ export const routes: RoutePlan[] = [
         { time: '14:00', title: '镇北堡西部影城', attractionId: 'zhenbeibu', description: '下午体验西部电影场景。' },
       ] },
       { day: 3, title: '吴忠黄河金岸', summary: '银川出发，沿黄河向吴忠和青铜峡移动。', accommodation: '吴忠或中卫', meals: ['午餐：吴忠早茶／手抓', '晚餐：中卫'], stops: [
-        { time: '09:30', title: '中华黄河楼', attractionId: 'zhonghuahuanghelou', description: '了解黄河文明和宁夏引黄灌溉。' },
+        { time: '09:30', title: '中华黄河楼', attractionId: 'zhonghuahuanghelou', description: '如当天开放，可参观黄河文化主题建筑与展陈；未开放则保留为黄河沿线机动时段。', tips: '旧 4A 等级已于 2023 年取消，出发前确认当前开放与入口。' },
         { time: '14:00', title: '黄河坛旅游区', attractionId: 'huanghetan', description: '沿黄河坛建筑轴线参观大牌楼、碑林大道与黄河文化景观。', transport: '包车或自驾', tips: '与中华黄河楼不是同一地点，导航时核对完整名称和地址。' },
         { time: '18:00', title: '前往中卫', mapQuery: '中卫市', description: '到达后休息，为次日沙漠行程保存体力。' },
       ] },
@@ -97,7 +97,7 @@ export const routes: RoutePlan[] = [
       ] },
       { day: 4, title: '吴忠黄河与早茶', summary: '上午体验吴忠饮食，下午沿黄河前往中卫。', accommodation: '中卫市区', meals: ['早餐／早午餐：吴忠早茶', '晚餐：中卫'], stops: [
         { time: '09:00', title: '吴忠早茶', mapQuery: '吴忠早茶文化体验街', description: '选择正规门店，按人数少量多样点餐。' },
-        { time: '12:30', title: '中华黄河楼', attractionId: 'zhonghuahuanghelou', description: '登高看黄河金岸。' },
+        { time: '12:30', title: '中华黄河楼', attractionId: 'zhonghuahuanghelou', description: '确认开放后再参观黄河主题建筑与展陈；否则改为黄河沿线短停。', tips: '不要沿用旧 4A 景区攻略中的开放与票价信息。' },
         { time: '15:00', title: '黄河坛旅游区', attractionId: 'huanghetan', description: '继续前往青铜峡峡谷入口，沿建筑轴线了解黄河文化。', transport: '包车或自驾', tips: '与中华黄河楼之间仍有公路移动，出发前按实时导航预留时间。' },
       ] },
       { day: 5, title: '中卫沙漠与老城', summary: '沙坡头为主，市区古建为辅。', accommodation: '无', meals: ['午餐：沙坡头周边', '晚餐：中卫市区'], stops: [
@@ -137,7 +137,7 @@ export const routes: RoutePlan[] = [
       ] },
       { day: 2, title: '吴忠：把早茶吃成一顿正餐', summary: '早出发，保留充足用餐时间。', accommodation: '吴忠或中卫', meals: ['早午餐：吴忠早茶', '晚餐：吴忠手抓或前往中卫'], stops: [
         { time: '09:00', title: '吴忠早茶文化体验', mapQuery: '吴忠早茶文化体验街', description: '尝试八宝茶、牛肉面、面点与羊杂等组合。', tips: '门店高峰期排队，选择明码标价的正规商户。' },
-        { time: '14:00', title: '中华黄河楼', attractionId: 'zhonghuahuanghelou', description: '餐后沿黄河金岸散步。' },
+        { time: '14:00', title: '中华黄河楼', attractionId: 'zhonghuahuanghelou', description: '餐后沿黄河金岸活动；确认开放后再决定是否进入黄河楼。', tips: '当前运营信息待复核，可随时改为沿河散步或城市休息。' },
       ] },
       { day: 3, title: '中卫：沙漠城市的日常味道', summary: '市区慢游后返程。', accommodation: '无', meals: ['午餐：蒿子面', '伴手礼：正规渠道购买枸杞'], stops: [
         { time: '09:30', title: '中卫高庙与老城', attractionId: 'zhongweigaomiao', description: '从市区古建开始步行。' },

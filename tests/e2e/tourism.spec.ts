@@ -117,7 +117,7 @@ test('旅行手记双栏目、键盘切换和未知详情可恢复', async ({ pa
   await page.getByRole('tab', { name: '探店记录' }).press('ArrowRight');
   await expect(page).toHaveURL(/type=guide/);
   await expect(page.getByRole('tab', { name: '旅行专题' })).toBeFocused();
-  await expect(page.locator('.journal-card')).toHaveCount(3);
+  await expect(page.locator('.journal-card')).toHaveCount(4);
 
   await page.goto(`${appBase}journal/travel/not-published`);
   await expect(page.getByRole('heading', { name: '这篇内容还没有公开' })).toBeVisible();
@@ -131,4 +131,13 @@ test('旅行专题展示资料边界、来源与相关目的地', async ({ page 
   await expect(page.getByText(/资料整理，不是亲历记录/)).toBeVisible();
   await expect(page.locator('.journal-sources a')).toHaveCount(3);
   await expect(page.getByRole('link', { name: '六盘山红军长征旅游区' })).toBeVisible();
+});
+
+test('黄河楼专题说明资质变化并区分黄河坛', async ({ page }) => {
+  await page.goto(`${appBase}journal/guide/huanghe-landmarks-difference`);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('黄河楼和黄河坛不是一处');
+  await expect(page.getByText(/2023 年公告取消黄河楼景区国家 4A 级/)).toBeVisible();
+  await expect(page.locator('.journal-sources a')).toHaveCount(3);
+  await expect(page.getByRole('link', { name: '中华黄河楼' })).toBeVisible();
+  await expect(page.getByRole('link', { name: '黄河坛旅游区', exact: true })).toBeVisible();
 });

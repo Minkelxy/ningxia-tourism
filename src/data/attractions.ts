@@ -196,17 +196,21 @@ const published: Attraction[] = [
   {
     id: 'zhonghuahuanghelou', status: 'published', verificationLevel: 'review', name: '中华黄河楼', cityId: 'wuzhong', locality: '青铜峡市', category: 'history',
     coordinates: { lng: 106.12, lat: 38.0 },
-    summary: '吴忠黄河金岸的标志性文化建筑，通过展陈与登高视野了解黄河文明和宁夏引黄灌溉文化。',
-    highlights: ['黄河金岸地标', '黄河文化展陈', '登高眺望河谷'],
+    summary: '青铜峡黄河金岸的标志性文化建筑，内部以黄河历史文化和宁夏黄河文化展陈为主。自治区文旅厅已于 2023 年取消其国家 4A 级旅游景区资质，旧攻略中的等级信息不再适用。',
+    highlights: ['黄河文化主题建筑', '黄河历史与宁夏文化展陈', '旧 4A 等级已取消'],
     visitInfo: {
-      openingHours: '以景区最新公告为准', ticketPrice: '以官方及现场公示为准', reservation: '节假日建议提前确认',
-      duration: '1.5—2.5 小时', bestSeason: '4—10 月，傍晚光线较佳', transportation: '吴忠市区打车或自驾较方便', address: '吴忠市青铜峡市黄河路与滨河大道附近',
+      openingHours: '当前开放状态和时段以运营方或现场公告为准，不沿用旧 4A 景区攻略', ticketPrice: '以运营方及现场公示为准', reservation: '出发前建议先确认是否正常开放',
+      duration: '1.5—2.5 小时', bestSeason: '4—10 月，户外区域注意风沙和日晒', transportation: '从吴忠或青铜峡市区打车、自驾较方便，导航使用“中华黄河楼”完整名称', address: '吴忠市青铜峡市黄河路与滨河大道附近',
     },
     images: [image('images/attractions/huanghelou.webp', '吴忠黄河沿线区域景观', 'AddisWang', 'CC BY-SA 3.0', 'https://commons.wikimedia.org/wiki/File:青铜峡黄河铁桥.JPG')],
     nearbyIds: ['huanghetan'],
-    sources: [cultureTourismSource, officialSource('吴忠市人民政府', 'https://www.wuzhong.gov.cn/', 'homepage', [])],
-    verifiedAt,
-    verificationNote: '现有来源为文旅目录和政府首页，图片仅对应吴忠黄河沿线；仍需景区直接专页和准确实景。',
+    sources: [
+      cultureTourismSource,
+      officialSource('宁夏文旅厅 · 青铜峡黄河楼景区', 'https://whhlyt.nx.gov.cn/ggfw/jqjj/201912/t20191218_3645472.html', 'direct', ['overview'], '2026-08-15'),
+      officialSource('宁夏文旅厅 · 取消黄河楼景区 4A 资质公告', 'https://whhlyt.nx.gov.cn/zwgk/fdzdgknr/tzgg/202302/t20230220_3966634_zzb.html', 'direct', ['overview'], '2026-08-15'),
+    ],
+    verifiedAt: '2026-08-15',
+    verificationNote: '建筑构成、展陈方向和 2023 年取消 4A 资质均有自治区文旅厅直接页面支撑；但当前开放、票价、精确入口和运营公告仍缺直接页面，因此继续标为待复核。',
   },
   {
     id: 'liupanshan', status: 'published', verificationLevel: 'verified', name: '六盘山红军长征旅游区', cityId: 'guyuan', locality: '隆德县', category: 'history',
