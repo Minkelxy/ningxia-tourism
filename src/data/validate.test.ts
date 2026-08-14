@@ -13,12 +13,12 @@ describe('公开内容数据', () => {
 
   it('保持当前公开内容数量稳定', () => {
     expect(cities).toHaveLength(5);
-    expect(publishedAttractions).toHaveLength(19);
-    expect(verifiedAttractions).toHaveLength(17);
+    expect(publishedAttractions).toHaveLength(20);
+    expect(verifiedAttractions).toHaveLength(18);
     expect(reviewAttractions).toHaveLength(2);
     expect(attractions.filter((item) => item.status === 'draft')).toHaveLength(1);
     expect(routes).toHaveLength(7);
-    expect(publishedJournalEntries).toHaveLength(5);
+    expect(publishedJournalEntries).toHaveLength(7);
     expect(publishedJournalEntries.every((entry) => entry.type === 'guide' && entry.contentKind === 'editorial')).toBe(true);
     expect(publishedJournalEntries[0].slug).toBe('zhongwei-sand-water-choice');
   });
@@ -114,6 +114,14 @@ describe('公开内容数据', () => {
     expect(hasStrictVerificationEvidence(yanchi!)).toBe(true);
     expect(yanchi?.images[0].alt).toContain('非盐池革命历史纪念园实景');
     expect(redRoute?.days.flatMap((day) => day.stops).some((stop) => stop.attractionId === 'yanchilie')).toBe(true);
+  });
+
+  it('老城街区正式发布，待复核景点均提供可执行替代方案', () => {
+    const oldCity = publishedAttractions.find((attraction) => attraction.id === 'gulou-yuhuangge');
+    expect(oldCity?.verificationLevel).toBe('verified');
+    expect(hasStrictVerificationEvidence(oldCity!)).toBe(true);
+    expect(oldCity?.images[0].alt).toContain('编辑插画');
+    expect(reviewAttractions.every((attraction) => Boolean(attraction.fallbackNote))).toBe(true);
   });
 
   it('重复旧条目并入完整目的地并保留链接映射', () => {

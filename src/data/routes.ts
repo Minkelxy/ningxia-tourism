@@ -61,7 +61,7 @@ export const routes: RoutePlan[] = [
     days: [
       { day: 1, title: '银川城市文化', summary: '市区慢游，为后续行程补充背景。', accommodation: '银川市区', meals: ['午餐：银川市区', '晚餐：老城'], stops: [
         { time: '09:30', title: '宁夏博物馆', attractionId: 'ningxiamuseum', description: '从博物馆开始认识宁夏。' },
-        { time: '15:00', title: '南关清真大寺', attractionId: 'nanguan', description: '尊重宗教礼仪，结合老城步行游览。' },
+        { time: '15:00', title: '鼓楼—玉皇阁历史文化街区', attractionId: 'gulou-yuhuangge', description: '从鼓楼、玉皇阁到周边街巷慢慢步行；南关清真大寺只在现场允许时顺路看外观。', tips: '宗教活动场所不保证游客进入，不拍摄礼拜活动。' },
       ] },
       { day: 2, title: '贺兰山文化走廊', summary: '银川西线一日。', accommodation: '银川市区', meals: ['午餐：西夏区', '晚餐：银川'], stops: [
         { time: '08:30', title: '西夏陵', attractionId: 'xixiawangling', description: '重点参观遗址与展馆。', transport: '包车或自驾' },
@@ -86,7 +86,7 @@ export const routes: RoutePlan[] = [
     days: [
       { day: 1, title: '抵达银川', summary: '市区适应与文化入门。', accommodation: '银川市区', meals: ['晚餐：银川老城'], stops: [
         { time: '14:30', title: '宁夏博物馆', attractionId: 'ningxiamuseum', description: '抵达后先建立区域认知。' },
-        { time: '18:00', title: '南关清真大寺', attractionId: 'nanguan', description: '结合老城散步。' },
+        { time: '18:00', title: '鼓楼—玉皇阁历史文化街区', attractionId: 'gulou-yuhuangge', description: '用老城步行适应城市节奏，展览和光影活动以当天公告为准。' },
       ] },
       { day: 2, title: '西夏文化与西部电影', summary: '银川西线。', accommodation: '银川市区', meals: ['午餐：西夏区', '晚餐：怀远观光夜市'], stops: [
         { time: '08:30', title: '西夏陵', attractionId: 'xixiawangling', description: '完整参观遗址与博物馆。' },
@@ -132,7 +132,7 @@ export const routes: RoutePlan[] = [
     days: [
       { day: 1, title: '银川：从博物馆到夜市', summary: '白天看城市文化，晚上集中尝小吃。', accommodation: '银川市区', meals: ['午餐：手抓羊肉', '晚餐：怀远观光夜市'], stops: [
         { time: '10:00', title: '宁夏博物馆', attractionId: 'ningxiamuseum', description: '先了解宁夏农牧、丝路和民族文化。' },
-        { time: '16:00', title: '南关清真大寺与老城', attractionId: 'nanguan', description: '尊重宗教礼仪，步行观察老城生活。' },
+        { time: '16:00', title: '鼓楼—玉皇阁历史文化街区', attractionId: 'gulou-yuhuangge', description: '沿鼓楼、玉皇阁与周边街巷步行，南关清真大寺只作为现场允许时的外观顺路点。', tips: '公共街区可以弹性停留，宗教场所须服从现场管理。' },
         { time: '19:00', title: '怀远观光夜市', mapQuery: '银川怀远观光夜市', description: '分食多种小吃，避免一次点得过多。' },
       ] },
       { day: 2, title: '吴忠：把早茶吃成一顿正餐', summary: '早出发，保留充足用餐时间。', accommodation: '吴忠或中卫', meals: ['早午餐：吴忠早茶', '晚餐：吴忠手抓或前往中卫'], stops: [

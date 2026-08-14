@@ -274,11 +274,16 @@ button { color: inherit; }
 .travel-note > div + div { margin-top: 18px; }
 .travel-note p { margin-top: 5px; color: #4a574f; }
 .detail-sidebar { display: flex; flex-direction: column; gap: 18px; }
-.planning-card, .source-card, .image-credit, .city-side-note, .route-summary-card, .route-profile-card, .route-notice { padding: 25px; border: 1px solid var(--line); border-radius: 20px; background: var(--card); }
+.planning-card, .source-card, .image-credit, .city-side-note, .route-summary-card, .route-profile-card, .route-notice, .review-fallback { padding: 25px; border: 1px solid var(--line); border-radius: 20px; background: var(--card); }
 .planning-card { position: sticky; top: 96px; }
 .planning-card h2, .source-card h2, .route-summary-card h2, .route-profile-card h2, .route-notice h2 { margin: 8px 0 10px; font-size: 1.45rem; }
 .planning-card p, .source-card p, .route-notice p { color: var(--muted); font-size: .88rem; }
 .planning-card .btn-primary { width: 100%; margin-top: 18px; }
+.review-fallback { display: grid; grid-template-columns: 32px 1fr; gap: 14px; border-color: rgba(169,69,53,.25); background: linear-gradient(145deg, #fff9ef, #f2e2c4); }
+.review-fallback > svg { width: 28px; color: var(--red); }
+.review-fallback h2 { margin: 6px 0 9px; font-size: 1.35rem; }
+.review-fallback p:not(.eyebrow) { color: #5d5143; font-size: .86rem; }
+.review-fallback .text-link { margin-top: 13px; }
 .source-card > svg { width: 28px; color: var(--green); }
 .source-card a, .image-credit a { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; margin-top: 10px; color: var(--green); font-size: .84rem; font-weight: 700; }
 .source-card a svg, .image-credit a svg { flex: 0 0 15px; width: 15px; }

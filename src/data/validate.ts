@@ -73,7 +73,7 @@ export const validateContentData = (journalEntries: JournalEntry[] = [], journal
   const routePaces = new Set(['relaxed', 'balanced', 'intensive']);
   const walkingLevels = new Set(['low', 'medium', 'high']);
   if (ids.length !== idSet.size) errors.push('景点 ID 存在重复');
-  if (publishedAttractions.length !== 19) errors.push(`公开景点应为 19 个，当前为 ${publishedAttractions.length} 个`);
+  if (publishedAttractions.length !== 20) errors.push(`公开景点应为 20 个，当前为 ${publishedAttractions.length} 个`);
   if (attractions.filter((item) => item.status === 'draft').length !== 1) errors.push('草稿景点应为 1 个');
   if (cities.length !== 5) errors.push('城市数据应为 5 个');
   if (routes.length !== 7) errors.push('推荐路线应为 7 条');
@@ -91,6 +91,7 @@ export const validateContentData = (journalEntries: JournalEntry[] = [], journal
     if (!item.summary || item.highlights.length === 0 || item.images.length === 0) errors.push(`${item.id}: 内容或图片不完整`);
     if (!validDate(item.verifiedAt) || item.verifiedAt > today || item.sources.filter((source) => source.kind === 'official').length === 0) errors.push(`${item.id}: 缺少有效核实日期或官方来源`);
     if (!item.verificationNote) errors.push(`${item.id}: 缺少证据说明`);
+    if (item.verificationLevel === 'review' && !item.fallbackNote) errors.push(`${item.id}: 待复核景点缺少现场变化替代方案`);
     for (const source of item.sources) {
       if (!sourceLevels.has(source.level)) errors.push(`${item.id}: 来源层级无效`);
       if (!validDate(source.checkedAt) || source.checkedAt > item.verifiedAt) errors.push(`${item.id}: 来源核对日期无效`);

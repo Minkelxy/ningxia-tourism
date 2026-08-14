@@ -5,7 +5,7 @@ const appBase = process.env.VITE_BASE_URL ?? '/';
 test('首页、景点筛选与详情可以连续浏览', async ({ page }) => {
   await page.goto(appBase);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('宁夏');
-  await expect(page.getByText('17 个已核实 · 2 个待复核')).toBeVisible();
+  await expect(page.getByText('18 个已核实 · 2 个待复核')).toBeVisible();
 
   await page.getByRole('link', { name: '精选景点' }).first().click();
   await page.getByPlaceholder('搜索景点、城市或亮点').fill('沙坡头');
@@ -195,7 +195,7 @@ test('旅行手记双栏目、键盘切换和未知详情可恢复', async ({ pa
   await page.goto(`${appBase}journal`);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('地图之外');
   await expect(page.getByRole('tab', { name: /全部内容/ })).toHaveAttribute('aria-selected', 'true');
-  await expect(page.locator('.journal-card')).toHaveCount(5);
+  await expect(page.locator('.journal-card')).toHaveCount(7);
   await expect(page.getByRole('heading', { name: /沙坡头和金沙岛怎么选/ })).toBeVisible();
 
   await page.getByRole('tab', { name: /全部内容/ }).press('ArrowRight');
@@ -211,7 +211,7 @@ test('旅行手记双栏目、键盘切换和未知详情可恢复', async ({ pa
   await page.getByRole('tab', { name: /探店记录/ }).press('ArrowRight');
   await expect(page).toHaveURL(/type=guide/);
   await expect(page.getByRole('tab', { name: /旅行专题/ })).toBeFocused();
-  await expect(page.locator('.journal-card')).toHaveCount(5);
+  await expect(page.locator('.journal-card')).toHaveCount(7);
 
   await page.goto(`${appBase}journal/travel/not-published`);
   await expect(page.getByRole('heading', { name: '这篇内容还没有公开' })).toBeVisible();
@@ -244,4 +244,20 @@ test('黄河楼专题说明资质变化并区分黄河坛', async ({ page }) => 
   await expect(page.locator('.journal-sources a')).toHaveCount(3);
   await expect(page.getByRole('link', { name: '中华黄河楼' })).toBeVisible();
   await expect(page.getByRole('link', { name: '黄河坛旅游区', exact: true })).toBeVisible();
+});
+
+test('新增老城与早茶专题，并为待复核景点提供替代方案', async ({ page }) => {
+  await page.goto(`${appBase}journal/guide/yinchuan-old-city-walk`);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('银川老城半日怎么走');
+  await expect(page.getByRole('link', { name: '鼓楼—玉皇阁历史文化街区', exact: true })).toBeVisible();
+  await expect(page.getByRole('img', { name: /非具体街区实景/ })).toBeVisible();
+
+  await page.goto(`${appBase}journal/guide/wuzhong-morning-tea-ordering`);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('怎么点才不浪费');
+  await expect(page.getByRole('heading', { name: '把菜单分成四个角色', exact: true })).toBeVisible();
+  await expect(page.getByRole('img', { name: /非具体门店与菜品实拍/ })).toBeVisible();
+
+  await page.goto(`${appBase}attraction/nanguan`);
+  await expect(page.getByRole('heading', { name: '不用原地等，直接切换 Plan B' })).toBeVisible();
+  await expect(page.getByText('只在公共道路观察建筑外观')).toBeVisible();
 });

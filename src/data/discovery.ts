@@ -37,7 +37,7 @@ export const attractionThemes: AttractionTheme[] = [
     label: '少折腾',
     title: '从城市内的轻量目的地开始',
     description: '优先选择市区或接驳简单的场馆与古建，给抵达日、返程日留出弹性。',
-    attractionIds: ['ningxiamuseum', 'nanguan', 'zhongweigaomiao', 'mingcuihu'],
+    attractionIds: ['ningxiamuseum', 'gulou-yuhuangge', 'nanguan', 'zhongweigaomiao', 'mingcuihu'],
     tone: 'green',
   },
 ];

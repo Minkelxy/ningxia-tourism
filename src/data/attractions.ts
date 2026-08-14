@@ -96,6 +96,29 @@ const published: Attraction[] = [
     verificationNote: '景区概况、常规季节开放时段、地址与对应实景图片均有直接官方页面和清晰许可支撑。',
   },
   {
+    id: 'gulou-yuhuangge', status: 'published', verificationLevel: 'verified', name: '鼓楼—玉皇阁历史文化街区', cityId: 'yinchuan', locality: '兴庆区', category: 'experience',
+    coordinates: { lng: 106.2842, lat: 38.465 },
+    summary: '以鼓楼、玉皇阁、宁园及周边街巷为核心的银川老城步行区域。街区完成保护性更新，并于 2026 年获评自治区级旅游休闲街区，适合安排抵达日或傍晚慢游。',
+    highlights: ['自治区级旅游休闲街区', '鼓楼、玉皇阁与老城街巷', '适合步行、夜游和弹性行程'],
+    visitInfo: {
+      openingHours: '街区公共空间可步行游览；古建筑内部、展览、光影秀及活动时段以现场和当日公告为准',
+      ticketPrice: '街区无统一门票；古建筑内部展览或临时活动如有收费，以现场公示为准',
+      reservation: '普通街区漫步通常无需预约；团体讲解、展览和节庆活动以主办方要求为准',
+      duration: '2—4 小时', bestSeason: '全年；傍晚至夜间更适合感受街区氛围',
+      transportation: '位于银川老城核心区域，公交、打车到达后以步行为主；周末和节假日不建议在核心街巷频繁挪车',
+      address: '银川市兴庆区，以鼓楼为中心，东至清和街、南至南熏路、西至利民路、北至文化路',
+    },
+    images: [image('images/journal/editorial/yinchuan-old-city.webp', '银川老城步行主题编辑插画（非街区实景）', 'OpenAI 图像生成（站点编辑提示词）', '项目编辑插画', 'https://github.com/Minkelxy/ningxia-tourism/blob/main/docs/IMAGE_PROVENANCE.md')],
+    nearbyIds: ['nanguan', 'ningxiamuseum'],
+    sources: [
+      officialSource('宁夏文旅厅 · 鼓楼—玉皇阁历史文化街区评定公告', 'https://whhlyt.nx.gov.cn/zwgk/fdzdgknr/tzgg/202601/t20260109_5131409_zzb.html', 'direct', ['overview', 'location'], '2026-08-15'),
+      officialSource('银川市政府 · 鼓楼—玉皇阁核心文化片区改造', 'https://www.yinchuan.gov.cn/xwzx/mrdt/202409/t20240929_4678183.html', 'direct', ['overview', 'location'], '2026-08-15'),
+      officialSource('银川市政府 · 银川玉皇阁', 'https://www.yinchuan.gov.cn/sshc/lyjd/zdwbcs/202303/t20230301_3980503.html', 'direct', ['overview', 'location'], '2026-08-15'),
+    ],
+    verifiedAt: '2026-08-15',
+    verificationNote: '街区身份、四至范围、鼓楼与玉皇阁等核心节点及保护性更新均有自治区文旅厅和银川市政府直接页面支撑。配图为站点生成的编辑插画，不是街区实景；具体展览、光影秀和古建筑内部开放仍需当天确认。',
+  },
+  {
     id: 'nanguan', status: 'published', verificationLevel: 'review', name: '南关清真大寺', cityId: 'yinchuan', locality: '兴庆区', category: 'religion',
     coordinates: { lng: 106.2758, lat: 38.4549 },
     summary: '银川市区具有代表性的清真寺。参观时应尊重宗教礼仪、礼拜秩序和现场开放安排。',
@@ -112,6 +135,7 @@ const published: Attraction[] = [
     sources: [cultureTourismSource, officialSource('银川市人民政府', 'https://www.yinchuan.gov.cn/', 'homepage', [])],
     verifiedAt,
     verificationNote: '图片准确对应且许可清晰，但开放安排、参观要求和精确地址尚缺管理方直接页面。',
+    fallbackNote: '若现场不接待游客，只在公共道路观察建筑外观，不拍摄礼拜活动，也不要等待或尝试进入限制区域；把余下时间改为鼓楼—玉皇阁历史文化街区步行。',
   },
   {
     id: 'shahu', status: 'published', verificationLevel: 'verified', name: '沙湖生态旅游区', cityId: 'shizuishan', locality: '平罗县', category: 'nature',
@@ -211,6 +235,7 @@ const published: Attraction[] = [
     ],
     verifiedAt: '2026-08-15',
     verificationNote: '建筑构成、展陈方向和 2023 年取消 4A 资质均有自治区文旅厅直接页面支撑；但当前开放、票价、精确入口和运营公告仍缺直接页面，因此继续标为待复核。',
+    fallbackNote: '若当天无法确认主楼开放，不在外围长时间等待，可直接改去资料更完整的黄河坛旅游区或青铜峡黄河大峡谷，并按实时导航重新计算公路移动时间。',
   },
   {
     id: 'liupanshan', status: 'published', verificationLevel: 'verified', name: '六盘山红军长征旅游区', cityId: 'guyuan', locality: '隆德县', category: 'history',

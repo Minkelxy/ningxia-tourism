@@ -57,6 +57,7 @@ export interface Attraction {
   sources: SourceRef[];
   verifiedAt: string;
   verificationNote: string;
+  fallbackNote?: string;
 }
 
 export interface City {

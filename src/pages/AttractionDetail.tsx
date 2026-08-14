@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, ArrowRight, CalendarDays, Clock3, ExternalLink, ImageOff, Info, MapPin, Navigation, Share2, ShieldCheck, Ticket } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CalendarDays, Clock3, ExternalLink, ImageOff, Info, MapPin, Navigation, RefreshCcw, Share2, ShieldCheck, Ticket } from 'lucide-react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import SEO from '../components/SEO';
 import ResponsiveImage from '../components/ResponsiveImage';
@@ -68,6 +68,7 @@ export default function AttractionDetail() {
 
           <aside className="detail-sidebar">
             <div className="planning-card"><p className="eyebrow">准备出发</p><h2>在地图中查看位置</h2><p>使用高德 URI 打开地点页面。本站不会获取或保存你的位置。</p><a href={attractionMapUrl(attraction)} target="_blank" rel="noreferrer" className="btn-primary"><Navigation aria-hidden="true" /> 高德查看／导航</a></div>
+            {attraction.verificationLevel === 'review' && attraction.fallbackNote && <div className="review-fallback"><RefreshCcw aria-hidden="true" /><div><p className="eyebrow">现场有变化时</p><h2>不用原地等，直接切换 Plan B</h2><p>{attraction.fallbackNote}</p><Link to={`/attractions?city=${attraction.cityId}`} className="text-link">查看同城其他景点 <ArrowRight aria-hidden="true" /></Link></div></div>}
             <div className={`source-card verification-card ${attraction.verificationLevel}`}>
               <ShieldCheck aria-hidden="true" />
               <div><h2>{attraction.verificationLevel === 'verified' ? '核心资料已核实' : '资料待进一步复核'}</h2><p>{attraction.verificationNote}</p></div>
