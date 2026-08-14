@@ -12,8 +12,8 @@ export const attractionThemes: AttractionTheme[] = [
     id: 'first-visit',
     label: '第一次来',
     title: '先看最有辨识度的宁夏',
-    description: '历史、沙水和沙漠体验各选一处，适合初次建立目的地印象。',
-    attractionIds: ['xixiawangling', 'shahu', 'shapotou', 'huangyeguda', 'suyukou'],
+    description: '历史、沙水、山地和湿地各选一处，适合初次建立目的地印象。',
+    attractionIds: ['xixiawangling', 'shahu', 'shapotou', 'huangyeguda', 'suyukou', 'zhongweijinshadao'],
     tone: 'sand',
   },
   {
@@ -27,9 +27,9 @@ export const attractionThemes: AttractionTheme[] = [
   {
     id: 'yellow-river',
     label: '沿黄河走',
-    title: '看峡谷、水利与黄河建筑',
-    description: '同在黄河沿线，但大峡谷、黄河坛和黄河楼是三种完全不同的体验。',
-    attractionIds: ['huangyeguda', 'huanghetan', 'zhonghuahuanghelou', 'shapotou'],
+    title: '看古渡、峡谷、水利与黄河建筑',
+    description: '同在黄河沿线，古渡、峡谷、黄河坛和黄河楼却是完全不同的体验。',
+    attractionIds: ['huangshagudu', 'huangyeguda', 'huanghetan', 'zhonghuahuanghelou', 'shapotou'],
     tone: 'blue',
   },
   {

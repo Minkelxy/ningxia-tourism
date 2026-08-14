@@ -369,6 +369,52 @@ const published: Attraction[] = [
     verificationNote: '湿地身份、主要游览内容、开放时段与地址有自治区文旅厅和银川市政府直接页面支撑，坐标结合自治区水利厅点位资料校正。当前为西北芦苇湖泊氛围图，已明确标注为非鸣翠湖实景。',
   },
   {
+    id: 'huangshagudu', status: 'published', verificationLevel: 'verified', name: '黄沙古渡原生态旅游区', cityId: 'yinchuan', locality: '兴庆区', category: 'experience',
+    coordinates: { lng: 106.5303, lat: 38.5703 },
+    summary: '在银川东部的黄河岸边，把古渡文化、沙漠、湿地与多种户外体验组合在同一片区域。更适合留出半天到一天，而不是当作市区顺路小景点。',
+    highlights: ['黄河古渡与月牙湖湿地', '沙漠观景和组合体验项目', '古渡文化与塞上自然景观'],
+    visitInfo: {
+      openingHours: '自治区文旅厅景区页公示常规 08:00—17:00；节假日入园、停票与项目结束时间可能调整，以景区当日公告为准',
+      ticketPrice: '景区自 2026 年 7 月起调整票务与项目组合，不同套票包含内容不同，请以官方售票页实时说明为准',
+      reservation: '节假日建议提前购票；部分沙漠、水上和交通项目可能有年龄、身高、体重或天气限制',
+      duration: '4—6 小时', bestSeason: '4—10 月；大风、高温或强降雨天气先确认项目开放情况',
+      transportation: '银川公交 701 路、720 路资料显示可到黄沙古渡站，线路和季节运营可能变化；自驾或包车更便于控制返程时间',
+      address: '银川市兴庆区月牙湖乡黄河东岸',
+    },
+    images: [image('images/attractions/huangshagudu.webp', '银川河东附近黄河区域景观（非黄沙古渡景区实景）', 'Htmlzycq', 'CC BY-SA 4.0', "https://commons.wikimedia.org/wiki/File:Yinchuan-Xi%27an_HSR_Yellow_River_Bridge.jpg")],
+    nearbyIds: ['mingcuihu', 'shuidonggou'],
+    sources: [
+      officialSource('宁夏文旅厅 · 黄沙古渡原生态旅游区', 'https://whhlyt.nx.gov.cn/jqjd/ycs_66553/hsgdystlyq/', 'direct', ['overview', 'visit', 'location'], '2026-08-15'),
+      officialSource('银川市人民政府 · 黄沙古渡原生态旅游区', 'https://www.yinchuan.gov.cn/sshc/lyjd/sdgy/202409/t20240919_4665562.html', 'direct', ['overview', 'location'], '2026-08-15'),
+      officialSource('银川市交通运输局 · 黄沙古渡公交线路', 'https://wgj.yinchuan.gov.cn/zzb/whly_72212/202503/t20250313_4853312.html', 'direct', ['visit', 'location'], '2026-08-15'),
+      officialSource('黄沙古渡景区 · 票务调整公告', 'https://www.nxhsgd.com/news/show.php/itemid-978/', 'direct', ['visit'], '2026-08-15'),
+    ],
+    verifiedAt: '2026-08-15',
+    verificationNote: '景区现行名称、黄河古渡与沙漠湿地组合、常规开放时段和地址有自治区文旅厅及银川市政府直接页面支撑，公交与近期票务变化也分别有主管部门和景区公告。配图仅表现银川河东黄河区域，已明确标注为非景区实景。',
+  },
+  {
+    id: 'zhongweijinshadao', status: 'published', verificationLevel: 'verified', name: '腾格里沙漠湿地·金沙岛旅游区', cityId: 'zhongwei', locality: '沙坡头区', category: 'nature',
+    coordinates: { lng: 105.1067, lat: 37.5318 },
+    summary: '距中卫城区较近的沙漠湿地型目的地，以湖泊、沙地、花园与休闲度假氛围见长。和沙坡头相比，这里更适合轻松看沙水相邻的景观。',
+    highlights: ['腾格里沙漠边缘湿地与湖泊', '季节花园和休闲步道', '靠近中卫城区的半日选择'],
+    visitInfo: {
+      openingHours: '自治区文旅厅景区页公示 08:00—18:00；花期、水域活动和冬季游览范围会随季节调整',
+      ticketPrice: '门票、观光与体验项目可能分项计价，以景区官方渠道和现场公示为准',
+      reservation: '普通散客预约要求以景区公告为准；花期、节假日和团队活动建议提前确认',
+      duration: '3—5 小时', bestSeason: '5—10 月；花期、候鸟和水景受物候与水位影响',
+      transportation: '景区距中卫城区约 8 公里，打车、自驾或包车更方便；离开前建议提前确认返程叫车情况',
+      address: '中卫市沙坡头区腾格里湿地公园附近',
+    },
+    images: [image('images/attractions/jinshadao.webp', '中卫沙坡头区腾格里沙漠与黄河绿洲景观（非金沙岛景区实景）', 'sylvannus', 'CC BY-SA 3.0', 'https://commons.wikimedia.org/wiki/File:沙坡头,_Shapotou,_Tengger_Desert_-_panoramio_(1).jpg')],
+    nearbyIds: ['shapotou', 'zhongweigaomiao'],
+    sources: [
+      officialSource('宁夏文旅厅 · 腾格里沙漠湿地·金沙岛旅游区', 'https://whhlyt.nx.gov.cn/jqjd/zws_66597/tglsmsdjsdlyq/', 'direct', ['overview', 'visit', 'location'], '2026-08-15'),
+      officialSource('中卫市人民政府 · 金沙岛景区运营调研', 'https://www.nxzw.gov.cn/zzb/zwyw_67307/202509/t20250917_5024045.html', 'direct', ['overview', 'visit', 'location'], '2026-08-15'),
+    ],
+    verifiedAt: '2026-08-15',
+    verificationNote: '景区现行名称、沙漠湿地定位、主要景观、常规开放时段、地址和距城区距离均有自治区文旅厅直接景区页支撑，中卫市政府近期调研证明景区持续运营。配图为同属沙坡头区的腾格里沙漠与黄河绿洲景观，已明确标注为非金沙岛实景。',
+  },
+  {
     id: 'yanchilie', status: 'draft', verificationLevel: 'review', name: '盐池革命烈士纪念园', cityId: 'wuzhong', locality: '盐池县', category: 'history',
     coordinates: { lng: 107.04, lat: 37.78 },
     summary: '盐池红色文化的重要纪念空间，适合与盐池县城历史、人文和长城遗迹主题结合参观。',
@@ -387,11 +433,7 @@ const published: Attraction[] = [
 ];
 
 const draftSeed: Array<Pick<Attraction, 'id' | 'name' | 'cityId' | 'locality' | 'category' | 'coordinates' | 'summary'>> = [
-  { id: 'yibaisiba', name: '一百零八塔', cityId: 'wuzhong', locality: '青铜峡市', category: 'religion', coordinates: { lng: 105.97, lat: 37.87 }, summary: '黄河岸边古塔群，资料正在核实。' },
   { id: 'huixiang', name: '中华回乡文化园', cityId: 'yinchuan', locality: '永宁县', category: 'experience', coordinates: { lng: 106.24, lat: 38.29 }, summary: '文化主题园区，资料正在核实。' },
-  { id: 'zhongweijinshadao', name: '中卫金沙岛', cityId: 'zhongwei', locality: '沙坡头区', category: 'nature', coordinates: { lng: 105.11, lat: 37.54 }, summary: '沙漠湿地度假区，资料正在核实。' },
-  { id: 'huangshagudu', name: '黄沙古渡', cityId: 'yinchuan', locality: '兴庆区', category: 'experience', coordinates: { lng: 106.55, lat: 38.57 }, summary: '黄河古渡主题景区，资料正在核实。' },
-  { id: 'jinjiping', name: '金鸡坪梯田', cityId: 'guyuan', locality: '彭阳县', category: 'nature', coordinates: { lng: 106.63, lat: 36.15 }, summary: '彭阳梯田观景点，资料正在核实。' },
 ];
 
 const drafts: Attraction[] = draftSeed.map((item) => ({
@@ -411,5 +453,9 @@ export const attractions: Attraction[] = [...published, ...drafts];
 export const publishedAttractions = attractions.filter((item) => item.status === 'published');
 export const verifiedAttractions = publishedAttractions.filter((item) => item.verificationLevel === 'verified');
 export const reviewAttractions = publishedAttractions.filter((item) => item.verificationLevel === 'review');
+export const attractionAliases: Record<string, string> = {
+  yibaisiba: 'huangyeguda',
+  jinjiping: 'pengyangtitian',
+};
 export const getAttractionById = (id?: string) => attractions.find((item) => item.id === id);
 export const getPublishedAttractionsByCity = (cityId: CityId) => publishedAttractions.filter((item) => item.cityId === cityId);

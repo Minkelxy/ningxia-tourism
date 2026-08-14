@@ -5,7 +5,7 @@ const appBase = process.env.VITE_BASE_URL ?? '/';
 test('首页、景点筛选与详情可以连续浏览', async ({ page }) => {
   await page.goto(appBase);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('宁夏');
-  await expect(page.getByText('14 个已核实 · 2 个待复核')).toBeVisible();
+  await expect(page.getByText('16 个已核实 · 2 个待复核')).toBeVisible();
 
   await page.getByRole('link', { name: '精选景点' }).first().click();
   await page.getByPlaceholder('搜索景点、城市或亮点').fill('沙坡头');
@@ -84,6 +84,25 @@ test('景点页支持按旅行兴趣发现新增目的地', async ({ page }) => 
   await expect(page.getByRole('heading', { level: 1, name: '鸣翠湖国家湿地公园' })).toBeVisible();
   await expect(page.getByText(/塞上江南/).first()).toBeVisible();
   await expect(page.locator('.source-list a')).toHaveCount(3);
+
+  await page.goto(`${appBase}attraction/huangshagudu`);
+  await expect(page.getByRole('heading', { level: 1, name: '黄沙古渡原生态旅游区' })).toBeVisible();
+  await expect(page.getByText(/半天到一天/)).toBeVisible();
+  await expect(page.locator('.image-credit > strong')).toHaveText(/非黄沙古渡景区实景/);
+  await expect(page.locator('.source-list a')).toHaveCount(4);
+
+  await page.goto(`${appBase}attraction/zhongweijinshadao`);
+  await expect(page.getByRole('heading', { level: 1, name: '腾格里沙漠湿地·金沙岛旅游区' })).toBeVisible();
+  await expect(page.getByText(/更适合轻松看沙水相邻的景观/)).toBeVisible();
+  await expect(page.locator('.image-credit > strong')).toHaveText(/非金沙岛景区实景/);
+
+  await page.goto(`${appBase}attraction/yibaisiba`);
+  await expect(page).toHaveURL(new RegExp(`${appBase}attraction/huangyeguda$`));
+  await expect(page.getByRole('heading', { level: 1, name: '青铜峡黄河大峡谷旅游区' })).toBeVisible();
+
+  await page.goto(`${appBase}attraction/jinjiping`);
+  await expect(page).toHaveURL(new RegExp(`${appBase}attraction/pengyangtitian$`));
+  await expect(page.getByRole('heading', { level: 1, name: '彭阳梯田' })).toBeVisible();
 });
 
 test('城市详情和路线详情可直接访问', async ({ page }) => {

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { ArrowLeft, ArrowRight, CalendarDays, Clock3, ExternalLink, ImageOff, Info, MapPin, Navigation, Share2, ShieldCheck, Ticket } from 'lucide-react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import SEO from '../components/SEO';
 import ResponsiveImage from '../components/ResponsiveImage';
-import { getAttractionById, publishedAttractions } from '../data/attractions';
+import { attractionAliases, getAttractionById, publishedAttractions } from '../data/attractions';
 import { cityName } from '../data/cities';
 import { categoryMeta } from '../data/meta';
 import { attractionMapUrl, formatVerifiedDate, getVerificationFreshness, sharePage } from '../lib/site';
@@ -14,8 +14,11 @@ const sourceCoverageLabels = { overview: '景点概况', visit: '开放预约', 
 export default function AttractionDetail() {
   const { id } = useParams();
   const attraction = getAttractionById(id);
+  const replacementId = id ? attractionAliases[id] : undefined;
   const [imageIndex, setImageIndex] = useState(0);
   const [shareStatus, setShareStatus] = useState('');
+
+  if (replacementId) return <Navigate to={`/attraction/${replacementId}`} replace />;
 
   if (!attraction) return (
     <div className="full-state"><SEO title="景点未找到 · 宁夏旅行地图" noIndex /><ImageOff aria-hidden="true" /><h1>没有找到这个景点</h1><p>链接可能已经变更，回到精选景点继续探索。</p><Link to="/attractions" className="btn-primary">浏览精选景点</Link></div>

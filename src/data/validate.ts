@@ -1,5 +1,5 @@
 import type { JournalEntry } from '../types';
-import { attractions, publishedAttractions } from './attractions';
+import { attractionAliases, attractions, publishedAttractions } from './attractions';
 import { cities } from './cities';
 import { attractionThemes } from './discovery';
 import { routes } from './routes';
@@ -73,8 +73,8 @@ export const validateContentData = (journalEntries: JournalEntry[] = [], journal
   const routePaces = new Set(['relaxed', 'balanced', 'intensive']);
   const walkingLevels = new Set(['low', 'medium', 'high']);
   if (ids.length !== idSet.size) errors.push('景点 ID 存在重复');
-  if (publishedAttractions.length !== 16) errors.push(`公开景点应为 16 个，当前为 ${publishedAttractions.length} 个`);
-  if (attractions.filter((item) => item.status === 'draft').length !== 6) errors.push('草稿景点应为 6 个');
+  if (publishedAttractions.length !== 18) errors.push(`公开景点应为 18 个，当前为 ${publishedAttractions.length} 个`);
+  if (attractions.filter((item) => item.status === 'draft').length !== 2) errors.push('草稿景点应为 2 个');
   if (cities.length !== 5) errors.push('城市数据应为 5 个');
   if (routes.length !== 7) errors.push('推荐路线应为 7 条');
   for (const city of cities) {
@@ -104,6 +104,10 @@ export const validateContentData = (journalEntries: JournalEntry[] = [], journal
     }
     for (const value of Object.values(item.visitInfo)) if (!value || value === '资料核实中') errors.push(`${item.id}: 正式景点实用信息不完整`);
     for (const nearbyId of item.nearbyIds) if (!publishedIds.has(nearbyId)) errors.push(`${item.id}: 周边景点 ${nearbyId} 未发布`);
+  }
+  for (const [legacyId, targetId] of Object.entries(attractionAliases)) {
+    if (idSet.has(legacyId)) errors.push(`旧景点链接 ${legacyId} 与现有景点 ID 冲突`);
+    if (!publishedIds.has(targetId)) errors.push(`旧景点链接 ${legacyId} 指向未发布景点 ${targetId}`);
   }
   const themeIds = new Set<string>();
   for (const theme of attractionThemes) {

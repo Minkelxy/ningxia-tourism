@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { attractions, publishedAttractions, reviewAttractions, verifiedAttractions } from './attractions';
+import { attractionAliases, attractions, publishedAttractions, reviewAttractions, verifiedAttractions } from './attractions';
 import { journalEntries, journalErrors, publishedJournalEntries } from '../content/journal';
 import { cities } from './cities';
 import { attractionThemes } from './discovery';
@@ -13,10 +13,10 @@ describe('公开内容数据', () => {
 
   it('保持当前公开内容数量稳定', () => {
     expect(cities).toHaveLength(5);
-    expect(publishedAttractions).toHaveLength(16);
-    expect(verifiedAttractions).toHaveLength(14);
+    expect(publishedAttractions).toHaveLength(18);
+    expect(verifiedAttractions).toHaveLength(16);
     expect(reviewAttractions).toHaveLength(2);
-    expect(attractions.filter((item) => item.status === 'draft')).toHaveLength(6);
+    expect(attractions.filter((item) => item.status === 'draft')).toHaveLength(2);
     expect(routes).toHaveLength(7);
     expect(publishedJournalEntries).toHaveLength(4);
     expect(publishedJournalEntries.every((entry) => entry.type === 'guide' && entry.contentKind === 'editorial')).toBe(true);
@@ -92,6 +92,23 @@ describe('公开内容数据', () => {
       expect(item?.images[0].alt).toContain('非');
       expect(item?.sources.some((source) => source.level === 'direct' && source.coverage.includes('visit'))).toBe(true);
     }
+  });
+
+  it('黄沙古渡与金沙岛具有直接来源、区域配图说明和完整实用字段', () => {
+    for (const id of ['huangshagudu', 'zhongweijinshadao']) {
+      const item = publishedAttractions.find((attraction) => attraction.id === id);
+      expect(item?.verificationLevel).toBe('verified');
+      expect(hasStrictVerificationEvidence(item!)).toBe(true);
+      expect(item?.images[0].alt).toContain('非');
+      expect(item?.sources.some((source) => source.level === 'direct' && source.coverage.includes('visit'))).toBe(true);
+      expect(Object.values(item?.visitInfo ?? {}).every(Boolean)).toBe(true);
+    }
+  });
+
+  it('重复旧条目并入完整目的地并保留链接映射', () => {
+    expect(attractionAliases).toEqual({ yibaisiba: 'huangyeguda', jinjiping: 'pengyangtitian' });
+    expect(Object.keys(attractionAliases).every((id) => !attractions.some((item) => item.id === id))).toBe(true);
+    expect(Object.values(attractionAliases).every((id) => publishedAttractions.some((item) => item.id === id))).toBe(true);
   });
 
   it('四组发现主题只引用公开景点', () => {
