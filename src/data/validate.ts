@@ -6,12 +6,16 @@ import { routes } from './routes';
 const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 const validImage = (image?: JournalEntry['cover']) => Boolean(image?.src && image.alt && image.credit && image.license && image.sourceUrl);
 const validDate = (value: string) => datePattern.test(value) && !Number.isNaN(Date.parse(`${value}T00:00:00Z`));
-const today = new Date().toISOString().slice(0, 10);
+const localDate = new Date();
+const today = `${localDate.getFullYear()}-${String(localDate.getMonth() + 1).padStart(2, '0')}-${String(localDate.getDate()).padStart(2, '0')}`;
 const placeholderPattern = /(示例|演示用|示例店名|示例地址|待填写|example\.com)/i;
 
 export const hasStrictVerificationEvidence = (item: (typeof attractions)[number]) => {
   const exactImages = item.images.length > 0 && item.images.every((image) => !/(区域|氛围|主题)/.test(image.alt));
-  const directOfficialSource = item.sources.some((source) => source.kind === 'official' && new URL(source.url).pathname.length > 1);
+  const directOfficialSource = item.sources.some((source) => source.kind === 'official'
+    && source.level === 'direct'
+    && source.coverage.includes('overview')
+    && source.coverage.includes('location'));
   return exactImages && directOfficialSource;
 };
 
@@ -53,6 +57,8 @@ export const validateContentData = (journalEntries: JournalEntry[] = [], journal
   const cityIds = new Set(cities.map((city) => city.id));
   const categories = new Set(['nature', 'history', 'religion', 'experience']);
   const verificationLevels = new Set(['verified', 'review']);
+  const sourceLevels = new Set(['direct', 'directory', 'homepage']);
+  const sourceCoverage = new Set(['overview', 'visit', 'location']);
   if (ids.length !== idSet.size) errors.push('景点 ID 存在重复');
   if (publishedAttractions.length !== 11) errors.push(`公开景点应为 11 个，当前为 ${publishedAttractions.length} 个`);
   if (attractions.filter((item) => item.status === 'draft').length !== 11) errors.push('草稿景点应为 11 个');
@@ -66,7 +72,15 @@ export const validateContentData = (journalEntries: JournalEntry[] = [], journal
   }
   for (const item of publishedAttractions) {
     if (!item.summary || item.highlights.length === 0 || item.images.length === 0) errors.push(`${item.id}: 内容或图片不完整`);
-    if (!item.verifiedAt || item.sources.filter((source) => source.kind === 'official').length === 0) errors.push(`${item.id}: 缺少核实日期或官方来源`);
+    if (!validDate(item.verifiedAt) || item.verifiedAt > today || item.sources.filter((source) => source.kind === 'official').length === 0) errors.push(`${item.id}: 缺少有效核实日期或官方来源`);
+    if (!item.verificationNote) errors.push(`${item.id}: 缺少证据说明`);
+    for (const source of item.sources) {
+      if (!sourceLevels.has(source.level)) errors.push(`${item.id}: 来源层级无效`);
+      if (!validDate(source.checkedAt) || source.checkedAt > item.verifiedAt) errors.push(`${item.id}: 来源核对日期无效`);
+      if (source.coverage.some((coverage) => !sourceCoverage.has(coverage))) errors.push(`${item.id}: 来源支持范围无效`);
+      if (source.level === 'direct' && source.coverage.length === 0) errors.push(`${item.id}: 直接来源未标明支持范围`);
+      try { new URL(source.url); } catch { errors.push(`${item.id}: 来源链接无效`); }
+    }
     if (item.images.some((image) => !image.alt || !image.credit || !image.license || !image.sourceUrl)) errors.push(`${item.id}: 图片署名或许可不完整`);
     if (item.verificationLevel === 'verified') {
       if (!hasStrictVerificationEvidence(item)) errors.push(`${item.id}: 区域氛围图或首页级来源不能通过严格核实`);

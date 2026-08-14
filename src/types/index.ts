@@ -10,10 +10,16 @@ export interface Coordinates {
   lat: number;
 }
 
+export type SourceLevel = 'direct' | 'directory' | 'homepage';
+export type SourceCoverage = 'overview' | 'visit' | 'location';
+
 export interface SourceRef {
   label: string;
   url: string;
   kind: 'official' | 'image';
+  level: SourceLevel;
+  coverage: SourceCoverage[];
+  checkedAt: string;
 }
 
 export interface AttractionImage {
@@ -50,6 +56,7 @@ export interface Attraction {
   nearbyIds: string[];
   sources: SourceRef[];
   verifiedAt: string;
+  verificationNote: string;
 }
 
 export interface City {

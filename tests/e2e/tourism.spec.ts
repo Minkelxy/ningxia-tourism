@@ -5,7 +5,7 @@ const appBase = process.env.VITE_BASE_URL ?? '/';
 test('首页、景点筛选与详情可以连续浏览', async ({ page }) => {
   await page.goto(appBase);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('宁夏');
-  await expect(page.getByText('2 个严格核实 · 9 个待复核')).toBeVisible();
+  await expect(page.getByText('4 个严格核实 · 7 个待复核')).toBeVisible();
 
   await page.getByRole('link', { name: '精选景点' }).first().click();
   await page.getByPlaceholder('搜索景点、城市或亮点').fill('沙坡头');
@@ -13,6 +13,8 @@ test('首页、景点筛选与详情可以连续浏览', async ({ page }) => {
   await page.getByRole('heading', { name: '沙坡头' }).getByRole('link').click();
   await expect(page.getByRole('heading', { level: 1, name: '沙坡头' })).toBeVisible();
   await expect(page.getByRole('link', { name: /高德查看/ })).toHaveAttribute('href', /coordinate=wgs84/);
+  await expect(page.getByText('近期核验')).toBeVisible();
+  await expect(page.locator('.source-list').getByText(/直接专页 · 景点概况/).first()).toBeVisible();
 });
 
 test('城市详情和路线详情可直接访问', async ({ page }) => {

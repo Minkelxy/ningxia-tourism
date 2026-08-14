@@ -34,3 +34,15 @@ export const sharePage = async (title: string, text: string) => {
 };
 
 export const formatVerifiedDate = (date: string) => date ? date.replace(/-/g, '.') : '核实中';
+
+export type VerificationFreshness = 'current' | 'attention' | 'stale';
+
+export const getVerificationFreshness = (date: string, referenceDate = new Date()) => {
+  const checkedAt = Date.parse(`${date}T00:00:00Z`);
+  if (!date || Number.isNaN(checkedAt)) return { status: 'stale' as VerificationFreshness, label: '核验日期缺失', days: null };
+  const reference = Date.UTC(referenceDate.getUTCFullYear(), referenceDate.getUTCMonth(), referenceDate.getUTCDate());
+  const days = Math.max(0, Math.floor((reference - checkedAt) / 86_400_000));
+  if (days <= 90) return { status: 'current' as VerificationFreshness, label: '近期核验', days };
+  if (days <= 180) return { status: 'attention' as VerificationFreshness, label: '建议复查', days };
+  return { status: 'stale' as VerificationFreshness, label: '资料可能过期', days };
+};

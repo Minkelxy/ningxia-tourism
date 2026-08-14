@@ -1,11 +1,20 @@
-import type { Attraction, AttractionImage, CityId, VisitInfo } from '../types';
+import type { Attraction, AttractionImage, CityId, SourceCoverage, SourceLevel, SourceRef, VisitInfo } from '../types';
 
 const verifiedAt = '2026-08-12';
-const cultureTourismSource = {
-  label: '宁夏回族自治区文化和旅游厅 · 景区景点',
-  url: 'https://whhlyt.nx.gov.cn/jqjd/',
-  kind: 'official' as const,
-};
+const officialSource = (
+  label: string,
+  url: string,
+  level: SourceLevel,
+  coverage: SourceCoverage[],
+  checkedAt = verifiedAt,
+): SourceRef => ({ label, url, kind: 'official', level, coverage, checkedAt });
+
+const cultureTourismSource = officialSource(
+  '宁夏回族自治区文化和旅游厅 · 景区景点',
+  'https://whhlyt.nx.gov.cn/jqjd/',
+  'directory',
+  ['overview'],
+);
 
 const image = (
   src: string,
@@ -41,7 +50,12 @@ const published: Attraction[] = [
     },
     images: [image('images/attractions/ningxia-museum.webp', '宁夏博物馆建筑外观', 'David Stanley', 'CC BY 2.0', 'https://commons.wikimedia.org/wiki/File:Ningxia_Provincial_Museum,_Yinchuan.jpg')],
     nearbyIds: ['xixiawangling', 'zhenbeibu', 'nanguan'],
-    sources: [cultureTourismSource, { label: '宁夏博物馆开放信息', url: 'https://whhlyt.nx.gov.cn/', kind: 'official' }], verifiedAt,
+    sources: [
+      officialSource('宁夏政府网 · 宁夏博物馆专题介绍', 'https://www.nx.gov.cn/ssjn/rwnx/wbgz/202303/t20230307_3987444.html', 'direct', ['overview', 'location'], '2026-08-15'),
+      officialSource('宁夏文旅厅 · 宁夏博物馆', 'https://whhlyt.nx.gov.cn/ggfw/ggwhcs/201910/t20191025_3645028.html', 'direct', ['overview'], '2026-08-15'),
+    ],
+    verifiedAt: '2026-08-15',
+    verificationNote: '场馆身份、展陈概况、地址和图片已核对；常态开放与预约信息仍缺少馆方可长期访问的直接参观页。',
   },
   {
     id: 'xixiawangling', status: 'published', verificationLevel: 'verified', name: '西夏陵', cityId: 'yinchuan', locality: '西夏区', category: 'history',
@@ -58,22 +72,27 @@ const published: Attraction[] = [
     },
     images: [image('images/attractions/xixia.webp', '贺兰山下的西夏陵遗址', 'BabelStone', 'CC BY-SA 3.0', 'https://commons.wikimedia.org/wiki/File:XiXia_Tomb_3_gate_tower_(west).jpg')],
     nearbyIds: ['zhenbeibu', 'ningxiamuseum'],
-    sources: [{ label: '银川市人民政府 · 西夏陵', url: 'https://www.yinchuan.gov.cn/sshc/lyjd/zdwbcs/202511/t20251125_5090985.html', kind: 'official' }, cultureTourismSource], verifiedAt,
+    sources: [officialSource('银川市人民政府 · 西夏陵', 'https://www.yinchuan.gov.cn/sshc/lyjd/zdwbcs/202511/t20251125_5090985.html', 'direct', ['overview', 'location']), cultureTourismSource],
+    verifiedAt,
+    verificationNote: '核心遗产信息、位置与对应实景图片已有官方直接页面和清晰许可支撑；开放及票务仍以景区实时公告为准。',
   },
   {
-    id: 'zhenbeibu', status: 'published', verificationLevel: 'review', name: '镇北堡西部影城', cityId: 'yinchuan', locality: '西夏区', category: 'experience',
+    id: 'zhenbeibu', status: 'published', verificationLevel: 'verified', name: '镇北堡西部影城', cityId: 'yinchuan', locality: '西夏区', category: 'experience',
     coordinates: { lng: 106.0683, lat: 38.6147 },
     summary: '由古堡遗址发展而来的西部影视拍摄基地，可在明城、清城和老银川街体验粗粝鲜明的西北影像美学。',
     highlights: ['经典影视取景地', '西北古堡与街景', '适合人像与主题摄影'],
     visitInfo: {
-      openingHours: '开放时段随季节调整，以景区当日公告为准',
+      openingHours: '文旅厅公示常规夏季 08:00—18:00、冬季 09:00—17:00；夜游及节假日延时以景区公告为准',
       ticketPrice: '以官方售票渠道实时价格为准', reservation: '节假日建议提前购票',
       duration: '3—4 小时', bestSeason: '4—10 月',
       transportation: '可从银川市区乘旅游专线、出租车或自驾前往',
       address: '银川市西夏区镇北堡镇',
     },
     images: [image('images/attractions/zhenbeibu.webp', '镇北堡西部影城街景', 'Yanxutong1215', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:镇北堡西部影城.jpg')],
-    nearbyIds: ['xixiawangling', 'ningxiamuseum'], sources: [cultureTourismSource, { label: '银川市人民政府旅游信息', url: 'https://www.yinchuan.gov.cn/sshc/lyjd/', kind: 'official' }], verifiedAt,
+    nearbyIds: ['xixiawangling', 'ningxiamuseum'],
+    sources: [officialSource('宁夏文旅厅 · 镇北堡西部影城', 'https://whhlyt.nx.gov.cn/jqjd/ycs_66553/zbbxbyc/', 'direct', ['overview', 'visit', 'location'], '2026-08-15')],
+    verifiedAt: '2026-08-15',
+    verificationNote: '景区概况、常规季节开放时段、地址与对应实景图片均有直接官方页面和清晰许可支撑。',
   },
   {
     id: 'nanguan', status: 'published', verificationLevel: 'review', name: '南关清真大寺', cityId: 'yinchuan', locality: '兴庆区', category: 'religion',
@@ -88,10 +107,13 @@ const published: Attraction[] = [
       address: '银川市兴庆区玉皇阁南街一带',
     },
     images: [image('images/attractions/nanguan.webp', '银川南关清真大寺外观', 'HMGiovanniV', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Nanguan_Great_Mosque,_Xingqing,_Yinchuan_in_January_2020.jpg')],
-    nearbyIds: ['ningxiamuseum'], sources: [cultureTourismSource, { label: '银川市人民政府', url: 'https://www.yinchuan.gov.cn/', kind: 'official' }], verifiedAt,
+    nearbyIds: ['ningxiamuseum'],
+    sources: [cultureTourismSource, officialSource('银川市人民政府', 'https://www.yinchuan.gov.cn/', 'homepage', [])],
+    verifiedAt,
+    verificationNote: '图片准确对应且许可清晰，但开放安排、参观要求和精确地址尚缺管理方直接页面。',
   },
   {
-    id: 'shahu', status: 'published', verificationLevel: 'review', name: '沙湖生态旅游区', cityId: 'shizuishan', locality: '平罗县', category: 'nature',
+    id: 'shahu', status: 'published', verificationLevel: 'verified', name: '沙湖生态旅游区', cityId: 'shizuishan', locality: '平罗县', category: 'nature',
     coordinates: { lng: 106.377, lat: 38.808 },
     summary: '湖泊、芦苇、候鸟与沙丘相邻共生，是宁夏最具辨识度的沙水景观之一。游船和沙漠项目受天气影响较大。',
     highlights: ['沙水相依的复合景观', '湿地观鸟与科普', '游船及沙漠体验'],
@@ -103,8 +125,14 @@ const published: Attraction[] = [
       transportation: '从银川或石嘴山出发可乘旅游交通、包车或自驾',
       address: '石嘴山市平罗县境内',
     },
-    images: [image('images/attractions/shahu.webp', '宁夏平原水域与田野景观，作为沙湖区域氛围配图', 'GHOSTGHOSTH2O', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:宁夏平原稻田风光.png')],
-    nearbyIds: [], sources: [{ label: '宁夏沙湖旅游官方网站', url: 'https://www.nxshahu.com/', kind: 'official' }, { label: '宁夏文旅厅 · 沙湖生态旅游区', url: 'https://whhlyt.nx.gov.cn/jqjd/szss_66574/nxshstlyq/', kind: 'official' }], verifiedAt,
+    images: [image('images/attractions/shahu.webp', '宁夏沙湖景区内的沙雕与沙丘', 'zengsx', 'CC BY-SA 3.0', 'https://commons.wikimedia.org/wiki/File:沙湖沙雕_-_panoramio.jpg')],
+    nearbyIds: [],
+    sources: [
+      officialSource('宁夏沙湖旅游官方网站', 'https://www.nxshahu.com/', 'direct', ['overview', 'visit', 'location'], '2026-08-15'),
+      officialSource('宁夏文旅厅 · 沙湖生态旅游区', 'https://whhlyt.nx.gov.cn/jqjd/szss_66574/nxshstlyq/', 'direct', ['overview', 'visit', 'location'], '2026-08-15'),
+    ],
+    verifiedAt: '2026-08-15',
+    verificationNote: '景区概况、出行信息与位置均有景区或文旅厅直接页面支撑；新图片拍摄坐标位于沙湖景区并具有明确许可。',
   },
   {
     id: 'shapotou', status: 'published', verificationLevel: 'verified', name: '沙坡头旅游景区', cityId: 'zhongwei', locality: '沙坡头区', category: 'experience',
@@ -120,7 +148,10 @@ const published: Attraction[] = [
       address: '中卫市沙坡头区腾格里沙漠东南缘',
     },
     images: [image('images/attractions/shapotou.webp', '沙坡头沙漠景观', 'Fred Feng', 'Public domain', 'https://commons.wikimedia.org/wiki/File:Shapotou.jpg')],
-    nearbyIds: ['zhongweigaomiao'], sources: [{ label: '沙坡头旅游官方网站', url: 'https://www.shapotou.com/index.html', kind: 'official' }, cultureTourismSource], verifiedAt,
+    nearbyIds: ['zhongweigaomiao'],
+    sources: [officialSource('沙坡头旅游官方网站', 'https://www.shapotou.com/index.html', 'direct', ['overview', 'visit', 'location']), cultureTourismSource],
+    verifiedAt,
+    verificationNote: '核心景观、位置与对应实景图片已有景区直接页面和清晰许可支撑；体验项目受天气影响，须以当日公告为准。',
   },
   {
     id: 'zhongweigaomiao', status: 'published', verificationLevel: 'review', name: '中卫高庙', cityId: 'zhongwei', locality: '沙坡头区', category: 'religion',
@@ -133,7 +164,10 @@ const published: Attraction[] = [
       transportation: '位于中卫市区，可步行、公交或打车到达', address: '中卫市沙坡头区高庙路一带',
     },
     images: [image('images/attractions/gaomiao.webp', '中卫高庙古建筑群', 'W0zny', 'CC BY-SA 3.0', 'https://commons.wikimedia.org/wiki/File:Zhongwei_Temple_Gaomiao_IGP4694.jpg')],
-    nearbyIds: ['shapotou'], sources: [cultureTourismSource, { label: '中卫市人民政府', url: 'https://www.nxzw.gov.cn/', kind: 'official' }], verifiedAt,
+    nearbyIds: ['shapotou'],
+    sources: [cultureTourismSource, officialSource('中卫市人民政府', 'https://www.nxzw.gov.cn/', 'homepage', [])],
+    verifiedAt,
+    verificationNote: '图片准确对应且许可清晰，但古建筑概况、开放安排与精确地址尚缺文物管理方直接页面。',
   },
   {
     id: 'huanghetan', status: 'published', verificationLevel: 'review', name: '黄河坛景区', cityId: 'wuzhong', locality: '青铜峡市', category: 'history',
@@ -145,7 +179,10 @@ const published: Attraction[] = [
       duration: '2—3 小时', bestSeason: '4—10 月', transportation: '建议从吴忠市区包车或自驾前往', address: '吴忠市青铜峡市黄河沿线',
     },
     images: [image('images/attractions/qingtongxia.webp', '青铜峡黄河沿线景观', 'AddisWang', 'CC BY-SA 3.0', 'https://commons.wikimedia.org/wiki/File:青铜峡黄河铁桥.JPG')],
-    nearbyIds: ['zhonghuahuanghelou'], sources: [cultureTourismSource, { label: '吴忠市人民政府', url: 'https://www.wuzhong.gov.cn/', kind: 'official' }], verifiedAt,
+    nearbyIds: ['zhonghuahuanghelou'],
+    sources: [cultureTourismSource, officialSource('吴忠市人民政府', 'https://www.wuzhong.gov.cn/', 'homepage', [])],
+    verifiedAt,
+    verificationNote: '现有来源为文旅目录和政府首页，图片仅对应青铜峡黄河沿线；仍需景区直接专页和准确实景。',
   },
   {
     id: 'zhonghuahuanghelou', status: 'published', verificationLevel: 'review', name: '中华黄河楼', cityId: 'wuzhong', locality: '青铜峡市', category: 'history',
@@ -157,7 +194,10 @@ const published: Attraction[] = [
       duration: '1.5—2.5 小时', bestSeason: '4—10 月，傍晚光线较佳', transportation: '吴忠市区打车或自驾较方便', address: '吴忠市青铜峡市黄河路与滨河大道附近',
     },
     images: [image('images/attractions/huanghelou.webp', '吴忠黄河沿线区域景观', 'AddisWang', 'CC BY-SA 3.0', 'https://commons.wikimedia.org/wiki/File:青铜峡黄河铁桥.JPG')],
-    nearbyIds: ['huanghetan'], sources: [cultureTourismSource, { label: '吴忠市人民政府', url: 'https://www.wuzhong.gov.cn/', kind: 'official' }], verifiedAt,
+    nearbyIds: ['huanghetan'],
+    sources: [cultureTourismSource, officialSource('吴忠市人民政府', 'https://www.wuzhong.gov.cn/', 'homepage', [])],
+    verifiedAt,
+    verificationNote: '现有来源为文旅目录和政府首页，图片仅对应吴忠黄河沿线；仍需景区直接专页和准确实景。',
   },
   {
     id: 'liupanshan', status: 'published', verificationLevel: 'review', name: '六盘山', cityId: 'guyuan', locality: '泾源县／隆德县', category: 'nature',
@@ -170,7 +210,10 @@ const published: Attraction[] = [
       transportation: '从固原市区出发建议包车或自驾，并预留山路时间', address: '固原市六盘山区域',
     },
     images: [image('images/attractions/liupanshan.webp', '六盘山红军长征纪念馆区域景观', '董辰兴', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:六盘山红军长征纪念馆西眺.jpg')],
-    nearbyIds: ['pengyangtitian'], sources: [cultureTourismSource, { label: '固原市人民政府', url: 'https://www.nxgy.gov.cn/', kind: 'official' }], verifiedAt,
+    nearbyIds: ['pengyangtitian'],
+    sources: [cultureTourismSource, officialSource('固原市人民政府', 'https://www.nxgy.gov.cn/', 'homepage', [])],
+    verifiedAt,
+    verificationNote: '“六盘山”覆盖多个游览区，现有图片偏向红军长征纪念馆；需明确具体目的地并逐项匹配来源。',
   },
   {
     id: 'pengyangtitian', status: 'published', verificationLevel: 'review', name: '彭阳梯田', cityId: 'guyuan', locality: '彭阳县', category: 'nature',
@@ -183,7 +226,10 @@ const published: Attraction[] = [
       transportation: '建议从彭阳县城自驾或包车，避免夜间进入陌生乡村道路', address: '固原市彭阳县境内',
     },
     images: [image('images/attractions/pengyang.webp', '宁夏平原田野景观，作为彭阳梯田主题配图', 'GHOSTGHOSTH2O', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:宁夏平原稻田风光.png')],
-    nearbyIds: ['liupanshan'], sources: [cultureTourismSource, { label: '彭阳县人民政府', url: 'https://www.pengyang.gov.cn/', kind: 'official' }], verifiedAt,
+    nearbyIds: ['liupanshan'],
+    sources: [cultureTourismSource, officialSource('彭阳县人民政府', 'https://www.pengyang.gov.cn/', 'homepage', [])],
+    verifiedAt,
+    verificationNote: '现有资料只能支撑彭阳区域概述，图片并非彭阳梯田实景；需明确观景点、道路和对应授权照片。',
   },
   {
     id: 'yanchilie', status: 'draft', verificationLevel: 'review', name: '盐池革命烈士纪念园', cityId: 'wuzhong', locality: '盐池县', category: 'history',
@@ -196,7 +242,10 @@ const published: Attraction[] = [
       transportation: '到达盐池县城后可打车或自驾前往', address: '吴忠市盐池县',
     },
     images: [image('images/attractions/yanchi.webp', '宁夏红色文化主题区域景观', '董辰兴', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:六盘山红军长征纪念馆西眺.jpg')],
-    nearbyIds: [], sources: [cultureTourismSource, { label: '盐池县人民政府', url: 'https://www.yanchi.gov.cn/', kind: 'official' }], verifiedAt,
+    nearbyIds: [],
+    sources: [cultureTourismSource, officialSource('盐池县人民政府', 'https://www.yanchi.gov.cn/', 'homepage', [])],
+    verifiedAt,
+    verificationNote: '来源和图片均不能直接对应具体纪念园，保持草稿，完成管理方信息和实景授权核对后再公开。',
   },
 ];
 
@@ -223,6 +272,7 @@ const drafts: Attraction[] = draftSeed.map((item) => ({
   nearbyIds: [],
   sources: [cultureTourismSource],
   verifiedAt: '',
+  verificationNote: '候选内容尚未完成直接来源、实用信息和图片许可核对。',
 }));
 
 export const attractions: Attraction[] = [...published, ...drafts];

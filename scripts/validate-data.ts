@@ -1,6 +1,8 @@
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { publishedAttractions } from '../src/data/attractions';
+import { attractions, publishedAttractions, reviewAttractions, verifiedAttractions } from '../src/data/attractions';
+import { cities } from '../src/data/cities';
+import { routes } from '../src/data/routes';
 import { assertValidContentData } from '../src/data/validate';
 import { loadJournalFiles } from './load-journal-files';
 
@@ -24,4 +26,4 @@ for (const entry of journal.entries.filter((item) => item.status === 'published'
     }
   }
 }
-console.log(`内容数据校验通过：11 个公开景点（2 个已核实、9 个待复核）、11 个草稿景点、5 个城市、7 条路线、${journal.entries.filter((item) => item.status === 'published' && item.contentKind === 'firsthand').length} 篇公开手记。`);
+console.log(`内容数据校验通过：${publishedAttractions.length} 个公开景点（${verifiedAttractions.length} 个已核实、${reviewAttractions.length} 个待复核）、${attractions.filter((item) => item.status === 'draft').length} 个草稿景点、${cities.length} 个城市、${routes.length} 条路线、${journal.entries.filter((item) => item.status === 'published' && item.contentKind === 'firsthand').length} 篇公开手记。`);
