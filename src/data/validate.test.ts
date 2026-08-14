@@ -17,7 +17,7 @@ describe('公开内容数据', () => {
     expect(reviewAttractions).toHaveLength(9);
     expect(attractions.filter((item) => item.status === 'draft')).toHaveLength(11);
     expect(routes).toHaveLength(7);
-    expect(publishedJournalEntries).toHaveLength(0);
+    expect(publishedJournalEntries).toHaveLength(3);
   });
 
   it('区域氛围图和首页级来源不能通过严格核实', () => {
