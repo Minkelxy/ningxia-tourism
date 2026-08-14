@@ -534,6 +534,8 @@ button { color: inherit; }
 .journal-tabs { display: inline-flex; gap: 6px; padding: 6px; border-radius: 999px; background: #e6dccb; }
 .journal-tabs button { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 8px 18px; border: 0; border-radius: 999px; background: transparent; cursor: pointer; }
 .journal-tabs button[aria-selected="true"] { background: var(--green); color: #fff; box-shadow: 0 8px 20px rgba(33,70,59,.16); }
+.journal-tabs button small { display: grid; place-items: center; min-width: 22px; height: 22px; padding-inline: 5px; border-radius: 999px; background: rgba(255,255,255,.56); color: var(--muted); font-size: .68rem; font-weight: 800; }
+.journal-tabs button[aria-selected="true"] small { background: rgba(255,255,255,.18); color: #fff; }
 .journal-tabs svg, .journal-filters svg { width: 18px; }
 .journal-filters { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0 34px; }
 .journal-filters label { display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 13px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
@@ -860,10 +862,18 @@ button { color: inherit; }
   .source-directory { padding: 22px; }
   .journal-home-card { padding: 34px 25px 130px; }
   .journal-home-card .date-stamp { right: 24px; bottom: 25px; }
-  .journal-hero { padding-block: 58px; }
-  .journal-hero h1 { font-size: 3rem; }
-  .journal-tabs { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; }
-  .journal-tabs button { justify-content: center; padding-inline: 7px; font-size: .82rem; }
+  .journal-hero { padding-block: 38px; }
+  .journal-hero-grid { gap: 24px; }
+  .journal-hero h1 { font-size: 2.65rem; line-height: 1.02; }
+  .journal-hero p:not(.eyebrow) { font-size: .92rem; }
+  .journal-cover-stack { min-height: 150px; }
+  .paper-note { inset: 4px 38px 2px 8px; border-width: 8px; }
+  .paper-note strong { font-size: 1.8rem; }
+  .journal-cover-stack .date-stamp { width: 68px; height: 68px; font-size: .82rem; }
+  .journal-tabs { display: grid; grid-template-columns: repeat(4, 1fr); width: 100%; }
+  .journal-tabs button { justify-content: center; gap: 4px; padding-inline: 2px; font-size: .72rem; white-space: nowrap; }
+  .journal-tabs button svg { display: none; }
+  .journal-tabs button small { min-width: 19px; height: 19px; font-size: .62rem; }
   .journal-filters { flex-direction: column; }
   .journal-filters label, .journal-filters select { width: 100%; }
   .journal-empty { padding: 24px; }

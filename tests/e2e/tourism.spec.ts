@@ -26,7 +26,7 @@ test('首页可按天数缩小路线范围并阅读最新专题', async ({ page 
   await expect(page.getByRole('link', { name: /五日全景深度游/ })).toBeVisible();
   await expect(page.getByRole('link', { name: /打开完整筛选/ })).toHaveAttribute('href', /routes\?duration=5/);
   await expect(page.locator('.home-topic-card')).toHaveCount(3);
-  await expect(page.getByRole('heading', { name: /黄河楼和黄河坛不是一处/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /沙坡头和金沙岛怎么选/ })).toBeVisible();
 });
 
 test('地图支持键盘进入城市、选择区县和切换交通图层', async ({ page }) => {
@@ -194,22 +194,38 @@ test('行前指南支持天数选路和本机清单', async ({ page }) => {
 test('旅行手记双栏目、键盘切换和未知详情可恢复', async ({ page }) => {
   await page.goto(`${appBase}journal`);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('地图之外');
-  await expect(page.getByRole('tab', { name: '个人游记' })).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByRole('tab', { name: /全部内容/ })).toHaveAttribute('aria-selected', 'true');
+  await expect(page.locator('.journal-card')).toHaveCount(5);
+  await expect(page.getByRole('heading', { name: /沙坡头和金沙岛怎么选/ })).toBeVisible();
+
+  await page.getByRole('tab', { name: /全部内容/ }).press('ArrowRight');
+  await expect(page).toHaveURL(/type=travel/);
+  await expect(page.getByRole('tab', { name: /个人游记/ })).toBeFocused();
   await expect(page.getByText('第一篇游记正在路上')).toBeVisible();
 
-  await page.getByRole('tab', { name: '个人游记' }).press('ArrowRight');
+  await page.getByRole('tab', { name: /个人游记/ }).press('ArrowRight');
   await expect(page).toHaveURL(/type=food/);
-  await expect(page.getByRole('tab', { name: '探店记录' })).toBeFocused();
+  await expect(page.getByRole('tab', { name: /探店记录/ })).toBeFocused();
   await expect(page.getByText('第一份探店记录还没上桌')).toBeVisible();
 
-  await page.getByRole('tab', { name: '探店记录' }).press('ArrowRight');
+  await page.getByRole('tab', { name: /探店记录/ }).press('ArrowRight');
   await expect(page).toHaveURL(/type=guide/);
-  await expect(page.getByRole('tab', { name: '旅行专题' })).toBeFocused();
-  await expect(page.locator('.journal-card')).toHaveCount(4);
+  await expect(page.getByRole('tab', { name: /旅行专题/ })).toBeFocused();
+  await expect(page.locator('.journal-card')).toHaveCount(5);
 
   await page.goto(`${appBase}journal/travel/not-published`);
   await expect(page.getByRole('heading', { name: '这篇内容还没有公开' })).toBeVisible();
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex,nofollow');
+});
+
+test('中卫沙水专题可比较目的地并查看来源', async ({ page }) => {
+  await page.goto(`${appBase}journal/guide/zhongwei-sand-water-choice`);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('沙坡头和金沙岛怎么选');
+  await expect(page.getByText(/第一次到中卫、只打算选一个代表性目的地/)).toBeVisible();
+  await expect(page.getByRole('table')).toBeVisible();
+  await expect(page.locator('.journal-sources a')).toHaveCount(4);
+  await expect(page.getByRole('link', { name: '沙坡头旅游景区' })).toBeVisible();
+  await expect(page.getByRole('link', { name: '腾格里沙漠湿地·金沙岛旅游区', exact: true })).toBeVisible();
 });
 
 test('旅行专题展示资料边界、来源与相关目的地', async ({ page }) => {

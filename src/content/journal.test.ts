@@ -6,7 +6,7 @@ const base = `---\nslug: sample\ntype: travel\nstatus: draft\ncontentKind: demo\
 const editorial = `---\nslug: editorial-sample\ntype: guide\nstatus: published\ncontentKind: editorial\ntitle: 测试专题\nexcerpt: 资料摘要\nauthor: 站点编辑\npublishedAt: 2026-08-15\nupdatedAt: 2026-08-15\nreviewedAt: 2026-08-15\ncityId: guyuan\nlocality: 隆德县\ntags: [资料]\ncover:\n  src: images/attractions/liupanshan.webp\n  alt: 六盘山纪念场景\n  credit: 作者\n  license: CC BY-SA 4.0\n  sourceUrl: https://commons.wikimedia.org/example\ngallery: []\nrelatedAttractionIds: [liupanshan]\nrelatedRouteIds: [red-culture-3day]\nscopeNote: 资料整理，不代表实时开放。\nkeyPoints: [目的地边界, 出发前复核]\nreferences:\n  - label: 官方来源一\n    url: https://whhlyt.nx.gov.cn/one\n    checkedAt: 2026-08-15\n  - label: 官方来源二\n    url: https://whhlyt.nx.gov.cn/two\n    checkedAt: 2026-08-15\n---\n\n## 正文`;
 
 describe('旅行手记 Markdown', () => {
-  it('解析类型并补充默认作者', () => { const entry = parseJournalSource(base); expect(entry.type).toBe('travel'); expect(entry.author).toBe('站主手记'); });
+  it('解析类型并补充默认作者', () => { const entry = parseJournalSource(base); expect(entry.type).toBe('travel'); expect(entry.author).toBe('站主手记'); expect(entry.featured).toBe(false); });
   it('阻止重复 slug 发布', () => { const result = loadJournalEntries({ a: base, b: base }); expect(validateJournalContent(result.entries)).toContain('手记 slug 重复: sample'); });
   it('草稿不会出现在公开列表', () => { const result = loadJournalEntries({ a: base }); expect(result.entries.filter((entry) => entry.status === 'published')).toHaveLength(0); });
   it('阻止演示内容误发布', () => { const entry = parseJournalSource(base.replace('status: draft', 'status: published')); expect(validateJournalContent([entry])).toContain('travel:sample: 演示内容不能发布'); });
@@ -19,7 +19,12 @@ describe('旅行手记 Markdown', () => {
     expect(entry.type).toBe('guide');
     expect(entry.contentKind).toBe('editorial');
     expect(entry.author).toBe('站点编辑');
+    expect(entry.featured).toBe(false);
     expect(validateJournalContent([entry])).toEqual([]);
+  });
+  it('解析首页推荐标记', () => {
+    const entry = parseJournalSource(editorial.replace('contentKind: editorial', 'contentKind: editorial\nfeatured: true'));
+    expect(entry.featured).toBe(true);
   });
   it('阻止缺少多个来源的旅行专题发布', () => {
     const entry = parseJournalSource(editorial.replace(/\n {2}- label: 官方来源二[\s\S]*?checkedAt: 2026-08-15\n---/, '\n---'));

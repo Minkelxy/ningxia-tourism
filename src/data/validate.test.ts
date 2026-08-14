@@ -18,8 +18,9 @@ describe('公开内容数据', () => {
     expect(reviewAttractions).toHaveLength(2);
     expect(attractions.filter((item) => item.status === 'draft')).toHaveLength(2);
     expect(routes).toHaveLength(7);
-    expect(publishedJournalEntries).toHaveLength(4);
+    expect(publishedJournalEntries).toHaveLength(5);
     expect(publishedJournalEntries.every((entry) => entry.type === 'guide' && entry.contentKind === 'editorial')).toBe(true);
+    expect(publishedJournalEntries[0].slug).toBe('zhongwei-sand-water-choice');
   });
 
   it('五城都有可用于横向决策的编辑建议', () => {

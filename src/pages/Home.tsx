@@ -24,7 +24,7 @@ export default function Home() {
         <div className="hero-copy">
           <p className="eyebrow"><BadgeCheck aria-hidden="true" /> {verifiedAttractions.length} 个已核实 · {reviewAttractions.length} 个待复核</p>
           <h1>沿着黄河，<br /><span>遇见宁夏。</span></h1>
-          <p className="hero-lead">从贺兰山下的西夏陵，到腾格里沙漠与黄河相拥的沙坡头。用地图认识五座城市，用路线安排行程，也用真实手记保留旅途细节。</p>
+          <p className="hero-lead">从贺兰山下的西夏陵，到腾格里沙漠与黄河相拥的沙坡头。用地图认识五座城市，用路线安排行程，再用来源清晰的专题理顺旅途细节。</p>
           <div className="hero-actions">
             <a href="#explore-map" className="btn-primary"><MapPinned aria-hidden="true" /> 按地图探索</a>
             <Link to="/routes" className="btn-quiet"><CalendarDays aria-hidden="true" /> 查看推荐路线 <ArrowRight aria-hidden="true" /></Link>

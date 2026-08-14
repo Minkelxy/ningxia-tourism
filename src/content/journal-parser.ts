@@ -29,6 +29,7 @@ export const parseJournalSource = (source: string, filename = 'unknown.md'): Jou
     type,
     status: metadata.status,
     contentKind: metadata.contentKind as JournalContentKind,
+    featured: metadata.featured === true,
     title: String(metadata.title ?? ''),
     excerpt: String(metadata.excerpt ?? ''),
     author: String(metadata.author || (type === 'guide' ? '站点编辑' : '站主手记')),

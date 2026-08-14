@@ -92,6 +92,7 @@ export interface JournalCommon {
   type: JournalType;
   status: ContentStatus;
   contentKind: JournalContentKind;
+  featured: boolean;
   title: string;
   excerpt: string;
   author: string;
