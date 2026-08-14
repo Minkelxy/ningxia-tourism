@@ -32,7 +32,7 @@ npm run quality:lighthouse
 
 - `src/data/attractions.ts`：景点唯一数据源。正式内容使用 `published`，未核实内容使用 `draft`。
 - `src/data/cities.ts`：五城资料，以固定 `cityId` 关联景点。
-- `src/data/routes.ts`：七条路线及逐日停靠点。
+- `src/data/routes.ts`：七条路线、逐日停靠点，以及节奏、步行量和主要交通画像。
 - `src/data/validate.ts`：构建期校验，检查字段、ID、坐标和跨数据引用。
 - `src/content/journal/`：公开或草稿的手记、探店与旅行专题 Markdown；内容在构建时解析，不把解析器和 YAML 运行时发送给访客。维护模板位于 `docs/templates/`，不会参与发布。
 - `src/data/guide.ts`：行前指南的四季建议、跨城原则、清单和网络来源。

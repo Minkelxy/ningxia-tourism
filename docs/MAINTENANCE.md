@@ -4,6 +4,7 @@
 2. 新景点先以 `draft` 加入，完成字段、来源和图片许可核对后再改为 `published`。
 3. 坐标统一使用 WGS84；县区写入 `locality`，地级市只能使用五个固定 `cityId`。
 4. 路线中的正式景点必须引用现有 `attractionId`；夜市、酒店等普通地点必须填写 `mapQuery`。
+   每条路线还必须维护 `pace`、`walkingLevel` 和 `transportSummary`，用于路线筛选、横向比较和详情页体力提示。
 5. 每次修改后先运行 `npm run validate:data`，再运行 `npm run check && npm test && npm run build`。
 6. 票价、开放时间、预算和交通时间属于易变信息，更新时同步修改 `verifiedAt` 与来源的 `checkedAt`，并准确标记来源层级及其支持的字段范围。
 7. 图片必须是原创、公共领域或明确的 Creative Commons 授权文件；详情页需要展示图片说明、作者、许可和原始页面。区域氛围图可以使用，但必须明确标注为非景点实景。

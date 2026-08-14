@@ -5,7 +5,7 @@ const verifiedAt = '2026-08-15';
 export const routes: RoutePlan[] = [
   {
     id: 'quick-1day', name: '银川精华一日游', theme: 'first-visit', themeLabel: '初见宁夏', durationDays: 1, durationLabel: '1 天',
-    audience: '首次到访、在银川停留时间有限的游客', budget: '约 500—800 元/人，不含往返大交通', bestSeason: '全年，夏季注意防晒',
+    audience: '首次到访、在银川停留时间有限的游客', budget: '约 500—800 元/人，不含往返大交通', bestSeason: '全年，夏季注意防晒', pace: 'intensive', walkingLevel: 'high', transportSummary: '包车或自驾串联市区与银川西线',
     summary: '用博物馆建立背景，再到西夏陵和镇北堡感受宁夏最鲜明的历史与影像气质。景点较多，建议包车或自驾。',
     highlights: ['宁夏博物馆', '西夏陵', '镇北堡西部影城'], verifiedAt,
     days: [{ day: 1, title: '从西夏文明到西部电影', summary: '市区出发，全天向银川西线移动。', accommodation: '银川市区', meals: ['午餐：西夏区简餐', '晚餐：怀远观光夜市'], stops: [
@@ -17,7 +17,7 @@ export const routes: RoutePlan[] = [
   },
   {
     id: 'weekend-2day', name: '塞上江南周末游', theme: 'weekend', themeLabel: '周末短途', durationDays: 2, durationLabel: '2 天',
-    audience: '周末从周边城市抵达银川的游客', budget: '约 1,000—1,600 元/人，不含往返大交通', bestSeason: '5—10 月',
+    audience: '周末从周边城市抵达银川的游客', budget: '约 1,000—1,600 元/人，不含往返大交通', bestSeason: '5—10 月', pace: 'balanced', walkingLevel: 'medium', transportSummary: '银川住宿，包车、自驾或旅游交通往返远郊',
     summary: '一天看贺兰山下的历史文化，一天去沙湖看沙水相依，节奏适中，适合第一次来宁夏。',
     highlights: ['西夏陵', '镇北堡西部影城', '沙湖生态旅游区', '宁夏博物馆'], verifiedAt,
     days: [
@@ -34,7 +34,7 @@ export const routes: RoutePlan[] = [
   },
   {
     id: 'classic-3day', name: '经典三日全景游', theme: 'panorama', themeLabel: '银川＋中卫', durationDays: 3, durationLabel: '3 天',
-    audience: '希望一次覆盖宁夏最经典目的地的游客', budget: '约 2,000—3,200 元/人，不含往返大交通', bestSeason: '5—10 月',
+    audience: '希望一次覆盖宁夏最经典目的地的游客', budget: '约 2,000—3,200 元/人，不含往返大交通', bestSeason: '5—10 月', pace: 'balanced', walkingLevel: 'medium', transportSummary: '银川至中卫优先铁路，远郊景区使用包车或自驾',
     summary: '银川历史文化与中卫沙漠黄河的黄金组合，利用铁路连接两城，减少长距离自驾压力。',
     highlights: ['宁夏博物馆', '西夏陵', '沙坡头', '中卫高庙'], verifiedAt,
     days: [
@@ -55,7 +55,7 @@ export const routes: RoutePlan[] = [
   },
   {
     id: 'in-depth-4day', name: '深度四日全景游', theme: 'panorama', themeLabel: '黄河与沙漠', durationDays: 4, durationLabel: '4 天',
-    audience: '时间充裕、希望覆盖银川、吴忠和中卫的游客', budget: '约 3,000—4,500 元/人，不含往返大交通', bestSeason: '5—10 月',
+    audience: '时间充裕、希望覆盖银川、吴忠和中卫的游客', budget: '约 3,000—4,500 元/人，不含往返大交通', bestSeason: '5—10 月', pace: 'balanced', walkingLevel: 'medium', transportSummary: '跨城公路为主，吴忠至中卫按住宿安排衔接',
     summary: '在经典银川与中卫之间加入吴忠黄河金岸，文化、城市、河谷与沙漠层次更完整。',
     highlights: ['宁夏博物馆', '西夏陵', '黄河金岸', '沙坡头'], verifiedAt,
     days: [
@@ -80,7 +80,7 @@ export const routes: RoutePlan[] = [
   },
   {
     id: 'panorama-5day', name: '五日全景深度游', theme: 'panorama', themeLabel: '五城精华', durationDays: 5, durationLabel: '5 天',
-    audience: '第一次来宁夏且希望放慢节奏的游客', budget: '约 4,000—6,500 元/人，不含往返大交通', bestSeason: '5—10 月',
+    audience: '第一次来宁夏且希望放慢节奏的游客', budget: '约 4,000—6,500 元/人，不含往返大交通', bestSeason: '5—10 月', pace: 'relaxed', walkingLevel: 'medium', transportSummary: '包车或自驾完成跨城，住宿随路线向南移动',
     summary: '把银川、沙湖、吴忠和中卫按地理顺序串联，每天只保留一个主主题，降低赶路感。',
     highlights: ['银川历史', '沙湖湿地', '吴忠黄河与早茶', '中卫沙漠'], verifiedAt,
     days: [
@@ -108,7 +108,7 @@ export const routes: RoutePlan[] = [
   },
   {
     id: 'red-culture-3day', name: '红色文化之旅', theme: 'culture', themeLabel: '红色文化', durationDays: 3, durationLabel: '3 天',
-    audience: '关注革命历史、团队研学和宁南人文的游客', budget: '约 1,800—3,000 元/人，不含往返大交通', bestSeason: '5—9 月',
+    audience: '关注革命历史、团队研学和宁南人文的游客', budget: '约 1,800—3,000 元/人，不含往返大交通', bestSeason: '5—9 月', pace: 'intensive', walkingLevel: 'medium', transportSummary: '长距离包车或自驾，建议熟悉宁夏道路的司机',
     summary: '从盐池到六盘山跨度较大，建议包车或自驾并配备熟悉宁夏道路的司机，不与普通观光路线混排。',
     highlights: ['盐池革命历史', '六盘山长征文化', '宁南山地生态'], verifiedAt,
     days: [
@@ -126,7 +126,7 @@ export const routes: RoutePlan[] = [
   },
   {
     id: 'food-3day', name: '宁夏美食之旅', theme: 'food', themeLabel: '城市味道', durationDays: 3, durationLabel: '3 天',
-    audience: '把地方饮食与城市漫游放在首位的游客', budget: '约 1,500—2,800 元/人，不含往返大交通', bestSeason: '全年',
+    audience: '把地方饮食与城市漫游放在首位的游客', budget: '约 1,500—2,800 元/人，不含往返大交通', bestSeason: '全年', pace: 'relaxed', walkingLevel: 'low', transportSummary: '城市间铁路或公路，市内以步行和打车为主',
     summary: '以银川、吴忠和中卫三城为主线，餐饮信息变化快，路线只给区域和品类建议，不为具体商户背书。',
     highlights: ['银川夜市', '吴忠早茶', '中卫蒿子面与枸杞'], verifiedAt,
     days: [

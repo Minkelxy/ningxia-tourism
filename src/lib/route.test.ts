@@ -14,4 +14,12 @@ describe('路线证据覆盖', () => {
       cityIds: ['yinchuan', 'zhongwei'],
     });
   });
+
+  it('七条路线都有可比较的节奏与体力画像', () => {
+    for (const route of ['quick-1day', 'weekend-2day', 'classic-3day', 'in-depth-4day', 'panorama-5day', 'red-culture-3day', 'food-3day'].map((id) => getRouteById(id)!)) {
+      expect(['relaxed', 'balanced', 'intensive']).toContain(route.pace);
+      expect(['low', 'medium', 'high']).toContain(route.walkingLevel);
+      expect(route.transportSummary.length).toBeGreaterThan(8);
+    }
+  });
 });

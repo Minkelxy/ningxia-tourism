@@ -69,6 +69,8 @@ export const validateContentData = (journalEntries: JournalEntry[] = [], journal
   const verificationLevels = new Set(['verified', 'review']);
   const sourceLevels = new Set(['direct', 'directory', 'homepage']);
   const sourceCoverage = new Set(['overview', 'visit', 'location']);
+  const routePaces = new Set(['relaxed', 'balanced', 'intensive']);
+  const walkingLevels = new Set(['low', 'medium', 'high']);
   if (ids.length !== idSet.size) errors.push('景点 ID 存在重复');
   if (publishedAttractions.length !== 11) errors.push(`公开景点应为 11 个，当前为 ${publishedAttractions.length} 个`);
   if (attractions.filter((item) => item.status === 'draft').length !== 11) errors.push('草稿景点应为 11 个');
@@ -104,6 +106,7 @@ export const validateContentData = (journalEntries: JournalEntry[] = [], journal
     routeIds.add(route.id);
     if (route.days.length !== route.durationDays) errors.push(`${route.id}: 行程天数与 day 数量不一致`);
     if (!route.verifiedAt || !route.budget.includes('约')) errors.push(`${route.id}: 缺少核实日期或参考预算标识`);
+    if (!routePaces.has(route.pace) || !walkingLevels.has(route.walkingLevel) || !route.transportSummary) errors.push(`${route.id}: 缺少有效的节奏、步行量或交通画像`);
     for (const day of route.days) for (const stop of day.stops) {
       if (stop.attractionId && !publishedIds.has(stop.attractionId)) errors.push(`${route.id}: 引用了未发布景点 ${stop.attractionId}`);
       if (!stop.attractionId && !stop.mapQuery) errors.push(`${route.id}: 普通地点 ${stop.title} 缺少地图查询词`);

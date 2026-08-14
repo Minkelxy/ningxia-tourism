@@ -31,6 +31,8 @@ test('城市详情和路线详情可直接访问', async ({ page }) => {
   const evidenceCard = page.locator('.route-evidence-card');
   await expect(evidenceCard.getByRole('heading', { name: '路线事实一眼看懂' })).toBeVisible();
   await expect(evidenceCard.locator('dd').nth(0)).toHaveText('5');
+  await expect(page.getByText('适中节奏').first()).toBeVisible();
+  await expect(page.getByRole('heading', { name: '先判断这条路线是否适合你' })).toBeVisible();
 });
 
 test('路线筛选同步地址并展示内容核实概览', async ({ page }) => {
@@ -41,6 +43,14 @@ test('路线筛选同步地址并展示内容核实概览', async ({ page }) => 
   await expect(panoramaFilter).toHaveAttribute('aria-pressed', 'true');
   await expect(page.getByRole('status')).toContainText('3 条路线');
   await expect(page.locator('.route-evidence-summary')).toHaveCount(3);
+
+  const relaxedFilter = page.getByRole('button', { name: '舒缓' });
+  await relaxedFilter.click();
+  await expect(page).toHaveURL(/pace=relaxed/);
+  await expect(relaxedFilter).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('status')).toContainText('1 条路线');
+  await expect(page.locator('.route-table-wrap tbody tr')).toHaveCount(1);
+  await expect(page.getByRole('region', { name: '路线横向比较表' })).toBeVisible();
 });
 
 test('网络资料与区域配图说明透明可见', async ({ page }) => {

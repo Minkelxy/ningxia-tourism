@@ -137,6 +137,8 @@ export interface EditorialJournal extends JournalCommon {
 export type JournalEntry = TravelJournal | FoodJournal | EditorialJournal;
 
 export type RouteTheme = 'first-visit' | 'weekend' | 'panorama' | 'culture' | 'food';
+export type RoutePace = 'relaxed' | 'balanced' | 'intensive';
+export type RouteWalkingLevel = 'low' | 'medium' | 'high';
 
 export interface RouteStop {
   time: string;
@@ -167,6 +169,9 @@ export interface RoutePlan {
   audience: string;
   budget: string;
   bestSeason: string;
+  pace: RoutePace;
+  walkingLevel: RouteWalkingLevel;
+  transportSummary: string;
   summary: string;
   highlights: string[];
   days: RouteDay[];
