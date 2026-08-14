@@ -27,6 +27,20 @@ test('城市详情和路线详情可直接访问', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1, name: '经典三日全景游' })).toBeVisible();
   await expect(page.getByRole('button', { name: /打印行程/ })).toBeVisible();
   await expect(page.locator('.route-day')).toHaveCount(3);
+  await expect(page.getByRole('navigation', { name: '按天快速跳转' }).getByRole('link')).toHaveCount(3);
+  const evidenceCard = page.locator('.route-evidence-card');
+  await expect(evidenceCard.getByRole('heading', { name: '路线事实一眼看懂' })).toBeVisible();
+  await expect(evidenceCard.locator('dd').nth(0)).toHaveText('3');
+});
+
+test('路线筛选同步地址并展示内容核实概览', async ({ page }) => {
+  await page.goto(`${appBase}routes`);
+  const panoramaFilter = page.getByRole('button', { name: '全景路线' });
+  await panoramaFilter.click();
+  await expect(page).toHaveURL(/theme=panorama/);
+  await expect(panoramaFilter).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('status')).toContainText('3 条路线');
+  await expect(page.locator('.route-evidence-summary')).toHaveCount(3);
 });
 
 test('旅行手记双栏目、键盘切换和未知详情可恢复', async ({ page }) => {
