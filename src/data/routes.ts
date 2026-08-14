@@ -1,6 +1,6 @@
 import type { RoutePlan } from '../types';
 
-const verifiedAt = '2026-08-12';
+const verifiedAt = '2026-08-15';
 
 export const routes: RoutePlan[] = [
   {
@@ -69,7 +69,7 @@ export const routes: RoutePlan[] = [
       ] },
       { day: 3, title: '吴忠黄河金岸', summary: '银川出发，沿黄河向吴忠和青铜峡移动。', accommodation: '吴忠或中卫', meals: ['午餐：吴忠早茶／手抓', '晚餐：中卫'], stops: [
         { time: '09:30', title: '中华黄河楼', attractionId: 'zhonghuahuanghelou', description: '了解黄河文明和宁夏引黄灌溉。' },
-        { time: '14:00', title: '黄河坛景区', attractionId: 'huanghetan', description: '观赏青铜峡黄河河谷景观。', transport: '包车或自驾' },
+        { time: '14:00', title: '黄河坛旅游区', attractionId: 'huanghetan', description: '沿黄河坛建筑轴线参观大牌楼、碑林大道与黄河文化景观。', transport: '包车或自驾', tips: '与中华黄河楼不是同一地点，导航时核对完整名称和地址。' },
         { time: '18:00', title: '前往中卫', mapQuery: '中卫市', description: '到达后休息，为次日沙漠行程保存体力。' },
       ] },
       { day: 4, title: '沙坡头全天', summary: '根据天气和兴趣选择体验项目。', accommodation: '无', meals: ['午餐：景区周边', '晚餐：中卫市区'], stops: [
@@ -98,7 +98,7 @@ export const routes: RoutePlan[] = [
       { day: 4, title: '吴忠黄河与早茶', summary: '上午体验吴忠饮食，下午沿黄河前往中卫。', accommodation: '中卫市区', meals: ['早餐／早午餐：吴忠早茶', '晚餐：中卫'], stops: [
         { time: '09:00', title: '吴忠早茶', mapQuery: '吴忠早茶文化体验街', description: '选择正规门店，按人数少量多样点餐。' },
         { time: '12:30', title: '中华黄河楼', attractionId: 'zhonghuahuanghelou', description: '登高看黄河金岸。' },
-        { time: '15:00', title: '黄河坛景区', attractionId: 'huanghetan', description: '继续向青铜峡黄河沿线移动。' },
+        { time: '15:00', title: '黄河坛旅游区', attractionId: 'huanghetan', description: '继续前往青铜峡峡谷入口，沿建筑轴线了解黄河文化。', transport: '包车或自驾', tips: '与中华黄河楼之间仍有公路移动，出发前按实时导航预留时间。' },
       ] },
       { day: 5, title: '中卫沙漠与老城', summary: '沙坡头为主，市区古建为辅。', accommodation: '无', meals: ['午餐：沙坡头周边', '晚餐：中卫市区'], stops: [
         { time: '09:00', title: '沙坡头旅游景区', attractionId: 'shapotou', description: '根据天气选择体验项目。' },
@@ -119,8 +119,8 @@ export const routes: RoutePlan[] = [
         { time: '10:30', title: '盐池革命烈士纪念园', mapQuery: '盐池革命烈士纪念园', description: '该地点资料仍在复核，作为路线地理参考保留。', transport: '包车或自驾', tips: '出发前向主管部门确认开放和团队接待安排。' },
         { time: '15:00', title: '盐池县城人文走读', mapQuery: '盐池县', description: '结合县城历史与长城文化安排，具体点位以当地开放情况为准。' },
       ] },
-      { day: 3, title: '六盘山长征文化', summary: '山地天气变化快，行程不要排得过满。', accommodation: '无', meals: ['午餐：泾源或隆德', '晚餐：固原市区'], stops: [
-        { time: '09:30', title: '六盘山', attractionId: 'liupanshan', description: '按当日开放情况选择纪念场馆和生态游览点。', transport: '包车或自驾', tips: '团队活动应提前预约讲解。' },
+      { day: 3, title: '六盘山长征文化', summary: '本日目的地在隆德县，不与泾源县六盘山国家森林公园混排。山地天气变化快，行程不要排得过满。', accommodation: '无', meals: ['午餐：隆德县城或景区简餐', '晚餐：固原市区'], stops: [
+        { time: '09:30', title: '六盘山红军长征旅游区', attractionId: 'liupanshan', description: '参观纪念馆、纪念碑，并按体力体验 2.5 公里红军小道。', transport: '包车或自驾前往隆德县', tips: '团队讲解应提前预约；不要误导航至泾源县六盘山国家森林公园。' },
       ] },
     ],
   },

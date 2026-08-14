@@ -13,8 +13,8 @@ describe('公开内容数据', () => {
   it('保持首期公开内容数量稳定', () => {
     expect(cities).toHaveLength(5);
     expect(publishedAttractions).toHaveLength(11);
-    expect(verifiedAttractions).toHaveLength(7);
-    expect(reviewAttractions).toHaveLength(4);
+    expect(verifiedAttractions).toHaveLength(9);
+    expect(reviewAttractions).toHaveLength(2);
     expect(attractions.filter((item) => item.status === 'draft')).toHaveLength(11);
     expect(routes).toHaveLength(7);
     expect(publishedJournalEntries).toHaveLength(0);
@@ -42,5 +42,19 @@ describe('公开内容数据', () => {
       expect(hasStrictVerificationEvidence(item!)).toBe(true);
       expect(item?.sources.some((source) => source.level === 'direct' && source.coverage.includes('visit'))).toBe(true);
     }
+  });
+
+  it('黄河坛和六盘山条目具有明确目的地边界及直接来源', () => {
+    for (const id of ['huanghetan', 'liupanshan']) {
+      const item = publishedAttractions.find((attraction) => attraction.id === id);
+      expect(item?.verificationLevel).toBe('verified');
+      expect(hasStrictVerificationEvidence(item!)).toBe(true);
+      expect(item?.sources.some((source) => source.level === 'direct' && source.coverage.includes('location'))).toBe(true);
+    }
+
+    const liupanshan = publishedAttractions.find((attraction) => attraction.id === 'liupanshan');
+    expect(liupanshan?.name).toBe('六盘山红军长征旅游区');
+    expect(liupanshan?.locality).toBe('隆德县');
+    expect(liupanshan?.summary).toContain('不指泾源县');
   });
 });

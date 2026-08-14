@@ -5,7 +5,7 @@ const appBase = process.env.VITE_BASE_URL ?? '/';
 test('首页、景点筛选与详情可以连续浏览', async ({ page }) => {
   await page.goto(appBase);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('宁夏');
-  await expect(page.getByText('7 个已核实 · 4 个待复核')).toBeVisible();
+  await expect(page.getByText('9 个已核实 · 2 个待复核')).toBeVisible();
 
   await page.getByRole('link', { name: '精选景点' }).first().click();
   await page.getByPlaceholder('搜索景点、城市或亮点').fill('沙坡头');
@@ -49,6 +49,19 @@ test('网络资料与区域配图说明透明可见', async ({ page }) => {
   await expect(page.getByRole('heading', { name: '核心资料已核实' })).toBeVisible();
   await expect(page.getByText(/3 月下旬至 4 月中旬赏山花/)).toBeVisible();
   await expect(page.locator('.image-credit > strong')).toHaveText(/非彭阳梯田实景/);
+  await expect(page.locator('.source-list a')).toHaveCount(3);
+});
+
+test('黄河坛与六盘山展示明确地点和直接资料', async ({ page }) => {
+  await page.goto(`${appBase}attraction/huanghetan`);
+  await expect(page.getByRole('heading', { level: 1, name: '黄河坛旅游区' })).toBeVisible();
+  await expect(page.getByText(/109 国道 1314 段/)).toBeVisible();
+  await expect(page.locator('.image-credit > strong')).toHaveText(/非黄河坛实景/);
+
+  await page.goto(`${appBase}attraction/liupanshan`);
+  await expect(page.getByRole('heading', { level: 1, name: '六盘山红军长征旅游区' })).toBeVisible();
+  await expect(page.getByText(/本页不指泾源县的六盘山国家森林公园/)).toBeVisible();
+  await expect(page.getByText(/2.5 公里红军小道/).first()).toBeVisible();
   await expect(page.locator('.source-list a')).toHaveCount(3);
 });
 

@@ -27,8 +27,8 @@ export const seasonGuides: SeasonGuide[] = [
   {
     id: 'summer', months: '6—8 月', title: '六盘山避暑，沙漠错峰',
     summary: '固原、泾源和隆德更适合安排清凉山地行程；沙漠景区把主要户外活动放在早晚，并依据当天风力和项目公告调整。',
-    suitableFor: ['六盘山避暑', '森林与红色文化', '沙漠日出日落'],
-    reminder: '北部与南部体感差异大，轻薄防晒和可叠穿外套都值得带上。',
+    suitableFor: ['隆德长征文化', '泾源森林避暑', '沙漠日出日落'],
+    reminder: '隆德的六盘山红军长征旅游区与泾源的六盘山国家森林公园是两个目的地；北部与南部体感差异也较大，轻薄防晒和可叠穿外套都值得带上。',
     source: { label: '宁夏文旅厅 · 固原暑期避暑线路', url: 'https://whhlyt.nx.gov.cn/xxfb/wlyw/202507/t20250710_4957704_zzb.html', checkedAt: guideVerifiedAt },
   },
   {
