@@ -36,6 +36,8 @@ npm run quality:lighthouse
 - `src/data/validate.ts`：构建期校验，检查字段、ID、坐标和跨数据引用。
 - `src/content/journal/`：公开或草稿的手记、探店与旅行专题 Markdown；内容在构建时解析，不把解析器和 YAML 运行时发送给访客。维护模板位于 `docs/templates/`，不会参与发布。
 - `src/data/guide.ts`：行前指南的四季建议、跨城原则、清单和网络来源。
+- `src/components/map/`：地图投影、视口控制、区域、景点、交通和预览等独立模块。
+- `public/data/ningxia-province.json` 与 `public/data/ningxia/districts/`：正式地图唯一边界数据，首页地图和开发查看器共同读取。
 - `public/images/attractions/`：授权图片及站内资源。
 
 正式景点必须补齐开放信息、参考票价、预约、时长、季节、交通、WGS84 坐标、来源、核实日期和图片许可。只有来源与图片同时达到严格标准才标为 `verified`；其余公开内容标为 `review`，资料不足时保留为 `draft`。

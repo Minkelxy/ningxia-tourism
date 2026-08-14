@@ -29,6 +29,22 @@ test('首页可按天数缩小路线范围并阅读最新专题', async ({ page 
   await expect(page.getByRole('heading', { name: /黄河楼和黄河坛不是一处/ })).toBeVisible();
 });
 
+test('地图支持键盘进入城市、选择区县和切换交通图层', async ({ page }) => {
+  await page.goto(appBase);
+  const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
+  await map.getByRole('button', { name: /银川市，按回车进入/ }).press('Enter');
+  await expect(map.getByRole('button', { name: /兴庆区，按回车进入/ })).toBeVisible();
+  await expect(map.locator('.map-region.is-selected')).toHaveCount(0);
+
+  await map.getByRole('button', { name: /兴庆区，按回车进入/ }).click();
+  await expect(map.locator('.map-region.is-selected')).toHaveCount(1);
+  await expect(map.getByText('兴庆区', { exact: true })).toBeVisible();
+
+  const transport = map.getByRole('button', { name: '交通' });
+  await transport.click();
+  await expect(transport).toHaveAttribute('aria-pressed', 'true');
+});
+
 test('城市详情和路线详情可直接访问', async ({ page }) => {
   await page.goto(`${appBase}city/yinchuan`);
   await expect(page.getByRole('heading', { level: 1, name: '银川市' })).toBeVisible();
