@@ -29,7 +29,7 @@ export default function AttractionsList() {
     <>
       <SEO title="精选景点 · 宁夏旅行地图" description="浏览分级核实的宁夏代表性景点，按城市和主题筛选实用旅行信息。" />
       <header className="page-hero compact-hero">
-        <div className="section-shell"><p className="eyebrow">精选目的地</p><h1>{publishedAttractions.length} 个公开景点，按证据清晰分级</h1><p>{verifiedAttractions.length} 个已严格核实，{reviewAttractions.length} 个待复核。待复核内容可以阅读，但不会计入已核实数量；开放、票价与交通仍请在出发前查看官方公告。</p></div>
+        <div className="section-shell"><p className="eyebrow">精选目的地</p><h1>{publishedAttractions.length} 个公开景点，按证据清晰分级</h1><p>{verifiedAttractions.length} 个核心资料已核实，{reviewAttractions.length} 个待复核。区域配图会明确说明；开放、票价与交通仍请在出发前查看最新网络与官方公告。</p></div>
       </header>
       <div className="section-shell page-content">
         <section className="filter-panel" aria-label="景点筛选">

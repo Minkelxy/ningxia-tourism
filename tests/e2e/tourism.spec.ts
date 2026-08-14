@@ -5,7 +5,7 @@ const appBase = process.env.VITE_BASE_URL ?? '/';
 test('首页、景点筛选与详情可以连续浏览', async ({ page }) => {
   await page.goto(appBase);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('宁夏');
-  await expect(page.getByText('4 个严格核实 · 7 个待复核')).toBeVisible();
+  await expect(page.getByText('7 个已核实 · 4 个待复核')).toBeVisible();
 
   await page.getByRole('link', { name: '精选景点' }).first().click();
   await page.getByPlaceholder('搜索景点、城市或亮点').fill('沙坡头');
@@ -30,7 +30,7 @@ test('城市详情和路线详情可直接访问', async ({ page }) => {
   await expect(page.getByRole('navigation', { name: '按天快速跳转' }).getByRole('link')).toHaveCount(3);
   const evidenceCard = page.locator('.route-evidence-card');
   await expect(evidenceCard.getByRole('heading', { name: '路线事实一眼看懂' })).toBeVisible();
-  await expect(evidenceCard.locator('dd').nth(0)).toHaveText('3');
+  await expect(evidenceCard.locator('dd').nth(0)).toHaveText('5');
 });
 
 test('路线筛选同步地址并展示内容核实概览', async ({ page }) => {
@@ -41,6 +41,15 @@ test('路线筛选同步地址并展示内容核实概览', async ({ page }) => 
   await expect(panoramaFilter).toHaveAttribute('aria-pressed', 'true');
   await expect(page.getByRole('status')).toContainText('3 条路线');
   await expect(page.locator('.route-evidence-summary')).toHaveCount(3);
+});
+
+test('网络资料与区域配图说明透明可见', async ({ page }) => {
+  await page.goto(`${appBase}attraction/pengyangtitian`);
+  await expect(page.getByRole('heading', { level: 1, name: '彭阳梯田' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '核心资料已核实' })).toBeVisible();
+  await expect(page.getByText(/3 月下旬至 4 月中旬赏山花/)).toBeVisible();
+  await expect(page.locator('.image-credit > strong')).toHaveText(/非彭阳梯田实景/);
+  await expect(page.locator('.source-list a')).toHaveCount(3);
 });
 
 test('旅行手记双栏目、键盘切换和未知详情可恢复', async ({ page }) => {

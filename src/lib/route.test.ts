@@ -8,8 +8,8 @@ describe('路线证据覆盖', () => {
     expect(route).toBeDefined();
     expect(getRouteEvidenceSummary(route!)).toEqual({
       totalStops: 7,
-      verifiedStops: 3,
-      reviewStops: 2,
+      verifiedStops: 5,
+      reviewStops: 0,
       ordinaryStops: 2,
       cityIds: ['yinchuan', 'zhongwei'],
     });

@@ -11,12 +11,12 @@ const today = siteDateString();
 const placeholderPattern = /(示例|演示用|示例店名|示例地址|待填写|example\.com)/i;
 
 export const hasStrictVerificationEvidence = (item: (typeof attractions)[number]) => {
-  const exactImages = item.images.length > 0 && item.images.every((image) => !/(区域|氛围|主题)/.test(image.alt));
+  const transparentImages = item.images.length > 0 && item.images.every((image) => image.alt && image.credit && image.license && image.sourceUrl);
   const directOfficialSource = item.sources.some((source) => source.kind === 'official'
     && source.level === 'direct'
     && source.coverage.includes('overview')
     && source.coverage.includes('location'));
-  return exactImages && directOfficialSource;
+  return transparentImages && directOfficialSource;
 };
 
 export const validateJournalContent = (entries: JournalEntry[], parseErrors: string[] = []) => {
@@ -83,7 +83,7 @@ export const validateContentData = (journalEntries: JournalEntry[] = [], journal
     }
     if (item.images.some((image) => !image.alt || !image.credit || !image.license || !image.sourceUrl)) errors.push(`${item.id}: 图片署名或许可不完整`);
     if (item.verificationLevel === 'verified') {
-      if (!hasStrictVerificationEvidence(item)) errors.push(`${item.id}: 区域氛围图或首页级来源不能通过严格核实`);
+      if (!hasStrictVerificationEvidence(item)) errors.push(`${item.id}: 缺少可追溯图片或支持概况与位置的官方直接来源`);
     }
     for (const value of Object.values(item.visitInfo)) if (!value || value === '资料核实中') errors.push(`${item.id}: 正式景点实用信息不完整`);
     for (const nearbyId of item.nearbyIds) if (!publishedIds.has(nearbyId)) errors.push(`${item.id}: 周边景点 ${nearbyId} 未发布`);

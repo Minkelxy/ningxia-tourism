@@ -67,12 +67,12 @@ export default function AttractionDetail() {
             <div className="planning-card"><p className="eyebrow">准备出发</p><h2>在地图中查看位置</h2><p>使用高德 URI 打开地点页面。本站不会获取或保存你的位置。</p><a href={attractionMapUrl(attraction)} target="_blank" rel="noreferrer" className="btn-primary"><Navigation aria-hidden="true" /> 高德查看／导航</a></div>
             <div className={`source-card verification-card ${attraction.verificationLevel}`}>
               <ShieldCheck aria-hidden="true" />
-              <div><h2>{attraction.verificationLevel === 'verified' ? '资料已严格核实' : '资料待进一步复核'}</h2><p>{attraction.verificationNote}</p></div>
+              <div><h2>{attraction.verificationLevel === 'verified' ? '核心资料已核实' : '资料待进一步复核'}</h2><p>{attraction.verificationNote}</p></div>
               <div className={`source-freshness ${freshness.status}`}><span>{freshness.label}</span><strong>{formatVerifiedDate(attraction.verifiedAt)}</strong>{freshness.days !== null && <small>{freshness.days === 0 ? '今天核验' : `${freshness.days} 天前`}</small>}</div>
               <div className="source-list">{attraction.sources.map((source) => <a key={source.url} href={source.url} target="_blank" rel="noreferrer"><span><strong>{source.label}</strong><small>{sourceLevelLabels[source.level]}{source.coverage.length > 0 ? ` · ${source.coverage.map((item) => sourceCoverageLabels[item]).join('／')}` : ' · 未直接支撑具体字段'} · 核对于 {formatVerifiedDate(source.checkedAt)}</small></span><ExternalLink aria-hidden="true" /></a>)}</div>
               <p className="source-disclaimer">开放时间、票价、预约和交通属于易变信息，即使标为“已核实”，出发前也请打开直接来源确认当日安排。</p>
             </div>
-            <div className="image-credit"><span>图片来源</span><a href={currentImage.sourceUrl} target="_blank" rel="noreferrer">{currentImage.credit} · {currentImage.license}<ExternalLink aria-hidden="true" /></a></div>
+            <div className="image-credit"><span>图片说明</span><strong>{currentImage.alt}</strong><a href={currentImage.sourceUrl} target="_blank" rel="noreferrer">{currentImage.credit} · {currentImage.license}<ExternalLink aria-hidden="true" /></a></div>
           </aside>
         </div>
       </div>

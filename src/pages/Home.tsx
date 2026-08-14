@@ -14,7 +14,7 @@ export default function Home() {
         <div className="hero-orbit hero-orbit-one" aria-hidden="true" />
         <div className="hero-orbit hero-orbit-two" aria-hidden="true" />
         <div className="hero-copy">
-          <p className="eyebrow"><BadgeCheck aria-hidden="true" /> {verifiedAttractions.length} 个严格核实 · {reviewAttractions.length} 个待复核</p>
+          <p className="eyebrow"><BadgeCheck aria-hidden="true" /> {verifiedAttractions.length} 个已核实 · {reviewAttractions.length} 个待复核</p>
           <h1>沿着黄河，<br /><span>遇见宁夏。</span></h1>
           <p className="hero-lead">从贺兰山下的西夏陵，到腾格里沙漠与黄河相拥的沙坡头。用地图认识五座城市，用路线安排行程，也用真实手记保留旅途细节。</p>
           <div className="hero-actions">
@@ -48,7 +48,7 @@ export default function Home() {
 
       <section className="home-journal section-shell">
         <div className="journal-home-card"><span className="date-stamp">宁夏<br />手记</span><p className="eyebrow"><NotebookPen aria-hidden="true" /> 旅行手记</p><h2>攻略解决“怎么走”，手记回答“走过以后怎么想”。</h2><p>只记录真实发生的旅程与到店体验。首篇内容仍在整理中，模板不会冒充经历，价格和排队信息也会绑定到店日期。</p><Link to="/journal" className="btn-primary">看看记录原则 <ArrowRight aria-hidden="true" /></Link></div>
-        <aside className="verification-note"><ShieldAlert aria-hidden="true" /><div><strong>内容数量不等于可信度</strong><p>只有来源能直接支撑核心事实、且图片准确对应并具有清晰许可的景点，才计入“已核实”。</p><Link to="/about" className="text-link">了解内容方法</Link></div></aside>
+        <aside className="verification-note"><ShieldAlert aria-hidden="true" /><div><strong>信息有出处，配图有说明</strong><p>核心事实由直接来源支撑；区域氛围图会明确标注，不会被当成景点实景。</p><Link to="/about" className="text-link">了解内容方法</Link></div></aside>
       </section>
     </>
   );
