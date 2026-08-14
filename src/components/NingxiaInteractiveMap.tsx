@@ -196,7 +196,7 @@ export default function NingxiaInteractiveMap() {
       </div>
 
       <div className="map-caption">
-        <p><strong>{visibleAttractions.length}</strong> 个已核实景点</p>
+        <p><strong>{visibleAttractions.length}</strong> 个公开景点</p>
         <p>{selectedCity ? '选择区县继续放大，或点选景点查看信息' : '选择城市进入下一级，地图支持拖动和缩放'}</p>
         {activeCityId && <Link to={`/city/${activeCityId}`} className="text-link">查看{getCityById(activeCityId)?.name}完整介绍</Link>}
       </div>

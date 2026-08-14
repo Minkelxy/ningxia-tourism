@@ -40,7 +40,7 @@ export default function AttractionDetail() {
           <ResponsiveImage src={currentImage.src} alt={currentImage.alt} width="1600" height="960" sizes="100vw" />
           <div className="detail-overlay" />
           <div className="detail-top-actions"><Link to="/attractions" className="icon-button" aria-label="返回景点列表"><ArrowLeft aria-hidden="true" /></Link><button type="button" className="icon-button" onClick={handleShare} aria-label="分享此景点"><Share2 aria-hidden="true" /></button></div>
-          <div className="detail-title"><span className={`category-badge ${category.className}`}>{category.label}</span><h1>{attraction.name}</h1><p><MapPin aria-hidden="true" /> {cityName(attraction.cityId)} · {attraction.locality}</p></div>
+          <div className="detail-title"><div className="detail-badges"><span className={`category-badge ${category.className}`}>{category.label}</span><span className={`verification-badge ${attraction.verificationLevel}`}>{attraction.verificationLevel === 'verified' ? '已核实' : '待复核'}</span></div><h1>{attraction.name}</h1><p><MapPin aria-hidden="true" /> {cityName(attraction.cityId)} · {attraction.locality}</p></div>
           {attraction.images.length > 1 && <div className="image-dots" aria-label="选择图片">{attraction.images.map((item, index) => <button type="button" key={item.src} onClick={() => setImageIndex(index)} aria-label={`查看第 ${index + 1} 张图片`} aria-pressed={imageIndex === index} />)}</div>}
         </div>
         {shareStatus && <div className="toast" role="status">{shareStatus}</div>}
@@ -61,7 +61,7 @@ export default function AttractionDetail() {
 
           <aside className="detail-sidebar">
             <div className="planning-card"><p className="eyebrow">准备出发</p><h2>在地图中查看位置</h2><p>使用高德 URI 打开地点页面。本站不会获取或保存你的位置。</p><a href={attractionMapUrl(attraction)} target="_blank" rel="noreferrer" className="btn-primary"><Navigation aria-hidden="true" /> 高德查看／导航</a></div>
-            <div className="source-card"><ShieldCheck aria-hidden="true" /><div><h2>资料可追溯</h2><p>资料校订于 {formatVerifiedDate(attraction.verifiedAt)}。实时安排请以官方公告为准。</p></div>{attraction.sources.map((source) => <a key={source.url} href={source.url} target="_blank" rel="noreferrer">{source.label}<ExternalLink aria-hidden="true" /></a>)}</div>
+            <div className={`source-card verification-card ${attraction.verificationLevel}`}><ShieldCheck aria-hidden="true" /><div><h2>{attraction.verificationLevel === 'verified' ? '资料已严格核实' : '资料待进一步复核'}</h2><p>{attraction.verificationLevel === 'verified' ? '核心事实有官方直接页面支撑，图片准确对应并具有清晰许可。' : '目前来源或图片证据尚未同时达到严格标准，信息可供规划，但请优先查看官方最新公告。'} 校订于 {formatVerifiedDate(attraction.verifiedAt)}。</p></div>{attraction.sources.map((source) => <a key={source.url} href={source.url} target="_blank" rel="noreferrer">{source.label}<ExternalLink aria-hidden="true" /></a>)}</div>
             <div className="image-credit"><span>图片来源</span><a href={currentImage.sourceUrl} target="_blank" rel="noreferrer">{currentImage.credit} · {currentImage.license}<ExternalLink aria-hidden="true" /></a></div>
           </aside>
         </div>

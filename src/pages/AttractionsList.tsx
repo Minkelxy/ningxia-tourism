@@ -2,7 +2,7 @@ import { ArrowRight, Clock3, MapPin, Search, SlidersHorizontal } from 'lucide-re
 import { Link, useSearchParams } from 'react-router-dom';
 import SEO from '../components/SEO';
 import ResponsiveImage from '../components/ResponsiveImage';
-import { publishedAttractions } from '../data/attractions';
+import { publishedAttractions, reviewAttractions, verifiedAttractions } from '../data/attractions';
 import { cities, cityName } from '../data/cities';
 import { categoryMeta } from '../data/meta';
 import type { AttractionCategory, CityId } from '../types';
@@ -27,9 +27,9 @@ export default function AttractionsList() {
 
   return (
     <>
-      <SEO title="精选景点 · 宁夏旅行地图" description="浏览十二个已核实的宁夏代表性景点，按城市和主题筛选实用旅行信息。" />
+      <SEO title="精选景点 · 宁夏旅行地图" description="浏览分级核实的宁夏代表性景点，按城市和主题筛选实用旅行信息。" />
       <header className="page-hero compact-hero">
-        <div className="section-shell"><p className="eyebrow">精选目的地</p><h1>十二个景点，认识宁夏的不同侧面</h1><p>只展示已经补齐来源和出行信息的内容。开放时间、票价仍可能变化，出发前请再次查看官方公告。</p></div>
+        <div className="section-shell"><p className="eyebrow">精选目的地</p><h1>{publishedAttractions.length} 个公开景点，按证据清晰分级</h1><p>{verifiedAttractions.length} 个已严格核实，{reviewAttractions.length} 个待复核。待复核内容可以阅读，但不会计入已核实数量；开放、票价与交通仍请在出发前查看官方公告。</p></div>
       </header>
       <main className="section-shell page-content">
         <section className="filter-panel" aria-label="景点筛选">
@@ -45,7 +45,7 @@ export default function AttractionsList() {
           const cover = item.images[0];
           return (
             <article className="attraction-card" key={item.id}>
-              <Link to={`/attraction/${item.id}`} className="card-image"><ResponsiveImage src={cover.src} alt={cover.alt} loading="lazy" width="720" height="450" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 390px" /><span className={`category-badge ${meta.className}`}>{meta.label}</span></Link>
+              <Link to={`/attraction/${item.id}`} className="card-image"><ResponsiveImage src={cover.src} alt={cover.alt} loading="lazy" width="720" height="450" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 390px" /><span className={`category-badge ${meta.className}`}>{meta.label}</span><span className={`verification-badge ${item.verificationLevel}`}>{item.verificationLevel === 'verified' ? '已核实' : '待复核'}</span></Link>
               <div className="card-content"><p className="card-location"><MapPin aria-hidden="true" /> {cityName(item.cityId as CityId)} · {item.locality}</p><h2><Link to={`/attraction/${item.id}`}>{item.name}</Link></h2><p>{item.summary}</p><div className="card-meta"><span><Clock3 aria-hidden="true" /> {item.visitInfo.duration}</span><span>{item.visitInfo.bestSeason}</span></div><Link to={`/attraction/${item.id}`} className="text-link">查看出行信息 <ArrowRight aria-hidden="true" /></Link></div>
             </article>
           );

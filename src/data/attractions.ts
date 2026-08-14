@@ -27,7 +27,7 @@ const pendingVisitInfo: VisitInfo = {
 
 const published: Attraction[] = [
   {
-    id: 'ningxiamuseum', status: 'published', name: '宁夏博物馆', cityId: 'yinchuan', locality: '金凤区', category: 'history',
+    id: 'ningxiamuseum', status: 'published', verificationLevel: 'review', name: '宁夏博物馆', cityId: 'yinchuan', locality: '金凤区', category: 'history',
     coordinates: { lng: 106.2307, lat: 38.4845 },
     summary: '从西夏文物、丝路遗珍到宁夏近现代历史，一站建立宁夏旅行的文化坐标。适合作为抵达银川后的第一站。',
     highlights: ['国家一级博物馆', '西夏与丝路主题展陈', '室内参观，四季适宜'],
@@ -44,7 +44,7 @@ const published: Attraction[] = [
     sources: [cultureTourismSource, { label: '宁夏博物馆开放信息', url: 'https://whhlyt.nx.gov.cn/', kind: 'official' }], verifiedAt,
   },
   {
-    id: 'xixiawangling', status: 'published', name: '西夏陵', cityId: 'yinchuan', locality: '西夏区', category: 'history',
+    id: 'xixiawangling', status: 'published', verificationLevel: 'verified', name: '西夏陵', cityId: 'yinchuan', locality: '西夏区', category: 'history',
     coordinates: { lng: 105.9877, lat: 38.4335 },
     summary: '贺兰山东麓的西夏皇家陵寝遗址，以宏阔山水格局、帝陵与陪葬墓群呈现西夏文明的独特面貌。',
     highlights: ['世界文化遗产', '西夏博物馆与遗址区', '贺兰山下开阔景观'],
@@ -61,7 +61,7 @@ const published: Attraction[] = [
     sources: [{ label: '银川市人民政府 · 西夏陵', url: 'https://www.yinchuan.gov.cn/sshc/lyjd/zdwbcs/202511/t20251125_5090985.html', kind: 'official' }, cultureTourismSource], verifiedAt,
   },
   {
-    id: 'zhenbeibu', status: 'published', name: '镇北堡西部影城', cityId: 'yinchuan', locality: '西夏区', category: 'experience',
+    id: 'zhenbeibu', status: 'published', verificationLevel: 'review', name: '镇北堡西部影城', cityId: 'yinchuan', locality: '西夏区', category: 'experience',
     coordinates: { lng: 106.0683, lat: 38.6147 },
     summary: '由古堡遗址发展而来的西部影视拍摄基地，可在明城、清城和老银川街体验粗粝鲜明的西北影像美学。',
     highlights: ['经典影视取景地', '西北古堡与街景', '适合人像与主题摄影'],
@@ -76,7 +76,7 @@ const published: Attraction[] = [
     nearbyIds: ['xixiawangling', 'ningxiamuseum'], sources: [cultureTourismSource, { label: '银川市人民政府旅游信息', url: 'https://www.yinchuan.gov.cn/sshc/lyjd/', kind: 'official' }], verifiedAt,
   },
   {
-    id: 'nanguan', status: 'published', name: '南关清真大寺', cityId: 'yinchuan', locality: '兴庆区', category: 'religion',
+    id: 'nanguan', status: 'published', verificationLevel: 'review', name: '南关清真大寺', cityId: 'yinchuan', locality: '兴庆区', category: 'religion',
     coordinates: { lng: 106.2758, lat: 38.4549 },
     summary: '银川市区具有代表性的清真寺。参观时应尊重宗教礼仪、礼拜秩序和现场开放安排。',
     highlights: ['银川回族文化地标', '城市中心易于到达', '适合与老城步行串联'],
@@ -91,7 +91,7 @@ const published: Attraction[] = [
     nearbyIds: ['ningxiamuseum'], sources: [cultureTourismSource, { label: '银川市人民政府', url: 'https://www.yinchuan.gov.cn/', kind: 'official' }], verifiedAt,
   },
   {
-    id: 'shahu', status: 'published', name: '沙湖生态旅游区', cityId: 'shizuishan', locality: '平罗县', category: 'nature',
+    id: 'shahu', status: 'published', verificationLevel: 'review', name: '沙湖生态旅游区', cityId: 'shizuishan', locality: '平罗县', category: 'nature',
     coordinates: { lng: 106.377, lat: 38.808 },
     summary: '湖泊、芦苇、候鸟与沙丘相邻共生，是宁夏最具辨识度的沙水景观之一。游船和沙漠项目受天气影响较大。',
     highlights: ['沙水相依的复合景观', '湿地观鸟与科普', '游船及沙漠体验'],
@@ -107,7 +107,7 @@ const published: Attraction[] = [
     nearbyIds: [], sources: [{ label: '宁夏沙湖旅游官方网站', url: 'https://www.nxshahu.com/', kind: 'official' }, { label: '宁夏文旅厅 · 沙湖生态旅游区', url: 'https://whhlyt.nx.gov.cn/jqjd/szss_66574/nxshstlyq/', kind: 'official' }], verifiedAt,
   },
   {
-    id: 'shapotou', status: 'published', name: '沙坡头旅游景区', cityId: 'zhongwei', locality: '沙坡头区', category: 'experience',
+    id: 'shapotou', status: 'published', verificationLevel: 'verified', name: '沙坡头旅游景区', cityId: 'zhongwei', locality: '沙坡头区', category: 'experience',
     coordinates: { lng: 104.9933, lat: 37.4641 },
     summary: '腾格里沙漠在这里与黄河交汇，可在同一天体验沙漠景观、黄河项目与治沙文化。',
     highlights: ['腾格里沙漠与黄河交汇', '滑沙、骆驼等体验项目', '治沙工程与包兰铁路'],
@@ -123,7 +123,7 @@ const published: Attraction[] = [
     nearbyIds: ['zhongweigaomiao'], sources: [{ label: '沙坡头旅游官方网站', url: 'https://www.shapotou.com/index.html', kind: 'official' }, cultureTourismSource], verifiedAt,
   },
   {
-    id: 'zhongweigaomiao', status: 'published', name: '中卫高庙', cityId: 'zhongwei', locality: '沙坡头区', category: 'religion',
+    id: 'zhongweigaomiao', status: 'published', verificationLevel: 'review', name: '中卫高庙', cityId: 'zhongwei', locality: '沙坡头区', category: 'religion',
     coordinates: { lng: 105.1852, lat: 37.518 },
     summary: '位于中卫老城的古建筑群，以紧凑高耸、层层叠叠的空间组织见长，可与鼓楼和老城街区一起游览。',
     highlights: ['全国重点文物保护单位', '多层楼阁古建筑群', '中卫市区步行可达'],
@@ -136,7 +136,7 @@ const published: Attraction[] = [
     nearbyIds: ['shapotou'], sources: [cultureTourismSource, { label: '中卫市人民政府', url: 'https://www.nxzw.gov.cn/', kind: 'official' }], verifiedAt,
   },
   {
-    id: 'huanghetan', status: 'published', name: '黄河坛景区', cityId: 'wuzhong', locality: '青铜峡市', category: 'history',
+    id: 'huanghetan', status: 'published', verificationLevel: 'review', name: '黄河坛景区', cityId: 'wuzhong', locality: '青铜峡市', category: 'history',
     coordinates: { lng: 105.93, lat: 37.83 },
     summary: '依托青铜峡黄河河谷展开的黄河文化主题景区，适合与一百零八塔、黄河大峡谷组合成一日行程。',
     highlights: ['黄河文化主题景观', '青铜峡河谷视野', '适合串联吴忠周边景点'],
@@ -148,7 +148,7 @@ const published: Attraction[] = [
     nearbyIds: ['zhonghuahuanghelou'], sources: [cultureTourismSource, { label: '吴忠市人民政府', url: 'https://www.wuzhong.gov.cn/', kind: 'official' }], verifiedAt,
   },
   {
-    id: 'zhonghuahuanghelou', status: 'published', name: '中华黄河楼', cityId: 'wuzhong', locality: '青铜峡市', category: 'history',
+    id: 'zhonghuahuanghelou', status: 'published', verificationLevel: 'review', name: '中华黄河楼', cityId: 'wuzhong', locality: '青铜峡市', category: 'history',
     coordinates: { lng: 106.12, lat: 38.0 },
     summary: '吴忠黄河金岸的标志性文化建筑，通过展陈与登高视野了解黄河文明和宁夏引黄灌溉文化。',
     highlights: ['黄河金岸地标', '黄河文化展陈', '登高眺望河谷'],
@@ -160,7 +160,7 @@ const published: Attraction[] = [
     nearbyIds: ['huanghetan'], sources: [cultureTourismSource, { label: '吴忠市人民政府', url: 'https://www.wuzhong.gov.cn/', kind: 'official' }], verifiedAt,
   },
   {
-    id: 'liupanshan', status: 'published', name: '六盘山', cityId: 'guyuan', locality: '泾源县／隆德县', category: 'nature',
+    id: 'liupanshan', status: 'published', verificationLevel: 'review', name: '六盘山', cityId: 'guyuan', locality: '泾源县／隆德县', category: 'nature',
     coordinates: { lng: 106.2, lat: 35.6 },
     summary: '宁夏南部重要山地与生态屏障，森林、峡谷和红色文化资源集中，具体游览点之间距离较远。',
     highlights: ['宁南山地生态', '红军长征文化', '夏季避暑与森林步道'],
@@ -173,7 +173,7 @@ const published: Attraction[] = [
     nearbyIds: ['pengyangtitian'], sources: [cultureTourismSource, { label: '固原市人民政府', url: 'https://www.nxgy.gov.cn/', kind: 'official' }], verifiedAt,
   },
   {
-    id: 'pengyangtitian', status: 'published', name: '彭阳梯田', cityId: 'guyuan', locality: '彭阳县', category: 'nature',
+    id: 'pengyangtitian', status: 'published', verificationLevel: 'review', name: '彭阳梯田', cityId: 'guyuan', locality: '彭阳县', category: 'nature',
     coordinates: { lng: 106.4, lat: 36.0 },
     summary: '黄土高原坡地经过长期治理形成的层叠田野，季节、作物和天气决定观景效果，适合慢节奏乡村摄影。',
     highlights: ['黄土高原梯田', '生态治理景观', '乡村摄影与自驾'],
@@ -186,7 +186,7 @@ const published: Attraction[] = [
     nearbyIds: ['liupanshan'], sources: [cultureTourismSource, { label: '彭阳县人民政府', url: 'https://www.pengyang.gov.cn/', kind: 'official' }], verifiedAt,
   },
   {
-    id: 'yanchilie', status: 'published', name: '盐池革命烈士纪念园', cityId: 'wuzhong', locality: '盐池县', category: 'history',
+    id: 'yanchilie', status: 'draft', verificationLevel: 'review', name: '盐池革命烈士纪念园', cityId: 'wuzhong', locality: '盐池县', category: 'history',
     coordinates: { lng: 107.04, lat: 37.78 },
     summary: '盐池红色文化的重要纪念空间，适合与盐池县城历史、人文和长城遗迹主题结合参观。',
     highlights: ['红色历史教育', '纪念展陈与园区参观', '盐池县城人文线路'],
@@ -216,6 +216,7 @@ const draftSeed: Array<Pick<Attraction, 'id' | 'name' | 'cityId' | 'locality' | 
 const drafts: Attraction[] = draftSeed.map((item) => ({
   ...item,
   status: 'draft',
+  verificationLevel: 'review',
   highlights: ['资料正在核实'],
   visitInfo: pendingVisitInfo,
   images: [],
@@ -226,5 +227,7 @@ const drafts: Attraction[] = draftSeed.map((item) => ({
 
 export const attractions: Attraction[] = [...published, ...drafts];
 export const publishedAttractions = attractions.filter((item) => item.status === 'published');
+export const verifiedAttractions = publishedAttractions.filter((item) => item.verificationLevel === 'verified');
+export const reviewAttractions = publishedAttractions.filter((item) => item.verificationLevel === 'review');
 export const getAttractionById = (id?: string) => attractions.find((item) => item.id === id);
 export const getPublishedAttractionsByCity = (cityId: CityId) => publishedAttractions.filter((item) => item.cityId === cityId);
