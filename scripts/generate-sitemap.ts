@@ -8,14 +8,26 @@ import { loadJournalFiles } from './load-journal-files';
 const base = 'https://minkelxy.github.io/ningxia-tourism';
 const journal = loadJournalFiles();
 if (journal.errors.length) throw new Error(journal.errors.join('\n'));
-const paths = [
-  '/', '/attractions', '/routes', '/cities', '/journal', '/about',
-  ...publishedAttractions.map((item) => `/attraction/${item.id}`),
-  ...cities.map((item) => `/city/${item.id}`),
-  ...routes.map((item) => `/routes/${item.id}`),
-  ...journal.entries.filter((item) => item.status === 'published').map((item) => `/journal/${item.type}/${item.slug}`),
+const articles = journal.entries.filter((item) => item.status === 'published' && item.contentKind === 'firsthand');
+const latest = (dates: string[]) => dates.filter(Boolean).sort().at(-1);
+const attractionDate = latest(publishedAttractions.map((item) => item.verifiedAt));
+const routeDate = latest(routes.map((item) => item.verifiedAt));
+const journalDate = latest(articles.map((item) => item.updatedAt));
+const allDate = latest([attractionDate, routeDate, journalDate].filter(Boolean) as string[]);
+
+const urls: Array<{ path: string; lastmod?: string }> = [
+  { path: '/', lastmod: allDate },
+  { path: '/attractions', lastmod: attractionDate },
+  { path: '/routes', lastmod: routeDate },
+  { path: '/cities', lastmod: attractionDate },
+  { path: '/journal', lastmod: journalDate },
+  { path: '/about', lastmod: allDate },
+  ...publishedAttractions.map((item) => ({ path: `/attraction/${item.id}`, lastmod: item.verifiedAt })),
+  ...cities.map((city) => ({ path: `/city/${city.id}`, lastmod: latest(publishedAttractions.filter((item) => item.cityId === city.id).map((item) => item.verifiedAt)) })),
+  ...routes.map((item) => ({ path: `/routes/${item.id}`, lastmod: item.verifiedAt })),
+  ...articles.map((item) => ({ path: `/journal/${item.type}/${item.slug}`, lastmod: item.updatedAt })),
 ];
-const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map((path) => `  <url><loc>${base}${path}</loc></url>`).join('\n')}\n</urlset>\n`;
+const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((item) => `  <url><loc>${base}${item.path}</loc>${item.lastmod ? `<lastmod>${item.lastmod}</lastmod>` : ''}</url>`).join('\n')}\n</urlset>\n`;
 mkdirSync(resolve('dist'), { recursive: true });
 writeFileSync(resolve('dist/sitemap.xml'), xml, 'utf8');
-console.log(`已生成 sitemap.xml，共 ${paths.length} 个公开页面。`);
+console.log(`已生成 sitemap.xml，共 ${urls.length} 个公开页面。`);

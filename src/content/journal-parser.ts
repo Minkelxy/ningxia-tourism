@@ -1,5 +1,5 @@
 import { parse } from 'yaml';
-import type { FoodJournal, JournalEntry, JournalType, TravelJournal } from '../types';
+import type { FoodJournal, JournalContentKind, JournalEntry, JournalType, TravelJournal } from '../types';
 
 export interface JournalParseResult {
   entries: JournalEntry[];
@@ -18,15 +18,18 @@ export const parseJournalSource = (source: string, filename = 'unknown.md'): Jou
   const { metadata, body } = splitDocument(source);
   const type = metadata.type as JournalType;
   if (metadata.status !== 'published' && metadata.status !== 'draft') throw new Error(`${filename}: status 必须为 published 或 draft`);
+  if (metadata.contentKind !== 'firsthand' && metadata.contentKind !== 'demo') throw new Error(`${filename}: contentKind 必须为 firsthand 或 demo`);
 
   const common = {
     slug: String(metadata.slug ?? ''),
     type,
     status: metadata.status,
+    contentKind: metadata.contentKind as JournalContentKind,
     title: String(metadata.title ?? ''),
     excerpt: String(metadata.excerpt ?? ''),
     author: String(metadata.author || '站主手记'),
     publishedAt: String(metadata.publishedAt ?? ''),
+    updatedAt: String(metadata.updatedAt ?? ''),
     cityId: String(metadata.cityId ?? '') as JournalEntry['cityId'],
     locality: String(metadata.locality ?? ''),
     tags: list(metadata.tags),

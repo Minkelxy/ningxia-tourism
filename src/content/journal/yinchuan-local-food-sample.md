@@ -1,11 +1,13 @@
 ---
 slug: yinchuan-local-food-sample
 type: food
-status: published
+status: draft
+contentKind: demo
 title: 银川本地菜探店记录（示例）
 excerpt: 旅行手记的探店格式示例，示范记录到店日期、人均、排队情况与个人取舍，不代替官方或商户信息。
 author: 站主手记
-publishedAt: "2026-08-12"
+publishedAt: ""
+updatedAt: ""
 cityId: yinchuan
 locality: 兴庆区
 tags: [示例, 本地菜, 晚餐]

@@ -68,15 +68,18 @@ export interface City {
 }
 
 export type JournalType = 'travel' | 'food';
+export type JournalContentKind = 'firsthand' | 'demo';
 
 export interface JournalCommon {
   slug: string;
   type: JournalType;
   status: ContentStatus;
+  contentKind: JournalContentKind;
   title: string;
   excerpt: string;
   author: string;
   publishedAt: string;
+  updatedAt: string;
   cityId: CityId;
   locality: string;
   tags: string[];

@@ -22,6 +22,8 @@ npm run lint
 npm test
 npm run test:e2e
 npm run build
+npm run audit
+npm run quality:lighthouse
 ```
 
 端到端测试首次运行前需要安装 Chromium：`npx playwright install chromium`。
@@ -32,16 +34,18 @@ npm run build
 - `src/data/cities.ts`：五城资料，以固定 `cityId` 关联景点。
 - `src/data/routes.ts`：七条路线及逐日停靠点。
 - `src/data/validate.ts`：构建期校验，检查字段、ID、坐标和跨数据引用。
-- `src/content/journal/`：公开或草稿手记 Markdown；维护模板位于 `docs/templates/`，不会参与发布。
+- `src/content/journal/`：公开或草稿手记 Markdown；内容在构建时解析，不把解析器和 YAML 运行时发送给访客。维护模板位于 `docs/templates/`，不会参与发布。
 - `public/images/attractions/`：授权图片及站内资源。
 
 正式景点必须补齐开放信息、参考票价、预约、时长、季节、交通、WGS84 坐标、来源、核实日期和图片许可。只有来源与图片同时达到严格标准才标为 `verified`；其余公开内容标为 `review`，资料不足时保留为 `draft`。
+
+旅行手记只有同时标记为 `status: published` 与 `contentKind: firsthand` 才会进入公开列表和站点地图；演示模板、占位字段、未来日期或越界引用会让构建失败。当前示例均保持草稿，不作为真实经历公开。
 
 ## 路由与部署
 
 公开路由包括 `/`、`/attractions`、`/attraction/:id`、`/cities`、`/city/:slug`、`/routes`、`/routes/:routeId`、`/journal`、`/journal/travel/:slug`、`/journal/food/:slug` 和 `/about`。GeoJSON 工具只在开发环境注册。
 
-GitHub Actions 会依次执行数据校验、类型检查、代码检查、单元测试、端到端测试和生产构建；`public/404.html` 为 GitHub Pages 提供 SPA 深层链接回退。
+GitHub Actions 会依次执行依赖安全审计、数据校验、类型检查、代码检查、单元测试、端到端测试、生产构建和移动端 Lighthouse 门禁；`public/404.html` 为 GitHub Pages 提供 SPA 深层链接回退。
 
 ## 信息边界
 

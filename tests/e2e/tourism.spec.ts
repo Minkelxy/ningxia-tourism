@@ -27,15 +27,16 @@ test('城市详情和路线详情可直接访问', async ({ page }) => {
   await expect(page.locator('.route-day')).toHaveCount(3);
 });
 
-test('旅行手记双栏目、示例内容和未知详情可恢复', async ({ page }) => {
+test('旅行手记双栏目、键盘切换和未知详情可恢复', async ({ page }) => {
   await page.goto(`${appBase}journal`);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('地图之外');
   await expect(page.getByRole('tab', { name: '个人游记' })).toHaveAttribute('aria-selected', 'true');
-  await expect(page.getByRole('heading', { name: '中卫沙坡头两日——黄河与沙漠之间（示例）' })).toBeVisible();
+  await expect(page.getByText('第一篇游记正在路上')).toBeVisible();
 
-  await page.getByRole('tab', { name: '探店记录' }).click();
+  await page.getByRole('tab', { name: '个人游记' }).press('ArrowRight');
   await expect(page).toHaveURL(/type=food/);
-  await expect(page.getByRole('heading', { name: '银川本地菜探店记录（示例）' })).toBeVisible();
+  await expect(page.getByRole('tab', { name: '探店记录' })).toBeFocused();
+  await expect(page.getByText('第一份探店记录还没上桌')).toBeVisible();
 
   await page.goto(`${appBase}journal/travel/not-published`);
   await expect(page.getByRole('heading', { name: '这篇手记还没有公开' })).toBeVisible();

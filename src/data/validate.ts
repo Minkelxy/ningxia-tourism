@@ -5,6 +5,9 @@ import { routes } from './routes';
 
 const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 const validImage = (image?: JournalEntry['cover']) => Boolean(image?.src && image.alt && image.credit && image.license && image.sourceUrl);
+const validDate = (value: string) => datePattern.test(value) && !Number.isNaN(Date.parse(`${value}T00:00:00Z`));
+const today = new Date().toISOString().slice(0, 10);
+const placeholderPattern = /(示例|演示用|示例店名|示例地址|待填写|example\.com)/i;
 
 export const hasStrictVerificationEvidence = (item: (typeof attractions)[number]) => {
   const exactImages = item.images.length > 0 && item.images.every((image) => !/(区域|氛围|主题)/.test(image.alt));
@@ -27,10 +30,15 @@ export const validateJournalContent = (entries: JournalEntry[], parseErrors: str
     for (const id of entry.relatedAttractionIds) if (!publishedIds.has(id)) errors.push(`${key}: 引用了未发布景点 ${id}`);
     for (const id of entry.relatedRouteIds) if (!routeIds.has(id)) errors.push(`${key}: 引用了无效路线 ${id}`);
     if (entry.status !== 'published') continue;
-    if (!datePattern.test(entry.publishedAt)) errors.push(`${key}: 发布日期无效`);
+    if (entry.contentKind !== 'firsthand') errors.push(`${key}: 演示内容不能发布`);
+    if (placeholderPattern.test(JSON.stringify(entry))) errors.push(`${key}: 正式内容包含示例或占位文本`);
+    if (!validDate(entry.publishedAt) || entry.publishedAt > today) errors.push(`${key}: 发布日期无效或晚于当前日期`);
+    if (!validDate(entry.updatedAt) || entry.updatedAt < entry.publishedAt || entry.updatedAt > today) errors.push(`${key}: 更新日期无效`);
+    const expectedImagePrefix = `images/journal/${entry.slug}/`;
+    if ([entry.cover, ...entry.gallery].some((image) => !image.src.startsWith(expectedImagePrefix))) errors.push(`${key}: 正式手记图片必须位于 ${expectedImagePrefix}`);
     if (entry.type === 'travel') {
-      if (!datePattern.test(entry.tripDate) || !entry.duration || !entry.transport || !entry.budgetNote || !entry.highlights.length) errors.push(`${key}: 游记字段不完整`);
-    } else if (!datePattern.test(entry.visitedAt) || !entry.venueName || !entry.cuisine || !entry.address || !entry.mapQuery || !entry.pricePerPerson || !entry.dishes.length || !entry.queueNote || !entry.suitableFor || !entry.revisitNote) {
+      if (!validDate(entry.tripDate) || entry.tripDate > entry.publishedAt || !entry.duration || !entry.transport || !entry.budgetNote || !entry.highlights.length) errors.push(`${key}: 游记字段不完整或日期顺序错误`);
+    } else if (!validDate(entry.visitedAt) || entry.visitedAt > entry.publishedAt || !entry.venueName || !entry.cuisine || !entry.address || !entry.mapQuery || !entry.pricePerPerson || !entry.dishes.length || !entry.queueNote || !entry.suitableFor || !entry.revisitNote) {
       errors.push(`${key}: 探店字段不完整`);
     }
   }

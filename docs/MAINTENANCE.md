@@ -7,7 +7,8 @@
 5. 每次修改后先运行 `npm run validate:data`，再运行 `npm run check && npm test && npm run build`。
 6. 票价、开放时间、预算和交通时间属于易变信息，更新时同步修改 `verifiedAt`，并保留官方来源链接。
 7. 图片必须是原创、公共领域或明确的 Creative Commons 授权文件；详情页需要展示作者、许可和原始页面。
-8. 游记与探店使用 `docs/templates/` 中的模板，完成后复制到 `src/content/journal/`；只有 `status: published` 才会公开。
+8. 游记与探店使用 `docs/templates/` 中的模板，完成后复制到 `src/content/journal/`；只有 `status: published` 且 `contentKind: firsthand` 才会公开。
 9. 公开手记必须使用真实素材，封面与图集放在 `public/images/journal/` 并生成 WebP/AVIF 多尺寸版本。草稿不会进入列表、详情或站点地图。
 10. 探店的人均、排队、地址和营业信息必须绑定 `visitedAt`；个人体验不使用星级或数字评分。
 11. 证据等级变更后同步更新 `docs/CONTENT_AUDIT.md`。区域氛围图、政府首页级来源或事实缺口不能标为 `verified`。
+12. 演示内容必须使用 `contentKind: demo` 并保持 `draft`；正式手记的图片须存入 `public/images/journal/{slug}/`，发布日期与更新日期不得早于实际行程或到店日期。

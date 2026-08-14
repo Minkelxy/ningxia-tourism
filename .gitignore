@@ -34,6 +34,7 @@ dist-ssr
 coverage
 test-results
 playwright-report
+.lighthouseci
 .tmp
 
 # GitHub Pages build

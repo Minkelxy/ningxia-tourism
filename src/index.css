@@ -35,6 +35,8 @@ button { color: inherit; }
 ::selection { background: #d8b77d; color: #211b12; }
 
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.skip-link { position: fixed; z-index: 100; top: 10px; left: 12px; min-height: 44px; display: flex; align-items: center; padding: 8px 16px; border-radius: 999px; background: var(--ink); color: #fff; transform: translateY(-150%); transition: transform .16s ease; }
+.skip-link:focus { transform: translateY(0); }
 .site-frame { min-height: 100vh; display: flex; flex-direction: column; }
 .site-main { flex: 1; }
 .section-shell { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
@@ -358,7 +360,7 @@ button { color: inherit; }
 .verification-note > svg { flex: 0 0 32px; width: 32px; color: #efc06d; }
 .verification-note strong { font-family: var(--serif); font-size: 1.45rem; }
 .verification-note p { margin-top: 12px; color: rgba(255,255,255,.72); }
-.verification-note .text-link { margin-top: 14px; color: #efc06d; }
+.verification-note .text-link { margin-top: 14px; color: #ffe0a3; }
 
 .journal-hero { position: relative; overflow: hidden; padding-block: 88px; background: radial-gradient(circle at 78% 35%, rgba(255,255,255,.72), transparent 23%), #e8ddca; }
 .journal-hero::after { content: ""; position: absolute; inset: 0; opacity: .35; pointer-events: none; background: repeating-linear-gradient(0deg, transparent 0 31px, rgba(74,61,39,.08) 31px 32px); }

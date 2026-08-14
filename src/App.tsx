@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
@@ -24,12 +24,24 @@ function ScrollToTop() {
   return null;
 }
 
+function RouteAnnouncer() {
+  const location = useLocation();
+  const [message, setMessage] = useState('');
+  useEffect(() => {
+    const timer = window.setTimeout(() => setMessage(document.title), 0);
+    return () => window.clearTimeout(timer);
+  }, [location.pathname]);
+  return <div className="sr-only" aria-live="polite" aria-atomic="true">{message}</div>;
+}
+
 function AppRoutes() {
   return (
     <div className="site-frame">
+      <a href="#main-content" className="skip-link">跳到主要内容</a>
       <ScrollToTop />
+      <RouteAnnouncer />
       <Header />
-      <div className="site-main"><Suspense fallback={<Loading />}><Routes>
+      <main className="site-main" id="main-content" tabIndex={-1}><Suspense fallback={<Loading />}><Routes>
         <Route path="/" element={<Home />} />
         <Route path="/attractions" element={<AttractionsList />} />
         <Route path="/attraction/:id" element={<AttractionDetail />} />
@@ -43,7 +55,7 @@ function AppRoutes() {
         {GeoJSONViewer && <Route path="/dev/geojson" element={<GeoJSONViewer />} />}
         {GeoJSONEditor && <Route path="/dev/editor" element={<GeoJSONEditor />} />}
         <Route path="*" element={<NotFound />} />
-      </Routes></Suspense></div>
+      </Routes></Suspense></main>
       <Footer />
     </div>
   );

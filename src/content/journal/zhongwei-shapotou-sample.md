@@ -1,11 +1,13 @@
 ---
 slug: zhongwei-shapotou-sample
 type: travel
-status: published
+status: draft
+contentKind: demo
 title: 中卫沙坡头两日——黄河与沙漠之间（示例）
 excerpt: 这是旅行手记的格式示例，演示如何记录一次中卫沙坡头的两日行程，含时间线、花费复盘与个人取舍。
 author: 站主手记
-publishedAt: "2026-08-14"
+publishedAt: ""
+updatedAt: ""
 cityId: zhongwei
 locality: 沙坡头区
 tags: [示例, 周末, 沙漠]

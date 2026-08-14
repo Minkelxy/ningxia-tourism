@@ -15,11 +15,11 @@ export default function AttractionDetail() {
   const [shareStatus, setShareStatus] = useState('');
 
   if (!attraction) return (
-    <main className="full-state"><SEO title="景点未找到 · 宁夏旅行地图" noIndex /><ImageOff aria-hidden="true" /><h1>没有找到这个景点</h1><p>链接可能已经变更，回到精选景点继续探索。</p><Link to="/attractions" className="btn-primary">浏览精选景点</Link></main>
+    <div className="full-state"><SEO title="景点未找到 · 宁夏旅行地图" noIndex /><ImageOff aria-hidden="true" /><h1>没有找到这个景点</h1><p>链接可能已经变更，回到精选景点继续探索。</p><Link to="/attractions" className="btn-primary">浏览精选景点</Link></div>
   );
 
   if (attraction.status === 'draft') return (
-    <main className="full-state"><SEO title={`${attraction.name}资料核实中 · 宁夏旅行地图`} noIndex /><ShieldCheck aria-hidden="true" /><p className="eyebrow">资料核实中</p><h1>{attraction.name}</h1><p>我们正在核对开放安排、交通信息和图片授权。为避免误导，核实完成前不展示旧资料。</p><div className="state-actions"><Link to="/attractions" className="btn-primary">查看已核实景点</Link><Link to="/" className="btn-quiet">返回地图</Link></div></main>
+    <div className="full-state"><SEO title={`${attraction.name}资料核实中 · 宁夏旅行地图`} noIndex /><ShieldCheck aria-hidden="true" /><p className="eyebrow">资料核实中</p><h1>{attraction.name}</h1><p>我们正在核对开放安排、交通信息和图片授权。为避免误导，核实完成前不展示旧资料。</p><div className="state-actions"><Link to="/attractions" className="btn-primary">查看已核实景点</Link><Link to="/" className="btn-quiet">返回地图</Link></div></div>
   );
 
   const category = categoryMeta[attraction.category];
@@ -35,7 +35,7 @@ export default function AttractionDetail() {
   return (
     <>
       <SEO title={`${attraction.name}旅行指南 · 宁夏旅行地图`} description={attraction.summary} image={currentImage.src} />
-      <main className="detail-page">
+      <div className="detail-page">
         <div className="detail-hero">
           <ResponsiveImage src={currentImage.src} alt={currentImage.alt} width="1600" height="960" sizes="100vw" />
           <div className="detail-overlay" />
@@ -65,7 +65,7 @@ export default function AttractionDetail() {
             <div className="image-credit"><span>图片来源</span><a href={currentImage.sourceUrl} target="_blank" rel="noreferrer">{currentImage.credit} · {currentImage.license}<ExternalLink aria-hidden="true" /></a></div>
           </aside>
         </div>
-      </main>
+      </div>
     </>
   );
 }

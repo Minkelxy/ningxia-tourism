@@ -2,10 +2,12 @@
 slug: yinchuan-sample-food
 type: food
 status: draft
+contentKind: firsthand
 title: 一次真实探店的标题
 excerpt: 说明菜系、到店场景，以及这篇记录能帮助读者判断什么。
 author: 站主手记
 publishedAt: ""
+updatedAt: ""
 cityId: yinchuan
 locality: 兴庆区
 tags: [本地菜, 晚餐]

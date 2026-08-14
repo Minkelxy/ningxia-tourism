@@ -31,7 +31,7 @@ export default function AttractionsList() {
       <header className="page-hero compact-hero">
         <div className="section-shell"><p className="eyebrow">精选目的地</p><h1>{publishedAttractions.length} 个公开景点，按证据清晰分级</h1><p>{verifiedAttractions.length} 个已严格核实，{reviewAttractions.length} 个待复核。待复核内容可以阅读，但不会计入已核实数量；开放、票价与交通仍请在出发前查看官方公告。</p></div>
       </header>
-      <main className="section-shell page-content">
+      <div className="section-shell page-content">
         <section className="filter-panel" aria-label="景点筛选">
           <label className="search-field"><Search aria-hidden="true" /><span className="sr-only">搜索景点</span><input value={query} onChange={(event) => setFilter('q', event.target.value)} placeholder="搜索景点、城市或亮点" /></label>
           <label><span><MapPin aria-hidden="true" /> 城市</span><select value={city} onChange={(event) => setFilter('city', event.target.value)}><option value="all">全部城市</option>{cities.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
@@ -50,7 +50,7 @@ export default function AttractionsList() {
             </article>
           );
         })}</div> : <div className="empty-state"><Search aria-hidden="true" /><h2>没有找到匹配的景点</h2><p>换一个关键词，或者清除城市与类型筛选再试试。</p><button type="button" className="btn-primary" onClick={() => setParams({})}>查看全部景点</button></div>}
-      </main>
+      </div>
     </>
   );
 }

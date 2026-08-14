@@ -2,10 +2,12 @@
 slug: yinchuan-sample-trip
 type: travel
 status: draft
+contentKind: firsthand
 title: 一篇真实游记的标题
 excerpt: 用一两句话说明这趟旅行的重点与适合谁参考。
 author: 站主手记
 publishedAt: ""
+updatedAt: ""
 cityId: yinchuan
 locality: 兴庆区
 tags: [周末, 公共交通]
