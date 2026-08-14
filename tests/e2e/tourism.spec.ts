@@ -5,7 +5,7 @@ const appBase = process.env.VITE_BASE_URL ?? '/';
 test('首页、景点筛选与详情可以连续浏览', async ({ page }) => {
   await page.goto(appBase);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('宁夏');
-  await expect(page.getByText('16 个已核实 · 2 个待复核')).toBeVisible();
+  await expect(page.getByText('17 个已核实 · 2 个待复核')).toBeVisible();
 
   await page.getByRole('link', { name: '精选景点' }).first().click();
   await page.getByPlaceholder('搜索景点、城市或亮点').fill('沙坡头');

@@ -25,7 +25,7 @@ export default function AttractionDetail() {
   );
 
   if (attraction.status === 'draft') return (
-    <div className="full-state"><SEO title={`${attraction.name}资料核实中 · 宁夏旅行地图`} noIndex /><ShieldCheck aria-hidden="true" /><p className="eyebrow">资料核实中</p><h1>{attraction.name}</h1><p>我们正在核对开放安排、交通信息和图片授权。为避免误导，核实完成前不展示旧资料。</p><div className="state-actions"><Link to="/attractions" className="btn-primary">查看已核实景点</Link><Link to="/" className="btn-quiet">返回地图</Link></div></div>
+    <div className="full-state"><SEO title={`${attraction.name}资料核实中 · 宁夏旅行地图`} noIndex /><ShieldCheck aria-hidden="true" /><p className="eyebrow">资料核实中</p><h1>{attraction.name}</h1><p>{attraction.verificationNote || '我们正在核对开放安排、交通信息和图片授权。为避免误导，核实完成前不展示旧资料。'}</p><div className="state-actions"><Link to="/attractions" className="btn-primary">查看已核实景点</Link><Link to="/" className="btn-quiet">返回地图</Link></div></div>
   );
 
   const category = categoryMeta[attraction.category];

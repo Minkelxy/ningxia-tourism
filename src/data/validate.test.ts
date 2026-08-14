@@ -13,10 +13,10 @@ describe('公开内容数据', () => {
 
   it('保持当前公开内容数量稳定', () => {
     expect(cities).toHaveLength(5);
-    expect(publishedAttractions).toHaveLength(18);
-    expect(verifiedAttractions).toHaveLength(16);
+    expect(publishedAttractions).toHaveLength(19);
+    expect(verifiedAttractions).toHaveLength(17);
     expect(reviewAttractions).toHaveLength(2);
-    expect(attractions.filter((item) => item.status === 'draft')).toHaveLength(2);
+    expect(attractions.filter((item) => item.status === 'draft')).toHaveLength(1);
     expect(routes).toHaveLength(7);
     expect(publishedJournalEntries).toHaveLength(5);
     expect(publishedJournalEntries.every((entry) => entry.type === 'guide' && entry.contentKind === 'editorial')).toBe(true);
@@ -104,6 +104,16 @@ describe('公开内容数据', () => {
       expect(item?.sources.some((source) => source.level === 'direct' && source.coverage.includes('visit'))).toBe(true);
       expect(Object.values(item?.visitInfo ?? {}).every(Boolean)).toBe(true);
     }
+  });
+
+  it('盐池革命历史纪念园使用现行名称并由红色路线直接引用', () => {
+    const yanchi = publishedAttractions.find((attraction) => attraction.id === 'yanchilie');
+    const redRoute = routes.find((route) => route.id === 'red-culture-3day');
+    expect(yanchi?.name).toBe('盐池革命历史纪念园');
+    expect(yanchi?.verificationLevel).toBe('verified');
+    expect(hasStrictVerificationEvidence(yanchi!)).toBe(true);
+    expect(yanchi?.images[0].alt).toContain('非盐池革命历史纪念园实景');
+    expect(redRoute?.days.flatMap((day) => day.stops).some((stop) => stop.attractionId === 'yanchilie')).toBe(true);
   });
 
   it('重复旧条目并入完整目的地并保留链接映射', () => {

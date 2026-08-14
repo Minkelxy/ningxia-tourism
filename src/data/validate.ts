@@ -73,8 +73,8 @@ export const validateContentData = (journalEntries: JournalEntry[] = [], journal
   const routePaces = new Set(['relaxed', 'balanced', 'intensive']);
   const walkingLevels = new Set(['low', 'medium', 'high']);
   if (ids.length !== idSet.size) errors.push('景点 ID 存在重复');
-  if (publishedAttractions.length !== 18) errors.push(`公开景点应为 18 个，当前为 ${publishedAttractions.length} 个`);
-  if (attractions.filter((item) => item.status === 'draft').length !== 2) errors.push('草稿景点应为 2 个');
+  if (publishedAttractions.length !== 19) errors.push(`公开景点应为 19 个，当前为 ${publishedAttractions.length} 个`);
+  if (attractions.filter((item) => item.status === 'draft').length !== 1) errors.push('草稿景点应为 1 个');
   if (cities.length !== 5) errors.push('城市数据应为 5 个');
   if (routes.length !== 7) errors.push('推荐路线应为 7 条');
   for (const city of cities) {

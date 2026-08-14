@@ -415,39 +415,44 @@ const published: Attraction[] = [
     verificationNote: '景区现行名称、沙漠湿地定位、主要景观、常规开放时段、地址和距城区距离均有自治区文旅厅直接景区页支撑，中卫市政府近期调研证明景区持续运营。配图为同属沙坡头区的腾格里沙漠与黄河绿洲景观，已明确标注为非金沙岛实景。',
   },
   {
-    id: 'yanchilie', status: 'draft', verificationLevel: 'review', name: '盐池革命烈士纪念园', cityId: 'wuzhong', locality: '盐池县', category: 'history',
-    coordinates: { lng: 107.04, lat: 37.78 },
-    summary: '盐池红色文化的重要纪念空间，适合与盐池县城历史、人文和长城遗迹主题结合参观。',
-    highlights: ['红色历史教育', '纪念展陈与园区参观', '盐池县城人文线路'],
+    id: 'yanchilie', status: 'published', verificationLevel: 'verified', name: '盐池革命历史纪念园', cityId: 'wuzhong', locality: '盐池县', category: 'history',
+    coordinates: { lng: 107.3801, lat: 37.769 },
+    summary: '以盐池革命纪念馆、解放广场、解放纪念碑、红军陵等组成的红色文化园区，系统呈现盐池从解放到全国解放时期的革命历史。',
+    highlights: ['国家 4A 级旅游景区', '革命历史与文物专题展陈', '解放广场、纪念碑与红军陵'],
     visitInfo: {
-      openingHours: '以纪念园现场和主管部门公告为准', ticketPrice: '以现场公示为准',
-      reservation: '团队教育活动建议提前联系确认', duration: '1—2 小时', bestSeason: '全年',
-      transportation: '到达盐池县城后可打车或自驾前往', address: '吴忠市盐池县',
+      openingHours: '自治区文旅厅景区页公示 09:00—17:00；临时调整以管理方当天公告为准',
+      ticketPrice: '官方景区页未列明门票价格，以现场公示为准',
+      reservation: '普通散客预约要求以现场公告为准；团队讲解与教育活动建议提前联系确认',
+      duration: '1.5—2.5 小时', bestSeason: '全年，户外园区春秋更舒适',
+      transportation: '纪念园位于盐池县城南、距县城中心约 1.3 公里，到达县城后可打车或自驾前往',
+      address: '吴忠市盐池县盐林南路',
     },
-    images: [image('images/attractions/yanchi.webp', '宁夏红色文化主题区域景观', '董辰兴', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:六盘山红军长征纪念馆西眺.jpg')],
+    images: [image('images/attractions/yanchi.webp', '宁夏红色文化主题区域景观（非盐池革命历史纪念园实景）', '董辰兴', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:六盘山红军长征纪念馆西眺.jpg')],
     nearbyIds: [],
-    sources: [cultureTourismSource, officialSource('盐池县人民政府', 'https://www.yanchi.gov.cn/', 'homepage', [])],
-    verifiedAt,
-    verificationNote: '来源和图片均不能直接对应具体纪念园，保持草稿，完成管理方信息和实景授权核对后再公开。',
+    sources: [
+      officialSource('宁夏文旅厅 · 盐池革命烈士纪念园景区页', 'https://whhlyt.nx.gov.cn/jqjd/wzs_66582/ycgmlsjny/', 'direct', ['overview', 'visit', 'location'], '2026-08-15'),
+      officialSource('宁夏文旅厅 · 2024 年国家 A 级旅游景区名录', 'https://whhlyt.nx.gov.cn/wlgz/202412/t20241212_4756344.html', 'directory', ['overview'], '2026-08-15'),
+      officialSource('吴忠市政府 · 畅游吴忠景点介绍', 'https://www.wuzhong.gov.cn/sywz/lyjd/202107/t20210715_2926139.html', 'direct', ['overview', 'location'], '2026-08-15'),
+    ],
+    verifiedAt: '2026-08-15',
+    verificationNote: '现行名称和 4A 等级由自治区文旅厅 2024 年名录支撑；园区构成、常规开放时段、盐林南路地址和距县城约 1.3 公里均有文旅主管部门直接页面支撑。配图仅表现宁夏红色文化主题，已明确标注为非纪念园实景。',
   },
 ];
 
-const draftSeed: Array<Pick<Attraction, 'id' | 'name' | 'cityId' | 'locality' | 'category' | 'coordinates' | 'summary'>> = [
-  { id: 'huixiang', name: '中华回乡文化园', cityId: 'yinchuan', locality: '永宁县', category: 'experience', coordinates: { lng: 106.24, lat: 38.29 }, summary: '文化主题园区，资料正在核实。' },
-];
-
-const drafts: Attraction[] = draftSeed.map((item) => ({
-  ...item,
-  status: 'draft',
-  verificationLevel: 'review',
+const drafts: Attraction[] = [{
+  id: 'huixiang', status: 'draft', verificationLevel: 'review', name: '中华回乡文化园', cityId: 'yinchuan', locality: '永宁县', category: 'experience',
+  coordinates: { lng: 106.24, lat: 38.29 },
+  summary: '历史文化主题园区；当前开放、运营与参观安排尚无法从近期官方资料确认。',
   highlights: ['资料正在核实'],
   visitInfo: pendingVisitInfo,
   images: [],
   nearbyIds: [],
-  sources: [cultureTourismSource],
+  sources: [
+    officialSource('宁夏文旅厅 · 2024 年国家 A 级旅游景区名录', 'https://whhlyt.nx.gov.cn/wlgz/202412/t20241212_4756344.html', 'directory', ['overview'], '2026-08-15'),
+  ],
   verifiedAt: '',
-  verificationNote: '候选内容尚未完成直接来源、实用信息和图片许可核对。',
-}));
+  verificationNote: '该名称未出现在自治区文旅厅截至 2024 年 9 月的现行 A 级景区名录中，近年开放、运营和管理方信息也缺少可核实的官方直接页面，因此继续隐藏，不沿用早年攻略。',
+}];
 
 export const attractions: Attraction[] = [...published, ...drafts];
 export const publishedAttractions = attractions.filter((item) => item.status === 'published');
