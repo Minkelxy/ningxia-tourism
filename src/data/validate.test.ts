@@ -21,6 +21,17 @@ describe('公开内容数据', () => {
     expect(publishedJournalEntries.every((entry) => entry.type === 'guide' && entry.contentKind === 'editorial')).toBe(true);
   });
 
+  it('五城都有可用于横向决策的编辑建议', () => {
+    for (const city of cities) {
+      expect(city.suggestedStay).not.toBe('');
+      expect(city.arrivalNote).not.toBe('');
+      expect(city.bestFor.length).toBeGreaterThanOrEqual(2);
+      expect(city.planningTip).not.toBe('');
+    }
+    expect(cities.find((city) => city.id === 'wuzhong')?.planningTip).toContain('不是同一个地点');
+    expect(cities.find((city) => city.id === 'guyuan')?.planningTip).toContain('分属不同县');
+  });
+
   it('首页级来源不能通过严格核实', () => {
     const sample = { ...verifiedAttractions[0], images: [{ ...verifiedAttractions[0].images[0], alt: '宁夏区域氛围图' }], sources: [{ label: '政府首页', url: 'https://example.com/', kind: 'official' as const, level: 'homepage' as const, coverage: [], checkedAt: '2026-08-15' }] };
     expect(hasStrictVerificationEvidence(sample)).toBe(false);

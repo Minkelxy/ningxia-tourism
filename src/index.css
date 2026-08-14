@@ -266,6 +266,25 @@ button { color: inherit; }
 .nearby-grid small, .city-attraction-row small { display: block; color: var(--muted); }
 .nearby-grid svg { width: 18px; margin-right: 12px; }
 
+.city-comparison { margin-bottom: 42px; padding: 30px; border: 1px solid var(--line); border-radius: 24px; background: linear-gradient(145deg, #fffdf8, #eee5d6); box-shadow: 0 12px 34px rgba(64,48,25,.06); }
+.city-comparison > header { display: flex; justify-content: space-between; align-items: end; gap: 32px; margin-bottom: 22px; }
+.city-comparison > header h2 { margin-top: 7px; font-size: clamp(1.8rem, 3vw, 2.6rem); }
+.city-comparison > header > p { max-width: 430px; color: var(--muted); font-size: .86rem; }
+.city-comparison-hint { display: none; margin: -8px 0 14px; color: var(--muted); font-size: .75rem; }
+.city-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; background: #fff; scrollbar-width: thin; }
+.city-table-wrap:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.city-table-wrap table { width: 100%; min-width: 1020px; border-collapse: collapse; font-size: .8rem; }
+.city-table-wrap th, .city-table-wrap td { padding: 14px 13px; border-bottom: 1px solid #e8dfd1; text-align: left; vertical-align: middle; }
+.city-table-wrap thead th { background: #f3ecdf; color: var(--muted); font-size: .72rem; letter-spacing: .04em; }
+.city-table-wrap tbody tr:last-child th, .city-table-wrap tbody tr:last-child td { border-bottom: 0; }
+.city-table-wrap tbody th { min-width: 150px; font-family: var(--serif); font-size: .95rem; }
+.city-table-wrap tbody th a { color: var(--ink); }
+.city-table-wrap tbody th small { display: block; max-width: 180px; margin-top: 3px; color: var(--red); font-family: var(--sans); font-size: .68rem; }
+.city-table-wrap td:nth-child(4) { min-width: 250px; color: var(--muted); }
+.city-table-wrap td:nth-child(5) { min-width: 260px; color: var(--muted); }
+.city-stay-pill { display: inline-flex; padding: 4px 9px; border-radius: 999px; background: #e7eee9; color: var(--green); font-weight: 750; white-space: nowrap; }
+.city-table-tags { display: flex; flex-wrap: wrap; gap: 5px; min-width: 150px; }
+.city-table-tags span { padding: 4px 8px; border-radius: 999px; background: #f3e8d0; color: #71551f; font-size: .7rem; white-space: nowrap; }
 .city-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px; }
 .city-card { display: grid; grid-template-columns: 44% 56%; min-height: 390px; }
 .city-card-image { position: relative; min-height: 280px; overflow: hidden; }
@@ -277,9 +296,11 @@ button { color: inherit; }
 .city-card > div > p:not(.eyebrow) { color: var(--muted); font-size: .9rem; }
 .city-card-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 10px; }
 .city-card-meta span, .food-tags span, .route-highlights span, .route-summary-card span { padding: 5px 9px; border-radius: 999px; background: #eee6d8; font-size: .75rem; }
+.city-card-meta span { display: inline-flex; align-items: center; gap: 5px; }
+.city-card-meta svg { width: 14px; height: 14px; color: var(--green); }
 .city-detail-copy { max-width: 1180px; }
 .city-detail-copy > p:last-child { max-width: 720px; color: rgba(255,255,255,.84); }
-.city-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.city-facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .city-facts > div { display: grid; gap: 4px; padding: 18px; border: 1px solid var(--line); border-radius: 15px; background: var(--card); }
 .city-facts svg { width: 20px; color: var(--sand-dark); }
 .city-facts span { color: var(--muted); font-size: .75rem; }
@@ -290,7 +311,19 @@ button { color: inherit; }
 .food-tags span { display: inline-flex; align-items: center; gap: 7px; padding: 9px 13px; }
 .food-tags svg { width: 16px; }
 .fine-print { margin-top: 18px; color: var(--muted); font-size: .8rem; }
-.city-side-note { align-self: start; position: sticky; top: 96px; background: var(--green); color: #fff; }
+.city-sidebar { align-self: start; position: sticky; top: 96px; display: grid; gap: 18px; }
+.city-decision-card { padding: 25px; border: 1px solid var(--line); border-radius: 20px; background: #fffaf0; }
+.city-decision-card .eyebrow { display: flex; align-items: center; gap: 7px; }
+.city-decision-card .eyebrow svg { width: 16px; }
+.city-decision-card h2 { margin: 9px 0 16px; font-size: 1.55rem; }
+.city-best-for { display: flex; flex-wrap: wrap; gap: 7px; }
+.city-best-for span { padding: 5px 9px; border-radius: 999px; background: #e4ede7; color: var(--green); font-size: .74rem; font-weight: 750; }
+.city-arrival-note { display: flex; align-items: flex-start; gap: 8px; margin-top: 18px; color: var(--muted); font-size: .84rem; }
+.city-arrival-note svg, .city-planning-tip > svg { flex: 0 0 18px; width: 18px; margin-top: 3px; color: var(--sand-dark); }
+.city-planning-tip { display: flex; align-items: flex-start; gap: 9px; margin-top: 18px; padding: 14px; border-left: 3px solid var(--red); background: #f0e7d8; }
+.city-planning-tip p { color: #584f42; font-size: .8rem; }
+.city-planning-tip strong { display: block; margin-bottom: 3px; color: var(--ink); }
+.city-side-note { background: var(--green); color: #fff; }
 .city-side-note .eyebrow { color: #efc678; }
 .city-side-note h2 { margin: 10px 0; font-size: 2rem; }
 .city-side-note > p:last-child { color: rgba(255,255,255,.7); }
@@ -681,6 +714,10 @@ button { color: inherit; }
   .route-day-nav > div > span { display: none; }
   .route-day-nav > div > div { width: 100%; }
   .page-content { padding-block: 38px 72px; }
+  .city-comparison { padding: 22px 18px; }
+  .city-comparison > header { align-items: flex-start; flex-direction: column; gap: 10px; }
+  .city-comparison-hint { display: block; }
+  .city-table-wrap table { min-width: 900px; }
   .filter-panel select { flex: 1; min-width: 145px; }
   .attraction-grid, .route-grid { grid-template-columns: 1fr; }
   .route-comparison { padding: 22px 18px; }
@@ -690,7 +727,7 @@ button { color: inherit; }
   .detail-hero, .city-detail-hero { min-height: 500px; }
   .detail-layout, .city-detail-layout, .route-detail-layout { grid-template-columns: 1fr; padding-block: 52px 72px; }
   .detail-sidebar, .route-sidebar { grid-row: auto; }
-  .planning-card, .city-side-note, .route-summary-card { position: static; }
+  .planning-card, .city-sidebar, .route-summary-card { position: static; }
   .highlight-list, .info-grid { grid-template-columns: 1fr; }
   .city-card { grid-template-columns: 1fr; }
   .city-card-image { aspect-ratio: 16/9; }

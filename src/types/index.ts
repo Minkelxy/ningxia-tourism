@@ -65,6 +65,10 @@ export interface City {
   pinyin: CityId;
   travelRole: string;
   connectionNote: string;
+  suggestedStay: string;
+  arrivalNote: string;
+  bestFor: string[];
+  planningTip: string;
   nickname: string;
   introduction: string;
   history: string;

@@ -76,6 +76,10 @@ export const validateContentData = (journalEntries: JournalEntry[] = [], journal
   if (attractions.filter((item) => item.status === 'draft').length !== 11) errors.push('草稿景点应为 11 个');
   if (cities.length !== 5) errors.push('城市数据应为 5 个');
   if (routes.length !== 7) errors.push('推荐路线应为 7 条');
+  for (const city of cities) {
+    if (!city.suggestedStay || !city.arrivalNote || !city.planningTip || city.bestFor.length < 2) errors.push(`${city.id}: 缺少停留、抵达、适合人群或行程提醒`);
+    if (city.bestFor.some((item) => !item.trim())) errors.push(`${city.id}: 适合人群标签不能为空`);
+  }
   for (const item of attractions) {
     if (!cityIds.has(item.cityId)) errors.push(`${item.id}: cityId 无效`);
     if (!categories.has(item.category)) errors.push(`${item.id}: category 无效`);

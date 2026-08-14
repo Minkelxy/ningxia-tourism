@@ -3,6 +3,7 @@
 1. 景点、城市和路线只在 `src/data/attractions.ts`、`cities.ts` 和 `routes.ts` 中维护，不再复制 JSON 副本。
 2. 新景点先以 `draft` 加入，完成字段、来源和图片许可核对后再改为 `published`。
 3. 坐标统一使用 WGS84；县区写入 `locality`，地级市只能使用五个固定 `cityId`。
+   每座城市还必须维护 `suggestedStay`、`arrivalNote`、`bestFor` 和 `planningTip`，用于五城比较与详情页决策卡；这些字段应写成稳定的编辑建议，避免未经来源支撑的精确交通耗时。
 4. 路线中的正式景点必须引用现有 `attractionId`；夜市、酒店等普通地点必须填写 `mapQuery`。
    每条路线还必须维护 `pace`、`walkingLevel` 和 `transportSummary`，用于路线筛选、横向比较和详情页体力提示。
 5. 每次修改后先运行 `npm run validate:data`，再运行 `npm run check && npm test && npm run build`。

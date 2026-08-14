@@ -20,6 +20,9 @@ test('首页、景点筛选与详情可以连续浏览', async ({ page }) => {
 test('城市详情和路线详情可直接访问', async ({ page }) => {
   await page.goto(`${appBase}city/yinchuan`);
   await expect(page.getByRole('heading', { level: 1, name: '银川市' })).toBeVisible();
+  await expect(page.getByText('2—3 晚')).toBeVisible();
+  await expect(page.getByRole('heading', { name: '适不适合放进这趟行程' })).toBeVisible();
+  await expect(page.getByText(/西夏陵、镇北堡都在远郊西线/)).toBeVisible();
   await expect(page.getByText(/个公开景点/).first()).toBeVisible();
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/ningxia-tourism\/city\/yinchuan$|\/city\/yinchuan$/);
 
@@ -51,6 +54,16 @@ test('路线筛选同步地址并展示内容核实概览', async ({ page }) => 
   await expect(page.getByRole('status')).toContainText('1 条路线');
   await expect(page.locator('.route-table-wrap tbody tr')).toHaveCount(1);
   await expect(page.getByRole('region', { name: '路线横向比较表' })).toBeVisible();
+});
+
+test('五城概览支持横向比较旅行节奏', async ({ page }) => {
+  await page.goto(`${appBase}cities`);
+  const table = page.getByRole('region', { name: '五城旅行比较表' });
+  await expect(table).toBeVisible();
+  await expect(table.locator('tbody tr')).toHaveCount(5);
+  await expect(table.getByRole('row', { name: /吴忠市/ })).toContainText('中华黄河楼和黄河坛不是同一个地点');
+  await expect(page.locator('.city-card')).toHaveCount(5);
+  await expect(page.getByRole('link', { name: '查看城市指南' })).toHaveCount(5);
 });
 
 test('网络资料与区域配图说明透明可见', async ({ page }) => {
