@@ -25,7 +25,7 @@ export default function Header() {
   return (
     <header className="site-header">
       <div className="site-header-inner">
-        <Link to="/" className="brand" aria-label="塞上江南 宁夏旅行地图首页">
+        <Link to="/" className="brand">
           <span className="brand-mark"><Map aria-hidden="true" /></span>
           <span><strong>塞上江南</strong><small>宁夏旅行地图</small></span>
         </Link>

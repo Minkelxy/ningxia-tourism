@@ -17,6 +17,18 @@ test('首页、景点筛选与详情可以连续浏览', async ({ page }) => {
   await expect(page.locator('.source-list').getByText(/直接专页 · 景点概况/).first()).toBeVisible();
 });
 
+test('首页可按天数缩小路线范围并阅读最新专题', async ({ page }) => {
+  await page.goto(appBase);
+  const fiveDays = page.getByRole('button', { name: '5 天' });
+  await fiveDays.click();
+  await expect(fiveDays).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.home-route-result-heading')).toContainText('1 条 5 天路线');
+  await expect(page.getByRole('link', { name: /五日全景深度游/ })).toBeVisible();
+  await expect(page.getByRole('link', { name: /打开完整筛选/ })).toHaveAttribute('href', /routes\?duration=5/);
+  await expect(page.locator('.home-topic-card')).toHaveCount(3);
+  await expect(page.getByRole('heading', { name: /黄河楼和黄河坛不是一处/ })).toBeVisible();
+});
+
 test('城市详情和路线详情可直接访问', async ({ page }) => {
   await page.goto(`${appBase}city/yinchuan`);
   await expect(page.getByRole('heading', { level: 1, name: '银川市' })).toBeVisible();
