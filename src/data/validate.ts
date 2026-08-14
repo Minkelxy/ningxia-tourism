@@ -2,12 +2,12 @@ import type { JournalEntry } from '../types';
 import { attractions, publishedAttractions } from './attractions';
 import { cities } from './cities';
 import { routes } from './routes';
+import { siteDateString } from '../lib/site';
 
 const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 const validImage = (image?: JournalEntry['cover']) => Boolean(image?.src && image.alt && image.credit && image.license && image.sourceUrl);
 const validDate = (value: string) => datePattern.test(value) && !Number.isNaN(Date.parse(`${value}T00:00:00Z`));
-const localDate = new Date();
-const today = `${localDate.getFullYear()}-${String(localDate.getMonth() + 1).padStart(2, '0')}-${String(localDate.getDate()).padStart(2, '0')}`;
+const today = siteDateString();
 const placeholderPattern = /(示例|演示用|示例店名|示例地址|待填写|example\.com)/i;
 
 export const hasStrictVerificationEvidence = (item: (typeof attractions)[number]) => {
