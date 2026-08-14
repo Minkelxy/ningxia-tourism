@@ -1,4 +1,5 @@
-import { ArrowRight, Clock3, Compass, MapPin, Search, SlidersHorizontal, Sparkles } from 'lucide-react';
+import { ArrowRight, ChevronDown, ChevronUp, Clock3, Compass, MapPin, Search, SlidersHorizontal, Sparkles } from 'lucide-react';
+import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import SEO from '../components/SEO';
 import ResponsiveImage from '../components/ResponsiveImage';
@@ -15,6 +16,8 @@ export default function AttractionsList() {
   const category = params.get('category') ?? 'all';
   const theme = params.get('theme') ?? '';
   const activeTheme = getAttractionThemeById(theme);
+  const activeFilterCount = [query.trim(), city !== 'all', category !== 'all', Boolean(activeTheme)].filter(Boolean).length;
+  const [filtersExpanded, setFiltersExpanded] = useState(() => activeFilterCount > 0);
 
   const setFilter = (name: string, value: string) => {
     const next = new URLSearchParams(params);
@@ -24,7 +27,7 @@ export default function AttractionsList() {
 
   const attractions = publishedAttractions.filter((item) => {
     const normalized = query.trim().toLocaleLowerCase('zh-CN');
-    const matchesQuery = !normalized || `${item.name}${item.locality}${item.summary}${item.highlights.join('')}`.toLocaleLowerCase('zh-CN').includes(normalized);
+    const matchesQuery = !normalized || `${item.name}${cityName(item.cityId)}${item.locality}${item.summary}${item.highlights.join('')}`.toLocaleLowerCase('zh-CN').includes(normalized);
     const matchesTheme = !activeTheme || activeTheme.attractionIds.includes(item.id);
     return matchesQuery && matchesTheme && (city === 'all' || item.cityId === city) && (category === 'all' || item.category === category);
   });
@@ -50,13 +53,23 @@ export default function AttractionsList() {
           </div>
         </section>
 
-        <section className="filter-panel" aria-label="景点筛选">
+        <div className="mobile-filter-bar">
+          <button type="button" className="mobile-filter-toggle" aria-expanded={filtersExpanded} aria-controls="attraction-filters" onClick={() => setFiltersExpanded((current) => !current)}>
+            <SlidersHorizontal aria-hidden="true" />
+            <span>筛选景点</span>
+            {activeFilterCount > 0 && <strong aria-label={`${activeFilterCount} 个筛选条件`}>{activeFilterCount}</strong>}
+            {filtersExpanded ? <ChevronUp aria-hidden="true" /> : <ChevronDown aria-hidden="true" />}
+          </button>
+          <a href="#attraction-results">{attractions.length} 个结果</a>
+        </div>
+
+        <section id="attraction-filters" className={`filter-panel ${filtersExpanded ? 'is-expanded' : 'is-collapsed'}`} aria-label="景点筛选">
           <label className="search-field"><Search aria-hidden="true" /><span className="sr-only">搜索景点</span><input value={query} onChange={(event) => setFilter('q', event.target.value)} placeholder="搜索景点、城市或亮点" /></label>
           <label><span><MapPin aria-hidden="true" /> 城市</span><select value={city} onChange={(event) => setFilter('city', event.target.value)}><option value="all">全部城市</option>{cities.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
           <label><span><SlidersHorizontal aria-hidden="true" /> 类型</span><select value={category} onChange={(event) => setFilter('category', event.target.value)}><option value="all">全部类型</option>{Object.entries(categoryMeta).map(([value, meta]) => <option key={value} value={value}>{meta.label}</option>)}</select></label>
         </section>
 
-        <div className="result-summary"><strong>{attractions.length}</strong> 个符合条件的景点{activeTheme && <span className="active-filter-note">主题：{activeTheme.label}</span>}{(query || city !== 'all' || category !== 'all' || activeTheme) && <button type="button" onClick={() => setParams({})}>清除筛选</button>}</div>
+        <div id="attraction-results" className="result-summary" role="status" aria-live="polite"><strong>{attractions.length}</strong> 个符合条件的景点{activeTheme && <span className="active-filter-note">主题：{activeTheme.label}</span>}{activeFilterCount > 0 && <button type="button" onClick={() => { setParams({}); setFiltersExpanded(false); }}>清除筛选</button>}</div>
 
         {attractions.length ? <div className="attraction-grid">{attractions.map((item) => {
           const meta = categoryMeta[item.category as AttractionCategory];

@@ -13,8 +13,8 @@ describe('公开内容数据', () => {
 
   it('保持当前公开内容数量稳定', () => {
     expect(cities).toHaveLength(5);
-    expect(publishedAttractions).toHaveLength(20);
-    expect(verifiedAttractions).toHaveLength(18);
+    expect(publishedAttractions).toHaveLength(21);
+    expect(verifiedAttractions).toHaveLength(19);
     expect(reviewAttractions).toHaveLength(2);
     expect(attractions.filter((item) => item.status === 'draft')).toHaveLength(1);
     expect(routes).toHaveLength(7);
@@ -108,6 +108,17 @@ describe('公开内容数据', () => {
       expect(item?.sources.some((source) => source.level === 'direct' && source.coverage.includes('visit'))).toBe(true);
       expect(Object.values(item?.visitInfo ?? {}).every(Boolean)).toBe(true);
     }
+  });
+
+  it('北武当补齐石嘴山城区山地目的地并说明等级与配图边界', () => {
+    const beiwudang = publishedAttractions.find((attraction) => attraction.id === 'beiwudang');
+    expect(beiwudang?.cityId).toBe('shizuishan');
+    expect(beiwudang?.locality).toBe('大武口区');
+    expect(beiwudang?.verificationLevel).toBe('verified');
+    expect(hasStrictVerificationEvidence(beiwudang!)).toBe(true);
+    expect(beiwudang?.verificationNote).toContain('现行 A 级名录确认其为 4A');
+    expect(beiwudang?.images[0].alt).toContain('编辑插画');
+    expect(beiwudang?.nearbyIds).toContain('shahu');
   });
 
   it('盐池革命历史纪念园使用现行名称并由红色路线直接引用', () => {

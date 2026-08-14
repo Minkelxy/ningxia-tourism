@@ -13,7 +13,7 @@ export const attractionThemes: AttractionTheme[] = [
     label: '第一次来',
     title: '先看最有辨识度的宁夏',
     description: '历史、沙水、山地和湿地各选一处，适合初次建立目的地印象。',
-    attractionIds: ['xixiawangling', 'shahu', 'shapotou', 'huangyeguda', 'suyukou', 'zhongweijinshadao'],
+    attractionIds: ['xixiawangling', 'shahu', 'beiwudang', 'shapotou', 'huangyeguda', 'suyukou', 'zhongweijinshadao'],
     tone: 'sand',
   },
   {

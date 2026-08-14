@@ -5,9 +5,12 @@ const appBase = process.env.VITE_BASE_URL ?? '/';
 test('首页、景点筛选与详情可以连续浏览', async ({ page }) => {
   await page.goto(appBase);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('宁夏');
-  await expect(page.getByText('18 个已核实 · 2 个待复核')).toBeVisible();
+  await expect(page.getByText('19 个已核实 · 2 个待复核')).toBeVisible();
 
   await page.getByRole('link', { name: '精选景点' }).first().click();
+  if ((page.viewportSize()?.width ?? 999) <= 768) {
+    await page.getByRole('button', { name: /筛选景点/ }).click();
+  }
   await page.getByPlaceholder('搜索景点、城市或亮点').fill('沙坡头');
   await expect(page.getByRole('heading', { name: '沙坡头' })).toBeVisible();
   await page.getByRole('heading', { name: '沙坡头' }).getByRole('link').click();
@@ -47,6 +50,14 @@ test('地图支持键盘进入城市、选择区县和切换交通图层', async
 
 test('景点页支持按旅行兴趣发现新增目的地', async ({ page }) => {
   await page.goto(`${appBase}attractions`);
+  if ((page.viewportSize()?.width ?? 999) <= 768) {
+    const filterToggle = page.getByRole('button', { name: /筛选景点/ });
+    await expect(filterToggle).toHaveAttribute('aria-expanded', 'false');
+    await expect(page.getByRole('region', { name: '景点筛选' })).toBeHidden();
+    await filterToggle.click();
+    await expect(filterToggle).toHaveAttribute('aria-expanded', 'true');
+    await expect(page.getByRole('region', { name: '景点筛选' })).toBeVisible();
+  }
   if ((page.viewportSize()?.width ?? 999) <= 480) {
     const layout = await page.locator('.attraction-theme-grid').evaluate((element) => ({
       trackWidth: element.scrollWidth,
@@ -57,6 +68,13 @@ test('景点页支持按旅行兴趣发现新增目的地', async ({ page }) => 
     expect(layout.trackWidth).toBeGreaterThan(layout.visibleWidth);
     expect(layout.pageWidth).toBeLessThanOrEqual(layout.viewportWidth + 1);
   }
+
+  await page.getByPlaceholder('搜索景点、城市或亮点').fill('石嘴山');
+  await expect(page.locator('.attraction-card')).toHaveCount(2);
+  await expect(page.getByRole('heading', { name: '沙湖生态旅游区' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '北武当生态旅游区' })).toBeVisible();
+  await page.getByPlaceholder('搜索景点、城市或亮点').fill('');
+
   const ancientTheme = page.getByRole('button', { name: /时间深处/ });
   await ancientTheme.click();
   await expect(page).toHaveURL(/theme=ancient-traces/);
@@ -83,6 +101,12 @@ test('景点页支持按旅行兴趣发现新增目的地', async ({ page }) => 
   await page.goto(`${appBase}attraction/mingcuihu`);
   await expect(page.getByRole('heading', { level: 1, name: '鸣翠湖国家湿地公园' })).toBeVisible();
   await expect(page.getByText(/塞上江南/).first()).toBeVisible();
+  await expect(page.locator('.source-list a')).toHaveCount(3);
+
+  await page.goto(`${appBase}attraction/beiwudang`);
+  await expect(page.getByRole('heading', { level: 1, name: '北武当生态旅游区' })).toBeVisible();
+  await expect(page.getByText(/现行 A 级名录确认其为 4A/)).toBeVisible();
+  await expect(page.locator('.image-credit > strong')).toHaveText(/编辑插画/);
   await expect(page.locator('.source-list a')).toHaveCount(3);
 
   await page.goto(`${appBase}attraction/huangshagudu`);
