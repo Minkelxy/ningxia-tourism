@@ -5,7 +5,7 @@ const appBase = process.env.VITE_BASE_URL ?? '/';
 test('首页、景点筛选与详情可以连续浏览', async ({ page }) => {
   await page.goto(appBase);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('宁夏');
-  await expect(page.getByText('9 个已核实 · 2 个待复核')).toBeVisible();
+  await expect(page.getByText('12 个已核实 · 2 个待复核')).toBeVisible();
 
   await page.getByRole('link', { name: '精选景点' }).first().click();
   await page.getByPlaceholder('搜索景点、城市或亮点').fill('沙坡头');
@@ -43,6 +43,27 @@ test('地图支持键盘进入城市、选择区县和切换交通图层', async
   const transport = map.getByRole('button', { name: '交通' });
   await transport.click();
   await expect(transport).toHaveAttribute('aria-pressed', 'true');
+});
+
+test('景点页支持按旅行兴趣发现新增目的地', async ({ page }) => {
+  await page.goto(`${appBase}attractions`);
+  const ancientTheme = page.getByRole('button', { name: /时间深处/ });
+  await ancientTheme.click();
+  await expect(page).toHaveURL(/theme=ancient-traces/);
+  await expect(ancientTheme).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.attraction-card')).toHaveCount(4);
+  await expect(page.getByRole('heading', { name: '水洞沟旅游区' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '须弥山旅游区' })).toBeVisible();
+
+  await page.getByLabel('城市').selectOption('yinchuan');
+  await expect(page).toHaveURL(/city=yinchuan/);
+  await expect(page.locator('.attraction-card')).toHaveCount(3);
+
+  await page.goto(`${appBase}attraction/huangyeguda`);
+  await expect(page.getByRole('heading', { level: 1, name: '青铜峡黄河大峡谷旅游区' })).toBeVisible();
+  await expect(page.getByText(/十里长峡、青铜峡水利枢纽/)).toBeVisible();
+  await expect(page.locator('.source-list a')).toHaveCount(3);
+  await expect(page.locator('.image-credit > strong')).toHaveText(/青铜峡黄河大峡谷河谷实景/);
 });
 
 test('城市详情和路线详情可直接访问', async ({ page }) => {

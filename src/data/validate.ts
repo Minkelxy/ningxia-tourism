@@ -1,6 +1,7 @@
 import type { JournalEntry } from '../types';
 import { attractions, publishedAttractions } from './attractions';
 import { cities } from './cities';
+import { attractionThemes } from './discovery';
 import { routes } from './routes';
 import { siteDateString } from '../lib/site';
 
@@ -72,8 +73,8 @@ export const validateContentData = (journalEntries: JournalEntry[] = [], journal
   const routePaces = new Set(['relaxed', 'balanced', 'intensive']);
   const walkingLevels = new Set(['low', 'medium', 'high']);
   if (ids.length !== idSet.size) errors.push('景点 ID 存在重复');
-  if (publishedAttractions.length !== 11) errors.push(`公开景点应为 11 个，当前为 ${publishedAttractions.length} 个`);
-  if (attractions.filter((item) => item.status === 'draft').length !== 11) errors.push('草稿景点应为 11 个');
+  if (publishedAttractions.length !== 14) errors.push(`公开景点应为 14 个，当前为 ${publishedAttractions.length} 个`);
+  if (attractions.filter((item) => item.status === 'draft').length !== 8) errors.push('草稿景点应为 8 个');
   if (cities.length !== 5) errors.push('城市数据应为 5 个');
   if (routes.length !== 7) errors.push('推荐路线应为 7 条');
   for (const city of cities) {
@@ -103,6 +104,14 @@ export const validateContentData = (journalEntries: JournalEntry[] = [], journal
     }
     for (const value of Object.values(item.visitInfo)) if (!value || value === '资料核实中') errors.push(`${item.id}: 正式景点实用信息不完整`);
     for (const nearbyId of item.nearbyIds) if (!publishedIds.has(nearbyId)) errors.push(`${item.id}: 周边景点 ${nearbyId} 未发布`);
+  }
+  const themeIds = new Set<string>();
+  for (const theme of attractionThemes) {
+    if (themeIds.has(theme.id)) errors.push(`景点主题 ID 重复: ${theme.id}`);
+    themeIds.add(theme.id);
+    if (!theme.label || !theme.title || !theme.description || theme.attractionIds.length < 3) errors.push(`${theme.id}: 景点主题内容不完整`);
+    if (new Set(theme.attractionIds).size !== theme.attractionIds.length) errors.push(`${theme.id}: 景点主题引用重复`);
+    for (const attractionId of theme.attractionIds) if (!publishedIds.has(attractionId)) errors.push(`${theme.id}: 引用了未发布景点 ${attractionId}`);
   }
   const routeIds = new Set<string>();
   for (const route of routes) {

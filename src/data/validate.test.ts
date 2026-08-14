@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { attractions, publishedAttractions, reviewAttractions, verifiedAttractions } from './attractions';
 import { journalEntries, journalErrors, publishedJournalEntries } from '../content/journal';
 import { cities } from './cities';
+import { attractionThemes } from './discovery';
 import { routes } from './routes';
 import { hasStrictVerificationEvidence, validateContentData } from './validate';
 
@@ -10,12 +11,12 @@ describe('公开内容数据', () => {
     expect(validateContentData(journalEntries, journalErrors)).toEqual([]);
   });
 
-  it('保持首期公开内容数量稳定', () => {
+  it('保持当前公开内容数量稳定', () => {
     expect(cities).toHaveLength(5);
-    expect(publishedAttractions).toHaveLength(11);
-    expect(verifiedAttractions).toHaveLength(9);
+    expect(publishedAttractions).toHaveLength(14);
+    expect(verifiedAttractions).toHaveLength(12);
     expect(reviewAttractions).toHaveLength(2);
-    expect(attractions.filter((item) => item.status === 'draft')).toHaveLength(11);
+    expect(attractions.filter((item) => item.status === 'draft')).toHaveLength(8);
     expect(routes).toHaveLength(7);
     expect(publishedJournalEntries).toHaveLength(4);
     expect(publishedJournalEntries.every((entry) => entry.type === 'guide' && entry.contentKind === 'editorial')).toBe(true);
@@ -68,5 +69,21 @@ describe('公开内容数据', () => {
     expect(liupanshan?.name).toBe('六盘山红军长征旅游区');
     expect(liupanshan?.locality).toBe('隆德县');
     expect(liupanshan?.summary).toContain('不指泾源县');
+  });
+
+  it('新增三处目的地具有直接来源、实景许可和完整实用字段', () => {
+    for (const id of ['shuidonggou', 'xumishan', 'huangyeguda']) {
+      const item = publishedAttractions.find((attraction) => attraction.id === id);
+      expect(item?.verificationLevel).toBe('verified');
+      expect(hasStrictVerificationEvidence(item!)).toBe(true);
+      expect(item?.images[0].sourceUrl).toContain('commons.wikimedia.org');
+      expect(Object.values(item?.visitInfo ?? {}).every(Boolean)).toBe(true);
+    }
+  });
+
+  it('四组发现主题只引用公开景点', () => {
+    const publishedIds = new Set(publishedAttractions.map((item) => item.id));
+    expect(attractionThemes).toHaveLength(4);
+    expect(attractionThemes.flatMap((theme) => theme.attractionIds).every((id) => publishedIds.has(id))).toBe(true);
   });
 });
