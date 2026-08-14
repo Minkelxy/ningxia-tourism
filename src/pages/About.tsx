@@ -1,5 +1,6 @@
 import { ExternalLink, FileCheck2, Image, MapPinned, NotebookPen, RefreshCcw, ShieldCheck } from 'lucide-react';
 import SEO from '../components/SEO';
+import { routes } from '../data/routes';
 
 export default function About() {
   return (
@@ -7,7 +8,7 @@ export default function About() {
       <SEO title="关于本站 · 宁夏旅行地图" description="了解宁夏旅行地图的证据分级、个人手记、资料专题、图片许可、修订方式和使用边界。" />
       <header className="page-hero compact-hero"><div className="section-shell"><p className="eyebrow">关于本站</p><h1>让漂亮的旅行网站，<br />也对信息负责。</h1><p>这是一个开源、非官方的宁夏旅行规划项目。我们区分官方事实、规划建议与个人体验，也明确告诉你哪些信息仍需在出发前确认。</p></div></header>
       <div className="section-shell about-layout">
-        <section className="about-intro"><p className="eyebrow">我们在做什么</p><h2>用地图建立地理感，用路线减少决策成本</h2><p>宁夏景点分布跨度大，城市之间的顺序会直接影响体验。本站将五座城市、公开景点、七条主题路线与旅行手记放进同一套可校验的数据中。</p></section>
+        <section className="about-intro"><p className="eyebrow">我们在做什么</p><h2>用地图建立地理感，用路线减少决策成本</h2><p>宁夏景点分布跨度大，城市之间的顺序会直接影响体验。本站将五座城市、公开景点、{routes.length} 条主题路线与旅行手记放进同一套可校验的数据中。</p></section>
         <section className="method-grid">
           <article><FileCheck2 aria-hidden="true" /><h2>证据分级</h2><p>官方直接页面能支撑景点概况与位置时，才标为“已核实”；开放、票价等易变信息仍会单独提示出发前确认。</p></article>
           <article><Image aria-hidden="true" /><h2>图片说明</h2><p>图片保留作者、许可与原始页面。不是景点实景的区域配图会明确标注，但不会阻挡已有可靠文字资料公开。</p></article>

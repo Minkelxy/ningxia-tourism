@@ -798,6 +798,8 @@ button { color: inherit; }
   .home-topic-card:last-child { grid-column: auto; display: block; }
   .home-topic-card:last-child .home-topic-image { aspect-ratio: 8 / 5; }
   .page-hero, .route-hero { padding-block: 62px; }
+  .page-hero.compact-hero, .route-hero.compact-hero { padding-block: 44px; }
+  .page-hero.compact-hero h1, .route-hero.compact-hero h1 { font-size: clamp(2.35rem, 10vw, 3.7rem); }
   .route-day-nav > div { min-height: 66px; }
   .route-day-nav > div > span { display: none; }
   .route-day-nav > div > div { width: 100%; }
@@ -811,13 +813,15 @@ button { color: inherit; }
   .mobile-filter-bar > a { min-height: 48px; display: inline-flex; align-items: center; padding-inline: 12px; color: var(--green); font-size: .78rem; font-weight: 800; white-space: nowrap; }
   .filter-panel.is-collapsed { display: none; }
   .filter-panel.is-expanded { margin-top: 0; }
+  .route-filter.is-collapsed { display: none; }
+  .route-filter.is-expanded { margin-top: 0; }
   .city-comparison { padding: 22px 18px; }
   .city-comparison > header { align-items: flex-start; flex-direction: column; gap: 10px; }
   .city-comparison-hint { display: block; }
   .city-table-wrap table { min-width: 900px; }
   .filter-panel select { flex: 1; min-width: 145px; }
   .attraction-grid, .route-grid { grid-template-columns: 1fr; }
-  .route-comparison { padding: 22px 18px; }
+  .route-comparison { display: none; }
   .route-comparison > header { align-items: flex-start; flex-direction: column; gap: 10px; }
   .route-comparison-hint { display: block; }
   .route-table-wrap table { min-width: 760px; }
@@ -872,6 +876,9 @@ button { color: inherit; }
   .home-day-picker button { min-height: 54px; padding-inline: 3px; }
   .home-day-picker button strong { font-size: 1.25rem; }
   .home-guide-teaser { width: calc(100% - 24px); padding: 28px 22px; }
+  .page-hero.compact-hero, .route-hero.compact-hero { padding-block: 34px; }
+  .page-hero.compact-hero h1, .route-hero.compact-hero h1 { margin-block: 10px 14px; font-size: 2.35rem; line-height: 1.08; }
+  .page-hero.compact-hero .section-shell > p:last-child, .route-hero.compact-hero .section-shell > p:last-child { font-size: .9rem; }
   .filter-panel { flex-direction: column; }
   .attraction-themes { padding: 24px 18px; }
   .attraction-theme-grid { display: flex; gap: 10px; margin-right: -18px; padding: 2px 18px 10px 0; overflow-x: auto; overscroll-behavior-inline: contain; scroll-padding-inline: 0 18px; scroll-snap-type: inline mandatory; }

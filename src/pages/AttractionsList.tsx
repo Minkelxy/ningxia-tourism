@@ -39,20 +39,6 @@ export default function AttractionsList() {
         <div className="section-shell"><p className="eyebrow">精选目的地</p><h1>{publishedAttractions.length} 个公开景点，按证据清晰分级</h1><p>{verifiedAttractions.length} 个核心资料已核实，{reviewAttractions.length} 个待复核。区域配图会明确说明；开放、票价与交通仍请在出发前查看最新网络与官方公告。</p></div>
       </header>
       <div className="section-shell page-content">
-        <section className="attraction-themes" aria-labelledby="attraction-themes-title">
-          <header><div><p className="eyebrow"><Sparkles aria-hidden="true" /> 按旅行兴趣</p><h2 id="attraction-themes-title">不知道选哪一处，先选一种走法</h2></div><p>这些组合不是固定行程，只帮你从不同兴趣快速缩小范围；还可以继续叠加城市、类型和关键词。</p></header>
-          <div className="attraction-theme-grid">
-            {attractionThemes.map((item) => (
-              <button type="button" key={item.id} className={`attraction-theme-card tone-${item.tone}`} aria-pressed={theme === item.id} onClick={() => setFilter('theme', theme === item.id ? 'all' : item.id)}>
-                <span><Compass aria-hidden="true" /> {item.label}</span>
-                <strong>{item.title}</strong>
-                <small>{item.description}</small>
-                <em>{item.attractionIds.length} 处目的地</em>
-              </button>
-            ))}
-          </div>
-        </section>
-
         <div className="mobile-filter-bar">
           <button type="button" className="mobile-filter-toggle" aria-expanded={filtersExpanded} aria-controls="attraction-filters" onClick={() => setFiltersExpanded((current) => !current)}>
             <SlidersHorizontal aria-hidden="true" />
@@ -70,6 +56,20 @@ export default function AttractionsList() {
         </section>
 
         <div id="attraction-results" className="result-summary" role="status" aria-live="polite"><strong>{attractions.length}</strong> 个符合条件的景点{activeTheme && <span className="active-filter-note">主题：{activeTheme.label}</span>}{activeFilterCount > 0 && <button type="button" onClick={() => { setParams({}); setFiltersExpanded(false); }}>清除筛选</button>}</div>
+
+        <section className="attraction-themes" aria-labelledby="attraction-themes-title">
+          <header><div><p className="eyebrow"><Sparkles aria-hidden="true" /> 按旅行兴趣</p><h2 id="attraction-themes-title">不知道选哪一处，先选一种走法</h2></div><p>这些组合不是固定行程，只帮你从不同兴趣快速缩小范围；还可以继续叠加城市、类型和关键词。</p></header>
+          <div className="attraction-theme-grid">
+            {attractionThemes.map((item) => (
+              <button type="button" key={item.id} className={`attraction-theme-card tone-${item.tone}`} aria-pressed={theme === item.id} onClick={() => setFilter('theme', theme === item.id ? 'all' : item.id)}>
+                <span><Compass aria-hidden="true" /> {item.label}</span>
+                <strong>{item.title}</strong>
+                <small>{item.description}</small>
+                <em>{item.attractionIds.length} 处目的地</em>
+              </button>
+            ))}
+          </div>
+        </section>
 
         {attractions.length ? <div className="attraction-grid">{attractions.map((item) => {
           const meta = categoryMeta[item.category as AttractionCategory];

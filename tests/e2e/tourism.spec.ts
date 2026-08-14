@@ -5,7 +5,7 @@ const appBase = process.env.VITE_BASE_URL ?? '/';
 test('首页、景点筛选与详情可以连续浏览', async ({ page }) => {
   await page.goto(appBase);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('宁夏');
-  await expect(page.getByText('19 个已核实 · 2 个待复核')).toBeVisible();
+  await expect(page.getByText('20 个已核实 · 2 个待复核')).toBeVisible();
 
   await page.getByRole('link', { name: '精选景点' }).first().click();
   if ((page.viewportSize()?.width ?? 999) <= 768) {
@@ -70,9 +70,10 @@ test('景点页支持按旅行兴趣发现新增目的地', async ({ page }) => 
   }
 
   await page.getByPlaceholder('搜索景点、城市或亮点').fill('石嘴山');
-  await expect(page.locator('.attraction-card')).toHaveCount(2);
+  await expect(page.locator('.attraction-card')).toHaveCount(3);
   await expect(page.getByRole('heading', { name: '沙湖生态旅游区' })).toBeVisible();
   await expect(page.getByRole('heading', { name: '北武当生态旅游区' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '大武口工业遗址公园' })).toBeVisible();
   await page.getByPlaceholder('搜索景点、城市或亮点').fill('');
 
   const ancientTheme = page.getByRole('button', { name: /时间深处/ });
@@ -107,6 +108,12 @@ test('景点页支持按旅行兴趣发现新增目的地', async ({ page }) => 
   await expect(page.getByRole('heading', { level: 1, name: '北武当生态旅游区' })).toBeVisible();
   await expect(page.getByText(/现行 A 级名录确认其为 4A/)).toBeVisible();
   await expect(page.locator('.image-credit > strong')).toHaveText(/编辑插画/);
+  await expect(page.locator('.source-list a')).toHaveCount(3);
+
+  await page.goto(`${appBase}attraction/dawukou-industrial`);
+  await expect(page.getByRole('heading', { level: 1, name: '大武口工业遗址公园' })).toBeVisible();
+  await expect(page.getByText(/公共园区和内部展馆没有统一开放口径/)).toBeVisible();
+  await expect(page.locator('.image-credit > strong')).toHaveText(/非景区实景/);
   await expect(page.locator('.source-list a')).toHaveCount(3);
 
   await page.goto(`${appBase}attraction/huangshagudu`);
@@ -148,10 +155,29 @@ test('城市详情和路线详情可直接访问', async ({ page }) => {
   await expect(evidenceCard.locator('dd').nth(0)).toHaveText('5');
   await expect(page.getByText('适中节奏').first()).toBeVisible();
   await expect(page.getByRole('heading', { name: '先判断这条路线是否适合你' })).toBeVisible();
+
+  await page.goto(`${appBase}routes/shizuishan-2day`);
+  await expect(page.getByRole('heading', { level: 1, name: '山湖与工业石嘴山两日游' })).toBeVisible();
+  await expect(page.locator('.route-day')).toHaveCount(2);
+  await expect(page.locator('.stop-verification.verified')).toHaveCount(3);
+  await expect(page.getByRole('link', { name: '大武口工业遗址公园' })).toBeVisible();
 });
 
 test('路线筛选同步地址并展示内容核实概览', async ({ page }) => {
   await page.goto(`${appBase}routes`);
+  if ((page.viewportSize()?.width ?? 999) <= 768) {
+    const filterToggle = page.getByRole('button', { name: /筛选路线/ });
+    await expect(filterToggle).toHaveAttribute('aria-expanded', 'false');
+    await filterToggle.click();
+    await expect(filterToggle).toHaveAttribute('aria-expanded', 'true');
+  }
+  const cityFilter = page.getByRole('button', { name: '石嘴山' });
+  await cityFilter.click();
+  await expect(page).toHaveURL(/city=shizuishan/);
+  await expect(page.getByRole('status')).toContainText('3 条路线');
+  await expect(page.getByRole('heading', { name: '山湖与工业石嘴山两日游' })).toBeVisible();
+  await page.getByRole('button', { name: '清除筛选' }).click();
+  if ((page.viewportSize()?.width ?? 999) <= 768) await page.getByRole('button', { name: /筛选路线/ }).click();
   const panoramaFilter = page.getByRole('button', { name: '全景路线' });
   await panoramaFilter.click();
   await expect(page).toHaveURL(/theme=panorama/);
@@ -164,8 +190,13 @@ test('路线筛选同步地址并展示内容核实概览', async ({ page }) => 
   await expect(page).toHaveURL(/pace=relaxed/);
   await expect(relaxedFilter).toHaveAttribute('aria-pressed', 'true');
   await expect(page.getByRole('status')).toContainText('1 条路线');
-  await expect(page.locator('.route-table-wrap tbody tr')).toHaveCount(1);
-  await expect(page.getByRole('region', { name: '路线横向比较表' })).toBeVisible();
+  if ((page.viewportSize()?.width ?? 999) > 768) {
+    await expect(page.locator('.route-table-wrap tbody tr')).toHaveCount(1);
+    await expect(page.getByRole('region', { name: '路线横向比较表' })).toBeVisible();
+  } else {
+    await expect(page.getByRole('region', { name: '路线横向比较表' })).toBeHidden();
+    await expect(page.locator('.route-card')).toHaveCount(1);
+  }
 });
 
 test('五城概览支持横向比较旅行节奏', async ({ page }) => {

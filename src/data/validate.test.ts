@@ -13,11 +13,11 @@ describe('公开内容数据', () => {
 
   it('保持当前公开内容数量稳定', () => {
     expect(cities).toHaveLength(5);
-    expect(publishedAttractions).toHaveLength(21);
-    expect(verifiedAttractions).toHaveLength(19);
+    expect(publishedAttractions).toHaveLength(22);
+    expect(verifiedAttractions).toHaveLength(20);
     expect(reviewAttractions).toHaveLength(2);
     expect(attractions.filter((item) => item.status === 'draft')).toHaveLength(1);
-    expect(routes).toHaveLength(7);
+    expect(routes).toHaveLength(8);
     expect(publishedJournalEntries).toHaveLength(9);
     expect(publishedJournalEntries.every((entry) => entry.type === 'guide' && entry.contentKind === 'editorial')).toBe(true);
     expect(publishedJournalEntries[0].slug).toBe('zhongwei-sand-water-choice');
@@ -119,6 +119,19 @@ describe('公开内容数据', () => {
     expect(beiwudang?.verificationNote).toContain('现行 A 级名录确认其为 4A');
     expect(beiwudang?.images[0].alt).toContain('编辑插画');
     expect(beiwudang?.nearbyIds).toContain('shahu');
+  });
+
+  it('大武口工业遗址公园与石嘴山两日路线形成城市内容闭环', () => {
+    const industrial = publishedAttractions.find((attraction) => attraction.id === 'dawukou-industrial');
+    const cityRoute = routes.find((route) => route.id === 'shizuishan-2day');
+    expect(industrial?.cityId).toBe('shizuishan');
+    expect(industrial?.locality).toBe('大武口区');
+    expect(industrial?.verificationLevel).toBe('verified');
+    expect(hasStrictVerificationEvidence(industrial!)).toBe(true);
+    expect(industrial?.images[0].alt).toContain('非景区实景');
+    expect(industrial?.verificationNote).toContain('公共园区和内部展馆');
+    expect(cityRoute?.days).toHaveLength(2);
+    expect(cityRoute?.days.flatMap((day) => day.stops).filter((stop) => stop.attractionId).map((stop) => stop.attractionId)).toEqual(['shahu', 'beiwudang', 'dawukou-industrial']);
   });
 
   it('盐池革命历史纪念园使用现行名称并由红色路线直接引用', () => {

@@ -33,6 +33,24 @@ export const routes: RoutePlan[] = [
     ],
   },
   {
+    id: 'shizuishan-2day', name: '山湖与工业石嘴山两日游', theme: 'weekend', themeLabel: '山湖工业', durationDays: 2, durationLabel: '2 天',
+    audience: '想把沙湖之外的石嘴山也看完整、可接受公路接驳的游客', budget: '约 900—1,500 元/人，不含抵达宁夏的大交通，按 2026-08 行程结构估算', bestSeason: '5—10 月；冬季优先确认沙湖项目和山地开放范围', pace: 'balanced', walkingLevel: 'medium', transportSummary: '银川与石嘴山之间走公路，市域内建议自驾、包车或分段打车',
+    summary: '第一天在沙湖看沙水相依，第二天从贺兰山北段走进大武口的工业记忆。建议住一晚大武口，避免两天都从银川往返。',
+    highlights: ['沙湖生态旅游区', '北武当生态旅游区', '大武口工业遗址公园'], verifiedAt,
+    days: [
+      { day: 1, title: '先看沙湖，再住进大武口', summary: '把受天气影响较大的沙湖放在第一天，并给游船、沙漠项目留出弹性。', accommodation: '大武口城区', meals: ['午餐：沙湖景区或平罗县城', '晚餐：大武口城区'], stops: [
+        { time: '上午', title: '抵达沙湖', mapQuery: '宁夏沙湖生态旅游区', description: '到达后先查看游船、观鸟与沙漠体验的当日开放情况。', transport: '从银川或石嘴山方向自驾、包车或使用当日可查询到的旅游交通' },
+        { time: '全天', title: '沙湖生态旅游区', attractionId: 'shahu', description: '按天气和同行者体力，在湖泊、芦苇、沙丘与体验项目之间取舍。', tips: '不必为了打卡把所有收费项目排满，返程和入住时间保留弹性。' },
+        { time: '傍晚', title: '大武口城区', mapQuery: '石嘴山市大武口区人民路', description: '入住后安排轻量城市步行和晚餐，为第二天的山地与工业路线蓄力。', transport: '沙湖至大武口按实时导航安排，夜间避免临时寻找偏远住宿' },
+      ] },
+      { day: 2, title: '贺兰山北段与煤城记忆', summary: '上午安排山地生态，下午回到城区看工业遗产活化，体力和返程都更容易控制。', accommodation: '无或按返程安排续住大武口', meals: ['午餐：大武口城区', '晚餐：返程城市'], stops: [
+        { time: '上午', title: '北武当生态旅游区', attractionId: 'beiwudang', description: '根据防火期、天气和游线开放情况选择登高、森林公园或文化参观。', transport: '从大武口城区自驾、包车或打车，提前确认返程方式', tips: '山地游线临时关闭时，不向未开放沟谷继续深入。' },
+        { time: '下午', title: '大武口工业遗址公园', attractionId: 'dawukou-industrial', description: '从保留的洗煤厂建筑、输送设施和铁路空间理解石嘴山“因煤而兴”后的城市转型。', transport: '返回大武口城区后按景区全名导航', tips: '公共园区和内部展馆开放时段不同，先看当天公告，再决定参观顺序。' },
+        { time: '傍晚', title: '石嘴山站或大武口城区返程', mapQuery: '石嘴山站', description: '根据当日铁路和公路信息返回银川或继续下一段行程，不使用路线中的时间作为班次承诺。', transport: '铁路、城际客运或自驾均以出发日查询为准' },
+      ] },
+    ],
+  },
+  {
     id: 'classic-3day', name: '经典三日全景游', theme: 'panorama', themeLabel: '银川＋中卫', durationDays: 3, durationLabel: '3 天',
     audience: '希望一次覆盖宁夏最经典目的地的游客', budget: '约 2,000—3,200 元/人，不含往返大交通', bestSeason: '5—10 月', pace: 'balanced', walkingLevel: 'medium', transportSummary: '银川至中卫优先铁路，远郊景区使用包车或自驾',
     summary: '银川历史文化与中卫沙漠黄河的黄金组合，利用铁路连接两城，减少长距离自驾压力。',

@@ -151,7 +151,7 @@ const published: Attraction[] = [
       address: '石嘴山市平罗县境内',
     },
     images: [image('images/attractions/shahu.webp', '宁夏沙湖景区内的沙雕与沙丘', 'zengsx', 'CC BY-SA 3.0', 'https://commons.wikimedia.org/wiki/File:沙湖沙雕_-_panoramio.jpg')],
-    nearbyIds: ['beiwudang'],
+    nearbyIds: ['beiwudang', 'dawukou-industrial'],
     sources: [
       officialSource('宁夏沙湖旅游官方网站', 'https://www.nxshahu.com/', 'direct', ['overview', 'visit', 'location'], '2026-08-15'),
       officialSource('宁夏文旅厅 · 沙湖生态旅游区', 'https://whhlyt.nx.gov.cn/jqjd/szss_66574/nxshstlyq/', 'direct', ['overview', 'visit', 'location'], '2026-08-15'),
@@ -173,7 +173,7 @@ const published: Attraction[] = [
       address: '石嘴山市大武口区西北贺兰山东麓铁弹公路北头',
     },
     images: [image('images/attractions/beiwudang.webp', '北武当山地生态主题编辑插画（非景区实景）', 'OpenAI 图像生成（站点编辑提示词）', '项目编辑插画', 'https://github.com/Minkelxy/ningxia-tourism/blob/main/docs/IMAGE_PROVENANCE.md')],
-    nearbyIds: ['shahu'],
+    nearbyIds: ['shahu', 'dawukou-industrial'],
     sources: [
       officialSource('宁夏文旅厅 · 北武当生态旅游区', 'https://whhlyt.nx.gov.cn/jqjd/szss_66574/bwdstlyq/', 'direct', ['overview', 'visit', 'location'], '2026-08-15'),
       officialSource('宁夏文旅厅 · 宁夏 A 级旅游景区名录', 'https://whhlyt.nx.gov.cn/wlgz/202412/t20241212_4756344.html', 'directory', ['overview'], '2026-08-15'),
@@ -181,6 +181,29 @@ const published: Attraction[] = [
     ],
     verifiedAt: '2026-08-15',
     verificationNote: '景区组成、开放时段、参考票价和地址均有自治区文旅厅直接景区页支撑；现行 A 级名录确认其为 4A，优先级高于景区旧详情页残留的 3A 文案。坐标为景区片区级落点，外部导航应按名称搜索。配图为项目编辑插画，不作为实景证据。',
+  },
+  {
+    id: 'dawukou-industrial', status: 'published', verificationLevel: 'verified', name: '大武口工业遗址公园', cityId: 'shizuishan', locality: '大武口区', category: 'experience',
+    coordinates: { lng: 106.38, lat: 39.038 },
+    summary: '由原大武口洗煤厂更新而成的工业文化园区，保留厂房、输送设施与铁路记忆，并植入工业纪念馆、城市书房、文化展陈和公共活动空间。',
+    highlights: ['原洗煤厂工业建筑与设备', '宁夏工业纪念馆及研学空间', '工业遗产活化与城市公共文化'],
+    visitInfo: {
+      openingHours: '公共园区与内部展馆开放时段不同；政府直接页面未给出统一时间，宁夏工业纪念馆、陶瓷艺术馆等空间请按当天公告',
+      ticketPrice: '政府介绍未列统一门票；公共空间、展馆、活动和体验项目是否收费，以各入口与当天公示为准',
+      reservation: '普通公共空间未见统一预约要求；团队研学、讲解、展馆参观和大型活动建议提前确认',
+      duration: '2—3 小时', bestSeason: '全年；户外步行以春秋更舒适',
+      transportation: '从大武口城区打车、自驾或骑行较方便；使用“大武口工业遗址公园”或“大武口洗煤厂工业遗址公园”搜索，并以最新开放入口为准',
+      address: '石嘴山市大武口区原大武口洗煤厂片区（导航按景区全名并核对最新入口）',
+    },
+    images: [image('images/attractions/dawukou-industrial.webp', '大武口工业遗产活化主题编辑插画（非景区实景）', 'OpenAI 图像生成（站点编辑提示词）', '项目编辑插画', 'https://github.com/Minkelxy/ningxia-tourism/blob/main/docs/IMAGE_PROVENANCE.md')],
+    nearbyIds: ['beiwudang', 'shahu'],
+    sources: [
+      officialSource('大武口区人民政府 · 大武口工业遗址公园简介', 'https://www.dwk.gov.cn/zjdwk/whly/ly/202104/t20210409_2739311.html', 'direct', ['overview', 'location'], '2026-08-15'),
+      officialSource('大武口区人民政府 · 2026 年政协提案办理通报', 'https://www.dwk.gov.cn/xxgk/zfxxgkml/tabl/zxta/202606/t20260608_5259028.html', 'direct', ['overview', 'visit'], '2026-08-15'),
+      officialSource('宁夏文旅厅 · 宁夏 A 级旅游景区名录', 'https://whhlyt.nx.gov.cn/wlgz/202412/t20241212_4756344.html', 'directory', ['overview'], '2026-08-15'),
+    ],
+    verifiedAt: '2026-08-15',
+    verificationNote: '大武口区文旅部门直接页面确认其由原大武口洗煤厂更新而来、2020 年开园并于 2021 年获评 3A，近期政府活动记录也表明园区仍在使用。公共园区和内部展馆没有统一开放口径，因此不展示未经证实的固定时间与票价。坐标为原洗煤厂片区级落点，导航应按名称确认最新入口；配图为项目编辑插画，不作为实景证据。',
   },
   {
     id: 'shapotou', status: 'published', verificationLevel: 'verified', name: '沙坡头旅游景区', cityId: 'zhongwei', locality: '沙坡头区', category: 'experience',

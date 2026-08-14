@@ -16,7 +16,7 @@ interface SEOProps {
 
 export default function SEO({
   title = '塞上江南 · 宁夏旅行地图',
-  description = '探索宁夏五座城市、分级核实的景点、七条主题路线、旅行手记与资料专题。',
+  description = '探索宁夏五座城市、分级核实的景点、多条主题路线、旅行手记与资料专题。',
   image = 'og.jpg',
   imageAlt = '宁夏旅行地图：地图、路线与旅行手记',
   noIndex = false,

@@ -48,7 +48,7 @@ export default function TravelGuide() {
         </section>
 
         <section className="guide-section" aria-labelledby="guide-duration-title">
-          <div className="section-heading split-heading"><div><p className="eyebrow">02 · 准备几天</p><h2 id="guide-duration-title">先用天数压缩选择</h2></div><p>不用一次读完七条路线。选择可支配天数，再比较主题、预算和资料覆盖情况。</p></div>
+          <div className="section-heading split-heading"><div><p className="eyebrow">02 · 准备几天</p><h2 id="guide-duration-title">先用天数压缩选择</h2></div><p>不用一次读完 {routes.length} 条路线。选择可支配天数，再比较主题、预算和资料覆盖情况。</p></div>
           <div className="duration-grid">{[1, 2, 3, 4, 5].map((days) => {
             const matchedRoutes = routes.filter((route) => route.durationDays === days);
             return <Link key={days} to={`/routes?duration=${days}`} className="duration-card"><span>0{days}</span><div><strong>{days === 1 ? '一天也能认识宁夏' : `${days} 天行程`}</strong><small>{matchedRoutes.map((route) => route.name).join(' · ')}</small></div><ArrowRight aria-hidden="true" /></Link>;
@@ -71,7 +71,7 @@ export default function TravelGuide() {
           <aside className="guide-source-panel"><p className="eyebrow">出发当天再打开</p><h2>动态信息以这些入口为准</h2><div>{guideSources.map((source) => <a key={source.url} href={source.url} target="_blank" rel="noreferrer"><span><strong>{source.label}</strong><small>核对：{formatVerifiedDate(source.checkedAt)}</small></span><ExternalLink aria-hidden="true" /></a>)}</div><p>本站负责整理顺序和提醒，不替代铁路、气象、景区或文旅部门的当天公告。</p></aside>
         </section>
 
-        <section className="guide-final-cta"><div><p className="eyebrow">准备得差不多了</p><h2>回到地图，或者直接选路线</h2></div><div><Link to="/" className="btn-quiet"><MapPin aria-hidden="true" /> 地图探索</Link><Link to="/routes" className="btn-primary"><CalendarCheck2 aria-hidden="true" /> 查看七条路线</Link></div></section>
+        <section className="guide-final-cta"><div><p className="eyebrow">准备得差不多了</p><h2>回到地图，或者直接选路线</h2></div><div><Link to="/" className="btn-quiet"><MapPin aria-hidden="true" /> 地图探索</Link><Link to="/routes" className="btn-primary"><CalendarCheck2 aria-hidden="true" /> 查看 {routes.length} 条路线</Link></div></section>
       </div>
     </>
   );

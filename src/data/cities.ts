@@ -10,9 +10,9 @@ export const cities: City[] = [
     image: { src: 'images/attractions/xixia.webp', alt: '贺兰山下的西夏陵遗址', credit: 'BabelStone', license: 'CC BY-SA 3.0', sourceUrl: 'https://commons.wikimedia.org/wiki/File:XiXia_Tomb_3_gate_tower_(west).jpg' },
   },
   {
-    id: 'shizuishan', name: '石嘴山市', pinyin: 'shizuishan', travelRole: '湿地生态与工业遗产支线', connectionNote: '通常从银川向北安排半日或一日往返', nickname: '沙湖之城',
-    suggestedStay: '0—1 晚', arrivalNote: '多数行程从银川向北往返，只看沙湖时通常不必频繁更换住宿', bestFor: ['湿地生态', '亲子观鸟', '银川支线'], planningTip: '沙湖游船和体验项目受天气影响，返程时间不要安排得过紧。',
-    introduction: '宁夏北部城市，贺兰山与黄河平原在此相接，沙湖是最具代表性的旅游名片。',
+    id: 'shizuishan', name: '石嘴山市', pinyin: 'shizuishan', travelRole: '湿地生态、贺兰山北段与工业遗产目的地', connectionNote: '可从银川向北往返；串联沙湖、北武当和工业遗产时建议住大武口一晚', nickname: '沙湖之城',
+    suggestedStay: '1 晚', arrivalNote: '只看沙湖可以从银川往返；想理解石嘴山的山地生态和工业记忆，住进大武口更从容', bestFor: ['湿地生态', '工业遗产', '山地与亲子'], planningTip: '沙湖项目受天气影响，北武当受山地开放影响，工业遗址公园的公共区域和内部展馆也可能使用不同开放时段。',
+    introduction: '宁夏北部城市，贺兰山与黄河平原在此相接；沙湖、北武当和由老洗煤厂更新而来的工业遗址公园，共同呈现生态修复与工业转型。',
     history: '石嘴山近现代工业发展特色鲜明，如今正在以生态修复、湿地保护和工业遗产推动城市转型。',
     foods: ['沙湖大鱼头', '羊肉臊子面', '酿皮', '羊肉串'], bestSeason: '5—10 月', culture: '湿地生态、工业遗产、黄河文化',
     image: { src: 'images/attractions/shahu.webp', alt: '宁夏平原水域与田野景观', credit: 'GHOSTGHOSTH2O', license: 'CC BY-SA 4.0', sourceUrl: 'https://commons.wikimedia.org/wiki/File:宁夏平原稻田风光.png' },
