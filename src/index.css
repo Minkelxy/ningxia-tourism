@@ -843,8 +843,8 @@ button { color: inherit; }
   .home-guide-teaser { width: calc(100% - 24px); padding: 28px 22px; }
   .filter-panel { flex-direction: column; }
   .attraction-themes { padding: 24px 18px; }
-  .attraction-theme-grid { grid-template-columns: 1fr; }
-  .attraction-theme-card { min-height: 188px; }
+  .attraction-theme-grid { display: flex; gap: 10px; margin-right: -18px; padding: 2px 18px 10px 0; overflow-x: auto; overscroll-behavior-inline: contain; scroll-padding-inline: 0 18px; scroll-snap-type: inline mandatory; }
+  .attraction-theme-card { min-width: min(82vw, 310px); min-height: 184px; scroll-snap-align: start; }
   .filter-panel select { width: 100%; }
   .route-filter > div > span { width: 100%; }
   .nearby-grid { grid-template-columns: 1fr; }

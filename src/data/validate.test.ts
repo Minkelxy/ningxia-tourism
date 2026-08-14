@@ -13,10 +13,10 @@ describe('公开内容数据', () => {
 
   it('保持当前公开内容数量稳定', () => {
     expect(cities).toHaveLength(5);
-    expect(publishedAttractions).toHaveLength(14);
-    expect(verifiedAttractions).toHaveLength(12);
+    expect(publishedAttractions).toHaveLength(16);
+    expect(verifiedAttractions).toHaveLength(14);
     expect(reviewAttractions).toHaveLength(2);
-    expect(attractions.filter((item) => item.status === 'draft')).toHaveLength(8);
+    expect(attractions.filter((item) => item.status === 'draft')).toHaveLength(6);
     expect(routes).toHaveLength(7);
     expect(publishedJournalEntries).toHaveLength(4);
     expect(publishedJournalEntries.every((entry) => entry.type === 'guide' && entry.contentKind === 'editorial')).toBe(true);
@@ -78,6 +78,19 @@ describe('公开内容数据', () => {
       expect(hasStrictVerificationEvidence(item!)).toBe(true);
       expect(item?.images[0].sourceUrl).toContain('commons.wikimedia.org');
       expect(Object.values(item?.visitInfo ?? {}).every(Boolean)).toBe(true);
+    }
+  });
+
+  it('贺兰山森林公园与鸣翠湖保留旧链接并透明标注区域配图', () => {
+    const forest = publishedAttractions.find((attraction) => attraction.id === 'suyukou');
+    const wetland = publishedAttractions.find((attraction) => attraction.id === 'mingcuihu');
+    expect(forest?.name).toBe('宁夏贺兰山国家森林公园');
+    expect(wetland?.name).toBe('鸣翠湖国家湿地公园');
+    for (const item of [forest, wetland]) {
+      expect(item?.verificationLevel).toBe('verified');
+      expect(hasStrictVerificationEvidence(item!)).toBe(true);
+      expect(item?.images[0].alt).toContain('非');
+      expect(item?.sources.some((source) => source.level === 'direct' && source.coverage.includes('visit'))).toBe(true);
     }
   });
 

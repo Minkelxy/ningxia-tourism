@@ -17,3 +17,4 @@
 13. 资料专题不得写成亲历口吻，至少提供两个可访问来源、逐项核对日期、适用范围和关键判断；可以复用许可清晰的景点图片，但仍须保留原始署名。
 14. 正式地图边界只维护 `public/data/ningxia-province.json` 与 `public/data/ningxia/districts/`；开发查看器复用同一数据，不再提交地图截图、源码内 JSON 副本或未被页面读取的转换产物。
 15. 景点兴趣组合只在 `src/data/discovery.ts` 维护，每组至少引用 3 个已公开景点；草稿景点、重复引用和失效 ID 会阻止构建。
+16. GitHub Pages 工作流使用 Node 24 运行时的官方 action 主版本；升级 action 后必须在 PR 上完整通过数据、端到端、构建与 Lighthouse 门禁，不能只依据版本号判断兼容。
