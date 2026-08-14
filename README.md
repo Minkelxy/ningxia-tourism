@@ -35,6 +35,7 @@ npm run quality:lighthouse
 - `src/data/routes.ts`：七条路线及逐日停靠点。
 - `src/data/validate.ts`：构建期校验，检查字段、ID、坐标和跨数据引用。
 - `src/content/journal/`：公开或草稿手记 Markdown；内容在构建时解析，不把解析器和 YAML 运行时发送给访客。维护模板位于 `docs/templates/`，不会参与发布。
+- `src/data/guide.ts`：行前指南的四季建议、跨城原则、清单和网络来源。
 - `public/images/attractions/`：授权图片及站内资源。
 
 正式景点必须补齐开放信息、参考票价、预约、时长、季节、交通、WGS84 坐标、来源、核实日期和图片许可。只有来源与图片同时达到严格标准才标为 `verified`；其余公开内容标为 `review`，资料不足时保留为 `draft`。
@@ -43,7 +44,7 @@ npm run quality:lighthouse
 
 ## 路由与部署
 
-公开路由包括 `/`、`/attractions`、`/attraction/:id`、`/cities`、`/city/:slug`、`/routes`、`/routes/:routeId`、`/journal`、`/journal/travel/:slug`、`/journal/food/:slug` 和 `/about`。GeoJSON 工具只在开发环境注册。
+公开路由包括 `/`、`/attractions`、`/attraction/:id`、`/cities`、`/city/:slug`、`/routes`、`/routes/:routeId`、`/guide`、`/journal`、`/journal/travel/:slug`、`/journal/food/:slug` 和 `/about`。GeoJSON 工具只在开发环境注册。
 
 GitHub Actions 会依次执行依赖安全审计、数据校验、类型检查、代码检查、单元测试、端到端测试、生产构建和移动端 Lighthouse 门禁；`public/404.html` 为 GitHub Pages 提供 SPA 深层链接回退。
 

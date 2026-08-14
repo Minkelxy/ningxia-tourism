@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import { publishedAttractions } from '../src/data/attractions';
 import { cities } from '../src/data/cities';
 import { routes } from '../src/data/routes';
+import { guideVerifiedAt } from '../src/data/guide';
 import { loadJournalFiles } from './load-journal-files';
 
 const base = 'https://minkelxy.github.io/ningxia-tourism';
@@ -21,6 +22,7 @@ const urls: Array<{ path: string; lastmod?: string }> = [
   { path: '/routes', lastmod: routeDate },
   { path: '/cities', lastmod: attractionDate },
   { path: '/journal', lastmod: journalDate },
+  { path: '/guide', lastmod: guideVerifiedAt },
   { path: '/about', lastmod: allDate },
   ...publishedAttractions.map((item) => ({ path: `/attraction/${item.id}`, lastmod: item.verifiedAt })),
   ...cities.map((city) => ({ path: `/city/${city.id}`, lastmod: latest(publishedAttractions.filter((item) => item.cityId === city.id).map((item) => item.verifiedAt)) })),

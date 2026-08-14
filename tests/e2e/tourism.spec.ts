@@ -52,6 +52,21 @@ test('网络资料与区域配图说明透明可见', async ({ page }) => {
   await expect(page.locator('.source-list a')).toHaveCount(3);
 });
 
+test('行前指南支持天数选路和本机清单', async ({ page }) => {
+  await page.goto(`${appBase}guide`);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('先解决四件事');
+  await expect(page.locator('.duration-card')).toHaveCount(5);
+  await expect(page.getByRole('link', { name: /3 天行程/ })).toHaveAttribute('href', /routes\?duration=3/);
+
+  const firstItem = page.getByRole('checkbox', { name: '核对身份证件、往返车票与入住日期' });
+  await firstItem.check();
+  await expect(firstItem).toBeChecked();
+  await page.reload();
+  await expect(page.getByRole('checkbox', { name: '核对身份证件、往返车票与入住日期' })).toBeChecked();
+  await page.getByRole('button', { name: '重置清单' }).click();
+  await expect(page.getByRole('checkbox', { name: '核对身份证件、往返车票与入住日期' })).not.toBeChecked();
+});
+
 test('旅行手记双栏目、键盘切换和未知详情可恢复', async ({ page }) => {
   await page.goto(`${appBase}journal`);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('地图之外');

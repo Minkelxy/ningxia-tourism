@@ -13,6 +13,7 @@ const RouteRecommendation = lazy(() => import('./pages/RouteRecommendation'));
 const RouteDetail = lazy(() => import('./pages/RouteDetail'));
 const Journal = lazy(() => import('./pages/Journal'));
 const JournalDetail = lazy(() => import('./pages/JournalDetail'));
+const TravelGuide = lazy(() => import('./pages/TravelGuide'));
 const About = lazy(() => import('./pages/About'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const GeoJSONViewer = import.meta.env.DEV ? lazy(() => import('./pages/GeoJSONViewer')) : null;
@@ -51,6 +52,7 @@ function AppRoutes() {
         <Route path="/routes/:routeId" element={<RouteDetail />} />
         <Route path="/journal" element={<Journal />} />
         <Route path="/journal/:type/:slug" element={<JournalDetail />} />
+        <Route path="/guide" element={<TravelGuide />} />
         <Route path="/about" element={<About />} />
         {GeoJSONViewer && <Route path="/dev/geojson" element={<GeoJSONViewer />} />}
         {GeoJSONEditor && <Route path="/dev/editor" element={<GeoJSONEditor />} />}

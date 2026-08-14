@@ -7,7 +7,7 @@ import lighthouse from 'lighthouse';
 
 const host = 'http://127.0.0.1:4174';
 const basePath = process.env.GITHUB_ACTIONS ? '/ningxia-tourism/' : '/';
-const urls = [`${host}${basePath}`, `${host}${basePath}journal`];
+const urls = [`${host}${basePath}`, `${host}${basePath}journal`, `${host}${basePath}guide`];
 const thresholds = { performance: 0.9, accessibility: 0.95, 'best-practices': 0.9, seo: 0.9 } as const;
 const preview = spawn(process.execPath, [resolve('node_modules/vite/bin/vite.js'), 'preview', '--host', '127.0.0.1', '--port', '4174'], { stdio: 'pipe' });
 

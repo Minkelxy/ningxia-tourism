@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowRight, BadgeCheck, CalendarDays, MapPinned, NotebookPen, ShieldAlert } from 'lucide-react';
+import { ArrowDown, ArrowRight, BadgeCheck, CalendarCheck2, CalendarDays, MapPinned, NotebookPen, ShieldAlert, TrainFront } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import NingxiaInteractiveMap from '../components/NingxiaInteractiveMap';
 import SEO from '../components/SEO';
@@ -36,7 +36,7 @@ export default function Home() {
       <section id="explore-map" className="map-section section-shell">
         <div className="section-heading split-heading">
           <div><p className="eyebrow">一图读懂宁夏</p><h2>从城市边界，到旅行目的地</h2></div>
-          <p>先选择一座城市继续放大，再点选景点查看预览。公开景点均有来源，但“待复核”内容仍需补齐直接官方页面或准确对应的授权图片。</p>
+          <p>先选择一座城市继续放大，再点选景点查看预览。公开景点均有来源；“待复核”表示核心文字事实仍缺少直接、可追溯的页面。</p>
         </div>
         <NingxiaInteractiveMap />
       </section>
@@ -44,6 +44,11 @@ export default function Home() {
       <section className="home-next section-shell">
         <div className="home-next-copy"><p className="eyebrow">不想从地图开始？</p><h2>按时间选择一条路线</h2><p>从银川一日精华到五日全景，每条路线都标出交通衔接、用餐区域和需要再次确认的信息。</p></div>
         <Link to="/routes" className="route-poster"><span>1—5 天</span><strong>七条路线<br />把宁夏串起来</strong><span className="text-link">开始选择 <ArrowRight aria-hidden="true" /></span></Link>
+      </section>
+
+      <section className="home-guide-teaser section-shell">
+        <div><p className="eyebrow"><CalendarCheck2 aria-hidden="true" /> 出发前先看</p><h2>季节、天数、跨城交通，<br />一次理清。</h2><p>四季怎么选、银川和中卫怎么串、包车与铁路如何分工，再用一份保存在本机的清单完成最后检查。</p><Link to="/guide" className="btn-primary">打开行前指南 <ArrowRight aria-hidden="true" /></Link></div>
+        <div className="home-guide-points"><article><span>01</span><strong>按季节</strong><small>花期、避暑、秋色与淡季节奏</small></article><article><span>02</span><strong>按天数</strong><small>从 1 天到 5 天直接进入匹配路线</small></article><article><TrainFront aria-hidden="true" /><strong>看衔接</strong><small>铁路连主城，公路进入分散景区</small></article></div>
       </section>
 
       <section className="home-journal section-shell">
