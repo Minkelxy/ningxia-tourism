@@ -11,7 +11,7 @@ export const cities: City[] = [
   },
   {
     id: 'shizuishan', name: '石嘴山市', pinyin: 'shizuishan', travelRole: '湿地生态、贺兰山北段与工业遗产目的地', connectionNote: '可从银川向北往返；串联沙湖、北武当和工业遗产时建议住大武口一晚', nickname: '沙湖之城',
-    suggestedStay: '1 晚', arrivalNote: '只看沙湖可以从银川往返；想理解石嘴山的山地生态和工业记忆，住进大武口更从容', bestFor: ['湿地生态', '工业遗产', '山地与亲子'], planningTip: '沙湖项目受天气影响，北武当受山地开放影响，工业遗址公园的公共区域和内部展馆也可能使用不同开放时段。',
+    suggestedStay: '1 晚', arrivalNote: '只看沙湖可以从银川往返；想把北武当与工业遗址公园也放进行程，建议住大武口一晚', bestFor: ['湿地生态', '工业遗产', '山地与亲子'], planningTip: '沙湖项目受天气影响，北武当受山地开放影响，工业遗址公园的公共区域和内部展馆也可能使用不同开放时段。',
     introduction: '宁夏北部城市，贺兰山与黄河平原在此相接；沙湖、北武当和由老洗煤厂更新而来的工业遗址公园，共同呈现生态修复与工业转型。',
     history: '石嘴山近现代工业发展特色鲜明，如今正在以生态修复、湿地保护和工业遗产推动城市转型。',
     foods: ['沙湖大鱼头', '羊肉臊子面', '酿皮', '羊肉串'], bestSeason: '5—10 月', culture: '湿地生态、工业遗产、黄河文化',
@@ -27,10 +27,10 @@ export const cities: City[] = [
   },
   {
     id: 'guyuan', name: '固原市', pinyin: 'guyuan', travelRole: '宁南山地、丝路与长征文化中心', connectionNote: '与北部景点距离较远，建议单独安排至少两天', nickname: '丝路古城',
-    suggestedStay: '2 晚起', arrivalNote: '适合单独作为宁南段落，与银川、中卫之间需预留长距离公路时间', bestFor: ['山地避暑', '丝路文化', '红色研学'], planningTip: '隆德长征景区与泾源森林公园分属不同县，不适合压缩在同一个半天。',
+    suggestedStay: '2 晚起', arrivalNote: '适合单独作为宁南段落，至少安排两天；与银川、中卫之间需预留长距离公路时间', bestFor: ['山地避暑', '丝路文化', '红色研学'], planningTip: '隆德长征景区与泾源森林公园分属不同县，不适合压缩在同一个半天；须弥山、六盘山与彭阳梯田相距较远，建议拆成两日安排。',
     introduction: '宁夏南部山地城市，六盘山生态、丝路遗存、红色文化和黄土高原乡村景观彼此交织。',
     history: '古原州是丝绸之路北道重镇。六盘山及周边保存着从古代交通到红军长征的多层历史记忆。',
-    foods: ['固原生汆面', '羊肉垫卷子', '洋芋擦擦', '荞面饸饹'], bestSeason: '5—9 月', culture: '丝路文化、长征文化、山地生态',
+    foods: ['固原生汆面', '羊肉垫卷子', '洋芋擦擦', '荞面饸饹', '彭阳红梅杏'], bestSeason: '5—9 月', culture: '丝路文化、长征文化、山地生态',
     image: { src: 'images/attractions/liupanshan.webp', alt: '六盘山区域景观', credit: '董辰兴', license: 'CC BY-SA 4.0', sourceUrl: 'https://commons.wikimedia.org/wiki/File:六盘山红军长征纪念馆西眺.jpg' },
   },
   {

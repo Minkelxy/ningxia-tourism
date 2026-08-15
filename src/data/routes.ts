@@ -143,6 +143,22 @@ export const routes: RoutePlan[] = [
     ],
   },
   {
+    id: 'guyuan-2day', name: '固原两日：须弥山与六盘山', theme: 'panorama', themeLabel: '宁南山水', durationDays: 2, durationLabel: '2 天',
+    audience: '想在银川之外专门留两天，走宁南山地与丝路石窟的游客', budget: '约 1,200—2,000 元/人，不含往返宁夏的大交通，按 2026-08 行程结构估算', bestSeason: '5—10 月；山地天气多变，出发前关注预报', pace: 'balanced', walkingLevel: 'high', transportSummary: '固原区域内以自驾或包车接驳，城市段可用城际客运或打车',
+    summary: '第一天在固原市区与须弥山感受丝路石窟文化，第二天翻越六盘山看长征文化与山地生态。若时间允许，彭阳梯田可作季节合适的半天延伸。',
+    highlights: ['须弥山石窟', '六盘山红军长征旅游区', '固原市区人文'], verifiedAt,
+    days: [
+      { day: 1, title: '须弥山与固原山城', summary: '以固原市区为落点，上午走读城市人文，下午前往原州区的须弥山石窟。', accommodation: '固原市区', meals: ['午餐：固原市区', '晚餐：固原市区'], stops: [
+        { time: '上午', title: '固原市区人文走读', mapQuery: '固原市原州区', description: '在固原老城与博物馆区域慢慢步行，具体点位和开放情况以当天为准。' },
+        { time: '14:00', title: '须弥山旅游区', attractionId: 'xumishan', description: '沿大佛楼、圆光寺等区域参观红色砂岩上的北魏至明清石窟群。', transport: '从固原市区自驾或包车前往', tips: '石窟区台阶与坡道较多，按体力安排参观顺序。' },
+      ] },
+      { day: 2, title: '六盘山：长征文化与山地生态', summary: '早出发前往隆德县六盘山红军长征旅游区，走完纪念馆与红军小道后返程。彭阳梯田适合在季节合适时另加半天。', accommodation: '无或固原市区', meals: ['午餐：隆德县城或景区简餐', '晚餐：固原市区或返程城市'], stops: [
+        { time: '09:30', title: '六盘山红军长征旅游区', attractionId: 'liupanshan', description: '参观纪念馆、纪念碑，并按体力体验 2.5 公里红军小道，感受长征文化与山地生态。', transport: '自驾或包车前往隆德县', tips: '不要误导航至泾源县六盘山国家森林公园；山地天气变化快，行程勿排满。' },
+        { time: '傍晚', title: '返回固原或继续行程', mapQuery: '固原市', description: '根据当日班次和体力返回银川或续住固原，不使用路线时间作班次承诺。', transport: '铁路、城际客运或自驾均以出发日查询为准' },
+      ] },
+    ],
+  },
+  {
     id: 'food-3day', name: '宁夏美食之旅', theme: 'food', themeLabel: '城市味道', durationDays: 3, durationLabel: '3 天',
     audience: '把地方饮食与城市漫游放在首位的游客', budget: '约 1,500—2,800 元/人，不含往返大交通', bestSeason: '全年', pace: 'relaxed', walkingLevel: 'low', transportSummary: '城市间铁路或公路，市内以步行和打车为主',
     summary: '以银川、吴忠和中卫三城为主线，餐饮信息变化快，路线只给区域和品类建议，不为具体商户背书。',

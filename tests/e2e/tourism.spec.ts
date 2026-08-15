@@ -182,8 +182,8 @@ test('路线筛选同步地址并展示内容核实概览', async ({ page }) => 
   await panoramaFilter.click();
   await expect(page).toHaveURL(/theme=panorama/);
   await expect(panoramaFilter).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.getByRole('status')).toContainText('3 条路线');
-  await expect(page.locator('.route-evidence-summary')).toHaveCount(3);
+  await expect(page.getByRole('status')).toContainText('4 条路线');
+  await expect(page.locator('.route-evidence-summary')).toHaveCount(4);
 
   const relaxedFilter = page.getByRole('button', { name: '舒缓' });
   await relaxedFilter.click();
@@ -250,7 +250,7 @@ test('旅行手记双栏目、键盘切换和未知详情可恢复', async ({ pa
   await page.goto(`${appBase}journal`);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('地图之外');
   await expect(page.getByRole('tab', { name: /全部内容/ })).toHaveAttribute('aria-selected', 'true');
-  await expect(page.locator('.journal-card')).toHaveCount(9);
+  await expect(page.locator('.journal-card')).toHaveCount(10);
   await expect(page.getByRole('heading', { name: /沙坡头和金沙岛怎么选/ })).toBeVisible();
 
   await page.getByRole('tab', { name: /全部内容/ }).press('ArrowRight');
@@ -266,7 +266,7 @@ test('旅行手记双栏目、键盘切换和未知详情可恢复', async ({ pa
   await page.getByRole('tab', { name: /探店记录/ }).press('ArrowRight');
   await expect(page).toHaveURL(/type=guide/);
   await expect(page.getByRole('tab', { name: /旅行专题/ })).toBeFocused();
-  await expect(page.locator('.journal-card')).toHaveCount(9);
+  await expect(page.locator('.journal-card')).toHaveCount(10);
 
   await page.goto(`${appBase}journal/travel/not-published`);
   await expect(page.getByRole('heading', { name: '这篇内容还没有公开' })).toBeVisible();
@@ -321,14 +321,14 @@ test('旅行专题支持搜索、清空筛选并覆盖沙湖与固原', async ({
   await page.goto(`${appBase}journal?type=guide`);
   await page.getByPlaceholder('搜索标题、地点、标签或问题').fill('沙湖');
   await expect(page).toHaveURL(/type=guide.*q=%E6%B2%99%E6%B9%96|q=%E6%B2%99%E6%B9%96.*type=guide/);
-  await expect(page.locator('.journal-card')).toHaveCount(1);
+  await expect(page.locator('.journal-card')).toHaveCount(2);
   await expect(page.getByRole('heading', { name: /沙湖留半天还是一天/ })).toBeVisible();
 
   await page.getByPlaceholder('搜索标题、地点、标签或问题').fill('完全不存在的主题');
   await expect(page.getByRole('heading', { name: '换一个关键词，或放宽城市与标签' })).toBeVisible();
   await page.getByRole('button', { name: '清空筛选' }).click();
   await expect(page).toHaveURL(new RegExp(`${appBase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}journal\\?type=guide$`));
-  await expect(page.locator('.journal-card')).toHaveCount(9);
+  await expect(page.locator('.journal-card')).toHaveCount(10);
 
   await page.goto(`${appBase}journal/guide/guyuan-history-two-day`);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('固原历史文化两天怎么排');
