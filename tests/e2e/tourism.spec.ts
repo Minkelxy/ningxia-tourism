@@ -75,6 +75,7 @@ test('景点页支持按旅行兴趣发现新增目的地', async ({ page }) => 
   await expect(page.getByRole('heading', { name: '北武当生态旅游区' })).toBeVisible();
   await expect(page.getByRole('heading', { name: '大武口工业遗址公园' })).toBeVisible();
   await page.getByPlaceholder('搜索景点、城市或亮点').fill('');
+  await expect(page).not.toHaveURL(/[?&]q=/);
 
   const ancientTheme = page.getByRole('button', { name: /时间深处/ });
   await ancientTheme.click();
