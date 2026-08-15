@@ -34,3 +34,26 @@ export const sharePage = async (title: string, text: string) => {
 };
 
 export const formatVerifiedDate = (date: string) => date ? date.replace(/-/g, '.') : '核实中';
+
+export const siteDateString = (date = new Date()) => {
+  const parts = new Intl.DateTimeFormat('zh-CN', {
+    timeZone: 'Asia/Shanghai',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(date);
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return `${values.year}-${values.month}-${values.day}`;
+};
+
+export type VerificationFreshness = 'current' | 'attention' | 'stale';
+
+export const getVerificationFreshness = (date: string, referenceDate = new Date()) => {
+  const checkedAt = Date.parse(`${date}T00:00:00Z`);
+  if (!date || Number.isNaN(checkedAt)) return { status: 'stale' as VerificationFreshness, label: '核验日期缺失', days: null };
+  const reference = Date.parse(`${siteDateString(referenceDate)}T00:00:00Z`);
+  const days = Math.max(0, Math.floor((reference - checkedAt) / 86_400_000));
+  if (days <= 90) return { status: 'current' as VerificationFreshness, label: '近期核验', days };
+  if (days <= 180) return { status: 'attention' as VerificationFreshness, label: '建议复查', days };
+  return { status: 'stale' as VerificationFreshness, label: '资料可能过期', days };
+};

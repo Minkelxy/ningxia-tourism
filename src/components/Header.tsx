@@ -6,9 +6,9 @@ const navLinks = [
   { path: '/', label: '地图探索' },
   { path: '/attractions', label: '精选景点' },
   { path: '/routes', label: '推荐路线' },
+  { path: '/guide', label: '行前指南' },
   { path: '/journal', label: '旅行手记' },
   { path: '/cities', label: '五城概览' },
-  { path: '/about', label: '关于本站' },
 ];
 
 export default function Header() {
@@ -25,7 +25,7 @@ export default function Header() {
   return (
     <header className="site-header">
       <div className="site-header-inner">
-        <Link to="/" className="brand" aria-label="塞上江南宁夏旅行首页">
+        <Link to="/" className="brand">
           <span className="brand-mark"><Map aria-hidden="true" /></span>
           <span><strong>塞上江南</strong><small>宁夏旅行地图</small></span>
         </Link>

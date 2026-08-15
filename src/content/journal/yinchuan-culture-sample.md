@@ -1,11 +1,13 @@
 ---
 slug: yinchuan-culture-sample
 type: travel
-status: published
+status: draft
+contentKind: demo
 title: 银川文化一日——博物馆到西夏陵（示例）
 excerpt: 旅行手记的格式示例，示范如何串联银川的博物馆与西夏陵，记录公交接驳、参观时长与取舍。
 author: 站主手记
-publishedAt: "2026-08-13"
+publishedAt: ""
+updatedAt: ""
 cityId: yinchuan
 locality: 西夏区
 tags: [示例, 公共交通, 一日游]

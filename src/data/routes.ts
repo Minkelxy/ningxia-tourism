@@ -1,11 +1,11 @@
 import type { RoutePlan } from '../types';
 
-const verifiedAt = '2026-08-12';
+const verifiedAt = '2026-08-15';
 
 export const routes: RoutePlan[] = [
   {
     id: 'quick-1day', name: '银川精华一日游', theme: 'first-visit', themeLabel: '初见宁夏', durationDays: 1, durationLabel: '1 天',
-    audience: '首次到访、在银川停留时间有限的游客', budget: '约 500—800 元/人，不含往返大交通', bestSeason: '全年，夏季注意防晒',
+    audience: '首次到访、在银川停留时间有限的游客', budget: '约 500—800 元/人，不含往返大交通', bestSeason: '全年，夏季注意防晒', pace: 'intensive', walkingLevel: 'high', transportSummary: '包车或自驾串联市区与银川西线',
     summary: '用博物馆建立背景，再到西夏陵和镇北堡感受宁夏最鲜明的历史与影像气质。景点较多，建议包车或自驾。',
     highlights: ['宁夏博物馆', '西夏陵', '镇北堡西部影城'], verifiedAt,
     days: [{ day: 1, title: '从西夏文明到西部电影', summary: '市区出发，全天向银川西线移动。', accommodation: '银川市区', meals: ['午餐：西夏区简餐', '晚餐：怀远观光夜市'], stops: [
@@ -17,7 +17,7 @@ export const routes: RoutePlan[] = [
   },
   {
     id: 'weekend-2day', name: '塞上江南周末游', theme: 'weekend', themeLabel: '周末短途', durationDays: 2, durationLabel: '2 天',
-    audience: '周末从周边城市抵达银川的游客', budget: '约 1,000—1,600 元/人，不含往返大交通', bestSeason: '5—10 月',
+    audience: '周末从周边城市抵达银川的游客', budget: '约 1,000—1,600 元/人，不含往返大交通', bestSeason: '5—10 月', pace: 'balanced', walkingLevel: 'medium', transportSummary: '银川住宿，包车、自驾或旅游交通往返远郊',
     summary: '一天看贺兰山下的历史文化，一天去沙湖看沙水相依，节奏适中，适合第一次来宁夏。',
     highlights: ['西夏陵', '镇北堡西部影城', '沙湖生态旅游区', '宁夏博物馆'], verifiedAt,
     days: [
@@ -33,8 +33,26 @@ export const routes: RoutePlan[] = [
     ],
   },
   {
+    id: 'shizuishan-2day', name: '山湖与工业石嘴山两日游', theme: 'weekend', themeLabel: '山湖工业', durationDays: 2, durationLabel: '2 天',
+    audience: '想把沙湖之外的石嘴山也看完整、可接受公路接驳的游客', budget: '约 900—1,500 元/人，不含抵达宁夏的大交通，按 2026-08 行程结构估算', bestSeason: '5—10 月；冬季优先确认沙湖项目和山地开放范围', pace: 'balanced', walkingLevel: 'medium', transportSummary: '银川与石嘴山之间走公路，市域内建议自驾、包车或分段打车',
+    summary: '第一天在沙湖看沙水相依，第二天从贺兰山北段走进大武口的工业记忆。建议住一晚大武口，避免两天都从银川往返。',
+    highlights: ['沙湖生态旅游区', '北武当生态旅游区', '大武口工业遗址公园'], verifiedAt,
+    days: [
+      { day: 1, title: '先看沙湖，再住进大武口', summary: '把受天气影响较大的沙湖放在第一天，并给游船、沙漠项目留出弹性。', accommodation: '大武口城区', meals: ['午餐：沙湖景区或平罗县城', '晚餐：大武口城区'], stops: [
+        { time: '上午', title: '抵达沙湖', mapQuery: '宁夏沙湖生态旅游区', description: '到达后先查看游船、观鸟与沙漠体验的当日开放情况。', transport: '从银川或石嘴山方向自驾、包车或使用当日可查询到的旅游交通' },
+        { time: '全天', title: '沙湖生态旅游区', attractionId: 'shahu', description: '按天气和同行者体力，在湖泊、芦苇、沙丘与体验项目之间取舍。', tips: '不必为了打卡把所有收费项目排满，返程和入住时间保留弹性。' },
+        { time: '傍晚', title: '大武口城区', mapQuery: '石嘴山市大武口区人民路', description: '入住后安排轻量城市步行和晚餐，为第二天的山地与工业路线蓄力。', transport: '沙湖至大武口按实时导航安排，夜间避免临时寻找偏远住宿' },
+      ] },
+      { day: 2, title: '贺兰山北段与煤城记忆', summary: '上午安排山地生态，下午回到城区看工业遗产活化，体力和返程都更容易控制。', accommodation: '无或按返程安排续住大武口', meals: ['午餐：大武口城区', '晚餐：返程城市'], stops: [
+        { time: '上午', title: '北武当生态旅游区', attractionId: 'beiwudang', description: '根据防火期、天气和游线开放情况选择登高、森林公园或文化参观。', transport: '从大武口城区自驾、包车或打车，提前确认返程方式', tips: '山地游线临时关闭时，不向未开放沟谷继续深入。' },
+        { time: '下午', title: '大武口工业遗址公园', attractionId: 'dawukou-industrial', description: '从保留的洗煤厂建筑、输送设施和铁路空间理解石嘴山“因煤而兴”后的城市转型。', transport: '返回大武口城区后按景区全名导航', tips: '公共园区和内部展馆开放时段不同，先看当天公告，再决定参观顺序。' },
+        { time: '傍晚', title: '石嘴山站或大武口城区返程', mapQuery: '石嘴山站', description: '根据当日铁路和公路信息返回银川或继续下一段行程，不使用路线中的时间作为班次承诺。', transport: '铁路、城际客运或自驾均以出发日查询为准' },
+      ] },
+    ],
+  },
+  {
     id: 'classic-3day', name: '经典三日全景游', theme: 'panorama', themeLabel: '银川＋中卫', durationDays: 3, durationLabel: '3 天',
-    audience: '希望一次覆盖宁夏最经典目的地的游客', budget: '约 2,000—3,200 元/人，不含往返大交通', bestSeason: '5—10 月',
+    audience: '希望一次覆盖宁夏最经典目的地的游客', budget: '约 2,000—3,200 元/人，不含往返大交通', bestSeason: '5—10 月', pace: 'balanced', walkingLevel: 'medium', transportSummary: '银川至中卫优先铁路，远郊景区使用包车或自驾',
     summary: '银川历史文化与中卫沙漠黄河的黄金组合，利用铁路连接两城，减少长距离自驾压力。',
     highlights: ['宁夏博物馆', '西夏陵', '沙坡头', '中卫高庙'], verifiedAt,
     days: [
@@ -55,21 +73,21 @@ export const routes: RoutePlan[] = [
   },
   {
     id: 'in-depth-4day', name: '深度四日全景游', theme: 'panorama', themeLabel: '黄河与沙漠', durationDays: 4, durationLabel: '4 天',
-    audience: '时间充裕、希望覆盖银川、吴忠和中卫的游客', budget: '约 3,000—4,500 元/人，不含往返大交通', bestSeason: '5—10 月',
+    audience: '时间充裕、希望覆盖银川、吴忠和中卫的游客', budget: '约 3,000—4,500 元/人，不含往返大交通', bestSeason: '5—10 月', pace: 'balanced', walkingLevel: 'medium', transportSummary: '跨城公路为主，吴忠至中卫按住宿安排衔接',
     summary: '在经典银川与中卫之间加入吴忠黄河金岸，文化、城市、河谷与沙漠层次更完整。',
     highlights: ['宁夏博物馆', '西夏陵', '黄河金岸', '沙坡头'], verifiedAt,
     days: [
       { day: 1, title: '银川城市文化', summary: '市区慢游，为后续行程补充背景。', accommodation: '银川市区', meals: ['午餐：银川市区', '晚餐：老城'], stops: [
         { time: '09:30', title: '宁夏博物馆', attractionId: 'ningxiamuseum', description: '从博物馆开始认识宁夏。' },
-        { time: '15:00', title: '南关清真大寺', attractionId: 'nanguan', description: '尊重宗教礼仪，结合老城步行游览。' },
+        { time: '15:00', title: '鼓楼—玉皇阁历史文化街区', attractionId: 'gulou-yuhuangge', description: '从鼓楼、玉皇阁到周边街巷慢慢步行；南关清真大寺只在现场允许时顺路看外观。', tips: '宗教活动场所不保证游客进入，不拍摄礼拜活动。' },
       ] },
       { day: 2, title: '贺兰山文化走廊', summary: '银川西线一日。', accommodation: '银川市区', meals: ['午餐：西夏区', '晚餐：银川'], stops: [
         { time: '08:30', title: '西夏陵', attractionId: 'xixiawangling', description: '重点参观遗址与展馆。', transport: '包车或自驾' },
         { time: '14:00', title: '镇北堡西部影城', attractionId: 'zhenbeibu', description: '下午体验西部电影场景。' },
       ] },
       { day: 3, title: '吴忠黄河金岸', summary: '银川出发，沿黄河向吴忠和青铜峡移动。', accommodation: '吴忠或中卫', meals: ['午餐：吴忠早茶／手抓', '晚餐：中卫'], stops: [
-        { time: '09:30', title: '中华黄河楼', attractionId: 'zhonghuahuanghelou', description: '了解黄河文明和宁夏引黄灌溉。' },
-        { time: '14:00', title: '黄河坛景区', attractionId: 'huanghetan', description: '观赏青铜峡黄河河谷景观。', transport: '包车或自驾' },
+        { time: '09:30', title: '中华黄河楼', attractionId: 'zhonghuahuanghelou', description: '如当天开放，可参观黄河文化主题建筑与展陈；未开放则保留为黄河沿线机动时段。', tips: '旧 4A 等级已于 2023 年取消，出发前确认当前开放与入口。' },
+        { time: '14:00', title: '黄河坛旅游区', attractionId: 'huanghetan', description: '沿黄河坛建筑轴线参观大牌楼、碑林大道与黄河文化景观。', transport: '包车或自驾', tips: '与中华黄河楼不是同一地点，导航时核对完整名称和地址。' },
         { time: '18:00', title: '前往中卫', mapQuery: '中卫市', description: '到达后休息，为次日沙漠行程保存体力。' },
       ] },
       { day: 4, title: '沙坡头全天', summary: '根据天气和兴趣选择体验项目。', accommodation: '无', meals: ['午餐：景区周边', '晚餐：中卫市区'], stops: [
@@ -80,13 +98,13 @@ export const routes: RoutePlan[] = [
   },
   {
     id: 'panorama-5day', name: '五日全景深度游', theme: 'panorama', themeLabel: '五城精华', durationDays: 5, durationLabel: '5 天',
-    audience: '第一次来宁夏且希望放慢节奏的游客', budget: '约 4,000—6,500 元/人，不含往返大交通', bestSeason: '5—10 月',
+    audience: '第一次来宁夏且希望放慢节奏的游客', budget: '约 4,000—6,500 元/人，不含往返大交通', bestSeason: '5—10 月', pace: 'relaxed', walkingLevel: 'medium', transportSummary: '包车或自驾完成跨城，住宿随路线向南移动',
     summary: '把银川、沙湖、吴忠和中卫按地理顺序串联，每天只保留一个主主题，降低赶路感。',
     highlights: ['银川历史', '沙湖湿地', '吴忠黄河与早茶', '中卫沙漠'], verifiedAt,
     days: [
       { day: 1, title: '抵达银川', summary: '市区适应与文化入门。', accommodation: '银川市区', meals: ['晚餐：银川老城'], stops: [
         { time: '14:30', title: '宁夏博物馆', attractionId: 'ningxiamuseum', description: '抵达后先建立区域认知。' },
-        { time: '18:00', title: '南关清真大寺', attractionId: 'nanguan', description: '结合老城散步。' },
+        { time: '18:00', title: '鼓楼—玉皇阁历史文化街区', attractionId: 'gulou-yuhuangge', description: '用老城步行适应城市节奏，展览和光影活动以当天公告为准。' },
       ] },
       { day: 2, title: '西夏文化与西部电影', summary: '银川西线。', accommodation: '银川市区', meals: ['午餐：西夏区', '晚餐：怀远观光夜市'], stops: [
         { time: '08:30', title: '西夏陵', attractionId: 'xixiawangling', description: '完整参观遗址与博物馆。' },
@@ -97,8 +115,8 @@ export const routes: RoutePlan[] = [
       ] },
       { day: 4, title: '吴忠黄河与早茶', summary: '上午体验吴忠饮食，下午沿黄河前往中卫。', accommodation: '中卫市区', meals: ['早餐／早午餐：吴忠早茶', '晚餐：中卫'], stops: [
         { time: '09:00', title: '吴忠早茶', mapQuery: '吴忠早茶文化体验街', description: '选择正规门店，按人数少量多样点餐。' },
-        { time: '12:30', title: '中华黄河楼', attractionId: 'zhonghuahuanghelou', description: '登高看黄河金岸。' },
-        { time: '15:00', title: '黄河坛景区', attractionId: 'huanghetan', description: '继续向青铜峡黄河沿线移动。' },
+        { time: '12:30', title: '中华黄河楼', attractionId: 'zhonghuahuanghelou', description: '确认开放后再参观黄河主题建筑与展陈；否则改为黄河沿线短停。', tips: '不要沿用旧 4A 景区攻略中的开放与票价信息。' },
+        { time: '15:00', title: '黄河坛旅游区', attractionId: 'huanghetan', description: '继续前往青铜峡峡谷入口，沿建筑轴线了解黄河文化。', transport: '包车或自驾', tips: '与中华黄河楼之间仍有公路移动，出发前按实时导航预留时间。' },
       ] },
       { day: 5, title: '中卫沙漠与老城', summary: '沙坡头为主，市区古建为辅。', accommodation: '无', meals: ['午餐：沙坡头周边', '晚餐：中卫市区'], stops: [
         { time: '09:00', title: '沙坡头旅游景区', attractionId: 'shapotou', description: '根据天气选择体验项目。' },
@@ -108,7 +126,7 @@ export const routes: RoutePlan[] = [
   },
   {
     id: 'red-culture-3day', name: '红色文化之旅', theme: 'culture', themeLabel: '红色文化', durationDays: 3, durationLabel: '3 天',
-    audience: '关注革命历史、团队研学和宁南人文的游客', budget: '约 1,800—3,000 元/人，不含往返大交通', bestSeason: '5—9 月',
+    audience: '关注革命历史、团队研学和宁南人文的游客', budget: '约 1,800—3,000 元/人，不含往返大交通', bestSeason: '5—9 月', pace: 'intensive', walkingLevel: 'medium', transportSummary: '长距离包车或自驾，建议熟悉宁夏道路的司机',
     summary: '从盐池到六盘山跨度较大，建议包车或自驾并配备熟悉宁夏道路的司机，不与普通观光路线混排。',
     highlights: ['盐池革命历史', '六盘山长征文化', '宁南山地生态'], verifiedAt,
     days: [
@@ -116,28 +134,28 @@ export const routes: RoutePlan[] = [
         { time: '14:00', title: '宁夏博物馆', attractionId: 'ningxiamuseum', description: '关注近现代史与宁夏地方历史展陈。' },
       ] },
       { day: 2, title: '盐池红色记忆', summary: '早出发前往盐池，当晚视体力住盐池或固原。', accommodation: '盐池县或固原市区', meals: ['午餐：盐池县城', '晚餐：住宿地'], stops: [
-        { time: '10:30', title: '盐池革命烈士纪念园', mapQuery: '盐池革命烈士纪念园', description: '该地点资料仍在复核，作为路线地理参考保留。', transport: '包车或自驾', tips: '出发前向主管部门确认开放和团队接待安排。' },
+        { time: '10:30', title: '盐池革命历史纪念园', attractionId: 'yanchilie', description: '参观革命历史展陈、解放广场、纪念碑与红军陵，建立盐池红色历史的整体脉络。', transport: '包车或自驾', tips: '常规开放信息已核实；团队讲解和教育活动仍建议提前确认。' },
         { time: '15:00', title: '盐池县城人文走读', mapQuery: '盐池县', description: '结合县城历史与长城文化安排，具体点位以当地开放情况为准。' },
       ] },
-      { day: 3, title: '六盘山长征文化', summary: '山地天气变化快，行程不要排得过满。', accommodation: '无', meals: ['午餐：泾源或隆德', '晚餐：固原市区'], stops: [
-        { time: '09:30', title: '六盘山', attractionId: 'liupanshan', description: '按当日开放情况选择纪念场馆和生态游览点。', transport: '包车或自驾', tips: '团队活动应提前预约讲解。' },
+      { day: 3, title: '六盘山长征文化', summary: '本日目的地在隆德县，不与泾源县六盘山国家森林公园混排。山地天气变化快，行程不要排得过满。', accommodation: '无', meals: ['午餐：隆德县城或景区简餐', '晚餐：固原市区'], stops: [
+        { time: '09:30', title: '六盘山红军长征旅游区', attractionId: 'liupanshan', description: '参观纪念馆、纪念碑，并按体力体验 2.5 公里红军小道。', transport: '包车或自驾前往隆德县', tips: '团队讲解应提前预约；不要误导航至泾源县六盘山国家森林公园。' },
       ] },
     ],
   },
   {
     id: 'food-3day', name: '宁夏美食之旅', theme: 'food', themeLabel: '城市味道', durationDays: 3, durationLabel: '3 天',
-    audience: '把地方饮食与城市漫游放在首位的游客', budget: '约 1,500—2,800 元/人，不含往返大交通', bestSeason: '全年',
+    audience: '把地方饮食与城市漫游放在首位的游客', budget: '约 1,500—2,800 元/人，不含往返大交通', bestSeason: '全年', pace: 'relaxed', walkingLevel: 'low', transportSummary: '城市间铁路或公路，市内以步行和打车为主',
     summary: '以银川、吴忠和中卫三城为主线，餐饮信息变化快，路线只给区域和品类建议，不为具体商户背书。',
     highlights: ['银川夜市', '吴忠早茶', '中卫蒿子面与枸杞'], verifiedAt,
     days: [
       { day: 1, title: '银川：从博物馆到夜市', summary: '白天看城市文化，晚上集中尝小吃。', accommodation: '银川市区', meals: ['午餐：手抓羊肉', '晚餐：怀远观光夜市'], stops: [
         { time: '10:00', title: '宁夏博物馆', attractionId: 'ningxiamuseum', description: '先了解宁夏农牧、丝路和民族文化。' },
-        { time: '16:00', title: '南关清真大寺与老城', attractionId: 'nanguan', description: '尊重宗教礼仪，步行观察老城生活。' },
+        { time: '16:00', title: '鼓楼—玉皇阁历史文化街区', attractionId: 'gulou-yuhuangge', description: '沿鼓楼、玉皇阁与周边街巷步行，南关清真大寺只作为现场允许时的外观顺路点。', tips: '公共街区可以弹性停留，宗教场所须服从现场管理。' },
         { time: '19:00', title: '怀远观光夜市', mapQuery: '银川怀远观光夜市', description: '分食多种小吃，避免一次点得过多。' },
       ] },
       { day: 2, title: '吴忠：把早茶吃成一顿正餐', summary: '早出发，保留充足用餐时间。', accommodation: '吴忠或中卫', meals: ['早午餐：吴忠早茶', '晚餐：吴忠手抓或前往中卫'], stops: [
         { time: '09:00', title: '吴忠早茶文化体验', mapQuery: '吴忠早茶文化体验街', description: '尝试八宝茶、牛肉面、面点与羊杂等组合。', tips: '门店高峰期排队，选择明码标价的正规商户。' },
-        { time: '14:00', title: '中华黄河楼', attractionId: 'zhonghuahuanghelou', description: '餐后沿黄河金岸散步。' },
+        { time: '14:00', title: '中华黄河楼', attractionId: 'zhonghuahuanghelou', description: '餐后沿黄河金岸活动；确认开放后再决定是否进入黄河楼。', tips: '当前运营信息待复核，可随时改为沿河散步或城市休息。' },
       ] },
       { day: 3, title: '中卫：沙漠城市的日常味道', summary: '市区慢游后返程。', accommodation: '无', meals: ['午餐：蒿子面', '伴手礼：正规渠道购买枸杞'], stops: [
         { time: '09:30', title: '中卫高庙与老城', attractionId: 'zhongweigaomiao', description: '从市区古建开始步行。' },

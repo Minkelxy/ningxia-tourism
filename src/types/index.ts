@@ -10,10 +10,16 @@ export interface Coordinates {
   lat: number;
 }
 
+export type SourceLevel = 'direct' | 'directory' | 'homepage';
+export type SourceCoverage = 'overview' | 'visit' | 'location';
+
 export interface SourceRef {
   label: string;
   url: string;
   kind: 'official' | 'image';
+  level: SourceLevel;
+  coverage: SourceCoverage[];
+  checkedAt: string;
 }
 
 export interface AttractionImage {
@@ -50,6 +56,8 @@ export interface Attraction {
   nearbyIds: string[];
   sources: SourceRef[];
   verifiedAt: string;
+  verificationNote: string;
+  fallbackNote?: string;
 }
 
 export interface City {
@@ -58,6 +66,10 @@ export interface City {
   pinyin: CityId;
   travelRole: string;
   connectionNote: string;
+  suggestedStay: string;
+  arrivalNote: string;
+  bestFor: string[];
+  planningTip: string;
   nickname: string;
   introduction: string;
   history: string;
@@ -67,16 +79,26 @@ export interface City {
   image: AttractionImage;
 }
 
-export type JournalType = 'travel' | 'food';
+export type JournalType = 'travel' | 'food' | 'guide';
+export type JournalContentKind = 'firsthand' | 'editorial' | 'demo';
+
+export interface JournalReference {
+  label: string;
+  url: string;
+  checkedAt: string;
+}
 
 export interface JournalCommon {
   slug: string;
   type: JournalType;
   status: ContentStatus;
+  contentKind: JournalContentKind;
+  featured: boolean;
   title: string;
   excerpt: string;
   author: string;
   publishedAt: string;
+  updatedAt: string;
   cityId: CityId;
   locality: string;
   tags: string[];
@@ -110,9 +132,19 @@ export interface FoodJournal extends JournalCommon {
   revisitNote: string;
 }
 
-export type JournalEntry = TravelJournal | FoodJournal;
+export interface EditorialJournal extends JournalCommon {
+  type: 'guide';
+  reviewedAt: string;
+  scopeNote: string;
+  keyPoints: string[];
+  references: JournalReference[];
+}
+
+export type JournalEntry = TravelJournal | FoodJournal | EditorialJournal;
 
 export type RouteTheme = 'first-visit' | 'weekend' | 'panorama' | 'culture' | 'food';
+export type RoutePace = 'relaxed' | 'balanced' | 'intensive';
+export type RouteWalkingLevel = 'low' | 'medium' | 'high';
 
 export interface RouteStop {
   time: string;
@@ -143,6 +175,9 @@ export interface RoutePlan {
   audience: string;
   budget: string;
   bestSeason: string;
+  pace: RoutePace;
+  walkingLevel: RouteWalkingLevel;
+  transportSummary: string;
   summary: string;
   highlights: string[];
   days: RouteDay[];

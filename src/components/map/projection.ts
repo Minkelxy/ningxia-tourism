@@ -4,6 +4,7 @@ export interface GeoFeature {
     name?: string;
     fullname?: string;
     code?: string;
+    adcode?: string | number;
     pinyin?: string;
     center?: [number, number];
   };

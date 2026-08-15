@@ -184,14 +184,14 @@ def main():
     # 项目目录
     project_dir = Path(__file__).parent
 
-    # 默认的 GeoJSON 文件路径
+    # 正式地图数据路径（与站点运行时共用）
     default_files = {
-        '1': project_dir / 'public' / 'data' / 'ningxia.geojson',
-        '2': project_dir / 'public' / 'data' / 'yinchuan.geojson',
-        '3': project_dir / 'public' / 'data' / 'shizuishan.geojson',
-        '4': project_dir / 'public' / 'data' / 'wuzhong.geojson',
-        '5': project_dir / 'public' / 'data' / 'guyuan.geojson',
-        '6': project_dir / 'public' / 'data' / 'zhongwei.geojson',
+        '1': project_dir / 'public' / 'data' / 'ningxia-province.json',
+        '2': project_dir / 'public' / 'data' / 'ningxia' / 'districts' / 'yinchuan.json',
+        '3': project_dir / 'public' / 'data' / 'ningxia' / 'districts' / 'shizuishan.json',
+        '4': project_dir / 'public' / 'data' / 'ningxia' / 'districts' / 'wuzhong.json',
+        '5': project_dir / 'public' / 'data' / 'ningxia' / 'districts' / 'guyuan.json',
+        '6': project_dir / 'public' / 'data' / 'ningxia' / 'districts' / 'zhongwei.json',
     }
 
     # 检查命令行参数
@@ -215,12 +215,12 @@ def main():
         print("  GeoJSON 地图可视化工具")
         print("=" * 50)
         print("\n可用的地图文件:")
-        print("  1. 宁夏全区 (ningxia.geojson)")
-        print("  2. 银川市 (yinchuan.geojson)")
-        print("  3. 石嘴山市 (shizuishan.geojson)")
-        print("  4. 吴忠市 (wuzhong.geojson)")
-        print("  5. 固原市 (guyuan.geojson)")
-        print("  6. 中卫市 (zhongwei.geojson)")
+        print("  1. 宁夏全区 (ningxia-province.json)")
+        print("  2. 银川市区县 (yinchuan.json)")
+        print("  3. 石嘴山市区县 (shizuishan.json)")
+        print("  4. 吴忠市区县 (wuzhong.json)")
+        print("  5. 固原市区县 (guyuan.json)")
+        print("  6. 中卫市区县 (zhongwei.json)")
         print("\n使用方法:")
         print("  python show_geojson.py <选项编号>")
         print("  python show_geojson.py <文件路径>")
@@ -228,7 +228,7 @@ def main():
         print("  python show_geojson.py 1 --no-display # 无图形界面模式")
         print("\n示例:")
         print("  python show_geojson.py 1")
-        print("  python show_geojson.py ./data/ningxia.geojson")
+        print("  python show_geojson.py public/data/ningxia-province.json")
         print("=" * 50)
 
         choice = input("\n请选择要显示的地图 (1-6) 或输入文件路径: ").strip()
