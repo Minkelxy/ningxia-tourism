@@ -6,7 +6,8 @@ import ResponsiveImage from '../components/ResponsiveImage';
 import { attractionAliases, getAttractionById, publishedAttractions } from '../data/attractions';
 import { cityName } from '../data/cities';
 import { categoryMeta } from '../data/meta';
-import { attractionMapUrl, formatVerifiedDate, getVerificationFreshness, sharePage } from '../lib/site';
+import { attractionMapUrl, formatVerifiedDate, getVerificationFreshness } from '../lib/site';
+import useShare from '../lib/useShare';
 
 const sourceLevelLabels = { direct: '直接专页', directory: '专题目录', homepage: '机构首页' } as const;
 const sourceCoverageLabels = { overview: '景点概况', visit: '开放预约', location: '地址交通' } as const;
@@ -16,7 +17,8 @@ export default function AttractionDetail() {
   const attraction = getAttractionById(id);
   const replacementId = id ? attractionAliases[id] : undefined;
   const [imageIndex, setImageIndex] = useState(0);
-  const [shareStatus, setShareStatus] = useState('');
+  // Hooks 必须在任何 early return 之前调用，参数使用空字符串兜底
+  const { handleShare, ShareToast } = useShare(attraction?.name ?? '', attraction?.summary ?? '');
 
   if (replacementId) return <Navigate to={`/attraction/${replacementId}`} replace />;
 
@@ -33,12 +35,6 @@ export default function AttractionDetail() {
   const nearby = publishedAttractions.filter((item) => attraction.nearbyIds.includes(item.id));
   const freshness = getVerificationFreshness(attraction.verifiedAt);
 
-  const handleShare = async () => {
-    try { setShareStatus(await sharePage(attraction.name, attraction.summary)); }
-    catch { setShareStatus('分享已取消'); }
-    window.setTimeout(() => setShareStatus(''), 2400);
-  };
-
   return (
     <>
       <SEO title={`${attraction.name}旅行指南 · 宁夏旅行地图`} description={attraction.summary} image={currentImage.src} />
@@ -50,7 +46,7 @@ export default function AttractionDetail() {
           <div className="detail-title"><div className="detail-badges"><span className={`category-badge ${category.className}`}>{category.label}</span><span className={`verification-badge ${attraction.verificationLevel}`}>{attraction.verificationLevel === 'verified' ? '已核实' : '待复核'}</span></div><h1>{attraction.name}</h1><p><MapPin aria-hidden="true" /> {cityName(attraction.cityId)} · {attraction.locality}</p></div>
           {attraction.images.length > 1 && <div className="image-dots" aria-label="选择图片">{attraction.images.map((item, index) => <button type="button" key={item.src} onClick={() => setImageIndex(index)} aria-label={`查看第 ${index + 1} 张图片`} aria-pressed={imageIndex === index} />)}</div>}
         </div>
-        {shareStatus && <div className="toast" role="status">{shareStatus}</div>}
+        {ShareToast}
 
         <div className="detail-layout section-shell">
           <article className="detail-main">

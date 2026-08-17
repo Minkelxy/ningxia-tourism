@@ -1,9 +1,10 @@
 import { ArrowRight, ChevronDown, ChevronUp, MapPin, Search, SlidersHorizontal, Utensils } from 'lucide-react';
-import { useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { cities, cityName } from '../data/cities';
 import { publishedFoods, reviewFoods, verifiedFoods } from '../data/foods';
+import useSearchParamsFilter, { useFiltersWithPanel } from '../lib/useSearchParamsFilter';
 import type { CityId, FoodCategory } from '../types';
 
 const foodCategoryLabels: Record<FoodCategory, string> = {
@@ -11,25 +12,18 @@ const foodCategoryLabels: Record<FoodCategory, string> = {
 };
 
 export default function FoodsList() {
-  const [params, setParams] = useSearchParams();
+  const { params, setFilter, clearFilters } = useSearchParamsFilter();
   const query = params.get('q') ?? '';
   const city = params.get('city') ?? 'all';
   const category = params.get('category') ?? 'all';
-  const activeFilterCount = [query.trim(), city !== 'all', category !== 'all'].filter(Boolean).length;
-  const [filtersExpanded, setFiltersExpanded] = useState(() => activeFilterCount > 0);
+  const { activeFilterCount, filtersExpanded, setFiltersExpanded, toggleFilters } = useFiltersWithPanel([query.trim(), city !== 'all', category !== 'all']);
 
-  const setFilter = (name: string, value: string) => {
-    const next = new URLSearchParams(params);
-    if (!value || value === 'all') next.delete(name); else next.set(name, value);
-    setParams(next, { replace: true });
-  };
-
-  const foods = publishedFoods.filter((item) => {
+  const foods = useMemo(() => publishedFoods.filter((item) => {
     const normalized = query.trim().toLocaleLowerCase('zh-CN');
     const matchesQuery = !normalized || `${item.name}${item.origin}${item.description}${item.restaurants.map((r) => r.name).join('')}`.toLocaleLowerCase('zh-CN').includes(normalized);
     const matchesCity = city === 'all' || item.restaurants.some((r) => r.cityId === city) || item.origin.includes(cityName(city as CityId));
     return matchesQuery && matchesCity && (category === 'all' || item.category === category);
-  });
+  }), [query, city, category]);
 
   return (
     <>
@@ -39,7 +33,7 @@ export default function FoodsList() {
       </header>
       <div className="section-shell page-content">
         <div className="mobile-filter-bar">
-          <button type="button" className="mobile-filter-toggle" aria-expanded={filtersExpanded} aria-controls="food-filters" onClick={() => setFiltersExpanded((current) => !current)}>
+          <button type="button" className="mobile-filter-toggle" aria-expanded={filtersExpanded} aria-controls="food-filters" onClick={toggleFilters}>
             <SlidersHorizontal aria-hidden="true" />
             <span>筛选美食</span>
             {activeFilterCount > 0 && <strong aria-label={`${activeFilterCount} 个筛选条件`}>{activeFilterCount}</strong>}
@@ -54,14 +48,14 @@ export default function FoodsList() {
           <label><span><Utensils aria-hidden="true" /> 类别</span><select value={category} onChange={(event) => setFilter('category', event.target.value)}><option value="all">全部类别</option>{(Object.entries(foodCategoryLabels) as Array<[FoodCategory, string]>).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
         </section>
 
-        <div id="food-results" className="result-summary" role="status" aria-live="polite"><strong>{foods.length}</strong> 个符合条件的美食{activeFilterCount > 0 && <button type="button" onClick={() => { setParams({}); setFiltersExpanded(false); }}>清除筛选</button>}</div>
+        <div id="food-results" className="result-summary" role="status" aria-live="polite"><strong>{foods.length}</strong> 个符合条件的美食{activeFilterCount > 0 && <button type="button" onClick={() => { clearFilters(); setFiltersExpanded(false); }}>清除筛选</button>}</div>
 
         {foods.length ? <div className="attraction-grid">{foods.map((item) => (
           <article className="attraction-card" key={item.id}>
             <Link to={`/food/${item.id}`} className="card-image food-card-image"><span className="food-card-icon"><Utensils aria-hidden="true" /></span><span className="category-badge">{foodCategoryLabels[item.category]}</span><span className={`verification-badge ${item.verificationLevel}`}>{item.verificationLevel === 'verified' ? '已核实' : '待复核'}</span></Link>
             <div className="card-content"><p className="card-location"><MapPin aria-hidden="true" /> {item.origin}</p><h2><Link to={`/food/${item.id}`}>{item.name}</Link></h2><p>{item.description}</p><div className="card-meta">{item.priceRange && <span>{item.priceRange}</span>}{item.bestSeason && <span>{item.bestSeason}</span>}</div><Link to={`/food/${item.id}`} className="text-link">查看美食详情 <ArrowRight aria-hidden="true" /></Link></div>
           </article>
-        ))}</div> : <div className="empty-state"><Search aria-hidden="true" /><h2>没有找到匹配的美食</h2><p>换一个关键词，或者清除城市与类别筛选再试试。</p><button type="button" className="btn-primary" onClick={() => setParams({})}>查看全部美食</button></div>}
+        ))}</div> : <div className="empty-state"><Search aria-hidden="true" /><h2>没有找到匹配的美食</h2><p>换一个关键词，或者清除城市与类别筛选再试试。</p><button type="button" className="btn-primary" onClick={() => clearFilters()}>查看全部美食</button></div>}
       </div>
     </>
   );

@@ -1,11 +1,12 @@
 import { ArrowRight, BookOpenText, FileText, LayoutGrid, MapPin, NotebookPen, Search, Store, Tags, X } from 'lucide-react';
-import { useRef, type KeyboardEvent as ReactKeyboardEvent } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useCallback, useMemo, useRef, type KeyboardEvent as ReactKeyboardEvent } from 'react';
+import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import ResponsiveImage from '../components/ResponsiveImage';
 import { publishedJournalEntries } from '../content/journal';
 import { filterJournalEntries } from '../content/journal-search';
 import { cities, cityName } from '../data/cities';
+import useSearchParamsFilter from '../lib/useSearchParamsFilter';
 import type { JournalType } from '../types';
 
 type JournalView = 'all' | JournalType;
@@ -20,20 +21,27 @@ const tabs: Array<{ type: JournalView; label: string }> = [
 const typeLabel = (type: JournalType) => type === 'travel' ? '游记' : type === 'food' ? '探店' : '资料专题';
 
 export default function Journal() {
-  const [params, setParams] = useSearchParams();
+  const { params, setParams, setFilter, clearFilters: clearAll } = useSearchParamsFilter();
   const requestedType = params.get('type');
   const type: JournalView = requestedType === 'travel' || requestedType === 'food' || requestedType === 'guide' ? requestedType : 'all';
   const city = params.get('city') ?? 'all';
   const tag = params.get('tag') ?? 'all';
   const q = params.get('q') ?? '';
-  const typeEntries = type === 'all' ? publishedJournalEntries : publishedJournalEntries.filter((entry) => entry.type === type);
-  const tags = [...new Set(typeEntries.flatMap((entry) => entry.tags))];
-  const entries = filterJournalEntries(typeEntries, { q, city, tag });
+  const typeEntries = useMemo(() => type === 'all' ? publishedJournalEntries : publishedJournalEntries.filter((entry) => entry.type === type), [type]);
+  const tags = useMemo(() => [...new Set(typeEntries.flatMap((entry) => entry.tags))], [typeEntries]);
+  const entries = useMemo(() => filterJournalEntries(typeEntries, { q, city, tag }), [typeEntries, q, city, tag]);
   const hasActiveFilters = Boolean(q.trim()) || city !== 'all' || tag !== 'all';
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
-  const setFilter = (key: string, value: string) => { const next = new URLSearchParams(params); if (value === 'all') next.delete(key); else next.set(key, value); setParams(next, { replace: true }); };
-  const clearFilters = () => { const next = new URLSearchParams(); if (type !== 'all') next.set('type', type); setParams(next, { replace: true }); };
-  const switchType = (value: JournalView) => { const next = new URLSearchParams(params); if (value === 'all') next.delete('type'); else next.set('type', value); next.delete('tag'); setParams(next, { replace: true }); };
+  // 清除筛选时保留 type=xx 参数，切换 tab 不导致筛选清空后 tab 跳回全部
+  const clearFilters = useCallback(() => clearAll(type !== 'all' ? ['type'] : undefined), [clearAll, type]);
+  const switchType = useCallback((value: JournalView) => {
+    const next = new URLSearchParams(params);
+    if (value === 'all') next.delete('type'); else next.set('type', value);
+    next.delete('tag');
+    next.delete('city');
+    next.delete('q');
+    setParams(next, { replace: true });
+  }, [params, setParams]);
   const handleTabKey = (event: ReactKeyboardEvent<HTMLButtonElement>, index: number) => {
     let nextIndex: number | undefined;
     if (event.key === 'ArrowRight') nextIndex = (index + 1) % tabs.length;

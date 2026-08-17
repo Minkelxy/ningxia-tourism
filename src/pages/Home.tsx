@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ArrowDown, ArrowRight, BadgeCheck, CalendarCheck2, CalendarDays, Footprints, Gauge, MapPin, MapPinned, NotebookPen, ShieldAlert, TrainFront } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import NingxiaInteractiveMap from '../components/NingxiaInteractiveMap';
@@ -12,8 +12,8 @@ import { routes } from '../data/routes';
 
 export default function Home() {
   const [selectedDays, setSelectedDays] = useState(3);
-  const matchedRoutes = routes.filter((route) => route.durationDays === selectedDays);
-  const latestTopics = publishedJournalEntries.filter((entry) => entry.type === 'guide').slice(0, 3);
+  const matchedRoutes = useMemo(() => routes.filter((route) => route.durationDays === selectedDays), [selectedDays]);
+  const latestTopics = useMemo(() => publishedJournalEntries.filter((entry) => entry.type === 'guide').slice(0, 3), []);
 
   return (
     <>

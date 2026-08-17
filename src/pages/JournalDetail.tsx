@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo } from 'react';
 import { ArrowLeft, CalendarDays, CircleDollarSign, Clock3, ExternalLink, MapPin, Navigation, NotebookPen, Share2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -9,27 +9,28 @@ import { getJournalEntry, isPublishedJournalEntry } from '../content/journal';
 import { getAttractionById } from '../data/attractions';
 import { cityName } from '../data/cities';
 import { getRouteById } from '../data/routes';
-import { createAmapMarkerUrl, sharePage } from '../lib/site';
+import { createAmapMarkerUrl } from '../lib/site';
+import useShare from '../lib/useShare';
 
 const headingId = (value: string) => value.trim().replace(/\s+/g, '-');
 
 export default function JournalDetail() {
   const { type, slug } = useParams();
   const entry = getJournalEntry(type, slug);
-  const [shareStatus, setShareStatus] = useState('');
+  // Hooks 必须在任何 early return 之前调用，参数使用空字符串兜底
+  const { handleShare, ShareToast } = useShare(entry?.title ?? '', entry?.excerpt ?? '');
+  const headings = useMemo(() => (entry?.body ?? '').split('\n').flatMap((line) => { const match = line.match(/^(##|###)\s+(.+)$/); return match ? [{ level: match[1].length, text: match[2], id: headingId(match[2]) }] : []; }), [entry?.body]);
   if (!entry || !isPublishedJournalEntry(entry)) return <div className="full-state journal-missing"><SEO title="内容整理中 · 宁夏旅行地图" noIndex /><NotebookPen aria-hidden="true" /><p className="eyebrow">内容整理中</p><h1>这篇内容还没有公开</h1><p>亲历手记会先核对真实经历与照片，旅行专题会先补齐资料来源。完成前不会进入公开列表。</p><Link to="/journal" className="btn-primary">返回旅行手记</Link></div>;
   const food = entry.type === 'food' ? entry : null;
   const travel = entry.type === 'travel' ? entry : null;
   const guide = entry.type === 'guide' ? entry : null;
-  const headings = entry.body.split('\n').flatMap((line) => { const match = line.match(/^(##|###)\s+(.+)$/); return match ? [{ level: match[1].length, text: match[2], id: headingId(match[2]) }] : []; });
   const mapUrl = food ? createAmapMarkerUrl(food.mapQuery) : createAmapMarkerUrl(`${cityName(entry.cityId)} ${entry.locality}`);
   const contentLabel = travel ? '个人游记' : food ? '探店记录' : '旅行专题 · 资料整理';
   const contentDate = travel?.tripDate || food?.visitedAt || guide?.reviewedAt;
-  const handleShare = async () => { try { setShareStatus(await sharePage(entry.title, entry.excerpt)); } catch { setShareStatus('分享已取消'); } window.setTimeout(() => setShareStatus(''), 2400); };
   return <>
     <SEO title={`${entry.title} · ${guide ? '旅行专题' : '旅行手记'}`} description={entry.excerpt} image={entry.cover.src} type="article" publishedAt={entry.publishedAt} updatedAt={entry.updatedAt} author={entry.author} />
     <div className="journal-detail"><header className="journal-detail-hero"><ResponsiveImage src={entry.cover.src} alt={entry.cover.alt} width="1600" height="960" sizes="100vw" /><div className="detail-overlay" /><div className="section-shell journal-detail-title"><Link to={`/journal?type=${entry.type}`} className="back-link"><ArrowLeft aria-hidden="true" />旅行手记</Link><p className="eyebrow">{contentLabel} · {entry.author}</p><h1>{entry.title}</h1><p>{entry.excerpt}</p><button type="button" className="icon-button" onClick={handleShare} aria-label="分享内容"><Share2 aria-hidden="true" /></button></div></header>
-      {shareStatus && <div className="toast" role="status">{shareStatus}</div>}
+      {ShareToast}
       <div className="section-shell journal-detail-layout"><article className="journal-article"><div className="journal-fact-strip"><span><CalendarDays aria-hidden="true" />{guide ? `资料核对 ${contentDate}` : contentDate}</span><span><MapPin aria-hidden="true" />{cityName(entry.cityId)} · {entry.locality}</span>{travel && <span><Clock3 aria-hidden="true" />{travel.duration}</span>}{food && <span><CircleDollarSign aria-hidden="true" />{food.pricePerPerson}</span>}</div>
         {travel && <section className="receipt-card"><span>TRIP NOTE</span><dl><div><dt>交通</dt><dd>{travel.transport}</dd></div><div><dt>花费复盘</dt><dd>{travel.budgetNote}</dd></div><div><dt>这次记住</dt><dd>{travel.highlights.join(' · ')}</dd></div></dl></section>}
         {food && <section className="receipt-card"><span>FOOD NOTE</span><h2>{food.venueName}</h2><dl><div><dt>菜系</dt><dd>{food.cuisine}</dd></div><div><dt>地址</dt><dd>{food.address}</dd></div><div><dt>点单</dt><dd>{food.dishes.join(' · ')}</dd></div><div><dt>排队</dt><dd>{food.queueNote}</dd></div><div><dt>适合</dt><dd>{food.suitableFor}</dd></div><div><dt>再访</dt><dd>{food.revisitNote}</dd></div></dl></section>}

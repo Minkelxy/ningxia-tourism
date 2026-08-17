@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { ArrowLeft, ArrowRight, CalendarDays, Clock3, Lightbulb, MapPin, Route, Sparkles, TrainFront, UsersRound, Utensils } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import SEO from '../components/SEO';
@@ -18,17 +19,21 @@ const foodCategoryLabels: Record<FoodCategory, string> = {
   staple: '主食',
 };
 
+// 五城概览卡片：一次性预计算每个城市的公开景点数，避免在 cities.map 内部重复调用
+const cityCardMeta = cities.map((item) => ({ city: item, attractionCount: getPublishedAttractionsByCity(item.id).length }));
+
 export default function CityOverview() {
   const { name } = useParams();
   const city = getCityById(name);
+  // Hooks 必须在任何 early return 之前调用；city 为 undefined 时给空数组兜底
+  const attractions = useMemo(() => (city ? getPublishedAttractionsByCity(city.id) : []), [city]);
+  const attractionIds = useMemo(() => new Set(attractions.map((item) => item.id)), [attractions]);
+  const relatedRoutes = useMemo(() => routes.filter((route) => route.days.some((day) => day.stops.some((stop) => stop.attractionId && attractionIds.has(stop.attractionId)))), [attractionIds]);
+  const cityFoods = useMemo(() => (city ? foodsByCity(city.id) : []), [city]);
 
   if (name && !city) return <div className="full-state"><SEO title="城市未找到 · 宁夏旅行地图" noIndex /><MapPin aria-hidden="true" /><h1>没有找到这座城市</h1><p>宁夏旅行地图目前覆盖五个地级市。</p><Link to="/cities" className="btn-primary">查看五城概览</Link></div>;
 
   if (city) {
-    const attractions = getPublishedAttractionsByCity(city.id);
-    const attractionIds = new Set(attractions.map((item) => item.id));
-    const relatedRoutes = routes.filter((route) => route.days.some((day) => day.stops.some((stop) => stop.attractionId && attractionIds.has(stop.attractionId))));
-    const cityFoods = foodsByCity(city.id);
     return (
       <>
         <SEO title={`${city.name}旅行指南 · 宁夏旅行地图`} description={city.introduction} image={city.image.src} />
@@ -38,7 +43,7 @@ export default function CityOverview() {
             <article>
               <section className="city-facts"><div><Clock3 aria-hidden="true" /><span>建议停留</span><strong>{city.suggestedStay}</strong></div><div><MapPin aria-hidden="true" /><span>旅行角色</span><strong>{city.travelRole}</strong></div><div><Route aria-hidden="true" /><span>行程衔接</span><strong>{city.connectionNote}</strong></div><div><CalendarDays aria-hidden="true" /><span>推荐季节</span><strong>{city.bestSeason}</strong></div></section>
               <section className="detail-section"><p className="eyebrow">城市脉络</p><h2>从哪里读懂{city.name.replace('市', '')}</h2><p className="detail-summary">{city.history}</p><div className="culture-note"><Sparkles aria-hidden="true" /><span>关键词</span><strong>{city.culture}</strong></div></section>
-              <section className="detail-section"><p className="eyebrow">城市味道</p><h2>值得留意的本地风味</h2>{cityFoods.length ? <div className="source-card"><div className="source-list">{cityFoods.map((food) => <a key={food.id}><span><strong>{food.name}</strong><small>{food.description} · {foodCategoryLabels[food.category]}{food.priceRange ? ` · ${food.priceRange}` : ''}</small></span><Utensils aria-hidden="true" /></a>)}</div></div> : <div className="food-tags">{city.foods.map((food) => <span key={food}><Utensils aria-hidden="true" />{food}</span>)}</div>}<p className="fine-print">餐饮门店变化较快，本站只提供品类参考，请选择证照齐全、明码标价的正规商户。</p></section>
+              <section className="detail-section"><p className="eyebrow">城市味道</p><h2>值得留意的本地风味</h2>{cityFoods.length ? <div className="source-card"><div className="source-list">{cityFoods.map((food) => <Link key={food.id} to={`/food/${food.id}`}><span><strong>{food.name}</strong><small>{food.description} · {foodCategoryLabels[food.category]}{food.priceRange ? ` · ${food.priceRange}` : ''}</small></span><Utensils aria-hidden="true" /></Link>)}</div></div> : <div className="food-tags">{city.foods.map((food) => <span key={food}><Utensils aria-hidden="true" />{food}</span>)}</div>}<p className="fine-print">餐饮门店变化较快，本站只提供品类参考，请选择证照齐全、明码标价的正规商户。</p></section>
             </article>
             <aside className="city-sidebar">
               <section className="city-decision-card"><p className="eyebrow"><UsersRound aria-hidden="true" /> 编辑建议</p><h2>适不适合放进这趟行程</h2><div className="city-best-for">{city.bestFor.map((item) => <span key={item}>{item}</span>)}</div><p className="city-arrival-note"><TrainFront aria-hidden="true" />{city.arrivalNote}</p><div className="city-planning-tip"><Lightbulb aria-hidden="true" /><p><strong>关键提醒</strong>{city.planningTip}</p></div></section>
@@ -58,8 +63,7 @@ export default function CityOverview() {
       <header className="page-hero compact-hero"><div className="section-shell"><p className="eyebrow">五座城市 · 五种旅行气质</p><h1>宁夏不只有沙漠</h1><p>先比较停留时间、适合人群与交通衔接，再选择一座城市，理解它的历史、味道与旅行节奏。</p></div></header>
       <div className="section-shell page-content">
         <section className="city-comparison" aria-labelledby="city-comparison-title"><header><div><p className="eyebrow">先选落脚点</p><h2 id="city-comparison-title">五城放在一起，怎么选</h2></div><p>停留时间和取舍属于编辑建议，帮助比较行程结构；班次、道路和景区项目仍以出发日信息为准。</p></header><p className="city-comparison-hint">手机上可左右滑动查看完整比较</p><div className="city-table-wrap" role="region" aria-label="五城旅行比较表" tabIndex={0}><table><thead><tr><th scope="col">城市</th><th scope="col">建议停留</th><th scope="col">更适合</th><th scope="col">抵达与衔接</th><th scope="col">关键提醒</th><th scope="col"><span className="sr-only">操作</span></th></tr></thead><tbody>{cities.map((item) => <tr key={item.id}><th scope="row"><Link to={`/city/${item.id}`}>{item.name}</Link><small>{item.travelRole}</small></th><td><span className="city-stay-pill">{item.suggestedStay}</span></td><td><div className="city-table-tags">{item.bestFor.slice(0, 2).map((tag) => <span key={tag}>{tag}</span>)}</div></td><td>{item.arrivalNote}</td><td>{item.planningTip}</td><td><Link to={`/city/${item.id}`} className="text-link">查看 <ArrowRight aria-hidden="true" /></Link></td></tr>)}</tbody></table></div></section>
-        <div className="city-grid">{cities.map((item) => {
-        const count = getPublishedAttractionsByCity(item.id).length;
+        <div className="city-grid">{cityCardMeta.map(({ city: item, attractionCount: count }) => {
         return <article className="city-card" key={item.id}><Link to={`/city/${item.id}`} className="city-card-image"><ResponsiveImage src={item.image.src} alt={item.image.alt} loading="lazy" width="720" height="720" sizes="(max-width: 768px) 100vw, 44vw" /><span>{item.nickname}</span></Link><div><p className="eyebrow"><MapPin aria-hidden="true" /> {count} 个公开景点</p><h2>{item.name}</h2><p>{item.introduction}</p><div className="city-card-meta"><span><Clock3 aria-hidden="true" />{item.suggestedStay}</span>{item.bestFor.slice(0, 2).map((tag) => <span key={tag}>{tag}</span>)}</div><Link to={`/city/${item.id}`} className="text-link">查看城市指南 <ArrowRight aria-hidden="true" /></Link></div></article>;
       })}</div></div>
     </>

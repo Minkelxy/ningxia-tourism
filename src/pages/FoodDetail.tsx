@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import { ArrowLeft, ExternalLink, MapPin, Navigation, Share2, ShieldCheck, Utensils, UtensilsCrossed } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { cityName } from '../data/cities';
 import { foodById } from '../data/foods';
-import { createAmapMarkerUrl, formatVerifiedDate, getVerificationFreshness, sharePage } from '../lib/site';
+import { createAmapMarkerUrl, formatVerifiedDate, getVerificationFreshness } from '../lib/site';
+import useShare from '../lib/useShare';
 import type { FoodCategory } from '../types';
 
 const foodCategoryLabels: Record<FoodCategory, string> = {
@@ -16,19 +16,13 @@ const sourceCoverageLabels = { overview: '美食概况', visit: '开放预约', 
 export default function FoodDetail() {
   const { id } = useParams();
   const food = foodById(id ?? '');
-  const [shareStatus, setShareStatus] = useState('');
+  const { handleShare, ShareToast } = useShare(food?.name ?? '', food?.description ?? '');
 
   if (!food || food.status !== 'published') return (
     <div className="full-state"><SEO title="美食未找到 · 宁夏旅行地图" noIndex /><UtensilsCrossed aria-hidden="true" /><h1>没有找到这道美食</h1><p>链接可能已经变更，回到美食列表继续探索。</p><Link to="/foods" className="btn-primary">浏览全部美食</Link></div>
   );
 
   const freshness = getVerificationFreshness(food.verifiedAt);
-
-  const handleShare = async () => {
-    try { setShareStatus(await sharePage(food.name, food.description)); }
-    catch { setShareStatus('分享已取消'); }
-    window.setTimeout(() => setShareStatus(''), 2400);
-  };
 
   return (
     <>
@@ -43,7 +37,7 @@ export default function FoodDetail() {
             <div className="route-detail-actions"><button type="button" className="btn-quiet" onClick={handleShare}><Share2 aria-hidden="true" /> 分享美食</button></div>
           </div>
         </header>
-        {shareStatus && <div className="toast" role="status">{shareStatus}</div>}
+        {ShareToast}
 
         <div className="detail-layout section-shell">
           <article className="detail-main">

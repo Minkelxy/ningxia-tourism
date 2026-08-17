@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo } from 'react';
 import { ArrowLeft, BadgeCheck, CalendarDays, CircleDollarSign, Clock3, ExternalLink, Footprints, Gauge, MapPin, MapPinned, Navigation, Printer, Share2, Sparkles, TrainFront, Utensils } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import SEO from '../components/SEO';
@@ -6,23 +6,25 @@ import { getAttractionById } from '../data/attractions';
 import { cityName } from '../data/cities';
 import { routePaceMeta, routeWalkingMeta } from '../data/meta';
 import { getRouteById } from '../data/routes';
-import { getRouteEvidenceSummary } from '../lib/route';
-import { createAmapMarkerUrl, formatVerifiedDate, sharePage } from '../lib/site';
+import { getRouteEvidenceSummary, type RouteEvidenceSummary } from '../lib/route';
+import { createAmapMarkerUrl, formatVerifiedDate } from '../lib/site';
+import useShare from '../lib/useShare';
+
+const EMPTY_EVIDENCE: RouteEvidenceSummary = { totalStops: 0, verifiedStops: 0, reviewStops: 0, ordinaryStops: 0, cityIds: [] };
 
 export default function RouteDetail() {
   const { routeId } = useParams();
   const route = getRouteById(routeId);
-  const [shareStatus, setShareStatus] = useState('');
+  // Hooks 必须在任何 early return 之前调用，参数使用空字符串/安全兜底
+  const evidence = useMemo(() => (route ? getRouteEvidenceSummary(route) : EMPTY_EVIDENCE), [route]);
+  const { handleShare, ShareToast } = useShare(route?.name ?? '', route?.summary ?? '');
   if (!route) return <div className="full-state"><SEO title="路线未找到 · 宁夏旅行地图" noIndex /><CalendarDays aria-hidden="true" /><h1>没有找到这条路线</h1><p>回到路线列表，选择一条适合你的行程。</p><Link to="/routes" className="btn-primary">查看全部路线</Link></div>;
-  const evidence = getRouteEvidenceSummary(route);
-
-  const handleShare = async () => { try { setShareStatus(await sharePage(route.name, route.summary)); } catch { setShareStatus('分享已取消'); } window.setTimeout(() => setShareStatus(''), 2400); };
   return (
     <>
       <SEO title={`${route.name} · 宁夏旅行地图`} description={route.summary} />
       <div className="route-detail-page">
         <header className="route-detail-hero"><div className="section-shell"><Link to="/routes" className="back-link"><ArrowLeft aria-hidden="true" /> 返回路线列表</Link><p className="eyebrow"><Sparkles aria-hidden="true" /> {route.themeLabel}</p><h1>{route.name}</h1><p>{route.summary}</p><div className="route-detail-facts"><span><Clock3 aria-hidden="true" /> {route.durationLabel}</span><span><Gauge aria-hidden="true" /> {routePaceMeta[route.pace].label}节奏</span><span><Footprints aria-hidden="true" /> 步行{routeWalkingMeta[route.walkingLevel].label}</span><span><CircleDollarSign aria-hidden="true" /> {route.budget}</span><span><CalendarDays aria-hidden="true" /> {route.bestSeason}</span></div><div className="route-detail-actions"><button type="button" className="btn-primary" onClick={() => window.print()}><Printer aria-hidden="true" /> 打印行程</button><button type="button" className="btn-quiet" onClick={handleShare}><Share2 aria-hidden="true" /> 分享路线</button></div></div></header>
-        {shareStatus && <div className="toast" role="status">{shareStatus}</div>}
+        {ShareToast}
         {route.days.length > 1 && <nav className="route-day-nav" aria-label="按天快速跳转"><div className="section-shell"><span>按天快速跳转</span><div>{route.days.map((day) => <a key={day.day} href={`#route-day-${day.day}`}><strong>D{String(day.day).padStart(2, '0')}</strong><small>{day.title}</small></a>)}</div></div></nav>}
         <div className="section-shell route-detail-layout">
           <article className="timeline"><div className="route-audience"><span>适合人群</span><strong>{route.audience}</strong></div>{route.days.map((day) => <section key={day.day} id={`route-day-${day.day}`} className="route-day" aria-labelledby={`route-day-${day.day}-title`}><div className="day-marker"><span>DAY</span><strong>{String(day.day).padStart(2, '0')}</strong></div><div className="day-content"><header><h2 id={`route-day-${day.day}-title`}>{day.title}</h2><p>{day.summary}</p></header><div className="route-stops">{day.stops.map((stop, index) => {
