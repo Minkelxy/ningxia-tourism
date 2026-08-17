@@ -1,6 +1,6 @@
 # 塞上江南 · 宁夏旅行地图
 
-一个面向国内游客的宁夏静态旅行规划站。网站用自研 SVG 地图串起 5 个地级市、分级核实的公开景点、8 条主题路线、旅行手记与资料专题，并保留来源、核实日期与图片许可信息。
+一个面向国内游客的宁夏静态旅行规划站。网站用自研 SVG 地图串起 5 个地级市、分级核实的公开景点、9 条主题路线、14 道特色美食、旅行手记与资料专题，并保留来源、核实日期与图片许可信息。
 
 在线访问：[https://minkelxy.github.io/ningxia-tourism/](https://minkelxy.github.io/ningxia-tourism/)
 
@@ -32,12 +32,12 @@ npm run quality:lighthouse
 
 - `src/data/attractions.ts`：景点唯一数据源。正式内容使用 `published`，未核实内容使用 `draft`。
 - `src/data/cities.ts`：五城资料，以固定 `cityId` 关联景点，并维护建议停留、适合人群、抵达方式和行程提醒。
-- `src/data/routes.ts`：八条路线、逐日停靠点与逐日时间槽，以及节奏、步行量和主要交通画像。
+- `src/data/routes.ts`：九条路线、逐日停靠点与逐日时间槽，以及节奏、步行量和主要交通画像。
 - `src/data/validate.ts`：构建期校验，检查字段、ID、坐标和跨数据引用。
 - `src/content/journal/`：公开或草稿的手记、探店与旅行专题 Markdown；内容在构建时解析，不把解析器和 YAML 运行时发送给访客。维护模板位于 `docs/templates/`，不会参与发布。
 - `src/data/guide.ts`：行前指南的四季建议、跨城原则、清单和网络来源。
 - `src/data/discovery.ts`：景点页的旅行兴趣组合，只能引用已公开景点。
-- `src/data/foods.ts`：美食目录，5 道已发布（review 级，政府/文旅直接来源）与 9 道草稿；已发布美食进入地图美食图层，草稿不公开。餐厅电话字段已移除，运营信息改由探店手记承载。
+- `src/data/foods.ts`：美食目录，14 道全部已发布（2 道 verified 级、12 道 review 级），进入地图美食图层与城市页"城市味道"区块。餐厅电话字段已移除，运营信息改由探店手记承载。
 - `src/data/transport.ts`：8 个交通枢纽，覆盖铁路、高铁、机场与汽车站；机场类型使用飞机图标。
 - `src/components/map/`：地图投影、视口控制、区域、景点、交通、美食、政府标记和预览等独立模块。政府标记覆盖自治区与五市，仅作导航锚点；交通图层含机场类型。
 - `public/data/ningxia-province.json` 与 `public/data/ningxia/districts/`：正式地图唯一边界数据，首页地图和开发查看器共同读取。
@@ -47,11 +47,11 @@ npm run quality:lighthouse
 
 个人游记与探店只有同时标记为 `status: published` 与 `contentKind: firsthand` 才会公开；资料型旅行专题使用 `type: guide` 与 `contentKind: editorial`，必须包含来源、核对日期和适用范围。演示模板、占位字段、未来日期或越界引用会让构建失败。
 
-`/journal` 默认展示全部公开内容，并给出各栏目数量；当前公开 9 篇资料型旅行专题，已覆盖五个地级市，亲历游记与探店仍为 0 篇。页面支持通过 `?q=&city=&tag=&type=` 搜索标题、地点、标签与旅行问题，筛选可以一键清空。需要首页优先展示的专题可以设置 `featured: true`，其余内容按更新日期排序。专题允许使用明确标注的项目编辑插画，生成方式和提示词记录在 `docs/IMAGE_PROVENANCE.md`。
+`/journal` 默认展示全部公开内容，并给出各栏目数量；当前公开 10 篇资料型旅行专题，已覆盖五个地级市，亲历游记与探店仍为 0 篇。页面支持通过 `?q=&city=&tag=&type=` 搜索标题、地点、标签与旅行问题，筛选可以一键清空。需要首页优先展示的专题可以设置 `featured: true`，其余内容按更新日期排序。专题允许使用明确标注的项目编辑插画，生成方式和提示词记录在 `docs/IMAGE_PROVENANCE.md`。
 
 ## 路由与部署
 
-公开路由包括 `/`、`/attractions`、`/attraction/:id`、`/cities`、`/city/:slug`、`/routes`、`/routes/:routeId`、`/guide`、`/journal`、`/journal/travel/:slug`、`/journal/food/:slug` 和 `/about`。GeoJSON 工具只在开发环境注册。
+公开路由包括 `/`、`/attractions`、`/attraction/:id`、`/foods`、`/food/:id`、`/cities`、`/city/:name`、`/routes`、`/routes/:routeId`、`/guide`、`/journal`、`/journal/:type/:slug` 和 `/about`。GeoJSON 工具（`/dev/geojson`、`/dev/editor`）只在开发环境注册。
 
 GitHub Actions 会依次执行依赖安全审计、数据校验、类型检查、代码检查、单元测试、端到端测试、生产构建和移动端 Lighthouse 门禁；`public/404.html` 为 GitHub Pages 提供 SPA 深层链接回退。
 
