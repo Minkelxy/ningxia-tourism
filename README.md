@@ -47,7 +47,7 @@ npm run quality:lighthouse
 
 个人游记与探店只有同时标记为 `status: published` 与 `contentKind: firsthand` 才会公开；资料型旅行专题使用 `type: guide` 与 `contentKind: editorial`，必须包含来源、核对日期和适用范围。演示模板、占位字段、未来日期或越界引用会让构建失败。
 
-`/journal` 默认展示全部公开内容，并给出各栏目数量；当前公开 10 篇资料型旅行专题，已覆盖五个地级市，亲历游记与探店仍为 0 篇。页面支持通过 `?q=&city=&tag=&type=` 搜索标题、地点、标签与旅行问题，筛选可以一键清空。需要首页优先展示的专题可以设置 `featured: true`，其余内容按更新日期排序。专题允许使用明确标注的项目编辑插画，生成方式和提示词记录在 `docs/IMAGE_PROVENANCE.md`。
+`/journal` 默认展示全部公开内容，并给出各栏目数量；当前公开 10 篇资料型旅行专题，已覆盖五个地级市，亲历游记与探店仍为 0 篇。页面支持通过 `?q=&city=&tag=&type=` 搜索标题、地点、标签与旅行问题，筛选可以一键清空。需要首页优先展示的专题可以设置 `featured: true`，其余内容按更新日期排序。专题允许使用明确标注的项目编辑插画，生成方式和提示词记录在 `docs/content/IMAGE_PROVENANCE.md`。
 
 ## 路由与部署
 

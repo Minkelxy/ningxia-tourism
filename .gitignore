@@ -23,6 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
+# Trae IDE local workspace (specs, draft plans, share packages)
+.trae/
+.trae-html-share-packages/
+
 # Environment variables
 .env
 .env.local
