@@ -1,8 +1,10 @@
-import type { JournalEntry } from '../types';
+import type { CityId, JournalEntry, TransportHub } from '../types';
 import { attractionAliases, attractions, publishedAttractions } from './attractions';
 import { cities } from './cities';
 import { attractionThemes } from './discovery';
+import { foods } from './foods';
 import { routes } from './routes';
+import { transportHubs } from './transport';
 import { siteDateString } from '../lib/site';
 
 const datePattern = /^\d{4}-\d{2}-\d{2}$/;
@@ -10,6 +12,42 @@ const validImage = (image?: JournalEntry['cover']) => Boolean(image?.src && imag
 const validDate = (value: string) => datePattern.test(value) && !Number.isNaN(Date.parse(`${value}T00:00:00Z`));
 const today = siteDateString();
 const placeholderPattern = /(示例|演示用|示例店名|示例地址|待填写|example\.com)/i;
+
+// 反糟粕校验所需的纯函数 helper（导出以便单元测试直接调用，不依赖文件系统）。
+const kebabIdPattern = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+const templatePhonePattern = /^\d{4}-12306$/;
+
+export const cityAreaCodes: Record<CityId, string> = {
+  yinchuan: '0951',
+  shizuishan: '0952',
+  wuzhong: '0953',
+  guyuan: '0954',
+  zhongwei: '0955',
+};
+
+// 交通枢纽类型枚举（导出以便单元测试直接断言，避免运行时混入未定义枚举值）。
+export const validTransportTypes = new Set(['highspeed_rail', 'railway', 'bus', 'airport']);
+
+export const isValidKebabId = (id: string): boolean => kebabIdPattern.test(id);
+
+export const isTemplatePhone = (phone: string): boolean => templatePhonePattern.test(phone) || phone.includes('12306');
+
+export const getPhoneAreaCode = (phone: string): string => {
+  // 中国大陆固定电话区号均为 4 位且以 0 开头（如 0951）。
+  // 12306 这类全国统一服务号不以 0 开头，不视为区号。
+  const match = phone.match(/^(0\d{3})/);
+  return match ? match[1] : '';
+};
+
+export const validateTransportHubPhone = (hub: TransportHub): string[] => {
+  const errors: string[] = [];
+  if (!hub.phone) return errors;
+  if (isTemplatePhone(hub.phone)) errors.push(`${hub.id}: 检测到模板化电话 ${hub.phone}`);
+  const areaCode = getPhoneAreaCode(hub.phone);
+  const expected = cityAreaCodes[hub.cityId];
+  if (areaCode && expected && areaCode !== expected) errors.push(`${hub.id}: 电话区号 ${areaCode} 与城市 ${hub.cityId} 期望 ${expected} 不匹配`);
+  return errors;
+};
 
 export const hasStrictVerificationEvidence = (item: (typeof attractions)[number]) => {
   const transparentImages = item.images.length > 0 && item.images.every((image) => image.alt && image.credit && image.license && image.sourceUrl);
@@ -82,10 +120,29 @@ export const validateContentData = (journalEntries: JournalEntry[] = [], journal
     if (city.bestFor.some((item) => !item.trim())) errors.push(`${city.id}: 适合人群标签不能为空`);
   }
   for (const item of attractions) {
+    if (!isValidKebabId(item.id)) errors.push(`${item.id}: ID 不符合 kebab-case ASCII 规范`);
     if (!cityIds.has(item.cityId)) errors.push(`${item.id}: cityId 无效`);
     if (!categories.has(item.category)) errors.push(`${item.id}: category 无效`);
     if (!verificationLevels.has(item.verificationLevel)) errors.push(`${item.id}: verificationLevel 无效`);
     if (item.coordinates.lng < 104 || item.coordinates.lng > 108 || item.coordinates.lat < 35 || item.coordinates.lat > 40) errors.push(`${item.id}: 坐标超出宁夏合理范围`);
+  }
+  const contentStatuses = new Set(['published', 'draft']);
+  const foodCategories = new Set(['mutton', 'noodle', 'snack', 'drink', 'fruit', 'specialty', 'staple']);
+  for (const food of foods) {
+    if (!isValidKebabId(food.id)) errors.push(`${food.id}: ID 不符合 kebab-case ASCII 规范`);
+    if (!verificationLevels.has(food.verificationLevel)) errors.push(`${food.id}: verificationLevel 无效`);
+    if (!contentStatuses.has(food.status)) errors.push(`${food.id}: status 无效`);
+    if (!foodCategories.has(food.category)) errors.push(`${food.id}: category 无效`);
+    if (food.status === 'published') {
+      if (!validDate(food.verifiedAt) || food.verifiedAt > today) errors.push(`${food.id}: verifiedAt 无效或晚于当前日期`);
+      if (food.sources.filter((source) => source.kind === 'official').length === 0) errors.push(`${food.id}: 缺少官方来源`);
+    }
+  }
+  for (const hub of transportHubs) {
+    if (!isValidKebabId(hub.id)) errors.push(`${hub.id}: ID 不符合 kebab-case ASCII 规范`);
+    if (!cityIds.has(hub.cityId)) errors.push(`${hub.id}: cityId 无效`);
+    if (!validTransportTypes.has(hub.type)) errors.push(`${hub.id}: type 无效 (${hub.type})`);
+    errors.push(...validateTransportHubPhone(hub));
   }
   for (const item of publishedAttractions) {
     if (!item.summary || item.highlights.length === 0 || item.images.length === 0) errors.push(`${item.id}: 内容或图片不完整`);

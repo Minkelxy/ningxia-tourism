@@ -336,3 +336,54 @@ test('旅行专题支持搜索、清空筛选并覆盖沙湖与固原', async ({
   await expect(page.getByRole('link', { name: '须弥山旅游区', exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: '六盘山红军长征旅游区', exact: true })).toBeVisible();
 });
+
+test('地图美食图层可切换并展示已发布美食点位', async ({ page }) => {
+  await page.goto(appBase);
+  const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
+  const food = map.getByRole('button', { name: '美食' });
+  await expect(food).toHaveAttribute('aria-pressed', 'false');
+  await expect(map.locator('.map-food')).toHaveCount(0);
+
+  await food.click();
+  await expect(food).toHaveAttribute('aria-pressed', 'true');
+  // 5 道已发布美食均含餐厅坐标，渲染 5 个点位；草稿美食不公开
+  await expect(map.locator('.map-food')).toHaveCount(5);
+
+  await food.click();
+  await expect(food).toHaveAttribute('aria-pressed', 'false');
+  await expect(map.locator('.map-food')).toHaveCount(0);
+});
+
+test('地图政府标记图层可切换并展示自治区与五市政府', async ({ page }) => {
+  await page.goto(appBase);
+  const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
+  const government = map.getByRole('button', { name: '政府' });
+  await expect(government).toHaveAttribute('aria-pressed', 'false');
+  await expect(map.locator('.map-government')).toHaveCount(0);
+
+  await government.click();
+  await expect(government).toHaveAttribute('aria-pressed', 'true');
+  // 自治区政府 + 5 市政府 = 6 个导航锚点
+  await expect(map.locator('.map-government')).toHaveCount(6);
+  await expect(map.locator('.map-government--province')).toHaveCount(1);
+  await expect(map.locator('.map-government--city')).toHaveCount(5);
+
+  await government.click();
+  await expect(government).toHaveAttribute('aria-pressed', 'false');
+  await expect(map.locator('.map-government')).toHaveCount(0);
+});
+
+test('地图交通图层含机场类型并使用飞机图标', async ({ page }) => {
+  await page.goto(appBase);
+  const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
+  const transport = map.getByRole('button', { name: '交通' });
+  await expect(transport).toHaveAttribute('aria-pressed', 'false');
+  await expect(map.locator('.map-hub--airport')).toHaveCount(0);
+
+  await transport.click();
+  await expect(transport).toHaveAttribute('aria-pressed', 'true');
+  // 银川河东国际机场在全区视图下展示，type 修正为 airport
+  const airport = map.locator('.map-hub--airport');
+  await expect(airport).toHaveCount(1);
+  await expect(airport).toHaveAttribute('aria-label', /银川河东国际机场/);
+});

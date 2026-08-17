@@ -1,4 +1,4 @@
-import { ChevronLeft, Home, Layers3, Minus, Plus, RotateCcw } from 'lucide-react';
+import { Building2, ChevronLeft, Home, Layers3, Minus, Plus, RotateCcw, UtensilsCrossed } from 'lucide-react';
 import type { GeoFeature } from './projection';
 import { featureName } from './config';
 
@@ -7,15 +7,19 @@ interface MapControlsProps {
   selectedCity: GeoFeature | null;
   selectedDistrict: GeoFeature | null;
   showTransport: boolean;
+  showFood: boolean;
+  showGovernment: boolean;
   onBackToProvince: () => void;
   onBackToCity: () => void;
   onToggleTransport: () => void;
+  onToggleFood: () => void;
+  onToggleGovernment: () => void;
   onZoomIn: () => void;
   onZoomOut: () => void;
   onResetViewport: () => void;
 }
 
-export default function MapControls({ levelLabel, selectedCity, selectedDistrict, showTransport, onBackToProvince, onBackToCity, onToggleTransport, onZoomIn, onZoomOut, onResetViewport }: MapControlsProps) {
+export default function MapControls({ levelLabel, selectedCity, selectedDistrict, showTransport, showFood, showGovernment, onBackToProvince, onBackToCity, onToggleTransport, onToggleFood, onToggleGovernment, onZoomIn, onZoomOut, onResetViewport }: MapControlsProps) {
   return (
     <div className="map-toolbar">
       <div className="map-breadcrumb" aria-label="地图层级">
@@ -25,6 +29,8 @@ export default function MapControls({ levelLabel, selectedCity, selectedDistrict
       </div>
       <div className="map-actions" aria-label="地图控制">
         <button type="button" onClick={onToggleTransport} aria-pressed={showTransport}><Layers3 aria-hidden="true" /> 交通</button>
+        <button type="button" onClick={onToggleFood} aria-pressed={showFood}><UtensilsCrossed aria-hidden="true" /> 美食</button>
+        <button type="button" onClick={onToggleGovernment} aria-pressed={showGovernment}><Building2 aria-hidden="true" /> 政府</button>
         <button type="button" onClick={onZoomIn} aria-label="放大地图"><Plus aria-hidden="true" /></button>
         <button type="button" onClick={onZoomOut} aria-label="缩小地图"><Minus aria-hidden="true" /></button>
         <button type="button" onClick={onResetViewport} aria-label="重置地图"><RotateCcw aria-hidden="true" /></button>

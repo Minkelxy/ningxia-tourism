@@ -79,6 +79,31 @@ export interface City {
   image: AttractionImage;
 }
 
+export type FoodCategory = 'mutton' | 'noodle' | 'snack' | 'drink' | 'fruit' | 'specialty' | 'staple';
+
+export interface Restaurant {
+  name: string;
+  cityId: CityId;
+  coordinates?: Coordinates;
+  recommend?: string;
+}
+
+export interface Food {
+  id: string;
+  status: ContentStatus;
+  verificationLevel: VerificationLevel;
+  name: string;
+  category: FoodCategory;
+  description: string;
+  origin: string;
+  bestSeason?: string;
+  priceRange?: string;
+  restaurants: Restaurant[];
+  tips?: string;
+  sources: SourceRef[];
+  verifiedAt: string;
+}
+
 export type JournalType = 'travel' | 'food' | 'guide';
 export type JournalContentKind = 'firsthand' | 'editorial' | 'demo';
 
@@ -163,6 +188,14 @@ export interface RouteDay {
   stops: RouteStop[];
   meals: string[];
   accommodation: string;
+  timeSlots?: RouteTimeSlot[];
+}
+
+export interface RouteTimeSlot {
+  time: string;
+  location: string;
+  description: string;
+  tips?: string;
 }
 
 export interface RoutePlan {
@@ -184,7 +217,9 @@ export interface RoutePlan {
   verifiedAt: string;
 }
 
-export type TransportType = 'highspeed_rail' | 'railway' | 'bus';
+// 注意：ContentStatus、VerificationLevel、FoodCategory、TransportType 等联合类型
+// 必须保持严格联合，禁止以 `| string` 等形式放宽，避免在数据中混入未定义枚举值。
+export type TransportType = 'highspeed_rail' | 'railway' | 'bus' | 'airport';
 
 export interface TransportHub {
   id: string;
@@ -192,4 +227,9 @@ export interface TransportHub {
   cityId: CityId;
   type: TransportType;
   coordinates: Coordinates;
+  description?: string;
+  address?: string;
+  phone?: string;
+  sources?: SourceRef[];
+  verifiedAt?: string;
 }

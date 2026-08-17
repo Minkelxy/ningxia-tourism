@@ -32,12 +32,14 @@ npm run quality:lighthouse
 
 - `src/data/attractions.ts`：景点唯一数据源。正式内容使用 `published`，未核实内容使用 `draft`。
 - `src/data/cities.ts`：五城资料，以固定 `cityId` 关联景点，并维护建议停留、适合人群、抵达方式和行程提醒。
-- `src/data/routes.ts`：八条路线、逐日停靠点，以及节奏、步行量和主要交通画像。
+- `src/data/routes.ts`：八条路线、逐日停靠点与逐日时间槽，以及节奏、步行量和主要交通画像。
 - `src/data/validate.ts`：构建期校验，检查字段、ID、坐标和跨数据引用。
 - `src/content/journal/`：公开或草稿的手记、探店与旅行专题 Markdown；内容在构建时解析，不把解析器和 YAML 运行时发送给访客。维护模板位于 `docs/templates/`，不会参与发布。
 - `src/data/guide.ts`：行前指南的四季建议、跨城原则、清单和网络来源。
 - `src/data/discovery.ts`：景点页的旅行兴趣组合，只能引用已公开景点。
-- `src/components/map/`：地图投影、视口控制、区域、景点、交通和预览等独立模块。
+- `src/data/foods.ts`：美食目录，5 道已发布（review 级，政府/文旅直接来源）与 9 道草稿；已发布美食进入地图美食图层，草稿不公开。餐厅电话字段已移除，运营信息改由探店手记承载。
+- `src/data/transport.ts`：8 个交通枢纽，覆盖铁路、高铁、机场与汽车站；机场类型使用飞机图标。
+- `src/components/map/`：地图投影、视口控制、区域、景点、交通、美食、政府标记和预览等独立模块。政府标记覆盖自治区与五市，仅作导航锚点；交通图层含机场类型。
 - `public/data/ningxia-province.json` 与 `public/data/ningxia/districts/`：正式地图唯一边界数据，首页地图和开发查看器共同读取。
 - `public/images/attractions/`：授权图片及站内资源。
 

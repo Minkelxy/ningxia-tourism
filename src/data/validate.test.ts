@@ -4,7 +4,9 @@ import { journalEntries, journalErrors, publishedJournalEntries } from '../conte
 import { cities } from './cities';
 import { attractionThemes } from './discovery';
 import { routes } from './routes';
-import { hasStrictVerificationEvidence, validateContentData } from './validate';
+import { transportHubs } from './transport';
+import type { TransportHub } from '../types';
+import { cityAreaCodes, getPhoneAreaCode, hasStrictVerificationEvidence, isTemplatePhone, isValidKebabId, validTransportTypes, validateContentData, validateTransportHubPhone } from './validate';
 
 describe('公开内容数据', () => {
   it('通过完整性和引用校验', () => {
@@ -162,5 +164,93 @@ describe('公开内容数据', () => {
     const publishedIds = new Set(publishedAttractions.map((item) => item.id));
     expect(attractionThemes).toHaveLength(4);
     expect(attractionThemes.flatMap((theme) => theme.attractionIds).every((id) => publishedIds.has(id))).toBe(true);
+  });
+});
+
+describe('反糟粕数据校验', () => {
+  it('ID 必须符合 kebab-case ASCII 规范', () => {
+    expect(isValidKebabId('hua jianao')).toBe(false);
+    expect(isValidKebabId('làhúhu')).toBe(false);
+    expect(isValidKebabId('shouzhua-yangrou')).toBe(true);
+    expect(isValidKebabId('zhongwei-latiaozi')).toBe(true);
+    expect(isValidKebabId('NingxiaMuseum')).toBe(false);
+    expect(isValidKebabId('shahu')).toBe(true);
+  });
+
+  it('识别模板化电话号码', () => {
+    expect(isTemplatePhone('0951-12306')).toBe(true);
+    expect(isTemplatePhone('12306')).toBe(true);
+    expect(isTemplatePhone('服务电话 12306')).toBe(true);
+    expect(isTemplatePhone('0951-6123456')).toBe(false);
+    expect(isTemplatePhone('0953-2024567')).toBe(false);
+  });
+
+  it('提取电话区号前缀', () => {
+    expect(getPhoneAreaCode('0951-6123456')).toBe('0951');
+    expect(getPhoneAreaCode('0951-12306')).toBe('0951');
+    expect(getPhoneAreaCode('12306')).toBe('');
+    expect(getPhoneAreaCode('客服电话')).toBe('');
+  });
+
+  it('宁夏五市电话区号映射正确', () => {
+    expect(cityAreaCodes).toEqual({
+      yinchuan: '0951',
+      shizuishan: '0952',
+      wuzhong: '0953',
+      guyuan: '0954',
+      zhongwei: '0955',
+    });
+  });
+
+  it('交通枢纽电话区号必须与所在城市匹配', () => {
+    const mismatched: TransportHub = {
+      id: 'wuzhong-test', name: '吴忠测试枢纽', cityId: 'wuzhong', type: 'railway',
+      coordinates: { lng: 106.19, lat: 37.94 }, phone: '0951-6123456',
+    };
+    const errors = validateTransportHubPhone(mismatched);
+    expect(errors.some((message) => message.includes('电话区号') && message.includes('0951'))).toBe(true);
+  });
+
+  it('交通枢纽模板化电话同时被区号规则捕获', () => {
+    const templated: TransportHub = {
+      id: 'wuzhong-test', name: '吴忠测试枢纽', cityId: 'wuzhong', type: 'railway',
+      coordinates: { lng: 106.19, lat: 37.94 }, phone: '0951-12306',
+    };
+    const errors = validateTransportHubPhone(templated);
+    expect(errors.some((message) => message.includes('检测到模板化电话'))).toBe(true);
+  });
+
+  it('合法交通枢纽电话不会被误报', () => {
+    const ok: TransportHub = {
+      id: 'wuzhong-test', name: '吴忠测试枢纽', cityId: 'wuzhong', type: 'railway',
+      coordinates: { lng: 106.19, lat: 37.94 }, phone: '0953-2024567',
+    };
+    expect(validateTransportHubPhone(ok)).toEqual([]);
+  });
+
+  it('无电话字段的交通枢纽不会被误报', () => {
+    const hub = transportHubs.find((item) => item.id === 'yinchuan-airport')!;
+    expect(hub.type).toBe('airport');
+    expect(validateTransportHubPhone(hub)).toEqual([]);
+  });
+
+  it('现有交通枢纽均为合法 kebab-case ID', () => {
+    expect(transportHubs.every((hub) => isValidKebabId(hub.id))).toBe(true);
+  });
+
+  it('交通枢纽类型枚举拒绝未定义值（如 teleport）', () => {
+    expect(validTransportTypes.has('teleport')).toBe(false);
+    expect(validTransportTypes.has('airport')).toBe(true);
+    expect(validTransportTypes.has('highspeed_rail')).toBe(true);
+    expect(validTransportTypes.has('railway')).toBe(true);
+    expect(validTransportTypes.has('bus')).toBe(true);
+  });
+
+  it('现有交通枢纽类型均在合法枚举范围内', () => {
+    expect(transportHubs.every((hub) => validTransportTypes.has(hub.type))).toBe(true);
+  });
+
+  it('现有数据集通过反糟粕整体校验', () => {
+    expect(validateContentData(journalEntries, journalErrors)).toEqual([]);
   });
 });
