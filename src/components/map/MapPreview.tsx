@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { ArrowRight, MapPin, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { Attraction } from '../../types';
@@ -9,7 +10,7 @@ interface MapPreviewProps {
   onClose: () => void;
 }
 
-export default function MapPreview({ attraction, onClose }: MapPreviewProps) {
+function MapPreview({ attraction, onClose }: MapPreviewProps) {
   const cover = attraction.images[0];
   return (
     <aside className="map-preview" aria-label={`${attraction.name}预览`}>
@@ -28,3 +29,5 @@ export default function MapPreview({ attraction, onClose }: MapPreviewProps) {
     </aside>
   );
 }
+
+export default memo(MapPreview);

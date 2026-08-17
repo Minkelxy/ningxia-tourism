@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Building2, ChevronLeft, Home, Layers3, Minus, Plus, RotateCcw, UtensilsCrossed } from 'lucide-react';
 import type { GeoFeature } from './projection';
 import { featureName } from './config';
@@ -19,7 +20,7 @@ interface MapControlsProps {
   onResetViewport: () => void;
 }
 
-export default function MapControls({ levelLabel, selectedCity, selectedDistrict, showTransport, showFood, showGovernment, onBackToProvince, onBackToCity, onToggleTransport, onToggleFood, onToggleGovernment, onZoomIn, onZoomOut, onResetViewport }: MapControlsProps) {
+function MapControls({ levelLabel, selectedCity, selectedDistrict, showTransport, showFood, showGovernment, onBackToProvince, onBackToCity, onToggleTransport, onToggleFood, onToggleGovernment, onZoomIn, onZoomOut, onResetViewport }: MapControlsProps) {
   return (
     <div className="map-toolbar">
       <div className="map-breadcrumb" aria-label="地图层级">
@@ -38,3 +39,5 @@ export default function MapControls({ levelLabel, selectedCity, selectedDistrict
     </div>
   );
 }
+
+export default memo(MapControls);

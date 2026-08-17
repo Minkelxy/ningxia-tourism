@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Building2 } from 'lucide-react';
 import type { createProjection } from './projection';
 import type { GovernmentMarker } from './config';
@@ -7,7 +8,7 @@ interface GovernmentLayerProps {
   project: ReturnType<typeof createProjection>;
 }
 
-export default function GovernmentLayer({ markers, project }: GovernmentLayerProps) {
+function GovernmentLayer({ markers, project }: GovernmentLayerProps) {
   return markers.map((marker) => {
     const point = project(marker.coordinates.lng, marker.coordinates.lat);
     const isProvince = marker.level === 'province-capital';
@@ -22,3 +23,5 @@ export default function GovernmentLayer({ markers, project }: GovernmentLayerPro
     );
   });
 }
+
+export default memo(GovernmentLayer);

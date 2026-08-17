@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import { memo, type CSSProperties } from 'react';
 import type { CityId } from '../../types';
 import { activateWithKeyboard, cityColors, cityIdFromFeature, featureCode, featureName } from './config';
 import type { createProjection, GeoFeature } from './projection';
@@ -14,7 +14,7 @@ interface MapRegionLayerProps {
   onOpenDistrict: (feature: GeoFeature) => void;
 }
 
-export default function MapRegionLayer({ features, project, activeCityId, selectedDistrictCode, cityDetail, onOpenCity, onOpenDistrict }: MapRegionLayerProps) {
+function MapRegionLayer({ features, project, activeCityId, selectedDistrictCode, cityDetail, onOpenCity, onOpenDistrict }: MapRegionLayerProps) {
   return (
     <g filter="url(#mapShadow)">
       {features.map((feature, index) => {
@@ -27,3 +27,5 @@ export default function MapRegionLayer({ features, project, activeCityId, select
     </g>
   );
 }
+
+export default memo(MapRegionLayer);

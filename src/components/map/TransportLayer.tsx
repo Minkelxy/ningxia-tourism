@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Bus, Plane, TrainFront } from 'lucide-react';
 import type { TransportHub } from '../../types';
 import type { createProjection } from './projection';
@@ -7,7 +8,7 @@ interface TransportLayerProps {
   project: ReturnType<typeof createProjection>;
 }
 
-export default function TransportLayer({ hubs, project }: TransportLayerProps) {
+function TransportLayer({ hubs, project }: TransportLayerProps) {
   return hubs.map((hub) => {
     const point = project(hub.coordinates.lng, hub.coordinates.lat);
     const Icon = hub.type === 'airport' ? Plane : hub.type === 'bus' ? Bus : TrainFront;
@@ -16,3 +17,5 @@ export default function TransportLayer({ hubs, project }: TransportLayerProps) {
     return <g key={hub.id} className={hubClassName} transform={`translate(${point.x} ${point.y})`} tabIndex={0} role="img" aria-label={`${hub.name}，${hub.type === 'airport' ? '机场' : hub.type === 'bus' ? '客运站' : '火车站'}交通枢纽`}><circle r="11" /><Icon x={-7} y={-7} width={14} height={14} /><title>{tooltip}</title></g>;
   });
 }
+
+export default memo(TransportLayer);
