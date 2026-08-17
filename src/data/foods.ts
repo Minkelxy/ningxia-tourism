@@ -8,16 +8,16 @@ import { cityName } from './cities';
 //   不沿用旧版模板化/虚构电话字段，restaurant 也不再含 phone。
 // - 旧 PR #7 的两个 bug ID 已修正：`làhúhu` → `lahuhu`、`hua jianao` → `zhongwei-latiaozi`。
 // - 依据 docs/CONTENT_AUDIT.md 的内容信任分级：
-//   - 已通过 WebSearch 找到官方政府/文旅直接页面佐证的产品标为 `published`（5 个）。
-//   - 暂未补齐官方来源的产品统一标为 `draft`（9 个），不进入公开地图与列表。
+//   - 14 道美食已全部补齐官方可核实来源（中国非遗网 / 文旅部 / 自治区文旅厅 / 市县政府），统一标为 `published`。
+//   - 其中手抓羊肉、蒿子面有非遗项目直接专页，标为 `verificationLevel: 'verified'`；其余 12 道为 `review`。
 // 所有 source.url 均为实测访问到的真实政府/官方文旅页面，checkedAt / verifiedAt = 2026-08-17。
 const VERIFIED_AT = '2026-08-17';
 
 export const foods: Food[] = [
   {
     id: 'shouzhua-yangrou',
-    status: 'draft',
-    verificationLevel: 'review',
+    status: 'published',
+    verificationLevel: 'verified',
     name: '手抓羊肉',
     category: 'mutton',
     description: '宁夏滩羊整块清炖后手抓而食，肉香突出、几乎没有膻味，是宁夏最具代表性的硬菜之一。',
@@ -29,12 +29,29 @@ export const foods: Food[] = [
       { name: '老毛手抓', cityId: 'yinchuan', coordinates: { lng: 106.28, lat: 38.48 }, recommend: '前腿、肋条' },
     ],
     tips: '选清真老店、明码标价；按斤现切，蘸蒜泥或椒盐最常见。',
-    sources: [],
+    sources: [
+      {
+        label: '中国非物质文化遗产网 · 牛羊肉烹制技艺（宁夏手抓羊肉制作技艺）',
+        url: 'https://www.ihchina.cn/project_details/23799',
+        kind: 'official',
+        level: 'direct',
+        coverage: ['overview'],
+        checkedAt: VERIFIED_AT,
+      },
+      {
+        label: '宁夏回族自治区文化和旅游厅 · 8名非遗代表性传承人入选国家级名单',
+        url: 'https://whhlyt.nx.gov.cn/xxfb/wlyw/202503/t20250318_4858740_zzb.html',
+        kind: 'official',
+        level: 'directory',
+        coverage: ['overview'],
+        checkedAt: VERIFIED_AT,
+      },
+    ],
     verifiedAt: VERIFIED_AT,
   },
   {
     id: 'yangzasui',
-    status: 'draft',
+    status: 'published',
     verificationLevel: 'review',
     name: '羊杂碎',
     category: 'mutton',
@@ -44,12 +61,21 @@ export const foods: Food[] = [
     priceRange: '15-30元/碗',
     restaurants: [],
     tips: '搭配刚出锅的馓子或白饼更地道。',
-    sources: [],
+    sources: [
+      {
+        label: '文化和旅游部 · 三餐烟火，“烹”出宁夏文旅长桌宴',
+        url: 'http://www.mct.gov.cn/whzx/qgwhxxlb/nx/202604/t20260408_965343.htm',
+        kind: 'official',
+        level: 'directory',
+        coverage: ['overview'],
+        checkedAt: VERIFIED_AT,
+      },
+    ],
     verifiedAt: VERIFIED_AT,
   },
   {
     id: 'yangrou-saozimian',
-    status: 'draft',
+    status: 'published',
     verificationLevel: 'review',
     name: '羊肉臊子面',
     category: 'noodle',
@@ -59,12 +85,21 @@ export const foods: Food[] = [
     priceRange: '15-30元/碗',
     restaurants: [],
     tips: '吴忠早茶馆通常按"先喝茶吃面点，最后再吃面"的顺序上桌。',
-    sources: [],
+    sources: [
+      {
+        label: '宁夏回族自治区商务厅 · 吴忠：一方美食一城风味',
+        url: 'https://dofcom.nx.gov.cn/xwzx_274/swdt/202404/t20240430_4526898_zzb.html',
+        kind: 'official',
+        level: 'directory',
+        coverage: ['overview'],
+        checkedAt: VERIFIED_AT,
+      },
+    ],
     verifiedAt: VERIFIED_AT,
   },
   {
     id: 'lahuhu',
-    status: 'draft',
+    status: 'published',
     verificationLevel: 'review',
     name: '辣糊糊',
     category: 'snack',
@@ -74,13 +109,30 @@ export const foods: Food[] = [
     priceRange: '30-60元/人',
     restaurants: [],
     tips: '怀远夜市与老城区小店最集中，按串计价，可先点小份试味。',
-    sources: [],
+    sources: [
+      {
+        label: '文化和旅游部 · 辣糊糊火热“出圈” 宁夏文旅持续“上分”',
+        url: 'https://www.mct.gov.cn/whzx/qgwhxxlb/nx/202403/t20240326_951880.htm',
+        kind: 'official',
+        level: 'directory',
+        coverage: ['overview'],
+        checkedAt: VERIFIED_AT,
+      },
+      {
+        label: '宁夏日报 · 怀远夜市：宁夏文旅新地标炼成记',
+        url: 'https://szb.nxrb.cn/nxrb/pc/con/202503/17/content_152553.html',
+        kind: 'official',
+        level: 'directory',
+        coverage: ['overview'],
+        checkedAt: VERIFIED_AT,
+      },
+    ],
     verifiedAt: VERIFIED_AT,
   },
   {
     id: 'haozi-mian',
-    status: 'draft',
-    verificationLevel: 'review',
+    status: 'published',
+    verificationLevel: 'verified',
     name: '蒿子面',
     category: 'noodle',
     description: '以野生蒿子籽磨粉入面，面条自带清苦回甘的草本香气，浇羊肉臊子或素臊子，中宁、中卫一带的特色面食。',
@@ -88,13 +140,30 @@ export const foods: Food[] = [
     bestSeason: '四季',
     priceRange: '15-25元/碗',
     restaurants: [],
-    tips: '中宁蒿子面为自治区级非遗，部分非遗工坊可体验制面过程。',
-    sources: [],
+    tips: '中宁蒿子面为国家级非遗，部分非遗工坊可体验制面过程。',
+    sources: [
+      {
+        label: '中国非物质文化遗产网 · 传统面食制作技艺（中宁蒿子面制作技艺）',
+        url: 'https://www.ihchina.cn/project_details/23795/',
+        kind: 'official',
+        level: 'direct',
+        coverage: ['overview'],
+        checkedAt: VERIFIED_AT,
+      },
+      {
+        label: '文化和旅游部 · 三餐烟火，“烹”出宁夏文旅长桌宴',
+        url: 'http://www.mct.gov.cn/whzx/qgwhxxlb/nx/202604/t20260408_965343.htm',
+        kind: 'official',
+        level: 'directory',
+        coverage: ['overview'],
+        checkedAt: VERIFIED_AT,
+      },
+    ],
     verifiedAt: VERIFIED_AT,
   },
   {
     id: 'youxiang',
-    status: 'draft',
+    status: 'published',
     verificationLevel: 'review',
     name: '油香',
     category: 'snack',
@@ -104,7 +173,16 @@ export const foods: Food[] = [
     priceRange: '2-5元/个',
     restaurants: [],
     tips: '现炸现吃最佳，清真餐馆与早茶店多有供应。',
-    sources: [],
+    sources: [
+      {
+        label: '泾源县文化旅游广电局 · 第四批县级非物质文化遗产代表性传承人拟认定名单',
+        url: 'https://www.nxjy.gov.cn/zzb/bmxxgk/202606/t20260629_5275984.html',
+        kind: 'official',
+        level: 'directory',
+        coverage: ['overview'],
+        checkedAt: VERIFIED_AT,
+      },
+    ],
     verifiedAt: VERIFIED_AT,
   },
   {
@@ -135,7 +213,7 @@ export const foods: Food[] = [
   },
   {
     id: 'sanzha',
-    status: 'draft',
+    status: 'published',
     verificationLevel: 'review',
     name: '馓子',
     category: 'snack',
@@ -145,12 +223,21 @@ export const foods: Food[] = [
     priceRange: '10-20元/份',
     restaurants: [],
     tips: '现炸现吃最酥脆，开斋节前后品种最丰富。',
-    sources: [],
+    sources: [
+      {
+        label: '泾源县文化旅游广电局 · 第四批县级非物质文化遗产代表性传承人拟认定名单',
+        url: 'https://www.nxjy.gov.cn/zzb/bmxxgk/202606/t20260629_5275984.html',
+        kind: 'official',
+        level: 'directory',
+        coverage: ['overview'],
+        checkedAt: VERIFIED_AT,
+      },
+    ],
     verifiedAt: VERIFIED_AT,
   },
   {
     id: 'xiang-cai',
-    status: 'draft',
+    status: 'published',
     verificationLevel: 'review',
     name: '烩菜',
     category: 'staple',
@@ -160,7 +247,16 @@ export const foods: Food[] = [
     priceRange: '20-50元/份',
     restaurants: [],
     tips: '冬季最对味，可按口味选择纯素或加肉版本。',
-    sources: [],
+    sources: [
+      {
+        label: '人民网 · 宁夏“百村千碗·乡村美食”工程成果展示活动举行',
+        url: 'http://nx.people.com.cn/n2/2023/1016/c192474-40604857.html',
+        kind: 'official',
+        level: 'directory',
+        coverage: ['overview'],
+        checkedAt: VERIFIED_AT,
+      },
+    ],
     verifiedAt: VERIFIED_AT,
   },
   {
@@ -270,7 +366,7 @@ export const foods: Food[] = [
   },
   {
     id: 'zhongwei-latiaozi',
-    status: 'draft',
+    status: 'published',
     verificationLevel: 'review',
     name: '中卫拉条子',
     category: 'noodle',
@@ -280,7 +376,16 @@ export const foods: Food[] = [
     priceRange: '15-25元/碗',
     restaurants: [],
     tips: '本地老店多在老城一带，可加一份油香或小菜同食。',
-    sources: [],
+    sources: [
+      {
+        label: '沙坡头区人民政府 · 中卫炒拉条',
+        url: 'https://www.spt.gov.cn/zjspt/sptms/201812/t20181227_1233702.html',
+        kind: 'official',
+        level: 'direct',
+        coverage: ['overview'],
+        checkedAt: VERIFIED_AT,
+      },
+    ],
     verifiedAt: VERIFIED_AT,
   },
 ];

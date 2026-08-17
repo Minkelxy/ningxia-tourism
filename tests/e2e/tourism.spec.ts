@@ -346,8 +346,8 @@ test('地图美食图层可切换并展示已发布美食点位', async ({ page 
 
   await food.click();
   await expect(food).toHaveAttribute('aria-pressed', 'true');
-  // 5 道已发布美食均含餐厅坐标，渲染 5 个点位；草稿美食不公开
-  await expect(map.locator('.map-food')).toHaveCount(5);
+  // 6 道已发布美食含餐厅坐标（手抓羊肉、八宝茶、硒砂瓜、中宁枸杞、灵武长枣、贺兰山东麓葡萄酒），渲染 6 个点位
+  await expect(map.locator('.map-food')).toHaveCount(6);
 
   await food.click();
   await expect(food).toHaveAttribute('aria-pressed', 'false');
