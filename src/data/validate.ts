@@ -5,6 +5,7 @@ import { attractionThemes } from './discovery';
 import { foods } from './foods';
 import { routes } from './routes';
 import { transportHubs } from './transport';
+import { governmentMarkers } from '../components/map/config';
 import { siteDateString } from '../lib/site';
 
 const datePattern = /^\d{4}-\d{2}-\d{2}$/;
@@ -12,6 +13,16 @@ const validImage = (image?: JournalEntry['cover']) => Boolean(image?.src && imag
 const validDate = (value: string) => datePattern.test(value) && !Number.isNaN(Date.parse(`${value}T00:00:00Z`));
 const today = siteDateString();
 const placeholderPattern = /(示例|演示用|示例店名|示例地址|待填写|example\.com)/i;
+
+// 周期校验：verifiedAt 超过半年（180 天）视为过期，需重新复核。
+export const VERIFICATION_STALE_DAYS = 180;
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+const todayMs = Date.parse(`${today}T00:00:00Z`);
+export const isStale = (verifiedAt: string): boolean => {
+  if (!validDate(verifiedAt)) return true;
+  const verifiedMs = Date.parse(`${verifiedAt}T00:00:00Z`);
+  return (todayMs - verifiedMs) / MS_PER_DAY > VERIFICATION_STALE_DAYS;
+};
 
 // 反糟粕校验所需的纯函数 helper（导出以便单元测试直接调用，不依赖文件系统）。
 const kebabIdPattern = /^[a-z0-9]+(-[a-z0-9]+)*$/;
@@ -135,6 +146,7 @@ export const validateContentData = (journalEntries: JournalEntry[] = [], journal
     if (!foodCategories.has(food.category)) errors.push(`${food.id}: category 无效`);
     if (food.status === 'published') {
       if (!validDate(food.verifiedAt) || food.verifiedAt > today) errors.push(`${food.id}: verifiedAt 无效或晚于当前日期`);
+      if (isStale(food.verifiedAt)) errors.push(`${food.id}: verifiedAt 已超 ${VERIFICATION_STALE_DAYS} 天未复核，需重新核对`);
       if (food.sources.filter((source) => source.kind === 'official').length === 0) errors.push(`${food.id}: 缺少官方来源`);
     }
   }
@@ -142,11 +154,14 @@ export const validateContentData = (journalEntries: JournalEntry[] = [], journal
     if (!isValidKebabId(hub.id)) errors.push(`${hub.id}: ID 不符合 kebab-case ASCII 规范`);
     if (!cityIds.has(hub.cityId)) errors.push(`${hub.id}: cityId 无效`);
     if (!validTransportTypes.has(hub.type)) errors.push(`${hub.id}: type 无效 (${hub.type})`);
+    if (!validDate(hub.verifiedAt) || hub.verifiedAt > today) errors.push(`${hub.id}: verifiedAt 缺失、无效或晚于当前日期`);
+    if (isStale(hub.verifiedAt)) errors.push(`${hub.id}: verifiedAt 已超 ${VERIFICATION_STALE_DAYS} 天未复核，需重新核对`);
     errors.push(...validateTransportHubPhone(hub));
   }
   for (const item of publishedAttractions) {
     if (!item.summary || item.highlights.length === 0 || item.images.length === 0) errors.push(`${item.id}: 内容或图片不完整`);
     if (!validDate(item.verifiedAt) || item.verifiedAt > today || item.sources.filter((source) => source.kind === 'official').length === 0) errors.push(`${item.id}: 缺少有效核实日期或官方来源`);
+    if (isStale(item.verifiedAt)) errors.push(`${item.id}: verifiedAt 已超 ${VERIFICATION_STALE_DAYS} 天未复核，需重新核对`);
     if (!item.verificationNote) errors.push(`${item.id}: 缺少证据说明`);
     if (item.verificationLevel === 'review' && !item.fallbackNote) errors.push(`${item.id}: 待复核景点缺少现场变化替代方案`);
     for (const source of item.sources) {
@@ -181,11 +196,18 @@ export const validateContentData = (journalEntries: JournalEntry[] = [], journal
     routeIds.add(route.id);
     if (route.days.length !== route.durationDays) errors.push(`${route.id}: 行程天数与 day 数量不一致`);
     if (!route.verifiedAt || !route.budget.includes('约')) errors.push(`${route.id}: 缺少核实日期或参考预算标识`);
+    if (!validDate(route.verifiedAt) || route.verifiedAt > today) errors.push(`${route.id}: verifiedAt 格式无效或晚于当前日期`);
+    if (isStale(route.verifiedAt)) errors.push(`${route.id}: verifiedAt 已超 ${VERIFICATION_STALE_DAYS} 天未复核，需重新核对`);
     if (!routePaces.has(route.pace) || !walkingLevels.has(route.walkingLevel) || !route.transportSummary) errors.push(`${route.id}: 缺少有效的节奏、步行量或交通画像`);
     for (const day of route.days) for (const stop of day.stops) {
       if (stop.attractionId && !publishedIds.has(stop.attractionId)) errors.push(`${route.id}: 引用了未发布景点 ${stop.attractionId}`);
       if (!stop.attractionId && !stop.mapQuery) errors.push(`${route.id}: 普通地点 ${stop.title} 缺少地图查询词`);
     }
+  }
+  for (const marker of governmentMarkers) {
+    if (!isValidKebabId(marker.id)) errors.push(`政府标记 ${marker.id}: ID 不符合 kebab-case ASCII 规范`);
+    if (!validDate(marker.verifiedAt) || marker.verifiedAt > today) errors.push(`政府标记 ${marker.id}: verifiedAt 无效或晚于当前日期`);
+    if (isStale(marker.verifiedAt)) errors.push(`政府标记 ${marker.id}: verifiedAt 已超 ${VERIFICATION_STALE_DAYS} 天未复核，需重新核对`);
   }
   errors.push(...validateJournalContent(journalEntries, journalErrors));
   return errors;
