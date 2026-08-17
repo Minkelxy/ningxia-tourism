@@ -4,7 +4,19 @@ import SEO from '../components/SEO';
 import ResponsiveImage from '../components/ResponsiveImage';
 import { getPublishedAttractionsByCity } from '../data/attractions';
 import { cities, getCityById } from '../data/cities';
+import { foodsByCity } from '../data/foods';
 import { routes } from '../data/routes';
+import type { FoodCategory } from '../types';
+
+const foodCategoryLabels: Record<FoodCategory, string> = {
+  mutton: '羊肉',
+  noodle: '面食',
+  snack: '小吃',
+  drink: '饮品',
+  fruit: '瓜果',
+  specialty: '特产',
+  staple: '主食',
+};
 
 export default function CityOverview() {
   const { name } = useParams();
@@ -16,6 +28,7 @@ export default function CityOverview() {
     const attractions = getPublishedAttractionsByCity(city.id);
     const attractionIds = new Set(attractions.map((item) => item.id));
     const relatedRoutes = routes.filter((route) => route.days.some((day) => day.stops.some((stop) => stop.attractionId && attractionIds.has(stop.attractionId))));
+    const cityFoods = foodsByCity(city.id);
     return (
       <>
         <SEO title={`${city.name}旅行指南 · 宁夏旅行地图`} description={city.introduction} image={city.image.src} />
@@ -25,7 +38,7 @@ export default function CityOverview() {
             <article>
               <section className="city-facts"><div><Clock3 aria-hidden="true" /><span>建议停留</span><strong>{city.suggestedStay}</strong></div><div><MapPin aria-hidden="true" /><span>旅行角色</span><strong>{city.travelRole}</strong></div><div><Route aria-hidden="true" /><span>行程衔接</span><strong>{city.connectionNote}</strong></div><div><CalendarDays aria-hidden="true" /><span>推荐季节</span><strong>{city.bestSeason}</strong></div></section>
               <section className="detail-section"><p className="eyebrow">城市脉络</p><h2>从哪里读懂{city.name.replace('市', '')}</h2><p className="detail-summary">{city.history}</p><div className="culture-note"><Sparkles aria-hidden="true" /><span>关键词</span><strong>{city.culture}</strong></div></section>
-              <section className="detail-section"><p className="eyebrow">城市味道</p><h2>值得留意的本地风味</h2><div className="food-tags">{city.foods.map((food) => <span key={food}><Utensils aria-hidden="true" />{food}</span>)}</div><p className="fine-print">餐饮门店变化较快，本站只提供品类参考，请选择证照齐全、明码标价的正规商户。</p></section>
+              <section className="detail-section"><p className="eyebrow">城市味道</p><h2>值得留意的本地风味</h2>{cityFoods.length ? <div className="source-card"><div className="source-list">{cityFoods.map((food) => <a key={food.id}><span><strong>{food.name}</strong><small>{food.description} · {foodCategoryLabels[food.category]}{food.priceRange ? ` · ${food.priceRange}` : ''}</small></span><Utensils aria-hidden="true" /></a>)}</div></div> : <div className="food-tags">{city.foods.map((food) => <span key={food}><Utensils aria-hidden="true" />{food}</span>)}</div>}<p className="fine-print">餐饮门店变化较快，本站只提供品类参考，请选择证照齐全、明码标价的正规商户。</p></section>
             </article>
             <aside className="city-sidebar">
               <section className="city-decision-card"><p className="eyebrow"><UsersRound aria-hidden="true" /> 编辑建议</p><h2>适不适合放进这趟行程</h2><div className="city-best-for">{city.bestFor.map((item) => <span key={item}>{item}</span>)}</div><p className="city-arrival-note"><TrainFront aria-hidden="true" />{city.arrivalNote}</p><div className="city-planning-tip"><Lightbulb aria-hidden="true" /><p><strong>关键提醒</strong>{city.planningTip}</p></div></section>

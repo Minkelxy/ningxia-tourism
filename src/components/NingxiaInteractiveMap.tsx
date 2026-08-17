@@ -2,14 +2,17 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { publishedAttractions } from '../data/attractions';
 import { getCityById } from '../data/cities';
+import { publishedFoods } from '../data/foods';
 import { transportHubs } from '../data/transport';
 import type { Attraction } from '../types';
 import AttractionLayer from './map/AttractionLayer';
+import FoodLayer from './map/FoodLayer';
+import GovernmentLayer from './map/GovernmentLayer';
 import MapControls from './map/MapControls';
 import MapPreview from './map/MapPreview';
 import MapRegionLayer from './map/MapRegionLayer';
 import TransportLayer from './map/TransportLayer';
-import { cityIdFromFeature, districtFileByCode, featureCode, featureName, mapView } from './map/config';
+import { cityIdFromFeature, districtFileByCode, featureCode, featureName, governmentMarkers, mapView } from './map/config';
 import {
   containsCoordinates,
   createProjection,
@@ -27,6 +30,8 @@ export default function NingxiaInteractiveMap() {
   const [selectedDistrict, setSelectedDistrict] = useState<GeoFeature | null>(null);
   const [selectedAttraction, setSelectedAttraction] = useState<Attraction | null>(null);
   const [showTransport, setShowTransport] = useState(false);
+  const [showFood, setShowFood] = useState(false);
+  const [showGovernment, setShowGovernment] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [reloadKey, setReloadKey] = useState(0);
@@ -121,9 +126,13 @@ export default function NingxiaInteractiveMap() {
         selectedCity={selectedCity}
         selectedDistrict={selectedDistrict}
         showTransport={showTransport}
+        showFood={showFood}
+        showGovernment={showGovernment}
         onBackToProvince={backToProvince}
         onBackToCity={backToCity}
         onToggleTransport={() => setShowTransport((value) => !value)}
+        onToggleFood={() => setShowFood((value) => !value)}
+        onToggleGovernment={() => setShowGovernment((value) => !value)}
         onZoomIn={zoomIn}
         onZoomOut={zoomOut}
         onResetViewport={resetViewport}
@@ -153,6 +162,8 @@ export default function NingxiaInteractiveMap() {
               onOpenDistrict={openDistrict}
             />
             <AttractionLayer attractions={visibleAttractions} project={project} selectedAttractionId={selectedAttraction?.id} onSelect={setSelectedAttraction} />
+            {showGovernment && <GovernmentLayer markers={governmentMarkers} project={project} />}
+            {showFood && <FoodLayer foods={publishedFoods} project={project} />}
             {showTransport && <TransportLayer hubs={visibleHubs} project={project} />}
           </g>
         </svg>

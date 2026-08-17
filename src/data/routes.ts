@@ -59,10 +59,16 @@ export const routes: RoutePlan[] = [
       { day: 1, title: '抵达银川，认识宁夏', summary: '以市区为主，给抵达留出弹性。', accommodation: '银川市区', meals: ['晚餐：怀远观光夜市'], stops: [
         { time: '14:00', title: '宁夏博物馆', attractionId: 'ningxiamuseum', description: '建立宁夏历史与地理背景。' },
         { time: '18:30', title: '怀远观光夜市', mapQuery: '银川怀远观光夜市', description: '体验银川夜间烟火气。' },
+      ], timeSlots: [
+        { time: '14:00-16:30', location: '宁夏博物馆', description: '通过通史与西夏文物展陈建立宁夏历史与地理背景。', tips: '提前确认闭馆日与停止入馆时间。' },
+        { time: '18:30-21:00', location: '怀远观光夜市', description: '在夜市分食辣糊糊、羊杂碎等本地小吃，体验银川夜间烟火气。', tips: '节假日人流集中，看管好随身物品。' },
       ] },
       { day: 2, title: '西夏陵与镇北堡', summary: '全天游览银川西线。', accommodation: '银川市区', meals: ['午餐：西夏区', '晚餐：银川市区'], stops: [
         { time: '08:30', title: '西夏陵', attractionId: 'xixiawangling', description: '遗址区与博物馆连贯参观。', transport: '包车或自驾' },
         { time: '14:00', title: '镇北堡西部影城', attractionId: 'zhenbeibu', description: '预留至少三小时步行与拍摄。' },
+      ], timeSlots: [
+        { time: '08:30-12:30', location: '西夏陵', description: '遗址区与博物馆连贯参观，建议使用讲解服务。' },
+        { time: '14:00-17:30', location: '镇北堡西部影城', description: '在明清城堡与电影场景间步行拍摄，至少预留三小时。', tips: '下午光线更适合古堡与街景拍摄。' },
       ] },
       { day: 3, title: '沙坡头与中卫老城', summary: '早班铁路前往中卫，晚间可从中卫返程。', accommodation: '无或中卫市区', meals: ['午餐：沙坡头周边', '晚餐：中卫市区'], stops: [
         { time: '08:00', title: '银川前往中卫', mapQuery: '中卫站', description: '优先选择铁路，班次与耗时以购票平台为准。', transport: '火车／动车' },

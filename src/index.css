@@ -126,6 +126,12 @@ button { color: inherit; }
 .map-attraction.is-selected .marker-dot, .map-attraction:focus-visible .marker-dot { fill: var(--green); }
 .map-hub { color: #fff; }
 .map-hub circle { fill: #4d5350; stroke: #fff; stroke-width: 2; }
+.map-hub--airport circle { fill: #7C3AED; }
+.map-food { color: #fff; cursor: pointer; }
+.map-food circle { fill: #E85D4C; stroke: #fff; stroke-width: 2; }
+.map-government { color: #fff; }
+.map-government--province { fill: #2D5A4A; }
+.map-government--city { fill: #C4A35A; }
 .map-preview { position: absolute; z-index: 4; right: 24px; bottom: 24px; width: min(360px, calc(100% - 48px)); overflow: hidden; border-radius: 22px; background: #fff; box-shadow: 0 24px 70px rgba(31,28,23,.25); }
 .map-preview picture { display: block; }
 .map-preview img { width: 100%; height: 180px; object-fit: cover; }
