@@ -56,7 +56,7 @@ export default function NingxiaInteractiveMap() {
 
   useEffect(() => { void loadProvince(); }, [loadProvince, reloadKey]);
 
-  const openCity = async (feature: GeoFeature) => {
+  const openCity = useCallback(async (feature: GeoFeature) => {
     setSelectedCity(feature);
     setSelectedDistrict(null);
     setSelectedAttraction(null);
@@ -72,27 +72,34 @@ export default function NingxiaInteractiveMap() {
     } catch {
       setDistricts([]);
     }
-  };
+  }, [resetViewport]);
 
-  const openDistrict = (feature: GeoFeature) => {
+  const openDistrict = useCallback((feature: GeoFeature) => {
     setSelectedDistrict(feature);
     setSelectedAttraction(null);
     resetViewport();
-  };
+  }, [resetViewport]);
 
-  const backToProvince = () => {
+  const backToProvince = useCallback(() => {
     setSelectedCity(null);
     setSelectedDistrict(null);
     setDistricts([]);
     setSelectedAttraction(null);
     resetViewport();
-  };
+  }, [resetViewport]);
 
-  const backToCity = () => {
+  const backToCity = useCallback(() => {
     setSelectedDistrict(null);
     setSelectedAttraction(null);
     resetViewport();
-  };
+  }, [resetViewport]);
+
+  const toggleTransport = useCallback(() => setShowTransport((value) => !value), []);
+  const toggleFood = useCallback(() => setShowFood((value) => !value), []);
+  const toggleGovernment = useCallback(() => setShowGovernment((value) => !value), []);
+  const handleOpenCity = useCallback((feature: GeoFeature) => { void openCity(feature); }, [openCity]);
+  const handleFoodSelect = useCallback((food: { id: string }) => navigate(`/food/${food.id}`), [navigate]);
+  const handleClosePreview = useCallback(() => setSelectedAttraction(null), []);
 
   const activeBounds = useMemo<GeoBounds>(() => {
     if (selectedDistrict) return getFeatureBounds(selectedDistrict);
@@ -103,13 +110,13 @@ export default function NingxiaInteractiveMap() {
 
   const project = useMemo(() => createProjection(activeBounds, mapView.width, mapView.height, selectedDistrict ? 90 : 54), [activeBounds, selectedDistrict]);
   const activeCityId = cityIdFromFeature(selectedCity);
-  const visibleAttractions = publishedAttractions.filter((item) => {
+  const visibleAttractions = useMemo(() => publishedAttractions.filter((item) => {
     if (selectedDistrict) return containsCoordinates(activeBounds, item.coordinates.lng, item.coordinates.lat);
     if (activeCityId) return item.cityId === activeCityId;
     return true;
-  });
-  const visibleHubs = transportHubs.filter((hub) => !activeCityId || hub.cityId === activeCityId);
-  const mapFeatures = selectedCity ? (districts.length ? districts : [selectedCity]) : features;
+  }), [activeBounds, selectedDistrict, activeCityId]);
+  const visibleHubs = useMemo(() => transportHubs.filter((hub) => !activeCityId || hub.cityId === activeCityId), [activeCityId]);
+  const mapFeatures = useMemo(() => selectedCity ? (districts.length ? districts : [selectedCity]) : features, [selectedCity, districts, features]);
   const levelLabel = selectedDistrict ? featureName(selectedDistrict) : selectedCity ? featureName(selectedCity) : '宁夏全区';
 
   if (loading) return <div className="map-state" role="status"><span className="map-loader" />正在铺开宁夏地图…</div>;
@@ -131,9 +138,9 @@ export default function NingxiaInteractiveMap() {
         showGovernment={showGovernment}
         onBackToProvince={backToProvince}
         onBackToCity={backToCity}
-        onToggleTransport={() => setShowTransport((value) => !value)}
-        onToggleFood={() => setShowFood((value) => !value)}
-        onToggleGovernment={() => setShowGovernment((value) => !value)}
+        onToggleTransport={toggleTransport}
+        onToggleFood={toggleFood}
+        onToggleGovernment={toggleGovernment}
         onZoomIn={zoomIn}
         onZoomOut={zoomOut}
         onResetViewport={resetViewport}
@@ -159,17 +166,17 @@ export default function NingxiaInteractiveMap() {
               activeCityId={activeCityId}
               selectedDistrictCode={featureCode(selectedDistrict)}
               cityDetail={Boolean(selectedCity)}
-              onOpenCity={(feature) => { void openCity(feature); }}
+              onOpenCity={handleOpenCity}
               onOpenDistrict={openDistrict}
             />
             <AttractionLayer attractions={visibleAttractions} project={project} selectedAttractionId={selectedAttraction?.id} onSelect={setSelectedAttraction} />
             {showGovernment && <GovernmentLayer markers={governmentMarkers} project={project} />}
-            {showFood && <FoodLayer foods={publishedFoods} project={project} onSelect={(food) => navigate(`/food/${food.id}`)} />}
+            {showFood && <FoodLayer foods={publishedFoods} project={project} onSelect={handleFoodSelect} />}
             {showTransport && <TransportLayer hubs={visibleHubs} project={project} />}
           </g>
         </svg>
 
-        {selectedAttraction && <MapPreview attraction={selectedAttraction} onClose={() => setSelectedAttraction(null)} />}
+        {selectedAttraction && <MapPreview attraction={selectedAttraction} onClose={handleClosePreview} />}
       </div>
 
       <div className="map-caption">

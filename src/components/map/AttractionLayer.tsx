@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { LocateFixed } from 'lucide-react';
 import type { Attraction } from '../../types';
 import { activateWithKeyboard } from './config';
@@ -10,7 +11,7 @@ interface AttractionLayerProps {
   onSelect: (attraction: Attraction) => void;
 }
 
-export default function AttractionLayer({ attractions, project, selectedAttractionId, onSelect }: AttractionLayerProps) {
+function AttractionLayer({ attractions, project, selectedAttractionId, onSelect }: AttractionLayerProps) {
   return attractions.map((attraction) => {
     const point = project(attraction.coordinates.lng, attraction.coordinates.lat);
     const selected = selectedAttractionId === attraction.id;
@@ -25,3 +26,5 @@ export default function AttractionLayer({ attractions, project, selectedAttracti
     );
   });
 }
+
+export default memo(AttractionLayer);

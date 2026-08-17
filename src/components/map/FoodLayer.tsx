@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { UtensilsCrossed } from 'lucide-react';
 import type { Food } from '../../types';
 import { activateWithKeyboard } from './config';
@@ -12,7 +13,7 @@ interface FoodLayerProps {
 // 美食图层：仅渲染第一个含坐标的餐厅点位，颜色采用 PRD 枸杞红 #E85D4C。
 // onSelect 存在时使用 role="button" + onKeyDown 支持键盘跳转详情页；
 // 不存在时退回 role="img"，仅作展示。
-export default function FoodLayer({ foods, project, onSelect }: FoodLayerProps) {
+function FoodLayer({ foods, project, onSelect }: FoodLayerProps) {
   const visible = foods.filter((food) => food.restaurants.some((restaurant) => restaurant.coordinates));
   return visible.map((food) => {
     const restaurant = food.restaurants.find((item) => item.coordinates)!;
@@ -36,3 +37,5 @@ export default function FoodLayer({ foods, project, onSelect }: FoodLayerProps) 
     );
   });
 }
+
+export default memo(FoodLayer);

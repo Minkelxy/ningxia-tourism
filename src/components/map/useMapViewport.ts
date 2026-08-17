@@ -1,4 +1,4 @@
-import { useRef, useState, type PointerEvent } from 'react';
+import { useCallback, useRef, useState, type PointerEvent } from 'react';
 
 const panLimit = 180;
 
@@ -7,10 +7,13 @@ export default function useMapViewport() {
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const drag = useRef<{ pointerId: number; x: number; y: number; panX: number; panY: number } | null>(null);
 
-  const resetViewport = () => {
+  const resetViewport = useCallback(() => {
     setZoom(1);
     setPan({ x: 0, y: 0 });
-  };
+  }, []);
+
+  const zoomIn = useCallback(() => setZoom((value) => Math.min(2.4, value + 0.25)), []);
+  const zoomOut = useCallback(() => setZoom((value) => Math.max(1, value - 0.25)), []);
 
   const onPointerDown = (event: PointerEvent<SVGSVGElement>) => {
     if (event.button !== 0) return;
@@ -31,8 +34,8 @@ export default function useMapViewport() {
   return {
     zoom,
     pan,
-    zoomIn: () => setZoom((value) => Math.min(2.4, value + 0.25)),
-    zoomOut: () => setZoom((value) => Math.max(1, value - 0.25)),
+    zoomIn,
+    zoomOut,
     resetViewport,
     viewportHandlers: { onPointerDown, onPointerMove, onPointerUp: stopDrag, onPointerCancel: stopDrag },
   };
