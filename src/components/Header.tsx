@@ -5,6 +5,7 @@ import { Map, Menu, X } from 'lucide-react';
 const navLinks = [
   { path: '/', label: '地图探索' },
   { path: '/attractions', label: '精选景点' },
+  { path: '/foods', label: '宁夏美食' },
   { path: '/routes', label: '推荐路线' },
   { path: '/guide', label: '行前指南' },
   { path: '/journal', label: '旅行手记' },
@@ -18,6 +19,7 @@ export default function Header() {
   const active = (path: string) => {
     if (path === '/') return location.pathname === '/';
     if (path === '/attractions') return location.pathname.startsWith('/attraction');
+    if (path === '/foods') return location.pathname.startsWith('/food');
     if (path === '/cities') return location.pathname === '/cities' || location.pathname.startsWith('/city/');
     return location.pathname.startsWith(path);
   };
