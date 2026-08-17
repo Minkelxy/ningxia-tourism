@@ -6,7 +6,8 @@ import { attractionThemes } from './discovery';
 import { routes } from './routes';
 import { transportHubs } from './transport';
 import type { TransportHub } from '../types';
-import { cityAreaCodes, getPhoneAreaCode, hasStrictVerificationEvidence, isTemplatePhone, isValidKebabId, validTransportTypes, validateContentData, validateTransportHubPhone } from './validate';
+import { siteDateString } from '../lib/site';
+import { VERIFICATION_STALE_DAYS, cityAreaCodes, getPhoneAreaCode, hasStrictVerificationEvidence, isStale, isTemplatePhone, isValidKebabId, validTransportTypes, validateContentData, validateTransportHubPhone } from './validate';
 
 describe('公开内容数据', () => {
   it('通过完整性和引用校验', () => {
@@ -205,7 +206,7 @@ describe('反糟粕数据校验', () => {
   it('交通枢纽电话区号必须与所在城市匹配', () => {
     const mismatched: TransportHub = {
       id: 'wuzhong-test', name: '吴忠测试枢纽', cityId: 'wuzhong', type: 'railway',
-      coordinates: { lng: 106.19, lat: 37.94 }, phone: '0951-6123456',
+      coordinates: { lng: 106.19, lat: 37.94 }, phone: '0951-6123456', verifiedAt: '2026-08-17',
     };
     const errors = validateTransportHubPhone(mismatched);
     expect(errors.some((message) => message.includes('电话区号') && message.includes('0951'))).toBe(true);
@@ -214,7 +215,7 @@ describe('反糟粕数据校验', () => {
   it('交通枢纽模板化电话同时被区号规则捕获', () => {
     const templated: TransportHub = {
       id: 'wuzhong-test', name: '吴忠测试枢纽', cityId: 'wuzhong', type: 'railway',
-      coordinates: { lng: 106.19, lat: 37.94 }, phone: '0951-12306',
+      coordinates: { lng: 106.19, lat: 37.94 }, phone: '0951-12306', verifiedAt: '2026-08-17',
     };
     const errors = validateTransportHubPhone(templated);
     expect(errors.some((message) => message.includes('检测到模板化电话'))).toBe(true);
@@ -223,7 +224,7 @@ describe('反糟粕数据校验', () => {
   it('合法交通枢纽电话不会被误报', () => {
     const ok: TransportHub = {
       id: 'wuzhong-test', name: '吴忠测试枢纽', cityId: 'wuzhong', type: 'railway',
-      coordinates: { lng: 106.19, lat: 37.94 }, phone: '0953-2024567',
+      coordinates: { lng: 106.19, lat: 37.94 }, phone: '0953-2024567', verifiedAt: '2026-08-17',
     };
     expect(validateTransportHubPhone(ok)).toEqual([]);
   });
@@ -252,5 +253,42 @@ describe('反糟粕数据校验', () => {
 
   it('现有数据集通过反糟粕整体校验', () => {
     expect(validateContentData(journalEntries, journalErrors)).toEqual([]);
+  });
+});
+
+describe('verifiedAt 周期校验', () => {
+  it('VERIFICATION_STALE_DAYS 配置为 180 天', () => {
+    expect(VERIFICATION_STALE_DAYS).toBe(180);
+  });
+
+  it('无效或格式错误的 verifiedAt 视为过期', () => {
+    expect(isStale('')).toBe(true);
+    expect(isStale('not-a-date')).toBe(true);
+    expect(isStale('2026/08/17')).toBe(true);
+  });
+
+  it('今天的 verifiedAt 未过期', () => {
+    expect(isStale(siteDateString())).toBe(false);
+  });
+
+  it('179 天前的 verifiedAt 未过期', () => {
+    const recent = new Date(Date.parse(`${siteDateString()}T00:00:00Z`) - 179 * 24 * 60 * 60 * 1000);
+    const recentStr = recent.toISOString().slice(0, 10);
+    expect(isStale(recentStr)).toBe(false);
+  });
+
+  it('181 天前的 verifiedAt 视为过期', () => {
+    const old = new Date(Date.parse(`${siteDateString()}T00:00:00Z`) - 181 * 24 * 60 * 60 * 1000);
+    const oldStr = old.toISOString().slice(0, 10);
+    expect(isStale(oldStr)).toBe(true);
+  });
+
+  it('当前公开数据集均未过期', () => {
+    const allVerifiedAt = [
+      ...publishedAttractions.map((item) => item.verifiedAt),
+      ...transportHubs.map((hub) => hub.verifiedAt),
+      ...routes.map((route) => route.verifiedAt),
+    ];
+    expect(allVerifiedAt.every((value) => !isStale(value))).toBe(true);
   });
 });

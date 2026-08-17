@@ -231,5 +231,5 @@ export interface TransportHub {
   address?: string;
   phone?: string;
   sources?: SourceRef[];
-  verifiedAt?: string;
+  verifiedAt: string;
 }
