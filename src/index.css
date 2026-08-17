@@ -234,6 +234,8 @@ button { color: inherit; }
 .verification-badge { display: inline-flex; align-items: center; min-height: 28px; padding: 4px 9px; border-radius: 999px; background: #edf4ef; color: var(--green); font-size: .72rem; font-weight: 800; letter-spacing: .04em; }
 .verification-badge.review { background: #f7e8ca; color: #7d5217; }
 .card-image .verification-badge { position: absolute; top: 16px; right: 16px; }
+.food-card-image { display: flex; align-items: center; justify-content: center; }
+.food-card-icon { width: 52px; height: 52px; color: #E85D4C; opacity: .7; }
 .detail-badges { display: flex; flex-wrap: wrap; gap: 8px; }
 .verification-card.review { border-color: rgba(169, 69, 53, .26); background: #fff8ed; }
 .stop-verification { display: inline-flex; margin-left: 9px; padding: 3px 7px; border-radius: 999px; background: #e7f0ea; color: var(--green); font-family: var(--sans); font-size: .65rem; vertical-align: middle; }

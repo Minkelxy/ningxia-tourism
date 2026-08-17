@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { publishedAttractions } from '../data/attractions';
 import { getCityById } from '../data/cities';
 import { publishedFoods } from '../data/foods';
@@ -24,6 +24,7 @@ import {
 import useMapViewport from './map/useMapViewport';
 
 export default function NingxiaInteractiveMap() {
+  const navigate = useNavigate();
   const [features, setFeatures] = useState<GeoFeature[]>([]);
   const [districts, setDistricts] = useState<GeoFeature[]>([]);
   const [selectedCity, setSelectedCity] = useState<GeoFeature | null>(null);
@@ -163,7 +164,7 @@ export default function NingxiaInteractiveMap() {
             />
             <AttractionLayer attractions={visibleAttractions} project={project} selectedAttractionId={selectedAttraction?.id} onSelect={setSelectedAttraction} />
             {showGovernment && <GovernmentLayer markers={governmentMarkers} project={project} />}
-            {showFood && <FoodLayer foods={publishedFoods} project={project} />}
+            {showFood && <FoodLayer foods={publishedFoods} project={project} onSelect={(food) => navigate(`/food/${food.id}`)} />}
             {showTransport && <TransportLayer hubs={visibleHubs} project={project} />}
           </g>
         </svg>

@@ -8,6 +8,8 @@ import Loading from './components/Loading';
 const Home = lazy(() => import('./pages/Home'));
 const AttractionDetail = lazy(() => import('./pages/AttractionDetail'));
 const AttractionsList = lazy(() => import('./pages/AttractionsList'));
+const FoodDetail = lazy(() => import('./pages/FoodDetail'));
+const FoodsList = lazy(() => import('./pages/FoodsList'));
 const CityOverview = lazy(() => import('./pages/CityOverview'));
 const RouteRecommendation = lazy(() => import('./pages/RouteRecommendation'));
 const RouteDetail = lazy(() => import('./pages/RouteDetail'));
@@ -46,6 +48,8 @@ function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/attractions" element={<AttractionsList />} />
         <Route path="/attraction/:id" element={<AttractionDetail />} />
+        <Route path="/foods" element={<FoodsList />} />
+        <Route path="/food/:id" element={<FoodDetail />} />
         <Route path="/cities" element={<CityOverview />} />
         <Route path="/city/:name" element={<CityOverview />} />
         <Route path="/routes" element={<RouteRecommendation />} />
