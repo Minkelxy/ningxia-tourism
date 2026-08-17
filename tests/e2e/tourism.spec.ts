@@ -387,3 +387,29 @@ test('地图交通图层含机场类型并使用飞机图标', async ({ page }) 
   await expect(airport).toHaveCount(1);
   await expect(airport).toHaveAttribute('aria-label', /银川河东国际机场/);
 });
+
+test('地图美食点位支持键盘 Tab 聚焦并按回车跳转详情页', async ({ page }) => {
+  await page.goto(appBase);
+  const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
+  await map.getByRole('button', { name: '美食' }).click();
+  // 美食点位为 role=button，键盘 Tab 可聚焦，回车跳转 /food/:id
+  const foodMarker = map.locator('.map-food').first();
+  await expect(foodMarker).toHaveAttribute('role', 'button');
+  await foodMarker.focus();
+  await foodMarker.press('Enter');
+  await expect(page).toHaveURL(/\/food\//);
+});
+
+test('地图政府标记与交通枢纽点位为纯展示语义且有可读 aria-label', async ({ page }) => {
+  await page.goto(appBase);
+  const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
+  await map.getByRole('button', { name: '政府' }).click();
+  const governmentMarker = map.locator('.map-government').first();
+  await expect(governmentMarker).toHaveAttribute('role', 'img');
+  await expect(governmentMarker).toHaveAttribute('aria-label', /政府标记/);
+
+  await map.getByRole('button', { name: '交通' }).click();
+  const hub = map.locator('.map-hub').first();
+  await expect(hub).toHaveAttribute('role', 'img');
+  await expect(hub).toHaveAttribute('aria-label', /交通枢纽/);
+});
