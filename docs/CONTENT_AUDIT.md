@@ -69,23 +69,28 @@
 
 ## 美食目录
 
-复核日期：2026-08-17。美食目录共 14 道宁夏美食，按内容信任分级决定是否进入公开地图与列表；与景点一致，只有来源达到目录级或直接官方页面才标为 `published`，资料不足者保留为 `draft` 并隐藏。所有 `source.url` 均为实测可访问的政府或官方文旅页面，`checkedAt` 与 `verifiedAt` 统一为 2026-08-17。
+复核日期：2026-08-17（首轮），2026-08-17 二轮补全来源。美食目录共 14 道宁夏美食，已全部补齐官方可核实来源并标为 `published`，进入公开地图与城市页；其中手抓羊肉、蒿子面有国家级非遗项目直接专页，标为 `verified`，其余 12 道为 `review`。所有 `source.url` 均为实测可访问的政府或官方文旅页面，`checkedAt` 与 `verifiedAt` 统一为 2026-08-17。
 
-### 已发布（5 道，均为 review 级）
+### 已发布（14 道：2 verified + 12 review）
 
-| 美食 | ID | 来源 | 来源层级 | 核对日期 |
-| --- | --- | --- | --- | --- |
-| 八宝茶 | baba-cha | 文化和旅游部 · 品吴忠早茶 赏融合之美（mct.gov.cn） | 目录级（directory） | 2026-08-17 |
-| 中卫硒砂瓜 | xisha-gua | 沙坡头区人民政府 · 硒砂瓜开园上市（spt.gov.cn） | 目录级（directory） | 2026-08-17 |
-| 中宁枸杞 | gouqi | 中宁县人民政府 · 中宁特产（znzf.gov.cn） | 目录级（directory） | 2026-08-17 |
-| 灵武长枣 | hongzao | 灵武市自然资源局 · 灵武长枣出口迪拜（nxlw.gov.cn） | 目录级（directory） | 2026-08-17 |
-| 贺兰山东麓葡萄酒 | putaojiu | 宁夏回族自治区工业和信息化厅 · 贺兰山东麓葡萄酒产业园区概况（gxt.nx.gov.cn） | 直接专页（direct） | 2026-08-17 |
+| 美食 | ID | 来源 | 来源层级 | 等级 | 核对日期 |
+| --- | --- | --- | --- | --- | --- |
+| 手抓羊肉 | shouzhua-yangrou | 中国非物质文化遗产网 · 牛羊肉烹制技艺（宁夏手抓羊肉制作技艺）（ihchina.cn） | 直接专页（direct） | verified | 2026-08-17 |
+| 蒿子面 | haozi-mian | 中国非物质文化遗产网 · 传统面食制作技艺（中宁蒿子面制作技艺）（ihchina.cn） | 直接专页（direct） | verified | 2026-08-17 |
+| 八宝茶 | baba-cha | 文化和旅游部 · 品吴忠早茶 赏融合之美（mct.gov.cn） | 目录级（directory） | review | 2026-08-17 |
+| 中卫硒砂瓜 | xisha-gua | 沙坡头区人民政府 · 硒砂瓜开园上市（spt.gov.cn） | 目录级（directory） | review | 2026-08-17 |
+| 中宁枸杞 | gouqi | 中宁县人民政府 · 中宁特产（znzf.gov.cn） | 目录级（directory） | review | 2026-08-17 |
+| 灵武长枣 | hongzao | 灵武市自然资源局 · 灵武长枣出口迪拜（nxlw.gov.cn） | 目录级（directory） | review | 2026-08-17 |
+| 贺兰山东麓葡萄酒 | putaojiu | 宁夏回族自治区工业和信息化厅 · 贺兰山东麓葡萄酒产业园区概况（gxt.nx.gov.cn） | 直接专页（direct） | review | 2026-08-17 |
+| 羊杂碎 | yangzasui | 文化和旅游部 · 三餐烟火“烹”出宁夏文旅长桌宴（mct.gov.cn） | 目录级（directory） | review | 2026-08-17 |
+| 羊肉臊子面 | yangrou-saozimian | 宁夏回族自治区商务厅 · 吴忠：一方美食一城风味（dofcom.nx.gov.cn） | 目录级（directory） | review | 2026-08-17 |
+| 辣糊糊 | lahuhu | 文化和旅游部 · 辣糊糊火热“出圈”（mct.gov.cn） | 目录级（directory） | review | 2026-08-17 |
+| 油香 | youxiang | 泾源县文化旅游广电局 · 县级非遗代表性传承人公示（nxjy.gov.cn） | 目录级（directory） | review | 2026-08-17 |
+| 馓子 | sanzha | 泾源县文化旅游广电局 · 县级非遗代表性传承人公示（nxjy.gov.cn） | 目录级（directory） | review | 2026-08-17 |
+| 烩菜 | xiang-cai | 人民网 · 宁夏“百村千碗·乡村美食”工程成果展示（people.com.cn） | 目录级（directory） | review | 2026-08-17 |
+| 中卫拉条子 | zhongwei-latiaozi | 沙坡头区人民政府 · 中卫炒拉条（spt.gov.cn） | 直接专页（direct） | review | 2026-08-17 |
 
-以上 5 道均有政府或官方文旅直接页面佐证产品本身，可公开阅读并展示在地图美食图层；来源层级为目录级或直接专页，核心事实有官方页面支撑，但未逐店核实运营信息，故统一标为 `review`，不计入“已核实”。
-
-### 草稿（9 道，不公开）
-
-手抓羊肉（shouzhua-yangrou）、羊杂碎（yangzasui）、羊肉臊子面（yangrou-saozimian）、辣糊糊（lahuhu）、蒿子面（haozi-mian）、油香（youxiang）、馓子（sanzha）、烩菜（xiang-cai）、中卫拉条子（zhongwei-latiaozi）。这 9 道暂未补齐官方直接来源，仅作为内部数据保留，不进入公开地图与列表，等待补齐餐厅级核实后再公开。旧 PR #7 中 `làhúhu` 与 `hua jianao` 两个错误 ID 已分别修正为 `lahuhu` 与 `zhongwei-latiaozi`。
+14 道美食核心事实均有政府或官方文旅页面支撑，可公开阅读并展示在地图美食图层与城市页"城市味道"区块。手抓羊肉、蒿子面凭借国家级非遗项目直接专页升级为 `verified`；其余 12 道因来源为目录级或仅有产品介绍、未逐店核实运营信息，保持 `review`。旧 PR #7 中 `làhúhu` 与 `hua jianao` 两个错误 ID 已分别修正为 `lahuhu` 与 `zhongwei-latiaozi`。
 
 ### 餐厅电话字段已移除
 
