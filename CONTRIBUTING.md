@@ -171,6 +171,9 @@ npm run dev
 
 ## 相关文档
 
-- [内容审计记录](docs/CONTENT_AUDIT.md)：分级标准、复核日期与历史变更
-- [图片来源记录](docs/IMAGE_PROVENANCE.md)：编辑插画生成方式与提示词
+- [内容审计记录](docs/content/CONTENT_AUDIT.md)：分级标准、复核日期与历史变更
+- [图片来源记录](docs/content/IMAGE_PROVENANCE.md)：编辑插画生成方式与提示词
+- [内容维护说明](docs/content/MAINTENANCE.md)：数据与内容维护准则
+- [产品需求文档](docs/product/宁夏旅游地图PRD.md)：PRD
+- [技术架构文档](docs/product/宁夏旅游地图技术架构.md)：架构说明
 - [行前指南模板](docs/templates/)：手记与探店模板（不参与发布）

@@ -66,7 +66,7 @@
   - 来源类型：官方文旅目录、地方志、品牌官网、权威百科（避免自媒体）
   - 将 9 道 `status: 'draft'` 改为 `status: 'published'`
   - `verificationLevel` 保持 `'review'`（除非有直接官方专页可升 `'verified'`）
-- `/workspace/docs/CONTENT_AUDIT.md`
+- `/workspace/docs/content/CONTENT_AUDIT.md`
   - 更新美食章节：14 道全部 published，统计 review/verified 数量
   - 更新复核日期
 
@@ -101,7 +101,7 @@
 - `/workspace/src/pages/RouteDetail.tsx`
   - 第 32 行渲染逻辑补充：当 `day.timeSlots` 为空或不存在时，渲染轻量占位提示"当日时段细节整理中"，避免用户误判为 bug
   - 不破坏现有 `day.timeSlots && day.timeSlots.length > 0` 条件
-- `/workspace/docs/CONTENT_AUDIT.md`
+- `/workspace/docs/content/CONTENT_AUDIT.md`
   - 路线章节补充 timeSlots 覆盖说明
 
 **验证**：
@@ -203,7 +203,7 @@
   - 新增：route verifiedAt 格式非法 → 报错
 - `/workspace/scripts/validate-data.ts`
   - 复核 assertValidContentData 输出包含新规则
-- `/workspace/docs/CONTENT_AUDIT.md`
+- `/workspace/docs/content/CONTENT_AUDIT.md`
   - 说明周期校验阈值与降级策略
 
 **验证**：
