@@ -2,6 +2,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { publishedAttractions } from '../src/data/attractions';
 import { cities } from '../src/data/cities';
+import { publishedFoods } from '../src/data/foods';
 import { routes } from '../src/data/routes';
 import { guideVerifiedAt } from '../src/data/guide';
 import { loadJournalFiles } from './load-journal-files';
@@ -14,18 +15,21 @@ const articles = journal.entries.filter((item) => item.status === 'published'
 const latest = (dates: string[]) => dates.filter(Boolean).sort().at(-1);
 const attractionDate = latest(publishedAttractions.map((item) => item.verifiedAt));
 const routeDate = latest(routes.map((item) => item.verifiedAt));
+const foodDate = latest(publishedFoods.map((item) => item.verifiedAt));
 const journalDate = latest(articles.map((item) => item.updatedAt));
-const allDate = latest([attractionDate, routeDate, journalDate].filter(Boolean) as string[]);
+const allDate = latest([attractionDate, routeDate, foodDate, journalDate].filter(Boolean) as string[]);
 
 const urls: Array<{ path: string; lastmod?: string }> = [
   { path: '/', lastmod: allDate },
   { path: '/attractions', lastmod: attractionDate },
+  { path: '/foods', lastmod: foodDate },
   { path: '/routes', lastmod: routeDate },
   { path: '/cities', lastmod: attractionDate },
   { path: '/journal', lastmod: journalDate },
   { path: '/guide', lastmod: guideVerifiedAt },
   { path: '/about', lastmod: allDate },
   ...publishedAttractions.map((item) => ({ path: `/attraction/${item.id}`, lastmod: item.verifiedAt })),
+  ...publishedFoods.map((item) => ({ path: `/food/${item.id}`, lastmod: item.verifiedAt })),
   ...cities.map((city) => ({ path: `/city/${city.id}`, lastmod: latest(publishedAttractions.filter((item) => item.cityId === city.id).map((item) => item.verifiedAt)) })),
   ...routes.map((item) => ({ path: `/routes/${item.id}`, lastmod: item.verifiedAt })),
   ...articles.map((item) => ({ path: `/journal/${item.type}/${item.slug}`, lastmod: item.updatedAt })),

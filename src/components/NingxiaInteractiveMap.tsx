@@ -164,7 +164,7 @@ export default function NingxiaInteractiveMap() {
             />
             <AttractionLayer attractions={visibleAttractions} project={project} selectedAttractionId={selectedAttraction?.id} onSelect={setSelectedAttraction} />
             {showGovernment && <GovernmentLayer markers={governmentMarkers} project={project} />}
-            {showFood && <FoodLayer foods={publishedFoods} project={project} />}
+            {showFood && <FoodLayer foods={publishedFoods} project={project} onSelect={(food) => navigate(`/food/${food.id}`)} />}
             {showTransport && <TransportLayer hubs={visibleHubs} project={project} />}
           </g>
         </svg>
