@@ -393,7 +393,8 @@ export const foods: Food[] = [
 export const publishedFoods = foods.filter((f) => f.status === 'published');
 export const verifiedFoods = publishedFoods.filter((f) => f.verificationLevel === 'verified');
 export const reviewFoods = publishedFoods.filter((f) => f.verificationLevel === 'review');
-export const foodById = (id: string) => foods.find((f) => f.id === id);
+const foodsById = new Map(foods.map((food) => [food.id, food]));
+export const foodById = (id: string) => foodsById.get(id);
 
 // 按城市筛选已发布美食：restaurant.cityId 命中，或 origin 文本包含该城市名。
 // 例如 origin="吴忠" 直接匹配 wuzhong；origin="中卫" 匹配 zhongwei；
