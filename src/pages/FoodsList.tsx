@@ -17,13 +17,13 @@ export default function FoodsList() {
   const city = params.get('city') ?? 'all';
   const category = params.get('category') ?? 'all';
   const { activeFilterCount, filtersExpanded, setFiltersExpanded, toggleFilters } = useFiltersWithPanel([query.trim(), city !== 'all', category !== 'all']);
+  const normalizedQuery = query.trim().toLocaleLowerCase('zh-CN');
 
   const foods = useMemo(() => publishedFoods.filter((item) => {
-    const normalized = query.trim().toLocaleLowerCase('zh-CN');
-    const matchesQuery = !normalized || `${item.name}${item.origin}${item.description}${item.restaurants.map((r) => r.name).join('')}`.toLocaleLowerCase('zh-CN').includes(normalized);
+    const matchesQuery = !normalizedQuery || `${item.name}${item.origin}${item.description}${item.restaurants.map((r) => r.name).join('')}`.toLocaleLowerCase('zh-CN').includes(normalizedQuery);
     const matchesCity = city === 'all' || item.restaurants.some((r) => r.cityId === city) || item.origin.includes(cityName(city as CityId));
     return matchesQuery && matchesCity && (category === 'all' || item.category === category);
-  }), [query, city, category]);
+  }), [normalizedQuery, city, category]);
 
   return (
     <>

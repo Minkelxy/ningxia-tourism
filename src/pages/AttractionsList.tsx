@@ -20,14 +20,17 @@ export default function AttractionsList() {
   const activeTheme = getAttractionThemeById(theme);
   const { activeFilterCount, filtersExpanded, setFiltersExpanded, toggleFilters } = useFiltersWithPanel([query.trim(), city !== 'all', category !== 'all', Boolean(activeTheme)]);
   const [compareIds, setCompareIds] = useState<string[]>([]);
+  const normalizedQuery = query.trim().toLocaleLowerCase('zh-CN');
 
   const attractions = useMemo(() => publishedAttractions.filter((item) => {
-    const normalized = query.trim().toLocaleLowerCase('zh-CN');
-    const matchesQuery = !normalized || `${item.name}${cityName(item.cityId)}${item.locality}${item.summary}${item.highlights.join('')}`.toLocaleLowerCase('zh-CN').includes(normalized);
+    const matchesQuery = !normalizedQuery || `${item.name}${cityName(item.cityId)}${item.locality}${item.summary}${item.highlights.join('')}`.toLocaleLowerCase('zh-CN').includes(normalizedQuery);
     const matchesTheme = !activeTheme || activeTheme.attractionIds.includes(item.id);
     return matchesQuery && matchesTheme && (city === 'all' || item.cityId === city) && (category === 'all' || item.category === category);
-  }), [query, city, category, activeTheme]);
-  const compareAttractions = publishedAttractions.filter((item) => compareIds.includes(item.id));
+  }), [normalizedQuery, city, category, activeTheme]);
+  const compareAttractions = useMemo(() => {
+    const selectedIds = new Set(compareIds);
+    return publishedAttractions.filter((item) => selectedIds.has(item.id));
+  }, [compareIds]);
   const toggleCompare = (id: string) => setCompareIds((current) => current.includes(id) ? current.filter((item) => item !== id) : current.length < 3 ? [...current, id] : current);
 
   return (
