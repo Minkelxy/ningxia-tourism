@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { publishedAttractions } from '../data/attractions';
+import { getPublishedAttractionsByCity, publishedAttractions } from '../data/attractions';
 import { getCityById } from '../data/cities';
 import { publishedFoods } from '../data/foods';
 import { transportHubs } from '../data/transport';
@@ -112,11 +112,11 @@ export default function NingxiaInteractiveMap() {
 
   const project = useMemo(() => createProjection(activeBounds, mapView.width, mapView.height, selectedDistrict ? 90 : 54), [activeBounds, selectedDistrict]);
   const activeCityId = cityIdFromFeature(selectedCity);
-  const visibleAttractions = useMemo(() => publishedAttractions.filter((item) => {
-    if (selectedDistrict) return containsCoordinates(activeBounds, item.coordinates.lng, item.coordinates.lat);
-    if (activeCityId) return item.cityId === activeCityId;
-    return true;
-  }), [activeBounds, selectedDistrict, activeCityId]);
+  const visibleAttractions = useMemo(() => {
+    if (selectedDistrict) return publishedAttractions.filter((item) => containsCoordinates(activeBounds, item.coordinates.lng, item.coordinates.lat));
+    if (activeCityId) return getPublishedAttractionsByCity(activeCityId);
+    return publishedAttractions;
+  }, [activeBounds, selectedDistrict, activeCityId]);
   const visibleHubs = useMemo(() => transportHubs.filter((hub) => !activeCityId || hub.cityId === activeCityId), [activeCityId]);
   const mapFeatures = useMemo(() => selectedCity ? (districts.length ? districts : [selectedCity]) : features, [selectedCity, districts, features]);
   const levelLabel = selectedDistrict ? featureName(selectedDistrict) : selectedCity ? featureName(selectedCity) : '宁夏全区';
