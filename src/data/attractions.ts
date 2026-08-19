@@ -526,6 +526,7 @@ const drafts: Attraction[] = [{
 }];
 
 export const attractions: Attraction[] = [...published, ...drafts];
+const attractionsById = new Map(attractions.map((item) => [item.id, item]));
 export const publishedAttractions = attractions.filter((item) => item.status === 'published');
 export const verifiedAttractions = publishedAttractions.filter((item) => item.verificationLevel === 'verified');
 export const reviewAttractions = publishedAttractions.filter((item) => item.verificationLevel === 'review');
@@ -533,5 +534,5 @@ export const attractionAliases: Record<string, string> = {
   yibaisiba: 'huangyeguda',
   jinjiping: 'pengyangtitian',
 };
-export const getAttractionById = (id?: string) => attractions.find((item) => item.id === id);
+export const getAttractionById = (id?: string) => id ? attractionsById.get(id) : undefined;
 export const getPublishedAttractionsByCity = (cityId: CityId) => publishedAttractions.filter((item) => item.cityId === cityId);
