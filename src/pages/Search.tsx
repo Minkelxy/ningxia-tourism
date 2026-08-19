@@ -9,6 +9,14 @@ import { routes } from '../data/routes';
 import { publishedJournalEntries } from '../content/journal';
 
 const normalize = (value: string) => value.trim().toLocaleLowerCase('zh-CN');
+type SearchIndexEntry<T> = { item: T; text: string };
+const createSearchIndex = <T,>(items: T[], getText: (item: T) => string): SearchIndexEntry<T>[] => items.map((item) => ({ item, text: normalize(getText(item)) }));
+
+const attractionSearchIndex = createSearchIndex(publishedAttractions, (item) => `${item.name}${cityName(item.cityId)}${item.locality}${item.summary}${item.highlights.join('')}`);
+const foodSearchIndex = createSearchIndex(foods.filter((item) => item.status === 'published'), (item) => `${item.name}${item.description}${item.origin}${item.category}${item.tips ?? ''}`);
+const routeSearchIndex = createSearchIndex(routes, (item) => `${item.name}${item.summary}${item.themeLabel}${item.audience}${item.highlights.join('')}`);
+const journalSearchIndex = createSearchIndex(publishedJournalEntries, (item) => `${item.title}${item.excerpt}${item.cityId}${item.locality}${item.tags.join('')}${item.body}`);
+const citySearchIndex = createSearchIndex(cities, (item) => `${item.name}${item.nickname}${item.travelRole}${item.introduction}${item.bestFor.join('')}${item.foods.join('')}`);
 
 export default function Search() {
   const [params, setParams] = useSearchParams();
@@ -18,11 +26,11 @@ export default function Search() {
   const matches = useMemo(() => {
     if (!term) return { attractions: [], foods: [], routes: [], journals: [], cities: [] };
     return {
-      attractions: publishedAttractions.filter((item) => normalize(`${item.name}${cityName(item.cityId)}${item.locality}${item.summary}${item.highlights.join('')}`).includes(term)),
-      foods: foods.filter((item) => item.status === 'published' && normalize(`${item.name}${item.description}${item.origin}${item.category}${item.tips ?? ''}`).includes(term)),
-      routes: routes.filter((item) => normalize(`${item.name}${item.summary}${item.themeLabel}${item.audience}${item.highlights.join('')}`).includes(term)),
-      journals: publishedJournalEntries.filter((item) => normalize(`${item.title}${item.excerpt}${item.cityId}${item.locality}${item.tags.join('')}${item.body}`).includes(term)),
-      cities: cities.filter((item) => normalize(`${item.name}${item.nickname}${item.travelRole}${item.introduction}${item.bestFor.join('')}${item.foods.join('')}`).includes(term)),
+      attractions: attractionSearchIndex.filter(({ text }) => text.includes(term)).map(({ item }) => item),
+      foods: foodSearchIndex.filter(({ text }) => text.includes(term)).map(({ item }) => item),
+      routes: routeSearchIndex.filter(({ text }) => text.includes(term)).map(({ item }) => item),
+      journals: journalSearchIndex.filter(({ text }) => text.includes(term)).map(({ item }) => item),
+      cities: citySearchIndex.filter(({ text }) => text.includes(term)).map(({ item }) => item),
     };
   }, [term]);
   const total = Object.values(matches).reduce((sum, items) => sum + items.length, 0);
