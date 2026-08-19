@@ -27,6 +27,10 @@ export default function CityOverview() {
   const city = getCityById(name);
   // Hooks 必须在任何 early return 之前调用；city 为 undefined 时给空数组兜底
   const attractions = useMemo(() => (city ? getPublishedAttractionsByCity(city.id) : []), [city]);
+  const verificationCounts = useMemo(() => attractions.reduce((counts, item) => {
+    counts[item.verificationLevel] += 1;
+    return counts;
+  }, { verified: 0, review: 0 }), [attractions]);
   const attractionIds = useMemo(() => new Set(attractions.map((item) => item.id)), [attractions]);
   const relatedRoutes = useMemo(() => routes.filter((route) => route.days.some((day) => day.stops.some((stop) => stop.attractionId && attractionIds.has(stop.attractionId)))), [attractionIds]);
   const cityFoods = useMemo(() => (city ? foodsByCity(city.id) : []), [city]);
@@ -47,7 +51,7 @@ export default function CityOverview() {
             </article>
             <aside className="city-sidebar">
               <section className="city-decision-card"><p className="eyebrow"><UsersRound aria-hidden="true" /> 编辑建议</p><h2>适不适合放进这趟行程</h2><div className="city-best-for">{city.bestFor.map((item) => <span key={item}>{item}</span>)}</div><p className="city-arrival-note"><TrainFront aria-hidden="true" />{city.arrivalNote}</p><div className="city-planning-tip"><Lightbulb aria-hidden="true" /><p><strong>关键提醒</strong>{city.planningTip}</p></div></section>
-              <section className="city-side-note"><p className="eyebrow">资料覆盖</p><h2>{attractions.length ? `${attractions.length} 个公开景点` : '更多内容正在核实'}</h2><p>{attractions.filter((item) => item.verificationLevel === 'verified').length} 个已核实，{attractions.filter((item) => item.verificationLevel === 'review').length} 个待复核。开放、交通与天气仍请出发前确认。</p></section>
+              <section className="city-side-note"><p className="eyebrow">资料覆盖</p><h2>{attractions.length ? `${attractions.length} 个公开景点` : '更多内容正在核实'}</h2><p>{verificationCounts.verified} 个已核实，{verificationCounts.review} 个待复核。开放、交通与天气仍请出发前确认。</p></section>
             </aside>
           </div>
           <section className="section-shell detail-section"><div className="split-heading section-heading"><div><p className="eyebrow">精选目的地</p><h2>{city.name}从这里开始</h2></div><Link to={`/attractions?city=${city.id}`} className="text-link">查看全部 <ArrowRight aria-hidden="true" /></Link></div>{attractions.length ? <div className="city-attraction-row">{attractions.map((item) => <Link key={item.id} to={`/attraction/${item.id}`}><ResponsiveImage src={item.images[0].src} alt={item.images[0].alt} loading="lazy" width="240" height="180" sizes="120px" /><span><strong>{item.name}</strong><small>{item.visitInfo.duration}</small></span></Link>)}</div> : <div className="empty-state compact"><p>该城市的正式内容正在逐条核实。</p></div>}</section>

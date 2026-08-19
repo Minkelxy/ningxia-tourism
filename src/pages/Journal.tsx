@@ -19,6 +19,12 @@ const tabs: Array<{ type: JournalView; label: string }> = [
 ];
 
 const typeLabel = (type: JournalType) => type === 'travel' ? '游记' : type === 'food' ? '探店' : '资料专题';
+const journalCounts: Record<JournalView, number> = {
+  all: publishedJournalEntries.length,
+  travel: publishedJournalEntries.filter((entry) => entry.type === 'travel').length,
+  food: publishedJournalEntries.filter((entry) => entry.type === 'food').length,
+  guide: publishedJournalEntries.filter((entry) => entry.type === 'guide').length,
+};
 
 export default function Journal() {
   const { params, setParams, setFilter, clearFilters: clearAll } = useSearchParamsFilter();
@@ -58,7 +64,7 @@ export default function Journal() {
     <SEO title="旅行手记与专题 · 宁夏旅行地图" description="先浏览注明来源和核对日期的宁夏旅行专题；个人游记与探店记录只在真实素材完成后公开。" />
     <header className="journal-hero"><div className="section-shell journal-hero-grid"><div><p className="eyebrow"><NotebookPen aria-hidden="true" /> 旅行手记</p><h1>地图之外，<br />留下走过与查过的细节。</h1><p>亲历游记与探店只记录真实发生的体验；旅行专题则整理公开资料，并明确来源、核对日期和适用边界。两种内容不会混在一起。</p></div><div className="journal-cover-stack" aria-hidden="true"><span className="paper-note">亲历与资料<br /><strong>清楚分开</strong></span><span className="date-stamp">宁夏<br />手记</span></div></div></header>
     <div className="section-shell journal-page">
-      <div className="journal-tabs" role="tablist" aria-label="内容类型">{tabs.map((tab, index) => { const count = tab.type === 'all' ? publishedJournalEntries.length : publishedJournalEntries.filter((entry) => entry.type === tab.type).length; return <button ref={(element) => { tabRefs.current[index] = element; }} key={tab.type} id={`${tab.type}-tab`} type="button" role="tab" aria-controls="journal-results" aria-selected={type === tab.type} tabIndex={type === tab.type ? 0 : -1} onKeyDown={(event) => handleTabKey(event, index)} onClick={() => switchType(tab.type)}>{tab.type === 'all' ? <LayoutGrid aria-hidden="true" /> : tab.type === 'travel' ? <BookOpenText aria-hidden="true" /> : tab.type === 'food' ? <Store aria-hidden="true" /> : <FileText aria-hidden="true" />}{tab.label}<small>{count}</small></button>; })}</div>
+      <div className="journal-tabs" role="tablist" aria-label="内容类型">{tabs.map((tab, index) => <button ref={(element) => { tabRefs.current[index] = element; }} key={tab.type} id={`${tab.type}-tab`} type="button" role="tab" aria-controls="journal-results" aria-selected={type === tab.type} tabIndex={type === tab.type ? 0 : -1} onKeyDown={(event) => handleTabKey(event, index)} onClick={() => switchType(tab.type)}>{tab.type === 'all' ? <LayoutGrid aria-hidden="true" /> : tab.type === 'travel' ? <BookOpenText aria-hidden="true" /> : tab.type === 'food' ? <Store aria-hidden="true" /> : <FileText aria-hidden="true" />}{tab.label}<small>{journalCounts[tab.type]}</small></button>)}</div>
       <section className="journal-filters" aria-label="手记筛选"><label className="journal-search"><Search aria-hidden="true" /><span className="sr-only">搜索旅行内容</span><input type="search" value={q} placeholder="搜索标题、地点、标签或问题" onChange={(event) => setFilter('q', event.target.value)} /></label><label><MapPin aria-hidden="true" /><span>城市</span><select value={city} onChange={(event) => setFilter('city', event.target.value)}><option value="all">全部城市</option>{cities.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label><label><Tags aria-hidden="true" /><span>标签</span><select value={tag} onChange={(event) => setFilter('tag', event.target.value)}><option value="all">全部标签</option>{tags.map((item) => <option key={item} value={item}>{item}</option>)}</select></label></section>
       <div id="journal-results" role="tabpanel" aria-labelledby={`${type}-tab`}>
         {typeEntries.length > 0 && <div className="journal-result-bar" aria-live="polite"><p>当前显示 <strong>{entries.length}</strong> 篇{type === 'all' ? '公开内容' : typeLabel(type)}</p>{hasActiveFilters && entries.length > 0 && <button type="button" onClick={clearFilters}><X aria-hidden="true" /> 清空筛选</button>}</div>}
