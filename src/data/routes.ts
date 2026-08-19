@@ -262,4 +262,5 @@ export const routes: RoutePlan[] = [
   },
 ];
 
-export const getRouteById = (id?: string) => routes.find((route) => route.id === id);
+const routesById = new Map(routes.map((route) => [route.id, route]));
+export const getRouteById = (id?: string) => id ? routesById.get(id) : undefined;
