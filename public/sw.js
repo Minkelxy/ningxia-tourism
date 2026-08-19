@@ -1,4 +1,4 @@
-const VERSION = 'ningxia-tourism-v2';
+const VERSION = 'ningxia-tourism-v3';
 const STATIC_CACHE = `${VERSION}-static`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;
 
@@ -22,13 +22,20 @@ self.addEventListener('activate', (event) => {
 const isSameOrigin = (request) => new URL(request.url).origin === self.location.origin;
 const isMapData = (request) => new URL(request.url).pathname.endsWith('.json');
 
+async function putRuntime(request, response) {
+  if (!response.ok) return;
+  try {
+    const cache = await caches.open(RUNTIME_CACHE);
+    await cache.put(request, response.clone());
+  } catch {
+    // 缓存配额或权限异常不应覆盖成功的网络响应。
+  }
+}
+
 async function networkFirst(request, fallback) {
   try {
     const response = await fetch(request);
-    if (response.ok) {
-      const cache = await caches.open(RUNTIME_CACHE);
-      await cache.put(request, response.clone());
-    }
+    void putRuntime(request, response);
     return response;
   } catch {
     return (await caches.match(request)) || (fallback ? caches.match(fallback) : Response.error());
@@ -52,9 +59,7 @@ self.addEventListener('fetch', (event) => {
 
   event.respondWith(
     caches.match(request).then((cached) => cached || fetch(request).then((response) => {
-      if (response.ok) {
-        void caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, response.clone()));
-      }
+      void putRuntime(request, response);
       return response;
     })),
   );
