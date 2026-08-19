@@ -7,4 +7,5 @@ export const publishedJournalEntries = journalEntries.filter(isPublishedJournalE
   || b.updatedAt.localeCompare(a.updatedAt)
   || b.publishedAt.localeCompare(a.publishedAt)
   || a.title.localeCompare(b.title, 'zh-CN'));
-export const getJournalEntry = (type?: string, slug?: string) => journalEntries.find((entry) => entry.type === type && entry.slug === slug);
+const journalEntriesByKey = new Map(journalEntries.map((entry) => [`${entry.type}:${entry.slug}`, entry]));
+export const getJournalEntry = (type?: string, slug?: string) => type && slug ? journalEntriesByKey.get(`${type}:${slug}`) : undefined;
