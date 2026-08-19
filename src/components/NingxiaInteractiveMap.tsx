@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getPublishedAttractionsByCity, publishedAttractions } from '../data/attractions';
 import { getCityById } from '../data/cities';
@@ -36,29 +36,40 @@ export default function NingxiaInteractiveMap() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [reloadKey, setReloadKey] = useState(0);
+  const districtRequestRef = useRef<AbortController | null>(null);
   const { zoom, pan, zoomIn, zoomOut, resetViewport, viewportHandlers } = useMapViewport();
 
-  const loadProvince = useCallback(async () => {
+  const loadProvince = useCallback(async (signal: AbortSignal) => {
     setLoading(true);
     setError('');
     try {
       const mobileMap = typeof window !== 'undefined' && window.matchMedia?.('(max-width: 768px)').matches;
       const file = mobileMap ? 'ningxia-province-mobile.json' : 'ningxia-province.json';
-      const response = await fetch(`${import.meta.env.BASE_URL}data/${file}`);
+      const response = await fetch(`${import.meta.env.BASE_URL}data/${file}`, { signal });
       if (!response.ok) throw new Error('地图数据请求失败');
       const data = await response.json() as { type: string; features?: GeoFeature[] };
       if (data.type !== 'FeatureCollection' || !data.features?.length) throw new Error('地图数据格式不正确');
+      if (signal.aborted) return;
       setFeatures(data.features);
     } catch (reason) {
+      if (signal.aborted) return;
       setError(reason instanceof Error ? reason.message : '地图暂时无法加载');
     } finally {
-      setLoading(false);
+      if (!signal.aborted) setLoading(false);
     }
   }, []);
 
-  useEffect(() => { void loadProvince(); }, [loadProvince, reloadKey]);
+  useEffect(() => {
+    const controller = new AbortController();
+    void loadProvince(controller.signal);
+    return () => controller.abort();
+  }, [loadProvince, reloadKey]);
+  useEffect(() => () => districtRequestRef.current?.abort(), []);
 
   const openCity = useCallback(async (feature: GeoFeature) => {
+    districtRequestRef.current?.abort();
+    const controller = new AbortController();
+    districtRequestRef.current = controller;
     setSelectedCity(feature);
     setSelectedDistrict(null);
     setSelectedAttraction(null);
@@ -67,12 +78,13 @@ export default function NingxiaInteractiveMap() {
     const file = districtFileByCode[feature.properties.code || ''];
     if (!file) return;
     try {
-      const response = await fetch(`${import.meta.env.BASE_URL}data/ningxia/districts/${file}.json`);
+      const response = await fetch(`${import.meta.env.BASE_URL}data/ningxia/districts/${file}.json`, { signal: controller.signal });
       if (!response.ok) throw new Error('区县数据加载失败');
       const data = await response.json() as { features?: GeoFeature[] };
+      if (controller.signal.aborted) return;
       setDistricts(data.features ?? []);
     } catch {
-      setDistricts([]);
+      if (!controller.signal.aborted) setDistricts([]);
     }
   }, [resetViewport]);
 
@@ -83,6 +95,7 @@ export default function NingxiaInteractiveMap() {
   }, [resetViewport]);
 
   const backToProvince = useCallback(() => {
+    districtRequestRef.current?.abort();
     setSelectedCity(null);
     setSelectedDistrict(null);
     setDistricts([]);
