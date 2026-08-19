@@ -42,4 +42,5 @@ export const attractionThemes: AttractionTheme[] = [
   },
 ];
 
-export const getAttractionThemeById = (id?: string) => attractionThemes.find((theme) => theme.id === id);
+const attractionThemesById = new Map(attractionThemes.map((theme) => [theme.id, theme]));
+export const getAttractionThemeById = (id?: string) => id ? attractionThemesById.get(id) : undefined;
