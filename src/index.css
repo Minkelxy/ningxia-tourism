@@ -800,7 +800,8 @@ button { color: inherit; }
 .favorites-list, .favorites-route-list { display: grid; gap: 10px; }
 .favorite-row, .favorite-route-row { display: flex; align-items: center; gap: 16px; min-height: 78px; padding: 10px 16px 10px 10px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
 .favorite-row:hover, .favorite-route-row:hover { transform: translateY(-2px); border-color: rgba(49,95,79,.35); box-shadow: var(--shadow); }
-.favorite-row img { width: 70px; height: 58px; border-radius: 9px; object-fit: cover; }
+.favorite-row picture { flex: 0 0 70px; width: 70px; height: 58px; overflow: hidden; border-radius: 9px; }
+.favorite-row picture img { width: 70px; height: 58px; object-fit: cover; }
 .favorite-row > span, .favorite-route-row > span { display: grid; gap: 2px; min-width: 0; flex: 1; }
 .favorite-row strong, .favorite-route-row strong { font-family: var(--serif); font-size: 1.12rem; }
 .favorite-row small, .favorite-route-row small, .favorite-route-row em { color: var(--muted); font-size: .8rem; font-style: normal; }
