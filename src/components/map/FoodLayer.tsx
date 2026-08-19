@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { UtensilsCrossed } from 'lucide-react';
 import type { Food } from '../../types';
 import { activateWithKeyboard } from './config';
@@ -14,10 +14,12 @@ interface FoodLayerProps {
 // onSelect 存在时使用 role="button" + onKeyDown 支持键盘跳转详情页；
 // 不存在时退回 role="img"，仅作展示。
 function FoodLayer({ foods, project, onSelect }: FoodLayerProps) {
-  const visible = foods.filter((food) => food.restaurants.some((restaurant) => restaurant.coordinates));
-  return visible.map((food) => {
-    const restaurant = food.restaurants.find((item) => item.coordinates)!;
-    const point = project(restaurant.coordinates!.lng, restaurant.coordinates!.lat);
+  const visible = useMemo(() => foods.flatMap((food) => {
+    const restaurant = food.restaurants.find((item) => item.coordinates);
+    return restaurant?.coordinates ? [{ food, coordinates: restaurant.coordinates }] : [];
+  }), [foods]);
+  return visible.map(({ food, coordinates }) => {
+    const point = project(coordinates.lng, coordinates.lat);
     const handleSelect = onSelect ? () => onSelect(food) : undefined;
     return (
       <g
