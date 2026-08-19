@@ -1,4 +1,4 @@
-const VERSION = 'ningxia-tourism-v1';
+const VERSION = 'ningxia-tourism-v2';
 const STATIC_CACHE = `${VERSION}-static`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;
 
