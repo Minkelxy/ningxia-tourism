@@ -20,7 +20,11 @@ export default function AttractionDetail() {
   const [imageIndex, setImageIndex] = useState(0);
   // Hooks 必须在任何 early return 之前调用，参数使用空字符串兜底
   const { handleShare, ShareToast } = useShare(attraction?.name ?? '', attraction?.summary ?? '');
-  const nearby = useMemo(() => attraction ? publishedAttractions.filter((item) => attraction.nearbyIds.includes(item.id)) : [], [attraction]);
+  const nearby = useMemo(() => {
+    if (!attraction) return [];
+    const nearbyIds = new Set(attraction.nearbyIds);
+    return publishedAttractions.filter((item) => nearbyIds.has(item.id));
+  }, [attraction]);
 
   if (replacementId) return <Navigate to={`/attraction/${replacementId}`} replace />;
 
