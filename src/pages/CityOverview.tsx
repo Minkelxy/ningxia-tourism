@@ -38,7 +38,7 @@ export default function CityOverview() {
       <>
         <SEO title={`${city.name}旅行指南 · 宁夏旅行地图`} description={city.introduction} image={city.image.src} />
         <div>
-          <header className="city-detail-hero"><ResponsiveImage src={city.image.src} alt={city.image.alt} width="1600" height="960" sizes="100vw" /><div className="detail-overlay" /><div className="city-detail-copy"><Link to="/cities" className="back-link"><ArrowLeft aria-hidden="true" /> 五城概览</Link><p className="eyebrow">{city.nickname}</p><h1>{city.name}</h1><p>{city.introduction}</p></div></header>
+          <header className="city-detail-hero"><ResponsiveImage src={city.image.src} alt={city.image.alt} loading="eager" fetchPriority="high" width="1600" height="960" sizes="100vw" /><div className="detail-overlay" /><div className="city-detail-copy"><Link to="/cities" className="back-link"><ArrowLeft aria-hidden="true" /> 五城概览</Link><p className="eyebrow">{city.nickname}</p><h1>{city.name}</h1><p>{city.introduction}</p></div></header>
           <div className="section-shell city-detail-layout">
             <article>
               <section className="city-facts"><div><Clock3 aria-hidden="true" /><span>建议停留</span><strong>{city.suggestedStay}</strong></div><div><MapPin aria-hidden="true" /><span>旅行角色</span><strong>{city.travelRole}</strong></div><div><Route aria-hidden="true" /><span>行程衔接</span><strong>{city.connectionNote}</strong></div><div><CalendarDays aria-hidden="true" /><span>推荐季节</span><strong>{city.bestSeason}</strong></div></section>

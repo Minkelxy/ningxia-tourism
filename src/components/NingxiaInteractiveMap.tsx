@@ -42,7 +42,9 @@ export default function NingxiaInteractiveMap() {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch(`${import.meta.env.BASE_URL}data/ningxia-province.json`);
+      const mobileMap = typeof window !== 'undefined' && window.matchMedia?.('(max-width: 768px)').matches;
+      const file = mobileMap ? 'ningxia-province-mobile.json' : 'ningxia-province.json';
+      const response = await fetch(`${import.meta.env.BASE_URL}data/${file}`);
       if (!response.ok) throw new Error('地图数据请求失败');
       const data = await response.json() as { type: string; features?: GeoFeature[] };
       if (data.type !== 'FeatureCollection' || !data.features?.length) throw new Error('地图数据格式不正确');

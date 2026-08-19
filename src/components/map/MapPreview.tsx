@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { ArrowRight, MapPin, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { Attraction } from '../../types';
@@ -12,9 +12,16 @@ interface MapPreviewProps {
 
 function MapPreview({ attraction, onClose }: MapPreviewProps) {
   const cover = attraction.images[0];
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    closeButtonRef.current?.focus();
+    const handleKeyDown = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
   return (
     <aside className="map-preview" aria-label={`${attraction.name}预览`}>
-      <button type="button" className="map-preview-close" onClick={onClose} aria-label="关闭景点预览">
+      <button ref={closeButtonRef} type="button" className="map-preview-close" onClick={onClose} aria-label="关闭景点预览">
         <X aria-hidden="true" />
       </button>
       {cover && <ResponsiveImage src={cover.src} alt={cover.alt} width="720" height="420" sizes="(max-width: 768px) 100vw, 360px" />}

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { ArrowDown, ArrowRight, BadgeCheck, CalendarCheck2, CalendarDays, Footprints, Gauge, MapPin, MapPinned, NotebookPen, ShieldAlert, TrainFront } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import NingxiaInteractiveMap from '../components/NingxiaInteractiveMap';
+import LazyInteractiveMap from '../components/LazyInteractiveMap';
 import ResponsiveImage from '../components/ResponsiveImage';
 import SEO from '../components/SEO';
 import { publishedJournalEntries } from '../content/journal';
@@ -46,7 +46,7 @@ export default function Home() {
           <div><p className="eyebrow">一图读懂宁夏</p><h2>从城市边界，到旅行目的地</h2></div>
           <p>先选择一座城市继续放大，再点选景点查看预览。公开景点均有来源；“待复核”表示核心文字事实仍缺少直接、可追溯的页面。</p>
         </div>
-        <NingxiaInteractiveMap />
+        <LazyInteractiveMap />
       </section>
 
       <section className="home-route-finder section-shell" aria-labelledby="home-route-finder-title">

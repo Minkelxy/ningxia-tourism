@@ -1,0 +1,19 @@
+{
+  "name": "塞上江南 · 宁夏旅行地图",
+  "short_name": "宁夏旅行地图",
+  "description": "用地图、路线与资料专题规划宁夏旅行。",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "theme_color": "#315f4f",
+  "background_color": "#f4efe5",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

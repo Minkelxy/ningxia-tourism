@@ -4,6 +4,8 @@ import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import Loading from './components/Loading';
+import NetworkStatus from './components/NetworkStatus';
+import { FavoritesProvider } from './lib/favorites';
 
 const Home = lazy(() => import('./pages/Home'));
 const AttractionDetail = lazy(() => import('./pages/AttractionDetail'));
@@ -17,6 +19,8 @@ const Journal = lazy(() => import('./pages/Journal'));
 const JournalDetail = lazy(() => import('./pages/JournalDetail'));
 const TravelGuide = lazy(() => import('./pages/TravelGuide'));
 const About = lazy(() => import('./pages/About'));
+const Favorites = lazy(() => import('./pages/Favorites'));
+const Search = lazy(() => import('./pages/Search'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const GeoJSONViewer = import.meta.env.DEV ? lazy(() => import('./pages/GeoJSONViewer')) : null;
 const GeoJSONEditor = import.meta.env.DEV ? lazy(() => import('./pages/GeoJSONEditor')) : null;
@@ -44,6 +48,7 @@ function AppRoutes() {
       <ScrollToTop />
       <RouteAnnouncer />
       <Header />
+      <NetworkStatus />
       <main className="site-main" id="main-content" tabIndex={-1}><Suspense fallback={<Loading />}><Routes>
         <Route path="/" element={<Home />} />
         <Route path="/attractions" element={<AttractionsList />} />
@@ -58,6 +63,8 @@ function AppRoutes() {
         <Route path="/journal/:type/:slug" element={<JournalDetail />} />
         <Route path="/guide" element={<TravelGuide />} />
         <Route path="/about" element={<About />} />
+        <Route path="/favorites" element={<Favorites />} />
+        <Route path="/search" element={<Search />} />
         {GeoJSONViewer && <Route path="/dev/geojson" element={<GeoJSONViewer />} />}
         {GeoJSONEditor && <Route path="/dev/editor" element={<GeoJSONEditor />} />}
         <Route path="*" element={<NotFound />} />
@@ -68,5 +75,5 @@ function AppRoutes() {
 }
 
 export default function App() {
-  return <ErrorBoundary><BrowserRouter basename={import.meta.env.BASE_URL}><AppRoutes /></BrowserRouter></ErrorBoundary>;
+  return <ErrorBoundary><BrowserRouter basename={import.meta.env.BASE_URL}><FavoritesProvider><AppRoutes /></FavoritesProvider></BrowserRouter></ErrorBoundary>;
 }

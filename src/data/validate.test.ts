@@ -21,7 +21,7 @@ describe('公开内容数据', () => {
     expect(reviewAttractions).toHaveLength(2);
     expect(attractions.filter((item) => item.status === 'draft')).toHaveLength(1);
     expect(routes).toHaveLength(9);
-    expect(publishedJournalEntries).toHaveLength(10);
+    expect(publishedJournalEntries).toHaveLength(15);
     expect(publishedJournalEntries.every((entry) => entry.type === 'guide' && entry.contentKind === 'editorial')).toBe(true);
     expect(publishedJournalEntries[0].slug).toBe('zhongwei-sand-water-choice');
   });

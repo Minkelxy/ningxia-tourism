@@ -8,6 +8,7 @@ import { cityName } from '../data/cities';
 import { categoryMeta } from '../data/meta';
 import { attractionMapUrl, formatVerifiedDate, getVerificationFreshness } from '../lib/site';
 import useShare from '../lib/useShare';
+import FavoriteButton from '../components/FavoriteButton';
 
 const sourceLevelLabels = { direct: '直接专页', directory: '专题目录', homepage: '机构首页' } as const;
 const sourceCoverageLabels = { overview: '景点概况', visit: '开放预约', location: '地址交通' } as const;
@@ -40,9 +41,9 @@ export default function AttractionDetail() {
       <SEO title={`${attraction.name}旅行指南 · 宁夏旅行地图`} description={attraction.summary} image={currentImage.src} />
       <div className="detail-page">
         <div className="detail-hero">
-          <ResponsiveImage src={currentImage.src} alt={currentImage.alt} width="1600" height="960" sizes="100vw" />
+          <ResponsiveImage src={currentImage.src} alt={currentImage.alt} loading="eager" fetchPriority="high" width="1600" height="960" sizes="100vw" />
           <div className="detail-overlay" />
-          <div className="detail-top-actions"><Link to="/attractions" className="icon-button" aria-label="返回景点列表"><ArrowLeft aria-hidden="true" /></Link><button type="button" className="icon-button" onClick={handleShare} aria-label="分享此景点"><Share2 aria-hidden="true" /></button></div>
+          <div className="detail-top-actions"><Link to="/attractions" className="icon-button" aria-label="返回景点列表"><ArrowLeft aria-hidden="true" /></Link><button type="button" className="icon-button" onClick={handleShare} aria-label="分享此景点"><Share2 aria-hidden="true" /></button><FavoriteButton kind="attraction" id={attraction.id} label={attraction.name} /></div>
           <div className="detail-title"><div className="detail-badges"><span className={`category-badge ${category.className}`}>{category.label}</span><span className={`verification-badge ${attraction.verificationLevel}`}>{attraction.verificationLevel === 'verified' ? '已核实' : '待复核'}</span></div><h1>{attraction.name}</h1><p><MapPin aria-hidden="true" /> {cityName(attraction.cityId)} · {attraction.locality}</p></div>
           {attraction.images.length > 1 && <div className="image-dots" aria-label="选择图片">{attraction.images.map((item, index) => <button type="button" key={item.src} onClick={() => setImageIndex(index)} aria-label={`查看第 ${index + 1} 张图片`} aria-pressed={imageIndex === index} />)}</div>}
         </div>
