@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ArrowLeft, ArrowRight, CalendarDays, Clock3, ExternalLink, ImageOff, Info, MapPin, Navigation, RefreshCcw, Share2, ShieldCheck, Ticket } from 'lucide-react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import SEO from '../components/SEO';
@@ -20,6 +20,7 @@ export default function AttractionDetail() {
   const [imageIndex, setImageIndex] = useState(0);
   // Hooks 必须在任何 early return 之前调用，参数使用空字符串兜底
   const { handleShare, ShareToast } = useShare(attraction?.name ?? '', attraction?.summary ?? '');
+  const nearby = useMemo(() => attraction ? publishedAttractions.filter((item) => attraction.nearbyIds.includes(item.id)) : [], [attraction]);
 
   if (replacementId) return <Navigate to={`/attraction/${replacementId}`} replace />;
 
@@ -33,7 +34,6 @@ export default function AttractionDetail() {
 
   const category = categoryMeta[attraction.category];
   const currentImage = attraction.images[imageIndex];
-  const nearby = publishedAttractions.filter((item) => attraction.nearbyIds.includes(item.id));
   const freshness = getVerificationFreshness(attraction.verifiedAt);
 
   return (
