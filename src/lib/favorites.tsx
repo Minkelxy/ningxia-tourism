@@ -21,9 +21,8 @@ const FavoritesContext = createContext<{
 } | null>(null);
 
 export function FavoritesProvider({ children }: { children: ReactNode }) {
-  const [favorites, setFavorites] = useState<FavoriteState>(emptyState);
+  const [favorites, setFavorites] = useState<FavoriteState>(() => readFavorites());
   useEffect(() => {
-    setFavorites(readFavorites());
     const handleStorage = (event: StorageEvent) => { if (event.key === STORAGE_KEY) setFavorites(readFavorites()); };
     window.addEventListener('storage', handleStorage);
     return () => window.removeEventListener('storage', handleStorage);

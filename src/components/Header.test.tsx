@@ -1,10 +1,13 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 import { FavoritesProvider } from '../lib/favorites';
 import Header from './Header';
 
-afterEach(() => window.localStorage.clear());
+afterEach(() => {
+  cleanup();
+  window.localStorage.clear();
+});
 
 const renderHeader = () => render(
   <MemoryRouter>
@@ -13,6 +16,12 @@ const renderHeader = () => render(
 );
 
 describe('Header 移动端菜单', () => {
+  it('首屏直接显示已保存的收藏数量', () => {
+    window.localStorage.setItem('ningxia-tourism-favorites', JSON.stringify({ attraction: ['shahu'], route: [] }));
+    renderHeader();
+    expect(screen.getByRole('link', { name: '我的收藏，1 项' })).toBeInTheDocument();
+  });
+
   it('打开后聚焦首个菜单项，并可用 Escape 关闭并恢复焦点', async () => {
     renderHeader();
     const menuButton = screen.getByRole('button', { name: '打开导航菜单' });
