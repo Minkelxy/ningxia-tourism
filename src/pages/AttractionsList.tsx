@@ -32,10 +32,10 @@ export default function AttractionsList() {
     const matchesTheme = !activeTheme || activeTheme.attractionIds.includes(item.id);
     return matchesQuery && matchesTheme && (city === 'all' || item.cityId === city) && (category === 'all' || item.category === category);
   }), [normalizedQuery, city, category, activeTheme]);
+  const compareIdSet = useMemo(() => new Set(compareIds), [compareIds]);
   const compareAttractions = useMemo(() => {
-    const selectedIds = new Set(compareIds);
-    return publishedAttractions.filter((item) => selectedIds.has(item.id));
-  }, [compareIds]);
+    return publishedAttractions.filter((item) => compareIdSet.has(item.id));
+  }, [compareIdSet]);
   const toggleCompare = (id: string) => setCompareIds((current) => current.includes(id) ? current.filter((item) => item !== id) : current.length < 3 ? [...current, id] : current);
 
   return (
@@ -84,7 +84,7 @@ export default function AttractionsList() {
           return (
             <article className="attraction-card" key={item.id}>
               <Link to={`/attraction/${item.id}`} className="card-image"><ResponsiveImage src={cover.src} alt={cover.alt} loading="lazy" width="720" height="450" sizes="(max-width: 768px) calc(100vw - 32px), (max-width: 1024px) 50vw, 390px" /><span className={`category-badge ${meta.className}`}>{meta.label}</span><span className={`verification-badge ${item.verificationLevel}`}>{item.verificationLevel === 'verified' ? '已核实' : '待复核'}</span></Link>
-              <div className="card-content"><div className="card-heading-row"><p className="card-location"><MapPin aria-hidden="true" /> {cityName(item.cityId as CityId)} · {item.locality}</p><FavoriteButton kind="attraction" id={item.id} label={item.name} /></div><h2><Link to={`/attraction/${item.id}`}>{item.name}</Link></h2><p>{item.summary}</p><div className="card-meta"><span><Clock3 aria-hidden="true" /> {item.visitInfo.duration}</span><span>{item.visitInfo.bestSeason}</span></div><div className="card-actions"><button type="button" className={`compare-toggle ${compareIds.includes(item.id) ? 'is-active' : ''}`} aria-pressed={compareIds.includes(item.id)} disabled={!compareIds.includes(item.id) && compareIds.length >= 3} onClick={() => toggleCompare(item.id)}><ArrowLeftRight aria-hidden="true" /> {compareIds.includes(item.id) ? '已加入对比' : '加入对比'}</button><Link to={`/attraction/${item.id}`} className="text-link">查看出行信息 <ArrowRight aria-hidden="true" /></Link></div></div>
+              <div className="card-content"><div className="card-heading-row"><p className="card-location"><MapPin aria-hidden="true" /> {cityName(item.cityId as CityId)} · {item.locality}</p><FavoriteButton kind="attraction" id={item.id} label={item.name} /></div><h2><Link to={`/attraction/${item.id}`}>{item.name}</Link></h2><p>{item.summary}</p><div className="card-meta"><span><Clock3 aria-hidden="true" /> {item.visitInfo.duration}</span><span>{item.visitInfo.bestSeason}</span></div><div className="card-actions"><button type="button" className={`compare-toggle ${compareIdSet.has(item.id) ? 'is-active' : ''}`} aria-pressed={compareIdSet.has(item.id)} disabled={!compareIdSet.has(item.id) && compareIds.length >= 3} onClick={() => toggleCompare(item.id)}><ArrowLeftRight aria-hidden="true" /> {compareIdSet.has(item.id) ? '已加入对比' : '加入对比'}</button><Link to={`/attraction/${item.id}`} className="text-link">查看出行信息 <ArrowRight aria-hidden="true" /></Link></div></div>
             </article>
           );
         })}</div> : <div className="empty-state"><Search aria-hidden="true" /><h2>没有找到匹配的景点</h2><p>换一个关键词，或者清除城市与类型筛选再试试。</p><button type="button" className="btn-primary" onClick={() => clearFilters()}>查看全部景点</button></div>}
