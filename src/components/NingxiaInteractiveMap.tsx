@@ -37,6 +37,7 @@ export default function NingxiaInteractiveMap() {
   const [error, setError] = useState('');
   const [reloadKey, setReloadKey] = useState(0);
   const districtRequestRef = useRef<AbortController | null>(null);
+  const districtCacheRef = useRef<Map<string, GeoFeature[]>>(new Map());
   const { zoom, pan, zoomIn, zoomOut, resetViewport, viewportHandlers } = useMapViewport();
 
   const loadProvince = useCallback(async (signal: AbortSignal) => {
@@ -77,12 +78,19 @@ export default function NingxiaInteractiveMap() {
     resetViewport();
     const file = districtFileByCode[feature.properties.code || ''];
     if (!file) return;
+    const cachedDistricts = districtCacheRef.current.get(file);
+    if (cachedDistricts) {
+      setDistricts(cachedDistricts);
+      return;
+    }
     try {
       const response = await fetch(`${import.meta.env.BASE_URL}data/ningxia/districts/${file}.json`, { signal: controller.signal });
       if (!response.ok) throw new Error('区县数据加载失败');
       const data = await response.json() as { features?: GeoFeature[] };
       if (controller.signal.aborted) return;
-      setDistricts(data.features ?? []);
+      const nextDistricts = data.features ?? [];
+      districtCacheRef.current.set(file, nextDistricts);
+      setDistricts(nextDistricts);
     } catch {
       if (!controller.signal.aborted) setDistricts([]);
     }
