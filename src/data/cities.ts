@@ -43,5 +43,6 @@ export const cities: City[] = [
   },
 ];
 
-export const getCityById = (cityId?: string) => cities.find((city) => city.id === cityId);
+const citiesById = new Map<string, City>(cities.map((city) => [city.id, city]));
+export const getCityById = (cityId?: string) => cityId ? citiesById.get(cityId) : undefined;
 export const cityName = (cityId: CityId) => getCityById(cityId)?.name ?? cityId;
