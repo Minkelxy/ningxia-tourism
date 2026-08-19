@@ -530,9 +530,15 @@ const attractionsById = new Map(attractions.map((item) => [item.id, item]));
 export const publishedAttractions = attractions.filter((item) => item.status === 'published');
 export const verifiedAttractions = publishedAttractions.filter((item) => item.verificationLevel === 'verified');
 export const reviewAttractions = publishedAttractions.filter((item) => item.verificationLevel === 'review');
+const publishedAttractionsByCity = new Map<CityId, Attraction[]>();
+for (const attraction of publishedAttractions) {
+  const items = publishedAttractionsByCity.get(attraction.cityId) ?? [];
+  items.push(attraction);
+  publishedAttractionsByCity.set(attraction.cityId, items);
+}
 export const attractionAliases: Record<string, string> = {
   yibaisiba: 'huangyeguda',
   jinjiping: 'pengyangtitian',
 };
 export const getAttractionById = (id?: string) => id ? attractionsById.get(id) : undefined;
-export const getPublishedAttractionsByCity = (cityId: CityId) => publishedAttractions.filter((item) => item.cityId === cityId);
+export const getPublishedAttractionsByCity = (cityId: CityId) => publishedAttractionsByCity.get(cityId) ?? [];
