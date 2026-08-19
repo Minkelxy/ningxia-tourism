@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, BadgeCheck, CalendarDays, CircleDollarSign, Clock3, ExternalLink, Footprints, Gauge, MapPin, MapPinned, Navigation, Printer, Share2, Sparkles, TrainFront, Utensils } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import SEO from '../components/SEO';
@@ -19,6 +19,24 @@ export default function RouteDetail() {
   // Hooks 必须在任何 early return 之前调用，参数使用空字符串/安全兜底
   const evidence = useMemo(() => (route ? getRouteEvidenceSummary(route) : EMPTY_EVIDENCE), [route]);
   const { handleShare, ShareToast } = useShare(route?.name ?? '', route?.summary ?? '');
+  const [activeDay, setActiveDay] = useState(1);
+
+  useEffect(() => {
+    if (!route || route.days.length < 2 || typeof IntersectionObserver === 'undefined') return;
+    const sections = route.days
+      .map((day) => document.getElementById(`route-day-${day.day}`))
+      .filter((section): section is HTMLElement => Boolean(section));
+    if (!sections.length) return;
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActiveDay(Number(visible.target.id.replace('route-day-', '')));
+    }, { rootMargin: '-20% 0px -55% 0px', threshold: [0, 0.25, 0.6] });
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [route]);
+
   if (!route) return <div className="full-state"><SEO title="路线未找到 · 宁夏旅行地图" noIndex /><CalendarDays aria-hidden="true" /><h1>没有找到这条路线</h1><p>回到路线列表，选择一条适合你的行程。</p><Link to="/routes" className="btn-primary">查看全部路线</Link></div>;
   return (
     <>
@@ -26,7 +44,7 @@ export default function RouteDetail() {
       <div className="route-detail-page">
         <header className="route-detail-hero"><div className="section-shell"><Link to="/routes" className="back-link"><ArrowLeft aria-hidden="true" /> 返回路线列表</Link><p className="eyebrow"><Sparkles aria-hidden="true" /> {route.themeLabel}</p><h1>{route.name}</h1><p>{route.summary}</p><div className="route-detail-facts"><span><Clock3 aria-hidden="true" /> {route.durationLabel}</span><span><Gauge aria-hidden="true" /> {routePaceMeta[route.pace].label}节奏</span><span><Footprints aria-hidden="true" /> 步行{routeWalkingMeta[route.walkingLevel].label}</span><span><CircleDollarSign aria-hidden="true" /> {route.budget}</span><span><CalendarDays aria-hidden="true" /> {route.bestSeason}</span></div><div className="route-detail-actions"><button type="button" className="btn-primary" onClick={() => window.print()}><Printer aria-hidden="true" /> 打印行程</button><button type="button" className="btn-quiet" onClick={handleShare}><Share2 aria-hidden="true" /> 分享路线</button><FavoriteButton kind="route" id={route.id} label={route.name} /></div></div></header>
         {ShareToast}
-        {route.days.length > 1 && <nav className="route-day-nav" aria-label="按天快速跳转"><div className="section-shell"><span>按天快速跳转</span><div>{route.days.map((day) => <a key={day.day} href={`#route-day-${day.day}`}><strong>D{String(day.day).padStart(2, '0')}</strong><small>{day.title}</small></a>)}</div></div></nav>}
+        {route.days.length > 1 && <nav className="route-day-nav" aria-label="按天快速跳转"><div className="section-shell"><span>按天快速跳转</span><div>{route.days.map((day) => <a key={day.day} href={`#route-day-${day.day}`} className={activeDay === day.day ? 'active' : undefined} aria-current={activeDay === day.day ? 'location' : undefined}><strong>D{String(day.day).padStart(2, '0')}</strong><small>{day.title}</small></a>)}</div></div></nav>}
         <div className="section-shell route-detail-layout">
           <article className="timeline"><div className="route-audience"><span>适合人群</span><strong>{route.audience}</strong></div>{route.days.map((day) => <section key={day.day} id={`route-day-${day.day}`} className="route-day" aria-labelledby={`route-day-${day.day}-title`}><div className="day-marker"><span>DAY</span><strong>{String(day.day).padStart(2, '0')}</strong></div><div className="day-content"><header><h2 id={`route-day-${day.day}-title`}>{day.title}</h2><p>{day.summary}</p></header><div className="route-stops">{day.stops.map((stop, index) => {
             const attraction = getAttractionById(stop.attractionId);
