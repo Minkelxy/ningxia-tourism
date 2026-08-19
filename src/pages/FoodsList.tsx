@@ -11,6 +11,11 @@ const foodCategoryLabels: Record<FoodCategory, string> = {
   mutton: '羊肉', noodle: '面食', snack: '小吃', drink: '饮品', fruit: '瓜果', specialty: '特产', staple: '主食',
 };
 
+const foodSearchText = new Map(publishedFoods.map((item) => [
+  item.id,
+  `${item.name}${item.origin}${item.description}${item.restaurants.map((restaurant) => restaurant.name).join('')}`.toLocaleLowerCase('zh-CN'),
+]));
+
 export default function FoodsList() {
   const { params, setFilter, clearFilters } = useSearchParamsFilter();
   const query = params.get('q') ?? '';
@@ -20,7 +25,7 @@ export default function FoodsList() {
   const normalizedQuery = query.trim().toLocaleLowerCase('zh-CN');
 
   const foods = useMemo(() => publishedFoods.filter((item) => {
-    const matchesQuery = !normalizedQuery || `${item.name}${item.origin}${item.description}${item.restaurants.map((r) => r.name).join('')}`.toLocaleLowerCase('zh-CN').includes(normalizedQuery);
+    const matchesQuery = !normalizedQuery || foodSearchText.get(item.id)?.includes(normalizedQuery);
     const matchesCity = city === 'all' || item.restaurants.some((r) => r.cityId === city) || item.origin.includes(cityName(city as CityId));
     return matchesQuery && matchesCity && (category === 'all' || item.category === category);
   }), [normalizedQuery, city, category]);

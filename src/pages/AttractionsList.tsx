@@ -11,6 +11,11 @@ import useSearchParamsFilter, { useFiltersWithPanel } from '../lib/useSearchPara
 import type { AttractionCategory, CityId } from '../types';
 import FavoriteButton from '../components/FavoriteButton';
 
+const attractionSearchText = new Map(publishedAttractions.map((item) => [
+  item.id,
+  `${item.name}${cityName(item.cityId)}${item.locality}${item.summary}${item.highlights.join('')}`.toLocaleLowerCase('zh-CN'),
+]));
+
 export default function AttractionsList() {
   const { params, setFilter, clearFilters } = useSearchParamsFilter();
   const query = params.get('q') ?? '';
@@ -23,7 +28,7 @@ export default function AttractionsList() {
   const normalizedQuery = query.trim().toLocaleLowerCase('zh-CN');
 
   const attractions = useMemo(() => publishedAttractions.filter((item) => {
-    const matchesQuery = !normalizedQuery || `${item.name}${cityName(item.cityId)}${item.locality}${item.summary}${item.highlights.join('')}`.toLocaleLowerCase('zh-CN').includes(normalizedQuery);
+    const matchesQuery = !normalizedQuery || attractionSearchText.get(item.id)?.includes(normalizedQuery);
     const matchesTheme = !activeTheme || activeTheme.attractionIds.includes(item.id);
     return matchesQuery && matchesTheme && (city === 'all' || item.cityId === city) && (category === 'all' || item.category === category);
   }), [normalizedQuery, city, category, activeTheme]);
