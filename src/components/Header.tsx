@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Heart, Map, Menu, Search, X } from 'lucide-react';
 import { useFavorites } from '../lib/favorites';
@@ -15,9 +15,23 @@ const navLinks = [
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileNavRef = useRef<HTMLElement>(null);
   const location = useLocation();
   const { count } = useFavorites();
   useEffect(() => setOpen(false), [location.pathname]);
+  useEffect(() => {
+    if (!open) return;
+    const firstLink = mobileNavRef.current?.querySelector<HTMLAnchorElement>('a');
+    firstLink?.focus();
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      setOpen(false);
+      menuButtonRef.current?.focus();
+    };
+    document.addEventListener('keydown', closeOnEscape);
+    return () => document.removeEventListener('keydown', closeOnEscape);
+  }, [open]);
   const active = (path: string) => {
     if (path === '/') return location.pathname === '/';
     if (path === '/attractions') return location.pathname.startsWith('/attraction');
@@ -38,11 +52,11 @@ export default function Header() {
         </nav>
         <Link to="/search" className={`search-nav-link ${active('/search') ? 'active' : ''}`} aria-label="全站搜索" title="全站搜索"><Search aria-hidden="true" /></Link>
         <Link to="/favorites" className={`favorites-nav-link ${active('/favorites') ? 'active' : ''}`} aria-label={`我的收藏${count ? `，${count} 项` : ''}`}><Heart aria-hidden="true" fill={count ? 'currentColor' : 'none'} /><span>收藏</span>{count > 0 && <small>{count}</small>}</Link>
-        <button type="button" className="mobile-menu-button" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-controls="mobile-navigation" aria-label={open ? '关闭导航菜单' : '打开导航菜单'}>
+        <button ref={menuButtonRef} type="button" className="mobile-menu-button" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-controls="mobile-navigation" aria-label={open ? '关闭导航菜单' : '打开导航菜单'}>
           {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
         </button>
       </div>
-      {open && <nav id="mobile-navigation" className="mobile-nav" aria-label="移动端导航"><Link to="/search" className={active('/search') ? 'active' : ''}>全站搜索</Link>{navLinks.map((link) => <Link key={link.path} to={link.path} className={active(link.path) ? 'active' : ''}>{link.label}</Link>)}<Link to="/favorites" className={active('/favorites') ? 'active' : ''}>我的收藏{count > 0 ? `（${count}）` : ''}</Link></nav>}
+      {open && <nav ref={mobileNavRef} id="mobile-navigation" className="mobile-nav" aria-label="移动端导航"><Link to="/search" className={active('/search') ? 'active' : ''}>全站搜索</Link>{navLinks.map((link) => <Link key={link.path} to={link.path} className={active(link.path) ? 'active' : ''}>{link.label}</Link>)}<Link to="/favorites" className={active('/favorites') ? 'active' : ''}>我的收藏{count > 0 ? `（${count}）` : ''}</Link></nav>}
     </header>
   );
 }
