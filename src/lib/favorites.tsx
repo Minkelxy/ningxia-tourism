@@ -4,13 +4,20 @@ export type FavoriteKind = 'attraction' | 'route';
 type FavoriteState = Record<FavoriteKind, string[]>;
 const STORAGE_KEY = 'ningxia-tourism-favorites';
 const emptyState: FavoriteState = { attraction: [], route: [] };
+const normalizeIds = (value: unknown): string[] => Array.isArray(value)
+  ? [...new Set(value.filter((item): item is string => typeof item === 'string' && item.trim().length > 0))]
+  : [];
 
 function readFavorites(): FavoriteState {
   try {
     const value = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '{}') as Partial<FavoriteState>;
-    return { attraction: Array.isArray(value.attraction) ? value.attraction : [], route: Array.isArray(value.route) ? value.route : [] };
+    return { attraction: normalizeIds(value.attraction), route: normalizeIds(value.route) };
   } catch { return emptyState; }
 }
+
+const writeFavorites = (value: FavoriteState) => {
+  try { window.localStorage.setItem(STORAGE_KEY, JSON.stringify(value)); } catch { /* 存储被禁用时仍保留当前页面状态。 */ }
+};
 
 const FavoritesContext = createContext<{
   favorites: FavoriteState;
@@ -34,10 +41,10 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
     toggleFavorite: (kind: FavoriteKind, id: string) => setFavorites((current) => {
       const ids = current[kind].includes(id) ? current[kind].filter((item) => item !== id) : [...current[kind], id];
       const next = { ...current, [kind]: ids };
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      writeFavorites(next);
       return next;
     }),
-    clearFavorites: () => { window.localStorage.removeItem(STORAGE_KEY); setFavorites(emptyState); },
+    clearFavorites: () => { try { window.localStorage.removeItem(STORAGE_KEY); } catch { /* 存储被禁用时仍可清空当前页面状态。 */ } setFavorites(emptyState); },
   }), [favorites]);
   return <FavoritesContext.Provider value={value}>{children}</FavoritesContext.Provider>;
 }
