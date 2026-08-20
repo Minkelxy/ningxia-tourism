@@ -4,6 +4,8 @@ import { MemoryRouter } from 'react-router-dom';
 import SEO from './SEO';
 
 const ORIGIN = window.location.origin;
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+const siteUrl = (path: string) => `${ORIGIN}${BASE}${path}`;
 
 afterEach(() => {
   cleanup();
@@ -55,11 +57,11 @@ describe('SEO', () => {
     expect(document.head.querySelector('meta[name="description"]')).toHaveAttribute('content', expect.stringContaining('宁夏'));
     expect(document.head.querySelector('meta[name="robots"]')).toHaveAttribute('content', 'index,follow');
     const canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    expect(canonical?.href).toBe(`${ORIGIN}/attractions`);
+    expect(canonical?.href).toBe(siteUrl('/attractions'));
     // og:*
     expect(document.head.querySelector('meta[property="og:title"]')).toHaveAttribute('content', '塞上江南 · 宁夏旅行地图');
-    expect(document.head.querySelector('meta[property="og:url"]')).toHaveAttribute('content', `${ORIGIN}/attractions`);
-    expect(document.head.querySelector('meta[property="og:image"]')).toHaveAttribute('content', `${ORIGIN}/og.jpg`);
+    expect(document.head.querySelector('meta[property="og:url"]')).toHaveAttribute('content', siteUrl('/attractions'));
+    expect(document.head.querySelector('meta[property="og:image"]')).toHaveAttribute('content', siteUrl('/og.jpg'));
     // twitter:*
     expect(document.head.querySelector('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
     expect(document.head.querySelector('meta[name="twitter:title"]')).toHaveAttribute('content', '塞上江南 · 宁夏旅行地图');
@@ -72,9 +74,9 @@ describe('SEO', () => {
       </MemoryRouter>,
     );
     await waitFor(() => expect(document.title).toBe('沙湖'));
-    expect(document.head.querySelector('meta[property="og:image"]')).toHaveAttribute('content', `${ORIGIN}/attractions/shahu.webp`);
+    expect(document.head.querySelector('meta[property="og:image"]')).toHaveAttribute('content', siteUrl('/attractions/shahu.webp'));
     expect(document.head.querySelector('meta[property="og:image:alt"]')).toHaveAttribute('content', '沙湖生态旅游区');
-    expect(document.head.querySelector('meta[name="twitter:image"]')).toHaveAttribute('content', `${ORIGIN}/attractions/shahu.webp`);
+    expect(document.head.querySelector('meta[name="twitter:image"]')).toHaveAttribute('content', siteUrl('/attractions/shahu.webp'));
   });
 
   it('从文章切换为普通网页时清除 article:* 元数据与结构化数据', async () => {

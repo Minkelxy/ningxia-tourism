@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { sharePage } from './site';
 
 const TOAST_TIMEOUT_MS = 2400;
@@ -18,6 +18,8 @@ export default function useShare(title: string, text: string) {
       timeoutId.current = null;
     }
   }, []);
+
+  useEffect(() => clearToast, [clearToast]);
 
   const handleShare = useCallback(async () => {
     clearToast();
