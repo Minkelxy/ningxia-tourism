@@ -27,7 +27,7 @@ const GeoJSONEditor = import.meta.env.DEV ? lazy(() => import('./pages/GeoJSONEd
 
 function ScrollToTop() {
   const location = useLocation();
-  useEffect(() => { window.scrollTo(0, 0); }, [location.pathname, location.search]);
+  useEffect(() => { window.scrollTo(0, 0); }, [location.pathname]);
   return null;
 }
 
