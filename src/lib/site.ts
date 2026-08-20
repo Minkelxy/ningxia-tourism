@@ -27,8 +27,12 @@ export const sharePage = async (title: string, text: string) => {
     return '已打开系统分享';
   }
   if (navigator.clipboard) {
-    await navigator.clipboard.writeText(url);
-    return '链接已复制';
+    try {
+      await navigator.clipboard.writeText(url);
+      return '链接已复制';
+    } catch {
+      // 剪贴板权限被拒绝或不可用，回退到提示手动复制
+    }
   }
   return '请复制浏览器地址分享';
 };

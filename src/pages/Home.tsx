@@ -51,7 +51,17 @@ export default function Home() {
 
       <section className="home-route-finder section-shell" aria-labelledby="home-route-finder-title">
         <header className="split-heading"><div><p className="eyebrow">不想从地图开始？</p><h2 id="home-route-finder-title">你有几天，先把范围缩小</h2></div><p>按完整可用天数选择，再比较节奏、步行量和主要交通。预算不含抵达宁夏的大交通。</p></header>
-        <div className="home-day-picker" role="group" aria-label="选择旅行天数">{[1, 2, 3, 4, 5].map((days) => <button type="button" key={days} className={selectedDays === days ? 'active' : ''} aria-pressed={selectedDays === days} onClick={() => setSelectedDays(days)}><strong>{days}</strong><span>天</span></button>)}</div>
+        <div className="home-day-picker" role="radiogroup" aria-label="选择旅行天数" onKeyDown={(event) => {
+          if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+          event.preventDefault();
+          const days = [1, 2, 3, 4, 5];
+          const currentIndex = days.indexOf(selectedDays);
+          const nextIndex = event.key === 'ArrowLeft'
+            ? (currentIndex <= 0 ? days.length - 1 : currentIndex - 1)
+            : (currentIndex >= days.length - 1 ? 0 : currentIndex + 1);
+          setSelectedDays(days[nextIndex]);
+          (event.currentTarget.querySelectorAll<HTMLButtonElement>('button')[nextIndex])?.focus();
+        }}>{[1, 2, 3, 4, 5].map((days) => <button type="button" key={days} role="radio" aria-checked={selectedDays === days} tabIndex={selectedDays === days ? 0 : -1} className={selectedDays === days ? 'active' : ''} onClick={() => setSelectedDays(days)}><strong>{days}</strong><span>天</span></button>)}</div>
         <div className="home-route-results" aria-live="polite"><div className="home-route-result-heading"><p><strong>{matchedRoutes.length}</strong> 条 {selectedDays} 天路线</p><Link to={`/routes?duration=${selectedDays}`} className="text-link">打开完整筛选 <ArrowRight aria-hidden="true" /></Link></div><div className="home-route-matches">{matchedRoutes.map((route, index) => <Link to={`/routes/${route.id}`} className={`home-route-match route-tone-${index % 4}`} key={route.id}><div><span>{route.themeLabel}</span><small>{route.durationLabel}</small></div><h3>{route.name}</h3><p>{route.summary}</p><dl><div><Gauge aria-hidden="true" /><dt>节奏</dt><dd>{routePaceMeta[route.pace].label}</dd></div><div><Footprints aria-hidden="true" /><dt>步行</dt><dd>{routeWalkingMeta[route.walkingLevel].label}</dd></div><div><TrainFront aria-hidden="true" /><dt>交通</dt><dd>{route.transportSummary}</dd></div></dl><span className="home-route-cta">查看逐日安排 <ArrowRight aria-hidden="true" /></span></Link>)}</div></div>
       </section>
 
