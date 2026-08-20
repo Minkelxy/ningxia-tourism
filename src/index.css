@@ -881,6 +881,15 @@ button { color: inherit; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes float { 50% { transform: translateY(-6px); } }
 
+@media (max-width: 960px) {
+  .desktop-nav { display: none; }
+  .mobile-menu-button { display: grid; place-items: center; }
+  .mobile-nav { display: grid; padding: 5px 16px 14px; border-top: 1px solid var(--line); background: var(--paper); }
+  .mobile-nav a { border-radius: 10px; }
+  .favorites-nav-link { margin-left: auto; }
+  .favorites-nav-link span { display: none; }
+}
+
 @media (max-width: 1024px) {
   .home-hero { grid-template-columns: 1fr .75fr; }
   .hero-landscape { height: 520px; }
