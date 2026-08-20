@@ -48,7 +48,7 @@ export default function FoodsList() {
         </div>
 
         <section id="food-filters" className={`filter-panel ${filtersExpanded ? 'is-expanded' : 'is-collapsed'}`} aria-label="美食筛选">
-          <label className="search-field"><Search aria-hidden="true" /><span className="sr-only">搜索美食</span><input value={query} onChange={(event) => setFilter('q', event.target.value)} placeholder="搜索美食、产地或餐厅" /></label>
+          <label className="search-field"><Search aria-hidden="true" /><span className="sr-only">搜索美食</span><input value={query} onChange={(event) => setFilter('q', event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter' && (event.nativeEvent.isComposing || event.keyCode === 229)) { event.preventDefault(); } }} placeholder="搜索美食、产地或餐厅" /></label>
           <label><span><MapPin aria-hidden="true" /> 城市</span><select value={city} onChange={(event) => setFilter('city', event.target.value)}><option value="all">全部城市</option>{cities.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
           <label><span><Utensils aria-hidden="true" /> 类别</span><select value={category} onChange={(event) => setFilter('category', event.target.value)}><option value="all">全部类别</option>{(Object.entries(foodCategoryLabels) as Array<[FoodCategory, string]>).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
         </section>
