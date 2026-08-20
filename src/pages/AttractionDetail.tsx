@@ -49,7 +49,12 @@ export default function AttractionDetail() {
           <div className="detail-overlay" />
           <div className="detail-top-actions"><Link to="/attractions" className="icon-button" aria-label="返回景点列表"><ArrowLeft aria-hidden="true" /></Link><button type="button" className="icon-button" onClick={handleShare} aria-label="分享此景点"><Share2 aria-hidden="true" /></button><FavoriteButton kind="attraction" id={attraction.id} label={attraction.name} /></div>
           <div className="detail-title"><div className="detail-badges"><span className={`category-badge ${category.className}`}>{category.label}</span><span className={`verification-badge ${attraction.verificationLevel}`}>{attraction.verificationLevel === 'verified' ? '已核实' : '待复核'}</span></div><h1>{attraction.name}</h1><p><MapPin aria-hidden="true" /> {cityName(attraction.cityId)} · {attraction.locality}</p></div>
-          {attraction.images.length > 1 && <div className="image-dots" aria-label="选择图片">{attraction.images.map((item, index) => <button type="button" key={item.src} onClick={() => setImageIndex(index)} aria-label={`查看第 ${index + 1} 张图片`} aria-pressed={imageIndex === index} />)}</div>}
+          {attraction.images.length > 1 && <div className="image-dots" aria-label="选择图片" role="tablist" onKeyDown={(event) => {
+            if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+            event.preventDefault();
+            const max = attraction.images.length - 1;
+            setImageIndex((current) => event.key === 'ArrowLeft' ? (current === 0 ? max : current - 1) : current === max ? 0 : current + 1);
+          }}>{attraction.images.map((item, index) => <button type="button" key={item.src} role="tab" aria-selected={imageIndex === index} tabIndex={imageIndex === index ? 0 : -1} aria-label={`查看第 ${index + 1} 张图片`} onClick={() => setImageIndex(index)} aria-pressed={imageIndex === index} />)}</div>}
         </div>
         {ShareToast}
 

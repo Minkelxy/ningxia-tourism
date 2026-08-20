@@ -22,15 +22,35 @@ export default function Header() {
   useEffect(() => setOpen(false), [location.pathname]);
   useEffect(() => {
     if (!open) return;
-    const firstLink = mobileNavRef.current?.querySelector<HTMLAnchorElement>('a');
+    const nav = mobileNavRef.current;
+    if (!nav) return;
+    const firstLink = nav.querySelector<HTMLAnchorElement>('a');
     firstLink?.focus();
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key !== 'Escape') return;
       setOpen(false);
       menuButtonRef.current?.focus();
     };
+    const trapFocus = (event: KeyboardEvent) => {
+      if (event.key !== 'Tab') return;
+      const focusable = nav.querySelectorAll<HTMLElement>('a[href], button:not([disabled])');
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
     document.addEventListener('keydown', closeOnEscape);
-    return () => document.removeEventListener('keydown', closeOnEscape);
+    document.addEventListener('keydown', trapFocus);
+    return () => {
+      document.removeEventListener('keydown', closeOnEscape);
+      document.removeEventListener('keydown', trapFocus);
+    };
   }, [open]);
   const active = (path: string) => {
     if (path === '/') return location.pathname === '/';
