@@ -31,3 +31,23 @@ describe('旅行手记 Markdown', () => {
     expect(validateJournalContent([entry]).join(' ')).toContain('旅行专题字段不完整');
   });
 });
+
+describe('手记字段校验具名报错', () => {
+  it('缺单个字段时指明 excerpt', () => {
+    expect(() => parseJournalSource(base.replace('excerpt: 摘要', 'excerpt: '))).toThrow(/excerpt/);
+  });
+
+  it('缺多个字段时一次性列出 slug 与 excerpt', () => {
+    const src = base.replace('slug: sample', 'slug: ').replace('excerpt: 摘要', 'excerpt: ');
+    expect(() => parseJournalSource(src)).toThrow(/slug/);
+    expect(() => parseJournalSource(src)).toThrow(/excerpt/);
+  });
+
+  it('contentKind 非法时报错含字段名与当前值', () => {
+    expect(() => parseJournalSource(base.replace('contentKind: demo', 'contentKind: blog'))).toThrow(/contentKind.*blog/);
+  });
+
+  it('status 非法时报错含字段名与当前值', () => {
+    expect(() => parseJournalSource(base.replace('status: draft', 'status: archived'))).toThrow(/status.*archived/);
+  });
+});
