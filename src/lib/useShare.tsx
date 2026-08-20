@@ -22,7 +22,12 @@ export default function useShare(title: string, text: string) {
   const handleShare = useCallback(async () => {
     clearToast();
     try { setShareStatus(await sharePage(title, text)); }
-    catch { setShareStatus('分享已取消'); }
+    catch (error) {
+      // navigator.share 在用户取消分享面板时抛出 AbortError，此时提示“已取消”；
+      // 其它异常（权限、网络等）应明确提示失败，避免误导用户以为已取消但其实没成功。
+      const isCancellation = error instanceof DOMException && error.name === 'AbortError';
+      setShareStatus(isCancellation ? '分享已取消' : '分享失败，请稍后重试');
+    }
     timeoutId.current = window.setTimeout(() => setShareStatus(''), TOAST_TIMEOUT_MS);
   }, [title, text, clearToast]);
 

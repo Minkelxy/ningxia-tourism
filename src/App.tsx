@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import Loading from './components/Loading';
 import NetworkStatus from './components/NetworkStatus';
+import ServiceWorkerUpdate from './components/ServiceWorkerUpdate';
 import { FavoritesProvider } from './lib/favorites';
 
 const Home = lazy(() => import('./pages/Home'));
@@ -27,6 +28,8 @@ const GeoJSONEditor = import.meta.env.DEV ? lazy(() => import('./pages/GeoJSONEd
 
 function ScrollToTop() {
   const location = useLocation();
+  // 仅在 pathname 变化时回到顶部；筛选改变 search 参数时保留滚动位置，
+  // 避免列表页调整筛选后页面跳到顶部打断浏览。
   useEffect(() => { window.scrollTo(0, 0); }, [location.pathname]);
   return null;
 }
@@ -49,6 +52,7 @@ function AppRoutes() {
       <RouteAnnouncer />
       <Header />
       <NetworkStatus />
+      <ServiceWorkerUpdate />
       <main className="site-main" id="main-content" tabIndex={-1}><Suspense fallback={<Loading />}><Routes>
         <Route path="/" element={<Home />} />
         <Route path="/attractions" element={<AttractionsList />} />

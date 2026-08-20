@@ -217,6 +217,15 @@ export default function NingxiaInteractiveMap() {
     return buildDistrictColorMap(activeCityId, districtsWithIndex);
   }, [selectedCity, activeCityId, districts]);
 
+  // 图例悬停高亮需要同步到 focusedFeatureCode
+  useEffect(() => {
+    if (legendHighlightCode && focusedFeatureCode !== legendHighlightCode) {
+      setFocusedFeatureCode(legendHighlightCode);
+    } else if (!legendHighlightCode && focusedFeatureCode) {
+      // 只有当当前聚焦来自图例（没有真的键盘聚焦）时才清
+    }
+  }, [legendHighlightCode, focusedFeatureCode]);
+
   const legendEntries = useMemo(() => {
     if (!selectedCity || !activeCityId) return [];
     return districts.map((d) => ({
@@ -279,8 +288,7 @@ export default function NingxiaInteractiveMap() {
         <svg
           viewBox={`0 0 ${mapView.width} ${mapView.height}`}
           className="map-canvas"
-          tabIndex={0}
-          aria-label={`${levelLabel}旅游地图，可用键盘选择城市和景点，按 +/− 缩放，0 重置`}
+          aria-label={`${levelLabel}旅游地图，可用键盘选择城市和景点`}
           {...viewportHandlers}
         >
           <defs>

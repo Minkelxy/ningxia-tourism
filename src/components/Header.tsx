@@ -31,6 +31,7 @@ export default function Header() {
       setOpen(false);
       menuButtonRef.current?.focus();
     };
+    // Tab 在菜单内首尾元素之间循环，避免焦点跳到背景内容。
     const trapFocus = (event: KeyboardEvent) => {
       if (event.key !== 'Tab') return;
       const focusable = nav.querySelectorAll<HTMLElement>('a[href], button:not([disabled])');
@@ -45,11 +46,19 @@ export default function Header() {
         first.focus();
       }
     };
+    // 点击菜单外区域关闭菜单，避免移动端用户必须点开/关按钮才能离开。
+    const closeOnOutsideClick = (event: MouseEvent) => {
+      if (nav.contains(event.target as Node)) return;
+      if (menuButtonRef.current?.contains(event.target as Node)) return;
+      setOpen(false);
+    };
     document.addEventListener('keydown', closeOnEscape);
     document.addEventListener('keydown', trapFocus);
+    document.addEventListener('mousedown', closeOnOutsideClick);
     return () => {
       document.removeEventListener('keydown', closeOnEscape);
       document.removeEventListener('keydown', trapFocus);
+      document.removeEventListener('mousedown', closeOnOutsideClick);
     };
   }, [open]);
   const active = (path: string) => {

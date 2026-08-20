@@ -5,9 +5,9 @@ import { cities } from './cities';
 import { attractionThemes } from './discovery';
 import { routes } from './routes';
 import { transportHubs } from './transport';
-import type { TransportHub } from '../types';
+import type { CityId, TransportHub, TravelJournal } from '../types';
 import { siteDateString } from '../lib/site';
-import { VERIFICATION_STALE_DAYS, cityAreaCodes, getPhoneAreaCode, hasStrictVerificationEvidence, isStale, isTemplatePhone, isValidKebabId, validTransportTypes, validateContentData, validateTransportHubPhone } from './validate';
+import { VERIFICATION_STALE_DAYS, assertValidContentData, cityAreaCodes, getPhoneAreaCode, hasStrictVerificationEvidence, isStale, isTemplatePhone, isValidKebabId, validTransportTypes, validateContentData, validateJournalContent, validateTransportHubPhone } from './validate';
 
 describe('公开内容数据', () => {
   it('通过完整性和引用校验', () => {
@@ -290,5 +290,87 @@ describe('verifiedAt 周期校验', () => {
       ...routes.map((route) => route.verifiedAt),
     ];
     expect(allVerifiedAt.every((value) => !isStale(value))).toBe(true);
+  });
+});
+
+describe('assertValidContentData 收集式报错', () => {
+  // 构造一份合法的草稿游记：status=draft 使发布期校验全部跳过，仅保留前置校验路径，
+  // 便于通过 Partial 覆盖单点制造错误，验证聚合 throw 行为。
+  const draftTravel = (overrides: Partial<TravelJournal> = {}): TravelJournal => ({
+    slug: 'test-entry',
+    type: 'travel',
+    status: 'draft',
+    contentKind: 'demo',
+    featured: false,
+    title: '测试',
+    excerpt: '摘要',
+    author: '站主手记',
+    publishedAt: '',
+    updatedAt: '',
+    cityId: 'yinchuan',
+    locality: '兴庆区',
+    tags: [],
+    cover: { src: 'images/x.webp', alt: '测试图', credit: '作者', license: 'CC BY', sourceUrl: 'https://example.com' },
+    gallery: [],
+    relatedAttractionIds: [],
+    relatedRouteIds: [],
+    body: '正文',
+    tripDate: '',
+    duration: '',
+    transport: '',
+    budgetNote: '',
+    highlights: [],
+    ...overrides,
+  });
+
+  const captureError = (action: () => void): string => {
+    try { action(); } catch (error) { return error instanceof Error ? error.message : String(error); }
+    return '';
+  };
+
+  it('合法草稿条目不触发聚合报错', () => {
+    expect(() => assertValidContentData([draftTravel()])).not.toThrow();
+  });
+
+  it('dangling relatedAttractionIds 在聚合错误中具名', () => {
+    const entry = draftTravel({ slug: 'test-dangling', relatedAttractionIds: ['nonexistent-xyz-attraction'] });
+    expect(() => assertValidContentData([entry])).toThrow();
+    const message = captureError(() => assertValidContentData([entry]));
+    expect(message).toContain('未发布景点');
+    expect(message).toContain('nonexistent-xyz-attraction');
+  });
+
+  it('图片署名字段缺失在聚合错误中具名', () => {
+    const entry = draftTravel({ slug: 'test-image', cover: { src: 'images/x.webp', alt: '', credit: '', license: '', sourceUrl: '' } });
+    const message = captureError(() => assertValidContentData([entry]));
+    expect(message).toContain('图片署名或许可不完整');
+  });
+
+  it('多个问题一次性收集到同一条聚合错误', () => {
+    const entry = draftTravel({
+      slug: 'test-multi',
+      cityId: 'nonexistent-city' as CityId,
+      cover: { src: 'images/x.webp', alt: '', credit: '', license: '', sourceUrl: '' },
+      relatedAttractionIds: ['nonexistent-xyz-attraction'],
+    });
+    const message = captureError(() => assertValidContentData([entry]));
+    expect(message).toContain('cityId 无效');
+    expect(message).toContain('图片署名或许可不完整');
+    expect(message).toContain('未发布景点');
+  });
+
+  it('聚合错误以单条 Error 抛出而非逐条抛出', () => {
+    const entry = draftTravel({ slug: 'test-multi-throw', cityId: 'nonexistent-city' as CityId, relatedAttractionIds: ['nonexistent-xyz-attraction'] });
+    const message = captureError(() => assertValidContentData([entry]));
+    expect(message.startsWith('内容数据校验失败')).toBe(true);
+    expect(message.split('未发布景点').length).toBe(2);
+    expect(message.split('cityId 无效').length).toBe(2);
+  });
+
+  it('validateJournalContent 同样收集而非首错即停', () => {
+    const entry = draftTravel({ slug: 'test-collect', cityId: 'nonexistent-city' as CityId, relatedAttractionIds: ['nonexistent-xyz-attraction'] });
+    const errors = validateJournalContent([entry]);
+    expect(errors.some((message) => message.includes('cityId 无效'))).toBe(true);
+    expect(errors.some((message) => message.includes('未发布景点'))).toBe(true);
   });
 });

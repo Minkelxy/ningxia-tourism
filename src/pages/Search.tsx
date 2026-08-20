@@ -22,7 +22,8 @@ export default function Search() {
   const [params, setParams] = useSearchParams();
   const query = params.get('q') ?? '';
   const [input, setInput] = useState(query);
-  // 当 URL 参数变化时（如浏览器后退/前进），同步输入框内容
+  // URL 变化（如浏览器前进/后退、外部链接带 q 参数）时同步输入框，
+  // 保证输入框与查询结果始终一致；用户手动输入不影响此处。
   useEffect(() => { setInput(query); }, [query]);
   const term = normalize(query);
   const matches = useMemo(() => {
