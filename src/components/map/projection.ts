@@ -7,6 +7,7 @@ export interface GeoFeature {
     adcode?: string | number;
     pinyin?: string;
     center?: [number, number];
+    centroid?: [number, number];
   };
   geometry: {
     type: 'Polygon' | 'MultiPolygon';
