@@ -1,5 +1,5 @@
 import { ArrowRight, Compass, MapPin, Search as SearchIcon, Sparkles, UtensilsCrossed } from 'lucide-react';
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { publishedAttractions } from '../data/attractions';
@@ -22,6 +22,9 @@ export default function Search() {
   const [params, setParams] = useSearchParams();
   const query = params.get('q') ?? '';
   const [input, setInput] = useState(query);
+  // URL 变化（如浏览器前进/后退、外部链接带 q 参数）时同步输入框，
+  // 保证输入框与查询结果始终一致；用户手动输入不影响此处。
+  useEffect(() => { setInput(query); }, [query]);
   const term = normalize(query);
   const matches = useMemo(() => {
     if (!term) return { attractions: [], foods: [], routes: [], journals: [], cities: [] };
