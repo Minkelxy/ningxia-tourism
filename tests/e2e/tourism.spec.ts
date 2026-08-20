@@ -176,7 +176,7 @@ test('路线筛选同步地址并展示内容核实概览', async ({ page }) => 
   const cityFilter = page.getByRole('button', { name: '石嘴山', exact: true });
   await cityFilter.click();
   await expect(page).toHaveURL(/city=shizuishan/);
-  await expect(page.getByRole('status')).toContainText('3 条路线');
+  await expect(page.locator('#route-results')).toContainText('3 条路线');
   await expect(page.getByRole('heading', { name: '山湖与工业石嘴山两日游' })).toBeVisible();
   await page.getByRole('button', { name: '清除筛选' }).click();
   if ((page.viewportSize()?.width ?? 999) <= 768) await page.getByRole('button', { name: /筛选路线/ }).click();
@@ -184,14 +184,14 @@ test('路线筛选同步地址并展示内容核实概览', async ({ page }) => 
   await panoramaFilter.click();
   await expect(page).toHaveURL(/theme=panorama/);
   await expect(panoramaFilter).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.getByRole('status')).toContainText('4 条路线');
+  await expect(page.locator('#route-results')).toContainText('4 条路线');
   await expect(page.locator('.route-evidence-summary')).toHaveCount(4);
 
   const relaxedFilter = page.getByRole('button', { name: '舒缓' });
   await relaxedFilter.click();
   await expect(page).toHaveURL(/pace=relaxed/);
   await expect(relaxedFilter).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.getByRole('status')).toContainText('1 条路线');
+  await expect(page.locator('#route-results')).toContainText('1 条路线');
   if ((page.viewportSize()?.width ?? 999) > 768) {
     await expect(page.locator('.route-table-wrap tbody tr')).toHaveCount(1);
     await expect(page.getByRole('region', { name: '路线横向比较表' })).toBeVisible();
