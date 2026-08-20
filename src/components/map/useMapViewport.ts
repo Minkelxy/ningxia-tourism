@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState, type PointerEvent } from 'react';
+import { useCallback, useRef, useState, type KeyboardEvent, type PointerEvent, type WheelEvent } from 'react';
 
 const panLimit = 180;
 
@@ -31,12 +31,34 @@ export default function useMapViewport() {
 
   const stopDrag = () => { drag.current = null; };
 
+  const onWheel = (event: WheelEvent<SVGSVGElement>) => {
+    // 阻止页面滚动，在地图上使用滚轮缩放
+    event.preventDefault();
+    const delta = -event.deltaY * 0.0015;
+    setZoom((value) => Math.max(1, Math.min(2.4, value + delta)));
+  };
+
+  const onKeyDown = (event: KeyboardEvent<SVGSVGElement>) => {
+    // 仅当焦点在 SVG 画布本身（非子元素按钮）时响应
+    if (event.target instanceof Element && event.target.closest('[role="button"]')) return;
+    if (event.key === '+' || event.key === '=') {
+      event.preventDefault();
+      zoomIn();
+    } else if (event.key === '-' || event.key === '_') {
+      event.preventDefault();
+      zoomOut();
+    } else if (event.key === '0') {
+      event.preventDefault();
+      resetViewport();
+    }
+  };
+
   return {
     zoom,
     pan,
     zoomIn,
     zoomOut,
     resetViewport,
-    viewportHandlers: { onPointerDown, onPointerMove, onPointerUp: stopDrag, onPointerCancel: stopDrag },
+    viewportHandlers: { onPointerDown, onPointerMove, onPointerUp: stopDrag, onPointerCancel: stopDrag, onWheel, onKeyDown },
   };
 }
