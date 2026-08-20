@@ -42,7 +42,7 @@ test('地图支持键盘进入城市、选择区县和切换交通图层', async
 
   await map.getByRole('button', { name: /兴庆区，按回车进入/ }).click();
   await expect(map.locator('.map-region.is-selected')).toHaveCount(1);
-  await expect(map.getByText('兴庆区', { exact: true })).toBeVisible();
+  await expect(map.getByLabel('地图层级')).toContainText('兴庆区');
 
   const transport = map.getByRole('button', { name: '交通' });
   await transport.click();
