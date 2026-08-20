@@ -21,8 +21,8 @@ const references = (value: unknown): JournalReference[] => Array.isArray(value) 
 export const parseJournalSource = (source: string, filename = 'unknown.md'): JournalEntry => {
   const { metadata, body } = splitDocument(source);
   const type = metadata.type as JournalType;
-  if (metadata.status !== 'published' && metadata.status !== 'draft') throw new Error(`${filename}: status 必须为 published 或 draft`);
-  if (metadata.contentKind !== 'firsthand' && metadata.contentKind !== 'editorial' && metadata.contentKind !== 'demo') throw new Error(`${filename}: contentKind 必须为 firsthand、editorial 或 demo`);
+  if (metadata.status !== 'published' && metadata.status !== 'draft') throw new Error(`${filename}: status 必须为 published 或 draft，当前为 "${String(metadata.status)}"`);
+  if (metadata.contentKind !== 'firsthand' && metadata.contentKind !== 'editorial' && metadata.contentKind !== 'demo') throw new Error(`${filename}: contentKind 必须为 firsthand、editorial 或 demo，当前为 "${String(metadata.contentKind)}"`);
 
   const common = {
     slug: String(metadata.slug ?? ''),
@@ -45,7 +45,13 @@ export const parseJournalSource = (source: string, filename = 'unknown.md'): Jou
     body,
   };
 
-  if (!common.slug || !common.title || !common.excerpt || !body) throw new Error(`${filename}: 公共字段不完整`);
+  // 逐字段收集缺失项后一次性抛出，便于调用方在同一条错误信息内看到本文件全部缺失字段。
+  const missingFields: string[] = [];
+  if (!common.slug) missingFields.push('slug');
+  if (!common.title) missingFields.push('title');
+  if (!common.excerpt) missingFields.push('excerpt');
+  if (!body) missingFields.push('body');
+  if (missingFields.length) throw new Error(`${filename}: 缺少必填字段 ${missingFields.join('、')}`);
   if (type === 'travel') {
     return {
       ...common,

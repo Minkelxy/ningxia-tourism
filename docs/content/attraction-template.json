@@ -1,21 +1,51 @@
 {
-  "id": "your-attraction-id",
-  "name": "景点名称",
-  "city": "所属城市",
-  "type": "nature",
-  "coordinates": { "x": 500, "y": 200 },
-  "rating": 4.5,
-  "description": "景点描述（建议50-200字）",
-  "images": [
-    "https://images.unsplash.com/photo-XXXXXXXX?w=800"
-  ],
-  "openingHours": "08:00-18:00",
-  "ticketPrice": "门票价格",
-  "bestSeason": "最佳季节",
-  "transportation": "交通信息",
+  "id": "ningxiamuseum（必填，唯一 id，小写字母/数字/短横线）",
+  "status": "draft（必填，枚举二选一：published/draft）",
+  "verificationLevel": "review（必填，枚举二选一：verified/review；本模板用 review 表示待补资料的草稿态）",
+  "name": "景点名称（必填）",
+  "cityId": "yinchuan（必填，枚举五选一：yinchuan/shizuishan/wuzhong/guyuan/zhongwei）",
+  "locality": "所在县区，如 兴庆区（必填）",
+  "category": "nature（必填，枚举四选一：nature/history/religion/experience）",
+  "coordinates": {
+    "lng": 106.27,
+    "lat": 38.47
+  },
+  "summary": "景点概述，建议 80-200 字，说明核心看点与定位（必填）",
   "highlights": [
-    "亮点1",
-    "亮点2"
+    "亮点一（必填，至少 1 条）",
+    "亮点二"
   ],
-  "nearbyAttractions": []
+  "visitInfo": {
+    "openingHours": "开放时间，如 09:00-17:00（必填）",
+    "ticketPrice": "门票价格，如 免费 / 60 元（必填）",
+    "reservation": "是否需预约，如 免预约 / 需公众号预约（必填）",
+    "duration": "建议游览时长，如 2-3 小时（必填）",
+    "bestSeason": "最佳季节，如 5-10 月（必填）",
+    "transportation": "交通方式，如 公交 X 路至 XX 站（必填）",
+    "address": "详细地址（必填）"
+  },
+  "images": [
+    {
+      "src": "/images/attractions/your-id/01.webp（必填，本地图路径）",
+      "alt": "图片替代文本，准确描述可见内容（必填）",
+      "credit": "摄影者或来源方（必填）",
+      "license": "许可说明，如 原创，版权所有 / CC-BY-4.0（必填）",
+      "sourceUrl": "原始图片来源页 URL（选填，无则留空字符串）"
+    }
+  ],
+  "nearbyIds": [
+    "相邻景点 id（选填，无则空数组）"
+  ],
+  "sources": [
+    {
+      "label": "来源名称，如 宁夏博物馆官网（必填）",
+      "url": "https://example.com/source（必填）",
+      "kind": "official（必填，枚举二选一：official/image）",
+      "level": "directory（必填，枚举三选一：direct/directory/homepage）",
+      "coverage": ["overview"],
+      "checkedAt": "2026-01-01（必填，复核日期 YYYY-MM-DD）"
+    }
+  ],
+  "verifiedAt": "2026-01-01（必填，本次核实日期 YYYY-MM-DD）",
+  "verificationNote": "核实说明，注明已核对项、待补资料与未决项（必填）"
 }

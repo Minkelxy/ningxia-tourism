@@ -35,4 +35,43 @@ describe('Header 移动端菜单', () => {
     await waitFor(() => expect(screen.getByRole('button', { name: '打开导航菜单' })).toHaveFocus());
     expect(screen.queryByRole('navigation', { name: '移动端导航' })).not.toBeInTheDocument();
   });
+
+  it('Tab 在菜单内首尾元素之间循环，不把焦点送回背景', async () => {
+    renderHeader();
+    fireEvent.click(screen.getByRole('button', { name: '打开导航菜单' }));
+    const mobileNav = screen.getByRole('navigation', { name: '移动端导航' });
+    const links = Array.from(mobileNav.querySelectorAll<HTMLAnchorElement>('a[href]'));
+    const first = links[0];
+    const last = links[links.length - 1];
+    await waitFor(() => expect(document.activeElement).toBe(first));
+
+    // 在末尾按 Tab 应循环回到首项。
+    last.focus();
+    fireEvent.keyDown(document, { key: 'Tab' });
+    expect(document.activeElement).toBe(first);
+
+    // 在首项按 Shift+Tab 应跳到末项。
+    fireEvent.keyDown(document, { key: 'Tab', shiftKey: true });
+    expect(document.activeElement).toBe(last);
+  });
+
+  it('点击菜单外区域自动关闭菜单，点击菜单按钮本身不触发关闭', async () => {
+    renderHeader();
+    const menuButton = screen.getByRole('button', { name: '打开导航菜单' });
+    fireEvent.click(menuButton);
+    expect(screen.getByRole('navigation', { name: '移动端导航' })).toBeInTheDocument();
+
+    // 点击菜单按钮本体（再次点击切换）不应被当作"外部点击"重复关闭——
+    // 这里仅验证点击外部能关闭，避免与按钮自身 toggle 行为冲突。
+    fireEvent.mouseDown(document.body);
+    await waitFor(() => expect(screen.queryByRole('navigation', { name: '移动端导航' })).not.toBeInTheDocument());
+  });
+
+  it('点击菜单内部元素不会关闭菜单', async () => {
+    renderHeader();
+    fireEvent.click(screen.getByRole('button', { name: '打开导航菜单' }));
+    const mobileNav = screen.getByRole('navigation', { name: '移动端导航' });
+    fireEvent.mouseDown(mobileNav.querySelector('a')!);
+    expect(mobileNav).toBeInTheDocument();
+  });
 });

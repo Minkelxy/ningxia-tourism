@@ -22,9 +22,9 @@ test('首页、景点筛选与详情可以连续浏览', async ({ page }) => {
 
 test('首页可按天数缩小路线范围并阅读最新专题', async ({ page }) => {
   await page.goto(appBase);
-  const fiveDays = page.getByRole('button', { name: '5 天' });
+  const fiveDays = page.getByRole('radio', { name: '5 天' });
   await fiveDays.click();
-  await expect(fiveDays).toHaveAttribute('aria-pressed', 'true');
+  await expect(fiveDays).toHaveAttribute('aria-checked', 'true');
   await expect(page.locator('.home-route-result-heading')).toContainText('1 条 5 天路线');
   await expect(page.getByRole('link', { name: /五日全景深度游/ })).toBeVisible();
   await expect(page.getByRole('link', { name: /打开完整筛选/ })).toHaveAttribute('href', /routes\?duration=5/);
@@ -42,7 +42,7 @@ test('地图支持键盘进入城市、选择区县和切换交通图层', async
 
   await map.getByRole('button', { name: /兴庆区，按回车进入/ }).click();
   await expect(map.locator('.map-region.is-selected')).toHaveCount(1);
-  await expect(map.getByText('兴庆区', { exact: true })).toBeVisible();
+  await expect(map.getByLabel('地图层级')).toContainText('兴庆区');
 
   const transport = map.getByRole('button', { name: '交通' });
   await transport.click();

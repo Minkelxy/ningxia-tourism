@@ -8,6 +8,8 @@
     "process:images": "tsx scripts/process-images.ts",
     "simplify:map": "tsx scripts/simplify-geojson.ts",
     "validate:data": "tsx scripts/validate-data.ts",
+    "content:lint": "tsx scripts/content-lint.ts",
+    "new:article": "tsx scripts/new-article.ts",
     "build": "npm run validate:data && tsc -b && vite build && tsx scripts/generate-sitemap.ts",
     "lint": "eslint .",
     "preview": "vite preview",
