@@ -100,6 +100,7 @@ export interface Food {
   priceRange?: string;
   restaurants: Restaurant[];
   tips?: string;
+  image: AttractionImage;
   sources: SourceRef[];
   verifiedAt: string;
 }

@@ -296,8 +296,10 @@ button { color: inherit; }
 .verification-badge { display: inline-flex; align-items: center; min-height: 28px; padding: 4px 9px; border-radius: 999px; background: #edf4ef; color: var(--green); font-size: .72rem; font-weight: 800; letter-spacing: .04em; }
 .verification-badge.review { background: #f7e8ca; color: #7d5217; }
 .card-image .verification-badge { position: absolute; top: 16px; right: 16px; }
-.food-card-image { display: flex; align-items: center; justify-content: center; }
-.food-card-icon { width: 52px; height: 52px; color: #E85D4C; opacity: .7; }
+.food-card-image { background: #f1ead9; }
+.detail-hero-image { margin: 0 auto; max-width: 1440px; }
+.detail-hero-image img { display: block; width: 100%; height: auto; max-height: 60vh; object-fit: cover; }
+.detail-image-credit { margin: 6px 16px 0; color: var(--muted); font-size: .72rem; text-align: right; }
 .detail-badges { display: flex; flex-wrap: wrap; gap: 8px; }
 .verification-card.review { border-color: rgba(169, 69, 53, .26); background: #fff8ed; }
 .stop-verification { display: inline-flex; margin-left: 9px; padding: 3px 7px; border-radius: 999px; background: #e7f0ea; color: var(--green); font-family: var(--sans); font-size: .65rem; vertical-align: middle; }

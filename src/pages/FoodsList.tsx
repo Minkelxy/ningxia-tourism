@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { cities, cityName } from '../data/cities';
 import { publishedFoods, reviewFoods, verifiedFoods } from '../data/foods';
+import { assetUrl } from '../lib/site';
 import useSearchParamsFilter, { useFiltersWithPanel } from '../lib/useSearchParamsFilter';
 import type { CityId, FoodCategory } from '../types';
 
@@ -57,7 +58,7 @@ export default function FoodsList() {
 
         {foods.length ? <div className="attraction-grid">{foods.map((item) => (
           <article className="attraction-card" key={item.id}>
-            <Link to={`/food/${item.id}`} className="card-image food-card-image"><span className="food-card-icon"><Utensils aria-hidden="true" /></span><span className="category-badge">{foodCategoryLabels[item.category]}</span><span className={`verification-badge ${item.verificationLevel}`}>{item.verificationLevel === 'verified' ? '已核实' : '待复核'}</span></Link>
+            <Link to={`/food/${item.id}`} className="card-image food-card-image"><img src={assetUrl(item.image.src)} alt={item.image.alt} loading="lazy" decoding="async" width="720" height="450" sizes="(max-width: 768px) calc(100vw - 32px), (max-width: 1024px) 50vw, 390px" /><span className="category-badge">{foodCategoryLabels[item.category]}</span><span className={`verification-badge ${item.verificationLevel}`}>{item.verificationLevel === 'verified' ? '已核实' : '待复核'}</span></Link>
             <div className="card-content"><p className="card-location"><MapPin aria-hidden="true" /> {item.origin}</p><h2><Link to={`/food/${item.id}`}>{item.name}</Link></h2><p>{item.description}</p><div className="card-meta">{item.priceRange && <span>{item.priceRange}</span>}{item.bestSeason && <span>{item.bestSeason}</span>}</div><Link to={`/food/${item.id}`} className="text-link">查看美食详情 <ArrowRight aria-hidden="true" /></Link></div>
           </article>
         ))}</div> : <div className="empty-state"><Search aria-hidden="true" /><h2>没有找到匹配的美食</h2><p>换一个关键词，或者清除城市与类别筛选再试试。</p><button type="button" className="btn-primary" onClick={() => clearFilters()}>查看全部美食</button></div>}
