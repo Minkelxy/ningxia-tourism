@@ -7,7 +7,7 @@ import { cityName } from '../data/cities';
 import { routePaceMeta, routeWalkingMeta } from '../data/meta';
 import { getRouteById } from '../data/routes';
 import { getRouteEvidenceSummary, type RouteEvidenceSummary } from '../lib/route';
-import { createAmapMarkerUrl, formatVerifiedDate } from '../lib/site';
+import { assetUrl, createAmapMarkerUrl, formatVerifiedDate } from '../lib/site';
 import useShare from '../lib/useShare';
 import FavoriteButton from '../components/FavoriteButton';
 
@@ -43,6 +43,7 @@ export default function RouteDetail() {
       <SEO title={`${route.name} · 宁夏旅行地图`} description={route.summary} />
       <div className="route-detail-page">
         <header className="route-detail-hero"><div className="section-shell"><Link to="/routes" className="back-link"><ArrowLeft aria-hidden="true" /> 返回路线列表</Link><p className="eyebrow"><Sparkles aria-hidden="true" /> {route.themeLabel}</p><h1>{route.name}</h1><p>{route.summary}</p><div className="route-detail-facts"><span><Clock3 aria-hidden="true" /> {route.durationLabel}</span><span><Gauge aria-hidden="true" /> {routePaceMeta[route.pace].label}节奏</span><span><Footprints aria-hidden="true" /> 步行{routeWalkingMeta[route.walkingLevel].label}</span><span><CircleDollarSign aria-hidden="true" /> {route.budget}</span><span><CalendarDays aria-hidden="true" /> {route.bestSeason}</span></div><div className="route-detail-actions"><button type="button" className="btn-primary" onClick={() => window.print()}><Printer aria-hidden="true" /> 打印行程</button><button type="button" className="btn-quiet" onClick={handleShare}><Share2 aria-hidden="true" /> 分享路线</button><FavoriteButton kind="route" id={route.id} label={route.name} /></div></div></header>
+        <div className="detail-hero-image"><img src={assetUrl(route.image.src)} alt={route.image.alt} width="1440" height="960" loading="eager" decoding="async" fetchPriority="high" /><p className="detail-image-credit">{route.image.credit} · 路线封面仅作展示参考</p></div>
         {ShareToast}
         {route.days.length > 1 && <nav className="route-day-nav" aria-label="按天快速跳转"><div className="section-shell"><span>按天快速跳转</span><div>{route.days.map((day) => <a key={day.day} href={`#route-day-${day.day}`} className={activeDay === day.day ? 'active' : undefined} aria-current={activeDay === day.day ? 'location' : undefined}><strong>D{String(day.day).padStart(2, '0')}</strong><small>{day.title}</small></a>)}</div></div></nav>}
         <div className="section-shell route-detail-layout">

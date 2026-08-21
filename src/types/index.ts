@@ -214,6 +214,7 @@ export interface RoutePlan {
   transportSummary: string;
   summary: string;
   highlights: string[];
+  image: AttractionImage;
   days: RouteDay[];
   verifiedAt: string;
 }
