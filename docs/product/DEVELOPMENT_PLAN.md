@@ -35,17 +35,21 @@
 | 6 | 图层 React.memo | 已完成 | 4 个图层组件全部 memo 化 |
 | 7 | CONTRIBUTING.md | 已完成 | 数据规范、构建门禁、图层开发规范、提交规范 |
 
-#### v0.3 — 文档整理
+#### v0.3 — 文档整理与规范化
 
 | 方向 | 状态 | 说明 |
 |------|------|------|
-| PRD 与技术架构文档同步 | 已完成 | 与实际代码对齐 |
-| 文档目录整理 | 已完成 | docs/product、docs/content、docs/templates 三级结构 |
+| PRD 与技术架构文档同步 | 已完成 | 对齐 /favorites、/search、收藏、对比、打印、PWA、LazyInteractiveMap、搜索页、懒加载 |
+| docs 目录索引 | 已完成 | docs/README.md 新增产品 / 内容 / 模板三分法 + 使用向导 |
+| 部署与 CI 文档 | 已完成 | DEPLOYMENT.md：12 步流水线、Vite base、SPA 回退、PWA、Netlify/Vercel/Nginx |
+| 数据字典 | 已完成 | DATA_DICTIONARY.md：TS 类型字段速查、枚举、必填、校验、反糟粕门禁 |
+| 更新日志 | 已完成 | CHANGELOG.md：v0.1 / v0.2 / v0.3 里程碑记录 |
+| README 重写 | 已完成 | 徽章 / 核心特性 / 技术栈 / 命令 / 项目树 / 路由 / 门禁 / 索引 |
 | 移除 IDE 本地文件夹跟踪 | 已完成 | .trae/ 与 .trae-html-share-packages/ 加入 .gitignore |
 
 ---
 
-## 后续开发目标
+## v0.3.1+ 后续开发目标
 
 ### 阶段一：内容补全（优先级：高）
 
@@ -86,7 +90,7 @@
 
 | 目标 | 说明 | 当前状态 |
 |------|------|----------|
-| CI 缓存优化 | GitHub Actions 缓存 node_modules 与 Vite 构建产物 | 当前每次全量安装 |
+| CI 缓存优化 | GitHub Actions 缓存 node_modules 与 Vite 构建产物；Playwright 浏览器已有 cache v5 | node_modules 缓存通过 setup-node cache 实现；Vite 产物待验证 |
 | 依赖版本升级 | React 19 / Vite 7 评估 | 当前 React 18 / Vite 6 |
 | 视觉回归测试 | 引入 Playwright 截图对比，防止 UI 意外变更 | 仅功能 E2E |
 | 国际化（i18n） | 评估多语言需求（英文版面向国际游客） | 当前仅中文 |
@@ -109,12 +113,12 @@
 
 | 版本 | 主题 | 状态 |
 |------|------|------|
-| v0.1 | 基础框架与核心功能 | 已完成 |
-| v0.2 | 7 轮持续优化 | 已完成 |
-| v0.3 | 文档整理与路径规范 | 已完成 |
-| v0.4 | 内容补全（亲历游记/探店/专题） | 进行中 |
-| v0.5 | 功能增强（收藏/对比/打印/搜索） | 待启动 |
-| v0.6 | 性能与体验优化 | 待启动 |
+| v0.1 | 基础框架与核心功能（地图 / 景点 / 城市 / 路线 / 手记） | 已完成 |
+| v0.2 | 7 轮持续优化（美食 / 时间槽 / 图层 a11y / 校验门禁 / memo / 贡献指南） | 已完成 |
+| v0.3 | 文档整理与工程规范化（README 重写、DEPLOYMENT、DATA_DICTIONARY、CHANGELOG、docs 索引） | 已完成 |
+| v0.4 | 内容补全（亲历游记/探店 ≥ 8 篇，草稿景点 / review 内容升级） | 进行中 |
+| v0.5 | 功能增强打磨（打印样式完善 / 视觉回归 / 移动端细节） | 待启动 |
+| v0.6 | 性能与工程化（CI 缓存、依赖升级评估、i18n/CMS 评估） | 待启动 |
 
 ---
 
@@ -124,4 +128,5 @@
 |------|------|----------|
 | 2026-08-17 | v0.3 | 初始创建；归档 v0.1—v0.3 已完成目标；规划 v0.4—v0.6 后续方向 |
 | 2026-08-17 | v0.3 | 首次正式发布至 main；与 docs/product/ 目录规范对齐 |
+| 2026-08-18 | v0.3 | 补齐 DEPLOYMENT / DATA_DICTIONARY / docs/README / CHANGELOG；PRD 与技术架构文档同步当前实现 |
 

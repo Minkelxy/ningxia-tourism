@@ -171,9 +171,14 @@ npm run dev
 
 ## 相关文档
 
+- [文档总索引](docs/README.md)：所有文档入口与使用向导
+- [产品需求文档](docs/product/宁夏旅游地图PRD.md)：PRD
+- [技术架构文档](docs/product/宁夏旅游地图技术架构.md)：架构说明
+- [开发计划与里程碑](docs/product/DEVELOPMENT_PLAN.md)：阶段目标、后续规划、技术债务
+- [部署指南](docs/product/DEPLOYMENT.md)：CI/CD 流水线、Vite base、SPA 回退、PWA、其它平台部署
+- [数据字典](docs/product/DATA_DICTIONARY.md)：字段速查、枚举、必填、校验说明
 - [内容审计记录](docs/content/CONTENT_AUDIT.md)：分级标准、复核日期与历史变更
 - [图片来源记录](docs/content/IMAGE_PROVENANCE.md)：编辑插画生成方式与提示词
 - [内容维护说明](docs/content/MAINTENANCE.md)：数据与内容维护准则
-- [产品需求文档](docs/product/宁夏旅游地图PRD.md)：PRD
-- [技术架构文档](docs/product/宁夏旅游地图技术架构.md)：架构说明
+- [更新日志](./CHANGELOG.md)：重要版本里程碑
 - [行前指南模板](docs/templates/)：手记与探店模板（不参与发布）
