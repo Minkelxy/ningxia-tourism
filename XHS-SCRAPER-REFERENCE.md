@@ -1,8 +1,9 @@
 # 小红书素材库 · 主项目对接手册 (XHS-SCRAPER-REFERENCE)
 
-> 素材库子目录：[`ningxia-xhs-scraper/`](./ningxia-xhs-scraper/)
+> Sister 仓库：[Minkelxy/ningxia-scraper](https://github.com/Minkelxy/ningxia-scraper)
 > 主项目：[Minkelxy/ningxia-tourism](https://github.com/Minkelxy/ningxia-tourism)
 > 对应素材库版本：**v0.1.0**
+> 未来扩展：微博 / 携程等平台爬虫将逐步整合到同一 sister 仓库
 
 ---
 
@@ -26,14 +27,15 @@
 
 ## 2. 目录互链
 
-素材库是主项目内置子目录（monorepo 形式），结构如下：
+Sister 仓库与主项目是两个独立 Git 仓库；推荐本地 clone 为同级目录：
 
 ```
-ningxia-tourism/                     ← 主项目根
-├── XHS-SCRAPER-REFERENCE.md         ← 本文件
-├── src/content/journal/             ← journal 最终产物 (status=review/verified)
-├── content-kit/                     ← 编辑任务卡片 & 草稿工作目录 (.gitignore)
-└── ningxia-xhs-scraper/            ← 素材库子目录
+workspace/
+├── ningxia-tourism/              ← 主项目
+│   ├── XHS-SCRAPER-REFERENCE.md  ← 本文件
+│   ├── src/content/journal/      ← journal 最终产物 (status=review/verified)
+│   └── content-kit/              ← 编辑任务卡片 & 草稿工作目录 (.gitignore)
+└── ningxia-scraper/             ← sister 素材库 (独立 clone、LFS 跟踪)
     ├── data/notes.ndjson
     ├── images/full/<noteId>/img-*.webp
     ├── provenance/manifest.csv
@@ -42,56 +44,53 @@ ningxia-tourism/                     ← 主项目根
 
 主项目 `.gitignore` 已追加（见 `.gitignore` 末尾）：
 ```gitignore
-# XHS scraper (sister subdirectory) — local artifacts
-ningxia-xhs-scraper/node_modules
-ningxia-xhs-scraper/dist
-ningxia-xhs-scraper/reports
-ningxia-xhs-scraper/coverage
-
 # XHS scraper — content-kit intermediate work dir (main project side)
 content-kit/
+
+# Ningxia scraper (sister repo, cloned separately)
+ningxia-scraper/
 ```
 
 ---
 
 ## 3. 常用对接命令
 
-所有命令在 **素材库子目录 (`ningxia-xhs-scraper/`)** 执行；
-`--out-dir` 指向主项目根 `content-kit/` 目录。
+所有命令在 **sister 仓库根目录 (`../ningxia-scraper/`)** 执行；
+`--out-dir` 指向主项目 `content-kit/` 目录。
 
 ### 3.1 浏览素材库热度榜
 ```bash
-cd ningxia-xhs-scraper
+cd ../ningxia-scraper
 python3 scripts/list-top.py -n 20
 python3 scripts/list-top.py --topic 沙坡头 --sort collectCount
 ```
 
 ### 3.2 生成「本期编辑任务卡片」（不泄漏原文）
 ```bash
-cd ningxia-xhs-scraper
+cd ../ningxia-scraper
 npm run content:kit -- \
   --task-list \
   --limit 20 \
   --min-score 200 \
-  --out-dir ../content-kit
+  --out-dir ../ningxia-tourism/content-kit
 ```
 
 产物：
-- `content-kit/EDIT-TASKS.md`：每行一个任务卡片，格式：
+- `../ningxia-tourism/content-kit/EDIT-TASKS.md`：每行一个任务卡片，格式：
   `[ ] #<index> · <标题截断> · <话题> · <点赞> · <城市> · <素材 noteId>`
 
 贡献者按卡片顺序逐个认领，进入下一步。
 
 ### 3.3 对某条 note 生成 journal 草稿
 ```bash
-cd ningxia-xhs-scraper
+cd ../ningxia-scraper
 npm run content:kit -- \
   --note <noteId> \
   --kind journal \
-  --out-dir ../content-kit/journal
+  --out-dir ../ningxia-tourism/content-kit/journal
 ```
 
-产物：`content-kit/journal/<slug>-review.md`
+产物：`../ningxia-tourism/content-kit/journal/<slug>-review.md`
 
 **草稿内容检查清单（必须全部满足才能 PR 到主项目）**：
 - [ ] Frontmatter 字段完整，且：
@@ -107,16 +106,16 @@ npm run content:kit -- \
 ### 3.4 把草稿搬到主项目正式目录
 ```bash
 # 从 content-kit 人工确认后复制到 src/content/journal
-cp content-kit/journal/<slug>-review.md \
-   src/content/journal/<slug>.md
+cp ../ningxia-tourism/content-kit/journal/<slug>-review.md \
+   ../ningxia-tourism/src/content/journal/<slug>.md
 ```
 
 ### 3.5 主题覆盖率 & 选稿辅助
 ```bash
-cd ningxia-xhs-scraper
+cd ../ningxia-scraper
 # 生成 coverage.txt 和 TOPICS_RANKING.md
-npm run export:topics -- --out-dir ../content-kit
-cat ../content-kit/coverage.txt
+npm run export:topics -- --out-dir ../ningxia-tourism/content-kit
+cat ../ningxia-tourism/content-kit/coverage.txt
 ```
 
 选稿规则：优先挑「未覆盖类目」或「已覆盖但 < 3 条」的类目。
@@ -158,14 +157,14 @@ cat ../content-kit/coverage.txt
   └───────────────────────────┘                    └──────────────────────────┘
 ```
 
-**主项目侧快速排查命令**（维护者在每次素材库更新后执行一次）：
+**主项目侧快速排查命令**（维护者在每次 sister 仓库 merge 后执行一次）：
 ```bash
-cd ningxia-xhs-scraper
+cd ../ningxia-scraper
 # 列所有 removeRequested 的 noteId
 jq -c 'select(.removeRequested != false)' data/notes.ndjson > /tmp/removed.ndjson
 wc -l /tmp/removed.ndjson
 
-cd .. # 切回主项目根
+cd ../ningxia-tourism # 切回主项目
 while read -r id; do
   echo "== 查找 $id =="
   grep -r "$id" src/content/journal/ --include="*.md" || echo "(未引用)"
@@ -202,17 +201,17 @@ done < <(jq -r '.noteId' /tmp/removed.ndjson)
 
 | 任务 | 执行位置 | 命令 |
 |------|----------|------|
-| 跑单元测试 | 素材库子目录 | `cd ningxia-xhs-scraper && npm test` (vitest) |
-| 校验全数据集合规 | 素材库子目录 | `cd ningxia-xhs-scraper && npm run validate:data` |
-| 去重报告 | 素材库子目录 | `cd ningxia-xhs-scraper && npm run dedupe` → `reports/dedupe-YYYYMMDD.md` |
-| 批量导入 HTML 快照 | 素材库子目录 | `cd ningxia-xhs-scraper && npm run ingest:batch -- data-raw/pool/search-snapshots/*.html` |
-| 单条导入 HTML | 素材库子目录 | `cd ningxia-xhs-scraper && npm run ingest:one -- --html <saved.html> --note-url <xhs url>` |
-| 下架一条 note | 素材库子目录 | `cd ningxia-xhs-scraper && npm run mark:removed -- --noteId <id> --reason <...> --requester <email>` |
-| 本期编辑任务 | 素材库 → 主项目 | `cd ningxia-xhs-scraper && npm run content:kit -- --task-list --out-dir ../content-kit` |
-| 生成 journal 草稿 | 素材库 → 主项目 | `cd ningxia-xhs-scraper && npm run content:kit -- --note <id> --kind journal --out-dir ../content-kit/journal` |
-| 话题覆盖率报告 | 素材库 → 主项目 | `cd ningxia-xhs-scraper && npm run export:topics -- --out-dir ../content-kit` |
-| 本地跑素材库 CI | 素材库子目录 | `cd ningxia-xhs-scraper && npm run ci:local` (完整门禁) |
-| 主项目 PR 合规巡检 | 主项目根 | 见 §6 Step 5.2 脚本 |
+| 跑单元测试 | sister | `cd ../ningxia-scraper && npm test` (vitest) |
+| 校验全数据集合规 | sister | `cd ../ningxia-scraper && npm run validate:data` |
+| 去重报告 | sister | `cd ../ningxia-scraper && npm run dedupe` → `reports/dedupe-YYYYMMDD.md` |
+| 批量导入 HTML 快照 | sister | `cd ../ningxia-scraper && npm run ingest:batch -- data-raw/pool/search-snapshots/*.html` |
+| 单条导入 HTML | sister | `cd ../ningxia-scraper && npm run ingest:one -- --html <saved.html> --note-url <xhs url>` |
+| 下架一条 note | sister | `cd ../ningxia-scraper && npm run mark:removed -- --noteId <id> --reason <...> --requester <email>` |
+| 本期编辑任务 | sister → 主项目 | `cd ../ningxia-scraper && npm run content:kit -- --task-list --out-dir ../ningxia-tourism/content-kit` |
+| 生成 journal 草稿 | sister → 主项目 | `cd ../ningxia-scraper && npm run content:kit -- --note <id> --kind journal --out-dir ../ningxia-tourism/content-kit/journal` |
+| 话题覆盖率报告 | sister → 主项目 | `cd ../ningxia-scraper && npm run export:topics -- --out-dir ../ningxia-tourism/content-kit` |
+| 本地跑 sister CI | sister | `cd ../ningxia-scraper && npm run ci:local` (完整门禁) |
+| 主项目 PR 合规巡检 | 主项目 | 见 §6 Step 5.2 脚本 |
 
 ---
 
@@ -227,8 +226,8 @@ done < <(jq -r '.noteId' /tmp/removed.ndjson)
 
 ## 9. 参考链接
 
-- 素材库子目录：[`ningxia-xhs-scraper/`](./ningxia-xhs-scraper/)
-- 素材库合规说明：[`ningxia-xhs-scraper/docs/COMPLIANCE.md`](./ningxia-xhs-scraper/docs/COMPLIANCE.md)
-- 素材库字段字典：[`ningxia-xhs-scraper/docs/DATA_DICTIONARY.md`](./ningxia-xhs-scraper/docs/DATA_DICTIONARY.md)
-- 素材库 CHANGELOG：[`ningxia-xhs-scraper/CHANGELOG.md`](./ningxia-xhs-scraper/CHANGELOG.md)
+- Sister 仓库：<https://github.com/Minkelxy/ningxia-scraper>
+- 素材库合规说明：`ningxia-scraper/docs/COMPLIANCE.md`
+- 素材库字段字典：`ningxia-scraper/docs/DATA_DICTIONARY.md`
+- 素材库 CHANGELOG：`ningxia-scraper/CHANGELOG.md`
 - 主项目验证周期（180 天）说明：主项目 `docs/product/DATA_DICTIONARY.md` §170-180 天验证窗口

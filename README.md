@@ -300,19 +300,20 @@ docs/
 
 ---
 
-## 🔗 素材来源子目录 (ningxia-xhs-scraper)
+## 🔗 Sister 仓库 & 素材来源
 
-本项目通过内置子目录 `ningxia-xhs-scraper/` 托管小红书公开笔记素材候选池（合规可追溯，不直接生产发布级内容）：
+本项目通过独立 sister 仓库托管多平台公开内容素材候选池（合规可追溯，不直接生产发布级内容）：
 
-- **素材库目录**：[`ningxia-xhs-scraper/`](./ningxia-xhs-scraper/) · v0.1.0
+- **素材库仓库**：[`Minkelxy/ningxia-scraper`](https://github.com/Minkelxy/ningxia-scraper) · v0.1.0
+  - 当前支持小红书，未来将整合微博 / 携程等文字图片内容爬虫
 - **主项目对接手册**：[`XHS-SCRAPER-REFERENCE.md`](./XHS-SCRAPER-REFERENCE.md)
   - 包含：选稿 / 生成 journal 草稿 / 下架联动 / Frontmatter 字段映射 / 合规门禁脚本
-- **素材 → 发布**转换器：`ningxia-xhs-scraper/scripts/xhs-to-content-kit.ts`
+- **素材 → 发布**转换器：sister 仓库 `scripts/xhs-to-content-kit.ts`
   - 保证生成草稿与原文相似度 < 30%，连续汉字段 < 20 字；绝不泄漏原文
-- **原作者下架通道**：在 `ningxia-xhs-scraper/` 使用 Issue 模板提交，24–48 小时内两侧同步下线
+- **原作者下架通道**：在 sister 仓库 Issue 使用「Takedown Request」模板提交，24–48 小时内两侧同步下线
 
-> 如果你希望贡献真实的 XHS 素材（半人工模式 A），请把 HTML 快照通过 PR 放入
-> `ningxia-xhs-scraper/data-raw/html/`，我们会跑 ingest 入库。
+> 如果你希望贡献真实的 XHS 素材（半人工模式 A），请 clone sister 仓库，
+> 按 README 指引把 HTML 快照通过 PR 放入 `data-raw/html/`，我们会跑 ingest 入库。
 
 ---
 
