@@ -6,6 +6,31 @@
 
 ---
 
+## [v0.3.1] — 2026-08-24
+
+### 主题：verifiedAt 180 天阻断前置软提醒机制
+
+#### 🛠️ 工程与 CI/CD
+- **新增 `VERIFICATION_REMINDER_DAYS = 170` + `daysUntilStale / isInReminderWindow` 纯函数**（`src/data/validate.ts`），复用 180 天阻断的时间基准，避免重复逻辑；单元测试覆盖 9/10/11/170/179/180/181 天等 8 条临界日。
+- **新增脚本 `scripts/check-verification-reminder.ts`**：
+  - 扫描 5 类数据（景点 / 美食 / 交通枢纽 / 路线 / 政府标记）的 `verifiedAt`，进入 ≤ 170 天窗口就列告警表格；
+  - 支持 `--format=human | json` 两种输出；支持 `--exit-zero`（默认，构建步骤不阻断）与 `--exit-code`（CI schedule 判断「有提醒」）。
+  - 在 `GITHUB_ACTIONS=true` 环境下每条提醒同步打 `::warning` 注解（PR 详情页黄条直观可见）。
+- **新增单元测试 `src/test/check-verification-reminder.test.ts`**：纯函数 5 条 + CLI 退出码 3 条，共 8 条新用例。
+- **`package.json` 两条命令**：`npm run validate:data:reminder`（本地排查）；`npm run validate:data:reminder:ci`（CI 读 JSON）。
+- **部署流水线新增软提醒步骤**：`.github/workflows/deploy.yml` build job 在 Step 5 Validate data 之后插入 Step 5.1 Verification reminder，warning-only；硬阻断仍由 Step 5 负责。
+- **新增每周一自动提醒 workflow**：`.github/workflows/verification-reminder.yml`（`cron: 0 1 * * 1` = 每周一 09:00 CST 左右运行）；若有进入窗口条目：
+  - 首次扫描当天自动开 Issue，标签 `content / verification-reminder / weekly`；
+  - 标题带日期去重；若下周一仍为同一批条目未处置，不改 Issue 内容只追加一句 comment，不重复建 Issue。
+
+#### 📚 文档同步
+- `docs/product/DEPLOYMENT.md`：build job 步骤表插入 Step 5.1；FAQ 新增「CI 黄条含义」和「每周提醒是否重复」两条。
+- `docs/product/DATA_DICTIONARY.md`：通用校验规则追加「170–180 天软提醒窗口」说明。
+- `CONTRIBUTING.md`：数据校验门禁表新增 ⏰ 软提醒行，标注位置与作用范围。
+- `docs/product/DEVELOPMENT_PLAN.md`：v0.3 交付补充；阶段四工程化完成项追加本机制。
+
+---
+
 ## [v0.3.0] — 2026-08-18
 
 ### 主题：文档整理与工程规范化

@@ -1,0 +1,133 @@
+name: Content verification reminder
+
+# 每周一 09:00 CST（= 周一 01:00 UTC）自动扫描 5 类数据的 verifiedAt：
+# - 若有任何条目进入 170–180 天提醒窗口 → 用 gh issue create 建一张内容复核工单；
+# - 同一天窗口内重复触发（例如多次手动 workflow_dispatch）只建 1 张（标题用日期去重）；
+# - 若下周一再次扫描，同一批仍在窗口中 → 对已有 open Issue 追加一句 comment，不新建。
+# 不关联 deploy.yml，避免无谓跑完整的 Pages 构建 + Lighthouse。
+
+on:
+  schedule:
+    # Every Monday 09:00 CST (01:00 UTC). Day-of-week cron: 0 = Sunday, 1 = Monday.
+    - cron: '0 1 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: verification-reminder-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  reminder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Scan reminder window (produces JSON + fail if any reminders)
+        id: scan
+        continue-on-error: true
+        run: |
+          json_output=$(npm run validate:data:reminder:ci --silent -- --exit-code)
+          printf '%s\n' "$json_output" > reminder.json
+          echo "--- reminder.json ---"
+          cat reminder.json
+          # 把生成日期暴露给后续步骤，便于命名 Issue
+          generatedAt=$(node -e 'process.stdout.write(require("fs").readFileSync("reminder.json","utf8").toString().split("\n").map(l=>l.trim()).join("").match(/"generatedAt"\s*:\s*"([0-9-]+)"/)?.[1] ?? "")')
+          hasReminders=$(node -e 'process.stdout.write(String(JSON.parse(require("fs").readFileSync("reminder.json","utf8")).hasReminders))')
+          echo "generatedAt=$generatedAt" >> "$GITHUB_OUTPUT"
+          echo "hasReminders=$hasReminders" >> "$GITHUB_OUTPUT"
+          total=$(node -e 'process.stdout.write(String(JSON.parse(require("fs").readFileSync("reminder.json","utf8")).summary.total))')
+          echo "total=$total" >> "$GITHUB_OUTPUT"
+          # 真正的失败判断交给 --exit-code：有提醒 exit=1 → 让 continue-on-error 吞掉
+          npm run validate:data:reminder:ci --silent -- --exit-code > /dev/null
+
+      - name: Nothing to remind
+        if: steps.scan.outputs.hasReminders != 'true'
+        run: echo "当前没有条目进入 10 天预警窗口，本周无需创建 Issue。steps.scan.outputs.total=${{ steps.scan.outputs.total }}"
+
+      - name: Build Issue body + title (human + JSON)
+        if: steps.scan.outputs.hasReminders == 'true'
+        id: body
+        shell: bash
+        run: |
+          generatedAt="${{ steps.scan.outputs.generatedAt }}"
+          title="[verification-reminder] 内容到期提醒（${generatedAt:-today}）"
+          echo "title=$title" >> "$GITHUB_OUTPUT"
+          {
+            echo "## 内容核对提醒（${generatedAt:-today} 扫描）"
+            echo
+            echo "以下内容条目距离 180 天硬阻断阈值只剩 ≤ 170 天，请在阻断日之前完成复核，并更新对应数据文件中的 \`verifiedAt\`："
+            echo
+            echo "- 景点 / 美食 / 枢纽 / 路线 / 政府标记 的详细 JSON：见附件 \`reminder.json\` 内容"
+            echo
+            echo "### 快速处理方法"
+            echo "1. 本地运行 \`npm run validate:data:reminder\` 查看具体条目与剩余天数；"
+            echo "2. 按 \`CONTENT_AUDIT.md\` 第 3 节的「核对流程 & 证据来源清单」逐条复核；"
+            echo "3. 对每条已复核的数据更新 \`verifiedAt\`，必要时调整 \`verificationLevel\`、\`sources[].checkedAt\` 与 \`verificationNote\`；"
+            echo "4. 对 CONTendAudit.md 更新最新核对日期列；"
+            echo "5. 提交 PR，跑 \`npm run validate:data\` + \`npm test\` 通过后合并。"
+            echo
+            echo "<details><summary>本次 JSON 明细</summary>"
+            echo
+            echo '```json'
+            cat reminder.json
+            echo '```'
+            echo
+            echo "</details>"
+          } > ISSUE_BODY.md
+          cat ISSUE_BODY.md
+          # 正文 hash：如果下次扫描仍为同一批条目（total / 内容完全一致），就不会在 gh issue list 中新建
+          body_hash=$(sha256sum reminder.json | awk '{print $1}')
+          echo "body_hash=$body_hash" >> "$GITHUB_OUTPUT"
+
+      - name: Check whether an open Issue with the same title already exists this week
+        if: steps.scan.outputs.hasReminders == 'true'
+        id: existing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="${{ steps.body.outputs.title }}"
+          EXISTING=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "$TITLE in:title" --json number --limit 1 | node -e 'let s="";process.stdin.on("data",c=>s+=c).on("end",()=>process.stdout.write(String(JSON.parse(s)[0]?.number ?? "")))')
+          echo "number=$EXISTING" >> "$GITHUB_OUTPUT"
+          if [ -n "$EXISTING" ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+            echo "已找到已存在的 open Issue #$EXISTING，不再重复创建，改为 comment 追加。"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "未找到同名 Issue，将新建。"
+          fi
+
+      - name: Create Issue (if not yet exists)
+        if: steps.scan.outputs.hasReminders == 'true' && steps.existing.outputs.found == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          NUMBER=$(gh issue create --repo "$GITHUB_REPOSITORY" \
+            --title "${{ steps.body.outputs.title }}" \
+            --body-file ISSUE_BODY.md \
+            --label content \
+            --label verification-reminder \
+            --label weekly \
+            --assignee "$GITHUB_ACTOR" 2>&1 || true)
+          echo "Create output: $NUMBER"
+
+      - name: Comment on existing Issue (already open, still in window)
+        if: steps.scan.outputs.hasReminders == 'true' && steps.existing.outputs.found == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue comment --repo "$GITHUB_REPOSITORY" "${{ steps.existing.outputs.number }}" \
+            --body "📅 本周再次扫描（${{ steps.scan.outputs.generatedAt }}），以下条目仍处于 170–180 天提醒窗口中，请尽快处理。\n\n正文摘要 hash：\`${{ steps.body.outputs.body_hash }}\`，详细 JSON 见上一条 Issue 正文附件。"

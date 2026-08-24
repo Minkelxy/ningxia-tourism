@@ -106,6 +106,7 @@ npm run dev
 | **异常 ID** | 所有 `id` 必须符合 kebab-case ASCII | `src/data/validate.ts` |
 | **电话区号匹配** | 交通枢纽电话区号必须与所在城市一致 | `src/data/validate.ts` |
 | **verifiedAt 过期** | 超过 180 天未复核的条目阻断构建 | `src/data/validate.ts` |
+| **⏰ verifiedAt 10 天预警窗口（170–180 天）** | 输出日志 warning、GitHub Actions 黄条、每周一自动开 Issue；**不阻断构建** | `scripts/check-verification-reminder.ts` + `.github/workflows/verification-reminder.yml` |
 | **占位文本** | 拒绝"示例""演示用""待填写""example.com"等占位内容 | `src/data/validate.ts` |
 | **跨数据引用** | 路线停靠点只能引用已发布景点；兴趣组合只能引用已公开景点 | `src/data/validate.ts` |
 | **图片完整性** | 已发布景点和手记的图片必须有本地多格式文件（webp + avif） | `scripts/validate-data.ts` |

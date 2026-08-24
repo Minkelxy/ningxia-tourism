@@ -39,7 +39,8 @@
 | 2 | Setup Node | `actions/setup-node@v7` | Node.js 22，启用 `npm` 缓存 |
 | 3 | Install deps | `npm ci` | 严格按 lockfile 安装 |
 | 4 | Dependency audit | `npm run audit` | `npm audit --audit-level=high`，高危阻断 |
-| 5 | Validate data | `npm run validate:data` | 数据 + 反糟粕 + 图片完整性门禁（180 天过期等） |
+| 5 | Validate data | `npm run validate:data` | 数据 + 反糟粕 + 图片完整性门禁（180 天过期阻断等） |
+| 5.1 | Verification reminder（warning only） | `npm run validate:data:reminder` | 扫描 170–180 天软提醒窗口；有窗口条目在 PR 详情页打 `::warning` 黄条，**不阻断构建**；硬阻断仍由 Step 5 承担 |
 | 6 | Type check | `npm run check` | `tsc -b --noEmit` |
 | 7 | Lint | `npm run lint` | ESLint（含 React Hooks / Refresh 规则） |
 | 8 | Unit tests | `npm test` | Vitest 单元测试 + 组件测试（jsdom 环境） |
@@ -193,6 +194,8 @@ server {
 | 问题 | 排查方向 |
 |------|---------|
 | **CI 在 validate:data 失败** | 查看报错，大概率是 `verifiedAt` 过期（> 180 天）、ID 不符合 kebab-case、或图片缺失 WebP/AVIF 文件 |
+| **我在 deploy / validate:data:reminder 看到了黄色的 warning 注解？** | 这是 10 天软提醒窗口（170–180 天）输出的预警黄条；**不等于构建失败**。处理方法：本地 `npm run validate:data:reminder` 列出详细条目与剩余天数，按 `CONTENT_AUDIT.md` 第 3 节核对证据链，更新 `verifiedAt` 与核对日期后再提交 |
+| **每周的提醒 Issue 会重复建吗？** | 不会。`.github/workflows/verification-reminder.yml` 用标题日期去重；若下周一同一批条目仍在窗口内，只对已有 open Issue comment 一句「本周再次扫描仍在窗口」 |
 | **构建成功但 Pages 404 白屏** | 检查 `base` 路径；仓库名变了就改路径 |
 | **深层链接刷新报 404** | 确认 `public/404.html` 与 `index.html` 一致；非 Pages 平台需自定义 rewrite |
 | **Lighthouse 门禁失败** | 跑 `npm run quality:lighthouse` 本地复现，注意会启动并占用预览端口 |

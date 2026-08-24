@@ -7,7 +7,7 @@ import { routes } from './routes';
 import { transportHubs } from './transport';
 import type { CityId, TransportHub, TravelJournal } from '../types';
 import { siteDateString } from '../lib/site';
-import { VERIFICATION_STALE_DAYS, assertValidContentData, cityAreaCodes, getPhoneAreaCode, hasStrictVerificationEvidence, isStale, isTemplatePhone, isValidKebabId, validTransportTypes, validateContentData, validateJournalContent, validateTransportHubPhone } from './validate';
+import { VERIFICATION_STALE_DAYS, VERIFICATION_REMINDER_DAYS, assertValidContentData, cityAreaCodes, daysUntilStale, getPhoneAreaCode, hasStrictVerificationEvidence, isInReminderWindow, isStale, isTemplatePhone, isValidKebabId, validTransportTypes, validateContentData, validateJournalContent, validateTransportHubPhone } from './validate';
 
 describe('公开内容数据', () => {
   it('通过完整性和引用校验', () => {
@@ -290,6 +290,65 @@ describe('verifiedAt 周期校验', () => {
       ...routes.map((route) => route.verifiedAt),
     ];
     expect(allVerifiedAt.every((value) => !isStale(value))).toBe(true);
+  });
+});
+
+describe('提醒窗口 daysUntilStale / VERIFICATION_REMINDER_DAYS', () => {
+  it('VERIFICATION_REMINDER_DAYS 配置为 170，且严格早于硬阻断阈值', () => {
+    expect(VERIFICATION_REMINDER_DAYS).toBe(170);
+    expect(VERIFICATION_REMINDER_DAYS).toBeLessThan(VERIFICATION_STALE_DAYS);
+  });
+
+  it('无效日期返回 null，并会被视为进入提醒窗口（避免漏提醒）', () => {
+    expect(daysUntilStale('')).toBe(null);
+    expect(daysUntilStale('not-a-date')).toBe(null);
+    expect(daysUntilStale('2026/08/17')).toBe(null);
+    expect(isInReminderWindow('')).toBe(true);
+    expect(isInReminderWindow('2026/08/17')).toBe(true);
+  });
+
+  it('今天录入的 verifiedAt 距过期正好 180 天，未进入 170 天窗口', () => {
+    const today = siteDateString();
+    expect(daysUntilStale(today, today)).toBe(VERIFICATION_STALE_DAYS);
+    expect(isInReminderWindow(today, today)).toBe(false);
+  });
+
+  it('10 天前录入距过期 170 天，正好进入提醒窗口边界', () => {
+    const today = siteDateString();
+    const tenDaysAgo = new Date(Date.parse(`${today}T00:00:00Z`) - 10 * 24 * 60 * 60 * 1000);
+    const tenDaysAgoStr = tenDaysAgo.toISOString().slice(0, 10);
+    expect(daysUntilStale(tenDaysAgoStr, today)).toBe(VERIFICATION_REMINDER_DAYS);
+    expect(isInReminderWindow(tenDaysAgoStr, today)).toBe(true);
+  });
+
+  it('11 天前录入距过期 169 天，仍在窗口内；9 天前录入距过期 171 天，未进入窗口', () => {
+    const today = siteDateString();
+    const makeN = (n: number) => {
+      const d = new Date(Date.parse(`${today}T00:00:00Z`) - n * 24 * 60 * 60 * 1000);
+      return d.toISOString().slice(0, 10);
+    };
+    expect(daysUntilStale(makeN(11), today)).toBe(169);
+    expect(isInReminderWindow(makeN(11), today)).toBe(true);
+    expect(daysUntilStale(makeN(9), today)).toBe(171);
+    expect(isInReminderWindow(makeN(9), today)).toBe(false);
+  });
+
+  it('179 天前距过期 1 天，仍未触发硬阻断但已在窗口；180 天当天剩 0 天；181 天前已过期返回 -1', () => {
+    const today = siteDateString();
+    const makeN = (n: number) => {
+      const d = new Date(Date.parse(`${today}T00:00:00Z`) - n * 24 * 60 * 60 * 1000);
+      return d.toISOString().slice(0, 10);
+    };
+    expect(daysUntilStale(makeN(179), today)).toBe(1);
+    expect(isStale(makeN(179))).toBe(false);
+    expect(isInReminderWindow(makeN(179), today)).toBe(true);
+
+    expect(daysUntilStale(makeN(180), today)).toBe(0);
+    expect(isStale(makeN(180))).toBe(false); // 严格 >180 才阻断
+
+    expect(daysUntilStale(makeN(181), today)).toBe(-1);
+    expect(isStale(makeN(181))).toBe(true);
+    expect(isInReminderWindow(makeN(181), today)).toBe(true); // 过期仍然需要提醒处理
   });
 });
 

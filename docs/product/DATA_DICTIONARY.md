@@ -27,6 +27,7 @@
 > - 所有 `id` / `slug` 字段必须匹配正则 `/^[a-z0-9]+(-[a-z0-9]+)*$/`（kebab-case ASCII）。
 > - 所有 `verifiedAt` / `checkedAt` / `publishedAt` / `updatedAt` 字段格式必须为 `YYYY-MM-DD`，且不能晚于当前日期。
 > - 任何 `published` 条目若 `verifiedAt` 距今超过 **180 天**，会阻断构建。
+> - 构建期同时存在 **10 天软提醒窗口（170–180 天）**：日志与 GitHub Actions 会显示警告黄条，每周一 GitHub Issue 会自动创建内容复核工单；窗口内不阻断构建。
 
 ---
 

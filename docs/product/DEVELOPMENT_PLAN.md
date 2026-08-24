@@ -47,6 +47,20 @@
 | README 重写 | 已完成 | 徽章 / 核心特性 / 技术栈 / 命令 / 项目树 / 路由 / 门禁 / 索引 |
 | 移除 IDE 本地文件夹跟踪 | 已完成 | .trae/ 与 .trae-html-share-packages/ 加入 .gitignore |
 
+#### v0.3.1 — verifiedAt 180 天阻断前置软提醒机制（2026-08-24）
+
+> 解决 v0.2 已经引入的 180 天阻断门禁「到日子才发现、立即卡死 CI」的运维风险。
+
+| 方向 | 状态 | 说明 |
+|------|------|------|
+| 软提醒常量与纯函数 | 已完成 | `VERIFICATION_REMINDER_DAYS = 170` + `daysUntilStale / isInReminderWindow`，和 180 天阻断共享时间基准；11 条单元测试覆盖 9/10/11/169/170/171/179/180/181 天等关键边界 |
+| 提醒脚本 | 已完成 | `scripts/check-verification-reminder.ts` 扫描 5 类数据；支持 human/JSON、exit-zero/exit-code；GitHub Actions 下输出 `::warning` 注解 |
+| 脚本单元测试 | 已完成 | `src/test/check-verification-reminder.test.ts`，纯函数 + CLI 子进程，8 条新增用例全部通过 |
+| 新命令 | 已完成 | `npm run validate:data:reminder`（本地排查）；`npm run validate:data:reminder:ci`（CI 读 JSON） |
+| 构建期 warning-only 步骤 | 已完成 | `.github/workflows/deploy.yml` build job Step 5.1 插入；不阻断；仅打黄条 |
+| 每周一自动工单 | 已完成 | `.github/workflows/verification-reminder.yml`（09:00 CST 周一）；标题日期去重，open 时只 comment 不新建 Issue |
+| 文档同步 | 已完成 | DEPLOYMENT.md + DATA_DICTIONARY.md + CONTRIBUTING.md 三处写入；CHANGELOG 新增 v0.3.1 小节 |
+
 ---
 
 ## v0.3.1+ 后续开发目标
@@ -91,6 +105,7 @@
 | 目标 | 说明 | 当前状态 |
 |------|------|----------|
 | CI 缓存优化 | GitHub Actions 缓存 node_modules 与 Vite 构建产物；Playwright 浏览器已有 cache v5 | node_modules 缓存通过 setup-node cache 实现；Vite 产物待验证 |
+| verifiedAt 180 天前置软提醒 + 每周一自动工单 | 防止 verifiedAt 集中过期时突然卡死：170 天阈值脚本 + deploy 构建 warning-only 步骤 + 每周一 schedule Issue | **已完成**；见 v0.3.1 |
 | 依赖版本升级 | React 19 / Vite 7 评估 | 当前 React 18 / Vite 6 |
 | 视觉回归测试 | 引入 Playwright 截图对比，防止 UI 意外变更 | 仅功能 E2E |
 | 国际化（i18n） | 评估多语言需求（英文版面向国际游客） | 当前仅中文 |
@@ -129,4 +144,5 @@
 | 2026-08-17 | v0.3 | 初始创建；归档 v0.1—v0.3 已完成目标；规划 v0.4—v0.6 后续方向 |
 | 2026-08-17 | v0.3 | 首次正式发布至 main；与 docs/product/ 目录规范对齐 |
 | 2026-08-18 | v0.3 | 补齐 DEPLOYMENT / DATA_DICTIONARY / docs/README / CHANGELOG；PRD 与技术架构文档同步当前实现 |
+| 2026-08-24 | v0.3.1 | 落地 verifiedAt 170–180 天软提醒机制：脚本、构建 Step 5.1、每周一 schedule Issue、命令、单测、三处文档 |
 
