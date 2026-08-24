@@ -300,6 +300,22 @@ docs/
 
 ---
 
+## 🔗 Sister 仓库 & 素材来源
+
+本项目通过独立 sister 仓库托管小红书公开笔记素材候选池（合规可追溯，不直接生产发布级内容）：
+
+- **素材库仓库**：[`Minkelxy/ningxia-xhs-scraper`](https://github.com/Minkelxy/ningxia-xhs-scraper) · v0.1.0
+- **主项目对接手册**：[`XHS-SCRAPER-REFERENCE.md`](./XHS-SCRAPER-REFERENCE.md)
+  - 包含：选稿 / 生成 journal 草稿 / 下架联动 / Frontmatter 字段映射 / 合规门禁脚本
+- **素材 → 发布**转换器：sister 仓库 `scripts/xhs-to-content-kit.ts`
+  - 保证生成草稿与原文相似度 < 30%，连续汉字段 < 20 字；绝不泄漏原文
+- **原作者下架通道**：在 sister 仓库 Issue 使用「Takedown Request」模板提交，24–48 小时内两侧同步下线
+
+> 如果你希望贡献真实的 XHS 素材（半人工模式 A），请前往 sister 仓库，
+> 按 README 指引把 HTML 快照通过 PR 放入 `data-raw/html/`，我们会跑 ingest 入库。
+
+---
+
 ## 🌟 致谢
 
 感谢宁夏各级文旅部门公开的景区专页、A 级名录与非遗资料，它们是本项目内容可核实性的基石。
