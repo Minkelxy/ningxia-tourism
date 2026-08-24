@@ -70,18 +70,18 @@ npm run dev
 
 ### 小红书素材候选池 (UGC 线索级来源)
 
-对于「亲历游记 / 探店手记 / 专题 editorial」类的 review 级内容，项目维护一条
-独立 sister 仓库作为 UGC 线索候选池：
+对于「亲历游记 / 探店手记 / 专题 editorial」类的 review 级内容，项目内置
+`ningxia-xhs-scraper/` 子目录作为 UGC 线索候选池：
 
-- **仓库**：[Minkelxy/ningxia-xhs-scraper](https://github.com/Minkelxy/ningxia-xhs-scraper)
+- **目录**：[`ningxia-xhs-scraper/`](./ningxia-xhs-scraper/)
 - **对接手册**：[`XHS-SCRAPER-REFERENCE.md`](./XHS-SCRAPER-REFERENCE.md)
 - **使用规则**：
   1. UGC 素材仅作「线索」；产出的 journal `verificationLevel` **必须**为 `review`，不得标 `verified`。
-  2. 正文必须通过 `scripts/xhs-to-content-kit.ts` 转换器生成，确保与原文相似度 <30%、连续汉字段 <20 字。
+  2. 正文必须通过 `ningxia-xhs-scraper/scripts/xhs-to-content-kit.ts` 转换器生成，确保与原文相似度 <30%、连续汉字段 <20 字。
   3. 每条转换后的 journal 必须保留 `source_xhs_noteId` 和 `source_xhs_url`，以便溯源与下架联动。
   4. 素材库侧作者若提交下架申请，主项目需在 24–48 小时内同步把对应 journal 置 draft。
-- **贡献线索**：不要直接贴正文到主项目 PR；去 sister 仓库按 README「半人工投喂」流程
-  发 PR 提交 HTML 快照即可。
+- **贡献线索**：不要直接贴正文到主项目 PR；把 HTML 快照通过 PR 放入
+  `ningxia-xhs-scraper/data-raw/html/`，我们会跑 ingest 入库。
 
 ### verifiedAt 时效性
 

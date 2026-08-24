@@ -13,16 +13,14 @@
 
 # 宁夏旅游 · 小红书素材库 (ningxia-xhs-scraper)
 
-> Sister repository of [Minkelxy/ningxia-tourism](https://github.com/Minkelxy/ningxia-tourism)
+> 主项目子目录 · [Minkelxy/ningxia-tourism](https://github.com/Minkelxy/ningxia-tourism) · [对接手册](../XHS-SCRAPER-REFERENCE.md)
 
-本仓库建立一条「小红书公开笔记 → 标准化 JSON → 去重 → 合规 provenance → 与主项目对接」的可复用采集链路。目的是为宁夏旅游主项目的**亲历游记 / 探店 / 专题编辑**提供可追溯的 UGC 素材候选池，不直接生产发布级内容。
+本目录是主项目内置的 UGC 素材候选池，建立一条「小红书公开笔记 → 标准化 JSON → 去重 → 合规 provenance → 与主项目对接」的可复用采集链路。目的是为宁夏旅游主项目的**亲历游记 / 探店 / 专题编辑**提供可追溯的 UGC 素材候选池，不直接生产发布级内容。
 
 ## ⚙️ 快速开始 (5 分钟上手)
 
 ```bash
-# 1. Clone
-git lfs install
-git clone https://github.com/Minkelxy/ningxia-xhs-scraper.git
+# 1. 进入素材库子目录（主项目根下）
 cd ningxia-xhs-scraper
 
 # 2. Install (Node 22+)
@@ -195,82 +193,28 @@ du -sh images/full/
 
 ## 🔗 与主项目互链
 
-- Sister 仓库（本仓库）：[Minkelxy/ningxia-xhs-scraper](https://github.com/Minkelxy/ningxia-xhs-scraper)
+- 素材库子目录（本目录）：`ningxia-xhs-scraper/`
 - 主项目：[Minkelxy/ningxia-tourism](https://github.com/Minkelxy/ningxia-tourism)
-- 主项目引用文档：`XHS-SCRAPER-REFERENCE.md`（主项目根目录，含转换脚本与互链规则）
+- 主项目对接手册：[`../XHS-SCRAPER-REFERENCE.md`](../XHS-SCRAPER-REFERENCE.md)（含转换脚本与互链规则）
 
 ### 主项目对接命令 (xhs-to-content-kit)
 
 ```bash
-# 1. 生成本地编辑任务卡片（不泄漏原文）→ content-kit/EDIT-TASKS.md
+# 1. 生成本地编辑任务卡片（不泄漏原文）→ ../content-kit/EDIT-TASKS.md
 npm run content:kit -- \
   --task-list \
-  --out-dir /path/to/ningxia-tourism/content-kit
+  --out-dir ../content-kit
 
-# 2. 仅选某一条 note 生成 journal 草稿 → content-kit/journal/<slug>.md
+# 2. 仅选某一条 note 生成 journal 草稿 → ../content-kit/journal/<slug>.md
 #    草稿与原文相似度 <30%，连续汉字段 <20 字
 npm run content:kit -- \
   --note <noteId> \
   --kind journal \
-  --out-dir /path/to/ningxia-tourism/content-kit
+  --out-dir ../content-kit/journal
 ```
 
 草稿会按照主项目 journal frontmatter 模板生成 100% 对齐字段（id / title / status=review / city / source_xhs_id 等）。
 转换过程**完全本地、不上传**；生成的草稿仅包含「词袋+语序打散」后的内容，不含任何原文连续 20 汉字以上片段。
-
----
-
-## 🚀 首次推送到 GitHub & 打 v0.1.0 Release
-
-> ⚠️ 由于 GitHub App Token 仓库创建权限受限，**首次推送需要手动执行以下步骤**。
-> 目标仓库：`https://github.com/Minkelxy/ningxia-xhs-scraper`（public）。
-
-### 第一步：在 GitHub 上手动创建空仓库
-1. 登录 GitHub → 右上角 **+** → **New repository**
-2. Owner: `Minkelxy`  Repository name: `ningxia-xhs-scraper`
-3. 可见性：**Public**
-4. **不要**勾选「Initialize with README / Add .gitignore / Choose a license」
-5. 点击 **Create repository**
-
-### 第二步：本地初始化 Git & 推送
-```bash
-cd /path/to/ningxia-xhs-scraper
-
-# 1. LFS 跟踪图片
-git lfs install
-git lfs track "images/full/**" "images/thumbs/**"
-
-# 2. 首次提交
-git init -b main
-git add .
-git commit -m "chore: initial commit v0.1.0 scaffold + 50 seeds"
-
-# 3. 打 release tag（打 tag 前通过门禁）
-npm run release:preflight
-#   → 应该看到 ci:local 通过，coverage 100% 输出
-
-git tag -a v0.1.0 -m "Release v0.1.0 · 基础素材库首版
-- 50 条半人工占位笔记 · 26 类目 100% 覆盖
-- Schema / 采集 / 去重 / 合规 / 转换 工具链
-- CI + 每周审计 Workflow"
-
-# 4. 绑定远端 & 推送
-git remote add origin https://github.com/Minkelxy/ningxia-xhs-scraper.git
-git push -u origin main
-git push origin v0.1.0
-```
-
-### 第三步：GitHub Release
-1. 仓库页面 → **Releases** → **Draft a new release**
-2. **Choose a tag** → 选 `v0.1.0`
-3. Release title: `v0.1.0 · 基础素材库首版`
-4. 粘贴 `CHANGELOG.md` 中 [0.1.0] 节作为 Release Notes 正文
-5. 勾选 **Set as the latest release** → **Publish release**
-
-### 第四步：主项目关联 & PR 合入
-1. 在主项目根目录新建/确认 `XHS-SCRAPER-REFERENCE.md`（见主项目文档）
-2. 在主项目 README.md / CONTRIBUTING.md 的「素材来源」段落加入 sister 仓库链接
-3. 发 PR 合入主项目 `main` 分支
 
 ---
 

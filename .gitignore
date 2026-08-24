@@ -43,3 +43,12 @@ playwright-report
 
 # GitHub Pages build
 docs-build
+
+# XHS scraper (sister subdirectory) — local artifacts
+ningxia-xhs-scraper/node_modules
+ningxia-xhs-scraper/dist
+ningxia-xhs-scraper/reports
+ningxia-xhs-scraper/coverage
+
+# XHS scraper — content-kit intermediate work dir (main project side)
+content-kit/
