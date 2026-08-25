@@ -4,21 +4,12 @@ import SEO from '../components/SEO';
 import ResponsiveImage from '../components/ResponsiveImage';
 import { cityName } from '../data/cities';
 import { foodById } from '../data/foods';
-import { assetUrl, createAmapMarkerUrl, formatVerifiedDate, getVerificationFreshness } from '../lib/site';
+import { createAmapMarkerUrl, formatVerifiedDate, getVerificationFreshness } from '../lib/site';
 import useShare from '../lib/useShare';
 import type { FoodCategory } from '../types';
 
 const foodCategoryLabels: Record<FoodCategory, string> = {
   mutton: '羊肉', noodle: '面食', snack: '小吃', drink: '饮品', fruit: '瓜果', specialty: '特产', staple: '主食',
-};
-const foodVisualByCategory: Record<FoodCategory, string> = {
-  mutton: '/images/ai-samples/mutton-still-life.webp',
-  noodle: '/images/ai-samples/ningxia-noodles.webp',
-  snack: '/images/ai-samples/mutton-still-life.webp',
-  drink: '/images/ai-samples/tea-fruit-still-life.webp',
-  fruit: '/images/ai-samples/grape-goji-still-life.webp',
-  specialty: '/images/ai-samples/grape-goji-still-life.webp',
-  staple: '/images/ai-samples/mutton-still-life.webp',
 };
 const sourceLevelLabels = { direct: '直接专页', directory: '专题目录', homepage: '机构首页' } as const;
 const sourceCoverageLabels = { overview: '美食概况', visit: '开放预约', location: '地址交通' } as const;
@@ -48,12 +39,11 @@ export default function FoodDetail() {
               <div className="route-detail-actions"><button type="button" className="btn-quiet" onClick={handleShare}><Share2 aria-hidden="true" /> 分享美食</button></div>
             </div>
             <div className="food-detail-visual">
-              <ResponsiveImage src={foodVisualByCategory[food.category]} alt={`AI 生成的${foodCategoryLabels[food.category]}主题插画，仅作视觉示例`} width="720" height="480" loading="eager" fetchPriority="high" sizes="(max-width: 768px) 100vw, 42vw" />
-              <span>AI 视觉示例 · 非实拍</span>
+              <ResponsiveImage src={food.image.src} alt={food.image.alt} width="720" height="480" loading="eager" fetchPriority="high" sizes="(max-width: 768px) 100vw, 42vw" />
+              <span>{food.image.credit} · {food.image.license}</span>
             </div>
           </div>
         </header>
-        <div className="detail-hero-image"><img src={assetUrl(food.image.src)} alt={food.image.alt} width="1440" height="960" loading="eager" decoding="async" fetchPriority="high" /><p className="detail-image-credit">图片为 AI 生成示意，仅作展示，非真实门店实拍</p></div>
         {ShareToast}
 
         <div className="detail-layout section-shell">

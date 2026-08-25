@@ -337,7 +337,6 @@ button { color: inherit; }
 .food-card-image img { transition: transform .45s ease, filter .35s ease; }
 .attraction-card:hover .food-card-image img { transform: scale(1.035); filter: saturate(1.04); }
 .food-card-image::after { content: ""; position: absolute; z-index: 1; inset: 45% 0 0; pointer-events: none; background: linear-gradient(180deg, transparent, rgba(25,30,23,.2)); }
-.food-image-note { position: absolute; z-index: 2; left: 14px; bottom: 14px; padding: 5px 9px; border: 1px solid rgba(255,255,255,.4); border-radius: 999px; background: rgba(31,57,47,.86); color: #fff; font-size: .68rem; font-weight: 800; letter-spacing: .04em; }
 .route-card-image { margin: -28px -28px 22px; aspect-ratio: 16 / 10; border-top-left-radius: calc(var(--radius) - 1px); border-top-right-radius: calc(var(--radius) - 1px); }
 .route-card-image:hover img { transform: scale(1.03); }
 .detail-hero-image { margin: 0 auto; max-width: 1440px; }
@@ -701,10 +700,10 @@ button { color: inherit; }
 .journal-hero h1 { margin: 15px 0 22px; font-size: clamp(3.2rem, 7vw, 6.6rem); }
 .journal-hero p:not(.eyebrow) { max-width: 680px; color: var(--muted); font-size: 1.05rem; }
 .journal-cover-stack { position: relative; min-height: 280px; }
-.journal-ai-visual { position: absolute; inset: 8px 0 0; overflow: hidden; transform: rotate(2deg); border: 10px solid rgba(255,255,255,.76); border-radius: 8px 24px 8px 24px; background: var(--paper-deep); box-shadow: var(--shadow-soft); }
-.journal-ai-visual picture, .journal-ai-visual img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.journal-ai-visual::after { position: absolute; inset: 0; content: ''; background: linear-gradient(180deg, rgba(28,31,26,.04), rgba(28,31,26,.34)); pointer-events: none; }
-.journal-ai-badge { position: absolute; z-index: 3; top: 8px; right: 8px; padding: 5px 9px; border-radius: 999px; background: rgba(31,57,47,.92); color: #fff; font-size: .64rem; font-weight: 800; letter-spacing: .03em; }
+.journal-photo-visual { position: absolute; inset: 8px 0 0; overflow: hidden; transform: rotate(2deg); border: 10px solid rgba(255,255,255,.76); border-radius: 8px 24px 8px 24px; background: var(--paper-deep); box-shadow: var(--shadow-soft); }
+.journal-photo-visual picture, .journal-photo-visual img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.journal-photo-visual::after { position: absolute; inset: 0; content: ''; background: linear-gradient(180deg, rgba(28,31,26,.04), rgba(28,31,26,.34)); pointer-events: none; }
+.journal-photo-badge { position: absolute; z-index: 3; top: 8px; right: 8px; padding: 5px 9px; border-radius: 999px; background: rgba(31,57,47,.92); color: #fff; font-size: .64rem; font-weight: 800; letter-spacing: .03em; }
 .paper-note { position: absolute; z-index: 1; inset: 24px 35px 10px 10px; display: grid; place-content: center; transform: rotate(-5deg); border: 12px solid #fff; background: linear-gradient(135deg, rgba(199,165,106,.84), rgba(127,153,111,.84)); color: #fff; box-shadow: var(--shadow); text-align: center; backdrop-filter: blur(1px); }
 .paper-note strong { font-family: var(--serif); font-size: 2.5rem; }
 .date-stamp { position: relative; z-index: 2; display: grid; place-items: center; width: 88px; height: 88px; border: 3px double var(--red); border-radius: 50%; transform: rotate(7deg); color: var(--red); font-family: var(--serif); font-weight: 800; line-height: 1.3; text-align: center; }
@@ -928,8 +927,6 @@ button { color: inherit; }
 .source-directory a { display: flex; justify-content: space-between; align-items: center; gap: 18px; min-height: 52px; border-bottom: 1px solid var(--line); color: var(--green); font-weight: 700; }
 .source-directory a svg { width: 17px; }
 .favorites-hero { background: linear-gradient(135deg, #eee3d0, #f7f3ea 62%, #e1d5c0); }
-.favorites-hero::before { z-index: 0; width: min(46vw, 540px); height: auto; aspect-ratio: 3 / 2; right: max(24px, calc((100% - 1180px) / 2)); top: 50%; border: 10px solid rgba(255,255,255,.72); border-radius: 26px 8px 26px 8px; background: url('/images/ai-samples/trip-planning-desk-720.avif') center / cover; box-shadow: var(--shadow); transform: translateY(-50%) rotate(2deg); }
-.favorites-hero::after { content: 'AI 视觉示例 · 非实景'; z-index: 2; inset: auto max(42px, calc((100% - 1140px) / 2)) 32px auto; width: auto; height: auto; padding: 6px 10px; border-radius: 999px; background: rgba(31,57,47,.88); color: #fff; font-size: .68rem; font-weight: 800; letter-spacing: .04em; mask-image: none; opacity: 1; }
 .favorites-page { padding-top: 42px; }
 .favorites-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 42px; color: var(--muted); font-size: .9rem; font-weight: 750; }
 .text-button { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 8px 0; border: 0; background: transparent; color: var(--red); cursor: pointer; font-weight: 750; }

@@ -12,7 +12,6 @@ import { publishedJournalEntries } from '../content/journal';
 const normalize = (value: string) => value.trim().toLocaleLowerCase('zh-CN');
 type SearchIndexEntry<T> = { item: T; text: string };
 const createSearchIndex = <T,>(items: T[], getText: (item: T) => string): SearchIndexEntry<T>[] => items.map((item) => ({ item, text: normalize(getText(item)) }));
-
 const attractionSearchIndex = createSearchIndex(publishedAttractions, (item) => `${item.name}${cityName(item.cityId)}${item.locality}${item.summary}${item.highlights.join('')}`);
 const foodSearchIndex = createSearchIndex(foods.filter((item) => item.status === 'published'), (item) => `${item.name}${item.description}${item.origin}${item.category}${item.tips ?? ''}`);
 const routeSearchIndex = createSearchIndex(routes, (item) => `${item.name}${item.summary}${item.themeLabel}${item.audience}${item.highlights.join('')}`);
@@ -24,8 +23,6 @@ export default function Search() {
   const query = params.get('q') ?? '';
   const [input, setInput] = useState(query);
   const inputRef = useRef<HTMLInputElement>(null);
-  // URL 变化（如浏览器前进/后退、外部链接带 q 参数）时同步输入框，
-  // 保证输入框与查询结果始终一致；用户手动输入不影响此处。
   useEffect(() => { setInput(query); }, [query]);
   const term = normalize(query);
   const matches = useMemo(() => {
@@ -39,19 +36,17 @@ export default function Search() {
     };
   }, [term]);
   const total = Object.values(matches).reduce((sum, items) => sum + items.length, 0);
-  const submit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const next = input.trim();
-    setParams(next ? { q: next } : {});
-  };
+  const submit = (event: FormEvent<HTMLFormElement>) => { event.preventDefault(); const next = input.trim(); setParams(next ? { q: next } : {}); };
+  const clearSearch = () => { setInput(''); setParams({}); inputRef.current?.focus(); };
 
-  const clearSearch = () => {
-    setInput('');
-    setParams({});
-    inputRef.current?.focus();
-  };
-
-  return <><SEO title={query ? `搜索“${query}” · 宁夏旅行地图` : '搜索 · 宁夏旅行地图'} description="搜索宁夏景点、美食、旅行路线、城市和旅行专题。" noIndex /><header className="search-hero"><div className="section-shell search-hero-grid"><div><p className="eyebrow"><SearchIcon aria-hidden="true" /> 全站搜索</p><h1>从一个关键词，<br />找到下一站。</h1><form className="site-search-form" onSubmit={submit}><label><SearchIcon aria-hidden="true" /><span className="sr-only">搜索宁夏旅行内容</span><input ref={inputRef} value={input} onChange={(event) => setInput(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter' && (event.nativeEvent.isComposing || event.keyCode === 229)) { event.preventDefault(); } }} placeholder="试试：沙漠、早茶、三天、六盘山" autoFocus />{input && <button type="button" className="search-clear-button" onClick={clearSearch} aria-label="清空搜索内容" title="清空搜索内容"><X aria-hidden="true" /></button>}</label><button type="submit" className="btn-primary">搜索 <ArrowRight aria-hidden="true" /></button></form><p className="search-hint">可搜索景点、美食、路线、城市名、旅行专题和标签。</p></div><div className="search-hero-visual"><ResponsiveImage src="/images/ai-samples/source-research-desk.webp" alt="AI 生成的地图、放大镜与资料核对主题插画，仅作搜索页氛围示例" width="720" height="480" loading="eager" fetchPriority="high" sizes="(max-width: 768px) 100vw, 36vw" /><span>AI 视觉示例 · 非实景</span></div></div></header><main className="section-shell page-content search-page">{term ? <><div className="search-result-summary" role="status" aria-live="polite"><strong>{total}</strong> 个结果<span>关键词：{query}</span></div>{total ? <div className="search-groups"><SearchGroup title="景点" icon={<MapPin aria-hidden="true" />} items={matches.attractions} render={(item) => <Link to={`/attraction/${item.id}`} className="search-result"><span><strong>{item.name}</strong><small>{cityName(item.cityId)} · {item.summary}</small></span><ArrowRight aria-hidden="true" /></Link>} /><SearchGroup title="美食" icon={<UtensilsCrossed aria-hidden="true" />} items={matches.foods} render={(item) => <Link to={`/food/${item.id}`} className="search-result"><span><strong>{item.name}</strong><small>{item.origin} · {item.description}</small></span><ArrowRight aria-hidden="true" /></Link>} /><SearchGroup title="路线" icon={<Compass aria-hidden="true" />} items={matches.routes} render={(item) => <Link to={`/routes/${item.id}`} className="search-result"><span><strong>{item.name}</strong><small>{item.durationLabel} · {item.summary}</small></span><ArrowRight aria-hidden="true" /></Link>} /><SearchGroup title="城市" icon={<MapPin aria-hidden="true" />} items={matches.cities} render={(item) => <Link to={`/city/${item.id}`} className="search-result"><span><strong>{item.name} · {item.nickname}</strong><small>{item.travelRole} · {item.bestFor.join('、')}</small></span><ArrowRight aria-hidden="true" /></Link>} /><SearchGroup title="旅行专题" icon={<Sparkles aria-hidden="true" />} items={matches.journals} render={(item) => <Link to={`/journal/${item.type}/${item.slug}`} className="search-result"><span><strong>{item.title}</strong><small>{cityName(item.cityId)} · {item.excerpt}</small></span><ArrowRight aria-hidden="true" /></Link>} /></div> : <div className="search-empty"><SearchIcon aria-hidden="true" /><h2>没有找到“{query}”</h2><p>换个更短的关键词，或试试“沙漠”“银川”“路线”“早茶”。</p></div>}</> : <div className="search-start"><SearchIcon aria-hidden="true" /><h2>先输入一个关键词</h2><p>从目的地名称、旅行天数或一道宁夏味道开始。</p><div className="search-suggestions">{['沙漠', '银川', '三天', '早茶', '六盘山'].map((item) => <button type="button" key={item} onClick={() => { setInput(item); setParams({ q: item }); }}>{item}</button>)}</div></div>}</main></>;
+  return <>
+    <SEO title={query ? `搜索“${query}” · 宁夏旅行地图` : '搜索 · 宁夏旅行地图'} description="搜索宁夏景点、美食、旅行路线、城市和旅行专题。" noIndex />
+    <header className="search-hero"><div className="section-shell search-hero-grid">
+      <div><p className="eyebrow"><SearchIcon aria-hidden="true" /> 全站搜索</p><h1>从一个关键词，<br />找到下一站。</h1><form className="site-search-form" onSubmit={submit}><label><SearchIcon aria-hidden="true" /><span className="sr-only">搜索宁夏旅行内容</span><input ref={inputRef} value={input} onChange={(event) => setInput(event.target.value)} placeholder="试试：沙漠、早茶、三天、六盘山" autoFocus />{input && <button type="button" className="search-clear-button" onClick={clearSearch} aria-label="清空搜索内容" title="清空搜索内容"><X aria-hidden="true" /></button>}</label><button type="submit" className="btn-primary">搜索 <ArrowRight aria-hidden="true" /></button></form><p className="search-hint">可搜索景点、美食、路线、城市名、旅行专题和标签。</p></div>
+      <div className="search-hero-visual"><ResponsiveImage src="/images/attractions/ningxia-museum.webp" alt="宁夏博物馆建筑实景" width="720" height="480" loading="eager" fetchPriority="high" sizes="(max-width: 768px) 100vw, 36vw" /><span>实景照片 · 来源见景点详情</span></div>
+    </div></header>
+    <main className="section-shell page-content search-page">{term ? <><div className="search-result-summary" role="status" aria-live="polite"><strong>{total}</strong> 个结果<span>关键词：{query}</span></div>{total ? <div className="search-groups"><SearchGroup title="景点" icon={<MapPin aria-hidden="true" />} items={matches.attractions} render={(item) => <Link to={`/attraction/${item.id}`} className="search-result"><span><strong>{item.name}</strong><small>{cityName(item.cityId)} · {item.summary}</small></span><ArrowRight aria-hidden="true" /></Link>} /><SearchGroup title="美食" icon={<UtensilsCrossed aria-hidden="true" />} items={matches.foods} render={(item) => <Link to={`/food/${item.id}`} className="search-result"><span><strong>{item.name}</strong><small>{item.origin} · {item.description}</small></span><ArrowRight aria-hidden="true" /></Link>} /><SearchGroup title="路线" icon={<Compass aria-hidden="true" />} items={matches.routes} render={(item) => <Link to={`/routes/${item.id}`} className="search-result"><span><strong>{item.name}</strong><small>{item.durationLabel} · {item.summary}</small></span><ArrowRight aria-hidden="true" /></Link>} /><SearchGroup title="城市" icon={<MapPin aria-hidden="true" />} items={matches.cities} render={(item) => <Link to={`/city/${item.id}`} className="search-result"><span><strong>{item.name} · {item.nickname}</strong><small>{item.travelRole} · {item.bestFor.join('、')}</small></span><ArrowRight aria-hidden="true" /></Link>} /><SearchGroup title="旅行专题" icon={<Sparkles aria-hidden="true" />} items={matches.journals} render={(item) => <Link to={`/journal/${item.type}/${item.slug}`} className="search-result"><span><strong>{item.title}</strong><small>{cityName(item.cityId)} · {item.excerpt}</small></span><ArrowRight aria-hidden="true" /></Link>} /></div> : <div className="search-empty"><SearchIcon aria-hidden="true" /><h2>没有找到“{query}”</h2><p>换个更短的关键词，或试试“沙漠”“银川”“路线”“早茶”。</p></div>}</> : <div className="search-start"><SearchIcon aria-hidden="true" /><h2>先输入一个关键词</h2><p>从目的地名称、旅行天数或一道宁夏味道开始。</p><div className="search-suggestions">{['沙漠', '银川', '三天', '早茶', '六盘山'].map((item) => <button type="button" key={item} onClick={() => { setInput(item); setParams({ q: item }); }}>{item}</button>)}</div></div>}</main>
+  </>;
 }
 
 function SearchGroup<T extends { id?: string; slug?: string; title?: string }>({ title, icon, items, render }: { title: string; icon: React.ReactNode; items: T[]; render: (item: T) => React.ReactNode }) {

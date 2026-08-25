@@ -1,4 +1,4 @@
-import { ArrowRight, ChevronDown, ChevronUp, MapPin, Search, SlidersHorizontal, Sparkles, Utensils } from 'lucide-react';
+import { ArrowRight, ChevronDown, ChevronUp, MapPin, Search, SlidersHorizontal, Utensils } from 'lucide-react';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
@@ -10,16 +10,6 @@ import type { CityId, FoodCategory } from '../types';
 
 const foodCategoryLabels: Record<FoodCategory, string> = {
   mutton: '羊肉', noodle: '面食', snack: '小吃', drink: '饮品', fruit: '瓜果', specialty: '特产', staple: '主食',
-};
-
-const foodVisualByCategory: Record<FoodCategory, string> = {
-  mutton: '/images/ai-samples/mutton-still-life.webp',
-  noodle: '/images/ai-samples/ningxia-noodles.webp',
-  snack: '/images/ai-samples/mutton-still-life.webp',
-  drink: '/images/ai-samples/tea-fruit-still-life.webp',
-  fruit: '/images/ai-samples/grape-goji-still-life.webp',
-  specialty: '/images/ai-samples/grape-goji-still-life.webp',
-  staple: '/images/ai-samples/mutton-still-life.webp',
 };
 
 const foodSearchText = new Map(publishedFoods.map((item) => [
@@ -50,8 +40,8 @@ export default function FoodsList() {
             <p className="eyebrow">城市味道</p><h1>{publishedFoods.length} 道宁夏美食，按来源分级</h1><p>{verifiedFoods.length} 道有官方直接专页支撑，{reviewFoods.length} 道为目录级来源待复核。餐厅信息变化快，只给区域和品类建议，不为具体商户背书。</p>
           </div>
           <div className="foods-hero-visual">
-            <ResponsiveImage src="/images/ai-samples/ningxia-noodles.webp" alt="AI 生成的宁夏面食与茶主题插画，仅作美食页面氛围示例" width="720" height="480" loading="eager" fetchPriority="high" sizes="(max-width: 768px) 100vw, 42vw" />
-            <span><Sparkles aria-hidden="true" /> AI 视觉示例 · 非实拍</span>
+            <ResponsiveImage src="/images/foods/baba-cha.webp" alt="中国茶实拍参考图" width="720" height="480" loading="eager" fetchPriority="high" sizes="(max-width: 768px) 100vw, 42vw" />
+            <span>实景照片 · 来源见美食详情</span>
           </div>
         </div>
       </header>
@@ -76,7 +66,7 @@ export default function FoodsList() {
 
         {foods.length ? <div className="attraction-grid">{foods.map((item) => (
           <article className="attraction-card" key={item.id}>
-            <Link to={`/food/${item.id}`} className="card-image food-card-image"><ResponsiveImage src={foodVisualByCategory[item.category]} alt={`AI 生成的${foodCategoryLabels[item.category]}主题插画，仅作视觉示例`} width="720" height="450" loading="lazy" sizes="(max-width: 768px) calc(100vw - 32px), (max-width: 1024px) 50vw, 390px" /><span className="food-image-note">AI 视觉示例 · 非实拍</span><span className="category-badge">{foodCategoryLabels[item.category]}</span><span className={`verification-badge ${item.verificationLevel}`}>{item.verificationLevel === 'verified' ? '已核实' : '待复核'}</span></Link>
+            <Link to={`/food/${item.id}`} className="card-image food-card-image"><ResponsiveImage src={item.image.src} alt={item.image.alt} width="720" height="450" loading="lazy" sizes="(max-width: 768px) calc(100vw - 32px), (max-width: 1024px) 50vw, 390px" /><span className="category-badge">{foodCategoryLabels[item.category]}</span><span className={`verification-badge ${item.verificationLevel}`}>{item.verificationLevel === 'verified' ? '已核实' : '待复核'}</span></Link>
             <div className="card-content"><p className="card-location"><MapPin aria-hidden="true" /> {item.origin}</p><h2><Link to={`/food/${item.id}`}>{item.name}</Link></h2><p>{item.description}</p><div className="card-meta">{item.priceRange && <span>{item.priceRange}</span>}{item.bestSeason && <span>{item.bestSeason}</span>}</div><Link to={`/food/${item.id}`} className="text-link">查看美食详情 <ArrowRight aria-hidden="true" /></Link></div>
           </article>
         ))}</div> : <div className="empty-state"><Search aria-hidden="true" /><h2>没有找到匹配的美食</h2><p>换一个关键词，或者清除城市与类别筛选再试试。</p><button type="button" className="btn-primary" onClick={() => clearFilters()}>查看全部美食</button></div>}

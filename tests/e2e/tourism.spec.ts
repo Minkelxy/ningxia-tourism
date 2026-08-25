@@ -109,13 +109,13 @@ test('景点页支持按旅行兴趣发现新增目的地', async ({ page }) => 
   await page.goto(`${appBase}attraction/beiwudang`);
   await expect(page.getByRole('heading', { level: 1, name: '北武当生态旅游区' })).toBeVisible();
   await expect(page.getByText(/现行 A 级名录确认其为 4A/)).toBeVisible();
-  await expect(page.locator('.image-credit > strong')).toHaveText(/编辑插画/);
+  await expect(page.locator('.image-credit > strong')).toHaveText(/实景参考图/);
   await expect(page.locator('.source-list a')).toHaveCount(3);
 
   await page.goto(`${appBase}attraction/dawukou-industrial`);
   await expect(page.getByRole('heading', { level: 1, name: '大武口工业遗址公园' })).toBeVisible();
   await expect(page.getByText(/公共园区和内部展馆没有统一开放口径/)).toBeVisible();
-  await expect(page.locator('.image-credit > strong')).toHaveText(/非景区实景/);
+  await expect(page.locator('.image-credit > strong')).toHaveText(/大武口工业遗址公园实景/);
   await expect(page.locator('.source-list a')).toHaveCount(3);
 
   await page.goto(`${appBase}attraction/huangshagudu`);
@@ -307,12 +307,12 @@ test('新增老城与早茶专题，并为待复核景点提供替代方案', as
   await page.goto(`${appBase}journal/guide/yinchuan-old-city-walk`);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('银川老城半日怎么走');
   await expect(page.getByRole('link', { name: '鼓楼—玉皇阁历史文化街区', exact: true })).toBeVisible();
-  await expect(page.getByRole('img', { name: /非具体街区实景/ })).toBeVisible();
+  await expect(page.getByRole('img', { name: /城市文化建筑实景参考图/ })).toBeVisible();
 
   await page.goto(`${appBase}journal/guide/wuzhong-morning-tea-ordering`);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('怎么点才不浪费');
   await expect(page.getByRole('heading', { name: '把菜单分成四个角色', exact: true })).toBeVisible();
-  await expect(page.getByRole('img', { name: /非具体门店与菜品实拍/ })).toBeVisible();
+  await expect(page.getByRole('img', { name: /中国茶实拍参考图/ })).toBeVisible();
 
   await page.goto(`${appBase}attraction/nanguan`);
   await expect(page.getByRole('heading', { name: '不用原地等，直接切换 Plan B' })).toBeVisible();

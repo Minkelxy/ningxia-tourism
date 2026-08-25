@@ -13,11 +13,11 @@ cityId: wuzhong
 locality: 利通区与青铜峡市
 tags: [吴忠, 早茶, 黄河文化]
 cover:
-  src: images/journal/editorial/wuzhong-morning-tea.webp
-  alt: 吴忠早茶点餐主题编辑插画（非具体门店与菜品实拍）
-  credit: OpenAI 图像生成（站点编辑提示词）
-  license: 项目编辑插画
-  sourceUrl: https://github.com/Minkelxy/ningxia-tourism/blob/main/docs/content/IMAGE_PROVENANCE.md
+  src: images/foods/baba-cha.webp
+  alt: 中国茶实拍参考图，吴忠早茶的具体组合以文字说明为准
+  credit: Tamilselvi v
+  license: CC BY-SA 4.0
+  sourceUrl: https://commons.wikimedia.org/wiki/File:Chinese_tea.jpg
 gallery: []
 relatedAttractionIds: [huanghetan, huangyeguda, zhonghuahuanghelou]
 relatedRouteIds: [food-3day, in-depth-4day]

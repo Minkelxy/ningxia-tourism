@@ -12,13 +12,27 @@ import { cityName } from './cities';
 //   - 其中手抓羊肉、蒿子面有非遗项目直接专页，标为 `verificationLevel: 'verified'`；其余 12 道为 `review`。
 // 所有 source.url 均为实测访问到的真实政府/官方文旅页面，checkedAt / verifiedAt = 2026-08-17。
 const VERIFIED_AT = '2026-08-17';
-// 美食图片为 AI 生成，仅作展示用途，不替代真实食材与门店照片。
-const foodImage = (src: string, alt: string) => ({
+const foodPhotoSources = {
+  chanasan: ['Mizu_Basyo', 'CC BY-SA 3.0', 'https://commons.wikimedia.org/wiki/File:Chanasan_makh.jpg'],
+  sheepOffal: ['Suginami', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:%E7%BE%8A%E6%9D%82%E6%B1%A4.jpg'],
+  muttonNoodles: ['Caitriana Nicholson', 'CC BY-SA 2.0', 'https://commons.wikimedia.org/wiki/File:Mutton_noodles_%E7%BE%8A%E8%82%89%E9%9D%A2_(4646503803).jpg'],
+  chiliOil: ['Fumikas Sagisavas', 'CC0', 'https://commons.wikimedia.org/wiki/File:Chili_oil.jpg'],
+  sagebrushNoodles: ['Jason M. C., Han', 'Public domain', 'https://commons.wikimedia.org/wiki/File:Sagebrush_noodles.jpg'],
+  chineseCuisine: ['SungMinSeung', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Chinese_cuisine.jpg'],
+  chineseTea: ['Tamilselvi v', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Chinese_tea.jpg'],
+  sangza: ['François Nguyen', 'CC BY 2.0', 'https://commons.wikimedia.org/wiki/File:Bagged_Sangza.jpg'],
+  watermelon: ['Ssemmanda will', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Watermelon_01.jpg'],
+  gojiNingxia: ['avicmart', 'CC0', 'https://commons.wikimedia.org/wiki/File:Goji_berry_Ningxia.jpg'],
+  jujube: ['Tokyo Watcher', 'CC BY-SA 3.0', 'https://commons.wikimedia.org/wiki/File:Ziziphus_jujuba.jpg'],
+  redWine: ['Stella Blu', 'CC BY 2.0', 'https://commons.wikimedia.org/wiki/File:Red_wine.jpg'],
+} as const;
+
+const foodImage = (src: string, alt: string, source: keyof typeof foodPhotoSources) => ({
   src,
   alt,
-  credit: 'AI 生成 · Trae Seedream',
-  license: 'AI 生成',
-  sourceUrl: '',
+  credit: foodPhotoSources[source][0],
+  license: foodPhotoSources[source][1],
+  sourceUrl: foodPhotoSources[source][2],
 });
 
 export const foods: Food[] = [
@@ -37,7 +51,7 @@ export const foods: Food[] = [
       { name: '老毛手抓', cityId: 'yinchuan', coordinates: { lng: 106.28, lat: 38.48 }, recommend: '前腿、肋条' },
     ],
     tips: '选清真老店、明码标价；按斤现切，蘸蒜泥或椒盐最常见。',
-    image: foodImage('images/foods/shouzhua-yangrou.jpg', '手抓羊肉，整块清炖的滩羊肋条肉配蒜泥椒盐'),
+    image: foodImage('images/foods/shouzhua-yangrou.webp', '手抓羊肉实拍参考图，整块羊肉配蒜泥椒盐', 'chanasan'),
     sources: [
       {
         label: '中国非物质文化遗产网 · 牛羊肉烹制技艺（宁夏手抓羊肉制作技艺）',
@@ -70,7 +84,7 @@ export const foods: Food[] = [
     priceRange: '15-30元/碗',
     restaurants: [],
     tips: '搭配刚出锅的馓子或白饼更地道。',
-    image: foodImage('images/foods/yangzasui.jpg', '羊杂碎，红亮辣椒油浇在羊头肚心肺粉条烩汤上'),
+    image: foodImage('images/foods/yangzasui.webp', '羊杂汤实拍，配主食饼', 'sheepOffal'),
     sources: [
       {
         label: '文化和旅游部 · 三餐烟火，“烹”出宁夏文旅长桌宴',
@@ -95,7 +109,7 @@ export const foods: Food[] = [
     priceRange: '15-30元/碗',
     restaurants: [],
     tips: '吴忠早茶馆通常按"先喝茶吃面点，最后再吃面"的顺序上桌。',
-    image: foodImage('images/foods/yangrou-saozimian.jpg', '羊肉臊子面，手擀面条浇羊肉丁臊子浇头'),
+    image: foodImage('images/foods/yangrou-saozimian.webp', '羊肉面实拍参考图', 'muttonNoodles'),
     sources: [
       {
         label: '宁夏回族自治区商务厅 · 吴忠：一方美食一城风味',
@@ -120,7 +134,7 @@ export const foods: Food[] = [
     priceRange: '30-60元/人',
     restaurants: [],
     tips: '怀远夜市与老城区小店最集中，按串计价，可先点小份试味。',
-    image: foodImage('images/foods/lahuhu.jpg', '辣糊糊，豆制品蔬菜粉条串浸在浓稠辣椒粉糊汤里'),
+    image: foodImage('images/foods/lahuhu.webp', '辣椒油实拍参考图，宁夏辣糊糊以文字说明为准', 'chiliOil'),
     sources: [
       {
         label: '文化和旅游部 · 辣糊糊火热“出圈” 宁夏文旅持续“上分”',
@@ -153,7 +167,7 @@ export const foods: Food[] = [
     priceRange: '15-25元/碗',
     restaurants: [],
     tips: '中宁蒿子面为国家级非遗，部分非遗工坊可体验制面过程。',
-    image: foodImage('images/foods/haozi-mian.jpg', '蒿子面，淡黄色手工面条带草本香气浇羊肉臊子'),
+    image: foodImage('images/foods/haozi-mian.webp', '蒿子面实拍参考图，具体配料以文字说明为准', 'sagebrushNoodles'),
     sources: [
       {
         label: '中国非物质文化遗产网 · 传统面食制作技艺（中宁蒿子面制作技艺）',
@@ -186,7 +200,7 @@ export const foods: Food[] = [
     priceRange: '2-5元/个',
     restaurants: [],
     tips: '现炸现吃最佳，清真餐馆与早茶店多有供应。',
-    image: foodImage('images/foods/youxiang.jpg', '油香，金黄油炸圆饼外脆内软'),
+    image: foodImage('images/foods/youxiang.webp', '中式菜肴实拍参考图，油香具体形态以文字说明为准', 'chineseCuisine'),
     sources: [
       {
         label: '泾源县文化旅游广电局 · 第四批县级非物质文化遗产代表性传承人拟认定名单',
@@ -213,7 +227,7 @@ export const foods: Food[] = [
       { name: '杜优素早茶', cityId: 'wuzhong', coordinates: { lng: 106.2, lat: 37.99 }, recommend: '盖碗八宝茶配牛肉面' },
     ],
     tips: '吴忠早茶示范店多集中在早茶文化街区，可“先茶后面”。',
-    image: foodImage('images/foods/baba-cha.jpg', '八宝茶，盖碗里茶叶配红枣枸杞桂圆芝麻冰糖冲泡'),
+    image: foodImage('images/foods/baba-cha.webp', '中国茶实拍参考图，八宝茶配料以文字说明为准', 'chineseTea'),
     sources: [
       {
         label: '文化和旅游部 · 品吴忠早茶 赏融合之美',
@@ -238,7 +252,7 @@ export const foods: Food[] = [
     priceRange: '10-20元/份',
     restaurants: [],
     tips: '现炸现吃最酥脆，开斋节前后品种最丰富。',
-    image: foodImage('images/foods/sanzha.jpg', '馓子，油炸细面食盘绕成束炸至金黄酥脆'),
+    image: foodImage('images/foods/sanzha.webp', '馓子实拍，油炸细面食盘绕成束', 'sangza'),
     sources: [
       {
         label: '泾源县文化旅游广电局 · 第四批县级非物质文化遗产代表性传承人拟认定名单',
@@ -263,7 +277,7 @@ export const foods: Food[] = [
     priceRange: '20-50元/份',
     restaurants: [],
     tips: '冬季最对味，可按口味选择纯素或加肉版本。',
-    image: foodImage('images/foods/xiang-cai.jpg', '烩菜，羊肉土豆粉条豆腐蔬菜同锅烩煮汤汁浓郁'),
+    image: foodImage('images/foods/xiang-cai.webp', '中式菜肴实拍参考图，宁夏烩菜以文字说明为准', 'chineseCuisine'),
     sources: [
       {
         label: '人民网 · 宁夏“百村千碗·乡村美食”工程成果展示活动举行',
@@ -290,7 +304,7 @@ export const foods: Food[] = [
       { name: '中卫果蔬批发市场', cityId: 'zhongwei', coordinates: { lng: 105.19, lat: 37.5 }, recommend: '应季大果' },
     ],
     tips: '认准“一瓜一码”防伪溯源标识；沙坡头区兴仁镇、香山乡为核心产区。',
-    image: foodImage('images/foods/xisha-gua.jpg', '中卫硒砂瓜，切开的西瓜果肉红润甘甜'),
+    image: foodImage('images/foods/xisha-gua.webp', '切开西瓜实拍参考图，中卫硒砂瓜以文字说明为准', 'watermelon'),
     sources: [
       {
         label: '沙坡头区人民政府 · 硒砂瓜开园上市',
@@ -317,7 +331,7 @@ export const foods: Food[] = [
       { name: '中宁枸杞交易中心', cityId: 'wuzhong', coordinates: { lng: 105.69, lat: 37.49 }, recommend: '干果、原浆、芽茶' },
     ],
     tips: '认准“中宁枸杞”地理标志证明商标；夏果品质通常优于秋果。',
-    image: foodImage('images/foods/gouqi.jpg', '中宁枸杞，颗粒大肉厚甘美的红色枸杞干果'),
+    image: foodImage('images/foods/gouqi.webp', '宁夏枸杞实拍，红色果实', 'gojiNingxia'),
     sources: [
       {
         label: '中宁县人民政府 · 中宁特产',
@@ -344,7 +358,7 @@ export const foods: Food[] = [
       { name: '灵武长枣标准化示范园', cityId: 'yinchuan', coordinates: { lng: 106.34, lat: 38.1 }, recommend: '头蓬果最佳' },
     ],
     tips: '9 月中下旬集中上市，鲜枣不耐久放，建议产地直采；认准地理标志专用标志。',
-    image: foodImage('images/foods/hongzao.jpg', '灵武长枣，果形修长皮薄肉脆酸甜的鲜枣'),
+    image: foodImage('images/foods/hongzao.webp', '枣树实拍参考图，灵武长枣以文字说明为准', 'jujube'),
     sources: [
       {
         label: '灵武市自然资源局 · 灵武长枣出口迪拜',
@@ -372,7 +386,7 @@ export const foods: Food[] = [
       { name: '志辉源石酒庄', cityId: 'yinchuan', coordinates: { lng: 106.13, lat: 38.5 }, recommend: '贺兰山下酒庄游' },
     ],
     tips: '产区内 2A 级以上酒庄 20 余家，建议提前预约品鉴；不驾车者可报一日游。',
-    image: foodImage('images/foods/putaojiu.jpg', '贺兰山东麓葡萄酒，深红葡萄酒倒入高脚杯，背景葡萄园酒庄'),
+    image: foodImage('images/foods/putaojiu.webp', '红葡萄酒实拍参考图，产区信息以文字说明为准', 'redWine'),
     sources: [
       {
         label: '宁夏回族自治区工业和信息化厅 · 贺兰山东麓葡萄酒产业园区概况',
@@ -397,7 +411,7 @@ export const foods: Food[] = [
     priceRange: '15-25元/碗',
     restaurants: [],
     tips: '本地老店多在老城一带，可加一份油香或小菜同食。',
-    image: foodImage('images/foods/zhongwei-latiaozi.jpg', '中卫拉条子，手工拉成粗细均匀的圆条面浇羊肉臊子'),
+    image: foodImage('images/foods/zhongwei-latiaozi.webp', '中式菜肴实拍参考图，中卫拉条子以文字说明为准', 'chineseCuisine'),
     sources: [
       {
         label: '沙坡头区人民政府 · 中卫炒拉条',

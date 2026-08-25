@@ -82,18 +82,26 @@ describe('useMapViewport', () => {
     document.body.removeChild(button);
   });
 
-  it('onWheel 向上滚放大、向下滚缩小', () => {
+  it('普通滚轮交给页面，不缩放地图', () => {
     const { result } = renderHook(() => useMapViewport());
     const handler = result.current.viewportHandlers.onWheel;
     const preventDefault = vi.fn();
-    // deltaY < 0 表示向上滚（放大）
     const scrollUp = { deltaY: -100, preventDefault, target: document.createElement('div') } as unknown as React.WheelEvent<SVGSVGElement>;
+    act(() => handler(scrollUp));
+    expect(preventDefault).not.toHaveBeenCalled();
+    expect(result.current.zoom).toBe(1);
+  });
+
+  it('Ctrl/Cmd + 滚轮缩放地图并阻止页面滚动', () => {
+    const { result } = renderHook(() => useMapViewport());
+    const handler = result.current.viewportHandlers.onWheel;
+    const preventDefault = vi.fn();
+    const scrollUp = { deltaY: -100, ctrlKey: true, metaKey: false, preventDefault, target: document.createElement('div') } as unknown as React.WheelEvent<SVGSVGElement>;
     act(() => handler(scrollUp));
     expect(preventDefault).toHaveBeenCalled();
     expect(result.current.zoom).toBeGreaterThan(1);
 
-    // deltaY > 0 表示向下滚（缩小）
-    const scrollDown = { deltaY: 100, preventDefault: vi.fn(), target: document.createElement('div') } as unknown as React.WheelEvent<SVGSVGElement>;
+    const scrollDown = { deltaY: 100, ctrlKey: true, metaKey: false, preventDefault: vi.fn(), target: document.createElement('div') } as unknown as React.WheelEvent<SVGSVGElement>;
     act(() => handler(scrollDown));
     expect(result.current.zoom).toBeLessThanOrEqual(result.current.zoom);
   });
@@ -103,13 +111,13 @@ describe('useMapViewport', () => {
     const handler = result.current.viewportHandlers.onWheel;
     // 大幅度向下滚
     for (let i = 0; i < 50; i++) {
-      const event = { deltaY: 1000, preventDefault: vi.fn(), target: document.createElement('div') } as unknown as React.WheelEvent<SVGSVGElement>;
+      const event = { deltaY: 1000, ctrlKey: true, metaKey: false, preventDefault: vi.fn(), target: document.createElement('div') } as unknown as React.WheelEvent<SVGSVGElement>;
       act(() => handler(event));
     }
     expect(result.current.zoom).toBe(1);
     // 大幅度向上滚
     for (let i = 0; i < 50; i++) {
-      const event = { deltaY: -1000, preventDefault: vi.fn(), target: document.createElement('div') } as unknown as React.WheelEvent<SVGSVGElement>;
+      const event = { deltaY: -1000, ctrlKey: true, metaKey: false, preventDefault: vi.fn(), target: document.createElement('div') } as unknown as React.WheelEvent<SVGSVGElement>;
       act(() => handler(event));
     }
     expect(result.current.zoom).toBe(2.4);

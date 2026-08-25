@@ -13,11 +13,11 @@ cityId: wuzhong
 locality: 利通区
 tags: [吴忠早茶, 点餐方法, 城市味道]
 cover:
-  src: images/journal/editorial/wuzhong-morning-tea.webp
-  alt: 吴忠早茶点餐主题编辑插画（非具体门店与菜品实拍）
-  credit: OpenAI 图像生成（站点编辑提示词）
-  license: 项目编辑插画
-  sourceUrl: https://github.com/Minkelxy/ningxia-tourism/blob/main/docs/IMAGE_PROVENANCE.md
+  src: images/foods/baba-cha.webp
+  alt: 中国茶实拍参考图，吴忠早茶的具体组合以文字说明为准
+  credit: Tamilselvi v
+  license: CC BY-SA 4.0
+  sourceUrl: https://commons.wikimedia.org/wiki/File:Chinese_tea.jpg
 gallery: []
 relatedAttractionIds: [huanghetan, huangyeguda]
 relatedRouteIds: [food-3day, panorama-5day]
@@ -89,4 +89,4 @@ references:
 3. 先少量点单，再根据实际分量加菜。
 4. 价格、排队、菜品供应和个人感受都只对应到店当天。
 
-> 本文基于政府公开资料整理吴忠早茶的品类与点餐方法，不是探店记录。封面是项目编辑插画，并非具体门店或菜品实拍。
+> 本文基于政府公开资料整理吴忠早茶的品类与点餐方法，不是探店记录。封面为中国茶实拍参考图，具体门店与菜品以文字说明和现场为准。

@@ -13,14 +13,6 @@ import FavoriteButton from '../components/FavoriteButton';
 import ResponsiveImage from '../components/ResponsiveImage';
 
 const EMPTY_EVIDENCE: RouteEvidenceSummary = { totalStops: 0, verifiedStops: 0, reviewStops: 0, ordinaryStops: 0, cityIds: [] };
-const routeVisualByTheme: Record<string, string> = {
-  'first-visit': '/images/ai-samples/trip-planning-desk.webp',
-  weekend: '/images/ai-samples/mountain-valley.webp',
-  panorama: '/images/ai-samples/yellow-river-desert.webp',
-  culture: '/images/ai-samples/source-research-desk.webp',
-  food: '/images/ai-samples/ningxia-noodles.webp',
-};
-
 export default function RouteDetail() {
   const { routeId } = useParams();
   const route = getRouteById(routeId);
@@ -50,7 +42,7 @@ export default function RouteDetail() {
     <>
       <SEO title={`${route.name} · 宁夏旅行地图`} description={route.summary} />
       <div className="route-detail-page">
-        <header className="route-detail-hero"><div className="section-shell route-detail-hero-grid"><div><Link to="/routes" className="back-link"><ArrowLeft aria-hidden="true" /> 返回路线列表</Link><p className="eyebrow"><Sparkles aria-hidden="true" /> {route.themeLabel}</p><h1>{route.name}</h1><p>{route.summary}</p><div className="route-detail-facts"><span><Clock3 aria-hidden="true" /> {route.durationLabel}</span><span><Gauge aria-hidden="true" /> {routePaceMeta[route.pace].label}节奏</span><span><Footprints aria-hidden="true" /> 步行{routeWalkingMeta[route.walkingLevel].label}</span><span><CircleDollarSign aria-hidden="true" /> {route.budget}</span><span><CalendarDays aria-hidden="true" /> {route.bestSeason}</span></div><div className="route-detail-actions"><button type="button" className="btn-primary" onClick={() => window.print()}><Printer aria-hidden="true" /> 打印行程</button><button type="button" className="btn-quiet" onClick={handleShare}><Share2 aria-hidden="true" /> 分享路线</button><FavoriteButton kind="route" id={route.id} label={route.name} /></div></div><div className="route-detail-visual"><ResponsiveImage src={routeVisualByTheme[route.theme] ?? routeVisualByTheme.panorama} alt={`AI 生成的${route.themeLabel}路线主题插画，仅作视觉示例`} width="720" height="480" loading="eager" fetchPriority="high" sizes="(max-width: 768px) 100vw, 42vw" /><span>AI 视觉示例 · 非实景</span></div></div></header>
+        <header className="route-detail-hero"><div className="section-shell route-detail-hero-grid"><div><Link to="/routes" className="back-link"><ArrowLeft aria-hidden="true" /> 返回路线列表</Link><p className="eyebrow"><Sparkles aria-hidden="true" /> {route.themeLabel}</p><h1>{route.name}</h1><p>{route.summary}</p><div className="route-detail-facts"><span><Clock3 aria-hidden="true" /> {route.durationLabel}</span><span><Gauge aria-hidden="true" /> {routePaceMeta[route.pace].label}节奏</span><span><Footprints aria-hidden="true" /> 步行{routeWalkingMeta[route.walkingLevel].label}</span><span><CircleDollarSign aria-hidden="true" /> {route.budget}</span><span><CalendarDays aria-hidden="true" /> {route.bestSeason}</span></div><div className="route-detail-actions"><button type="button" className="btn-primary" onClick={() => window.print()}><Printer aria-hidden="true" /> 打印行程</button><button type="button" className="btn-quiet" onClick={handleShare}><Share2 aria-hidden="true" /> 分享路线</button><FavoriteButton kind="route" id={route.id} label={route.name} /></div></div><div className="route-detail-visual"><ResponsiveImage src={route.image.src} alt={route.image.alt} width="720" height="480" loading="eager" fetchPriority="high" sizes="(max-width: 768px) 100vw, 42vw" /><span>实景照片 · {route.image.credit}</span></div></div></header>
         {ShareToast}
         {route.days.length > 1 && <nav className="route-day-nav" aria-label="按天快速跳转"><div className="section-shell"><span>按天快速跳转</span><div>{route.days.map((day) => <a key={day.day} href={`#route-day-${day.day}`} className={activeDay === day.day ? 'active' : undefined} aria-current={activeDay === day.day ? 'location' : undefined}><strong>D{String(day.day).padStart(2, '0')}</strong><small>{day.title}</small></a>)}</div></div></nav>}
         <div className="section-shell route-detail-layout">

@@ -13,11 +13,11 @@ cityId: yinchuan
 locality: 兴庆区
 tags: [银川老城, 城市步行, 抵达日]
 cover:
-  src: images/journal/editorial/yinchuan-old-city.webp
-  alt: 银川老城步行主题编辑插画（非具体街区实景）
-  credit: OpenAI 图像生成（站点编辑提示词）
-  license: 项目编辑插画
-  sourceUrl: https://github.com/Minkelxy/ningxia-tourism/blob/main/docs/IMAGE_PROVENANCE.md
+  src: images/attractions/ningxia-museum.webp
+  alt: 银川城市文化建筑实景参考图
+  credit: David Stanley
+  license: CC BY 2.0
+  sourceUrl: https://commons.wikimedia.org/wiki/File:Ningxia_Provincial_Museum,_Yinchuan.jpg
 gallery: []
 relatedAttractionIds: [gulou-yuhuangge, nanguan]
 relatedRouteIds: [in-depth-4day, panorama-5day, food-3day]

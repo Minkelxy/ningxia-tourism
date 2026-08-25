@@ -460,7 +460,7 @@ export default function NingxiaInteractiveMap() {
         <p>
           {selectedCity
             ? '选择区县继续放大，或点选景点查看信息'
-            : '选择城市进入下一级，地图支持拖动和缩放'}
+            : '选择城市进入下一级；普通滚轮滚页面，Ctrl/Cmd + 滚轮缩放地图'}
         </p>
         {activeCityId && (
           <Link to={`/city/${activeCityId}`} className="text-link">

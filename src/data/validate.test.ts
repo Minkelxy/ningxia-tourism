@@ -120,7 +120,7 @@ describe('公开内容数据', () => {
     expect(beiwudang?.verificationLevel).toBe('verified');
     expect(hasStrictVerificationEvidence(beiwudang!)).toBe(true);
     expect(beiwudang?.verificationNote).toContain('现行 A 级名录确认其为 4A');
-    expect(beiwudang?.images[0].alt).toContain('编辑插画');
+    expect(beiwudang?.images[0].alt).toContain('实景参考图');
     expect(beiwudang?.nearbyIds).toContain('shahu');
   });
 
@@ -131,7 +131,7 @@ describe('公开内容数据', () => {
     expect(industrial?.locality).toBe('大武口区');
     expect(industrial?.verificationLevel).toBe('verified');
     expect(hasStrictVerificationEvidence(industrial!)).toBe(true);
-    expect(industrial?.images[0].alt).toContain('非景区实景');
+    expect(industrial?.images[0].alt).toContain('工业遗址公园实景');
     expect(industrial?.verificationNote).toContain('公共园区和内部展馆');
     expect(cityRoute?.days).toHaveLength(2);
     expect(cityRoute?.days.flatMap((day) => day.stops).filter((stop) => stop.attractionId).map((stop) => stop.attractionId)).toEqual(['shahu', 'beiwudang', 'dawukou-industrial']);
@@ -151,7 +151,7 @@ describe('公开内容数据', () => {
     const oldCity = publishedAttractions.find((attraction) => attraction.id === 'gulou-yuhuangge');
     expect(oldCity?.verificationLevel).toBe('verified');
     expect(hasStrictVerificationEvidence(oldCity!)).toBe(true);
-    expect(oldCity?.images[0].alt).toContain('编辑插画');
+    expect(oldCity?.images[0].alt).toContain('鼓楼实景');
     expect(reviewAttractions.every((attraction) => Boolean(attraction.fallbackNote))).toBe(true);
   });
 

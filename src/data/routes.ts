@@ -2,14 +2,21 @@ import type { AttractionImage, RoutePlan } from '../types';
 
 const verifiedAt = '2026-08-15';
 
-// 路线封面图片：8 张为 AI 生成（Trae Seedream），1 张（weekend-2day）复用景点沙湖图，避开合规拦截。
-const routeImage = (src: string, alt: string): AttractionImage => ({
-  src,
-  alt,
-  credit: 'AI 生成 · Trae Seedream',
-  license: 'AI 生成',
-  sourceUrl: '',
-});
+const routePhotoByLegacySrc: Record<string, [string, string, string, string]> = {
+    'images/routes/quick-1day.jpg': ['images/attractions/xixia.webp', 'BabelStone', 'CC BY-SA 3.0', 'https://commons.wikimedia.org/wiki/File:XiXia_Tomb_3_gate_tower_(west).jpg'],
+    'images/routes/shizuishan-2day.jpg': ['images/attractions/shahu.webp', 'zengsx', 'CC BY-SA 3.0', 'https://commons.wikimedia.org/wiki/File:沙湖沙雕_-_panoramio.jpg'],
+    'images/routes/classic-3day.jpg': ['images/attractions/shapotou.webp', 'Fred Feng', 'Public domain', 'https://commons.wikimedia.org/wiki/File:Shapotou.jpg'],
+    'images/routes/in-depth-4day.jpg': ['images/attractions/qingtongxia-canyon.webp', 'Wikimedia Commons', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/Category:Qingtongxia'],
+    'images/routes/panorama-5day.jpg': ['images/attractions/shahu.webp', 'zengsx', 'CC BY-SA 3.0', 'https://commons.wikimedia.org/wiki/File:沙湖沙雕_-_panoramio.jpg'],
+    'images/routes/red-culture-3day.jpg': ['images/attractions/yanchi.webp', 'Wikimedia Commons', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/Category:Yanchi_County'],
+    'images/routes/guyuan-2day.jpg': ['images/attractions/xumishan.webp', 'Wikimedia Commons', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/Category:Xumishan_Grottoes'],
+    'images/routes/food-3day.jpg': ['images/attractions/gaomiao.webp', 'Wikimedia Commons', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/Category:Gaomiao,_Zhongwei'],
+};
+
+const routeImage = (legacySrc: string, alt: string): AttractionImage => {
+  const [src, credit, license, sourceUrl] = routePhotoByLegacySrc[legacySrc];
+  return { src, alt, credit, license, sourceUrl };
+};
 const reusedShahuImage: AttractionImage = {
   src: 'images/attractions/shahu.webp',
   alt: '沙湖景区沙丘与湖水相接的塞上江南风光',

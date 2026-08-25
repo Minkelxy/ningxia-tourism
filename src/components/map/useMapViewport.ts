@@ -32,7 +32,8 @@ export default function useMapViewport() {
   const stopDrag = () => { drag.current = null; };
 
   const onWheel = (event: WheelEvent<SVGSVGElement>) => {
-    // 阻止页面滚动，在地图上使用滚轮缩放
+    // 普通滚轮交给页面，只有 Ctrl/Cmd + 滚轮才缩放地图，避免地图吞掉整页滚动。
+    if (!event.ctrlKey && !event.metaKey) return;
     event.preventDefault();
     const delta = -event.deltaY * 0.0015;
     setZoom((value) => Math.max(1, Math.min(2.4, value + delta)));

@@ -13,11 +13,11 @@ cityId: shizuishan
 locality: 大武口区
 tags: [石嘴山, 工业遗产, 山地]
 cover:
-  src: images/attractions/beiwudang.webp
-  alt: 北武当山地生态主题编辑插画（非景区实景）
-  credit: OpenAI 图像生成（站点编辑提示词）
-  license: 项目编辑插画
-  sourceUrl: https://github.com/Minkelxy/ningxia-tourism/blob/main/docs/IMAGE_PROVENANCE.md
+  src: images/attractions/helan-forest.webp
+  alt: 贺兰山山地沟谷实景参考图
+  credit: Caaat
+  license: Public domain
+  sourceUrl: https://commons.wikimedia.org/wiki/File:贺兰山_大水沟.JPG
 gallery: []
 relatedAttractionIds: [beiwudang, dawukou-industrial, shahu]
 relatedRouteIds: [shizuishan-2day]

@@ -15,9 +15,9 @@ tags: [固原, 六盘山, 须弥山]
 cover:
   src: images/attractions/xumishan.webp
   alt: 须弥山石窟区域景观
-  credit: 项目编辑插画
-  license: 项目编辑插画
-  sourceUrl: https://github.com/Minkelxy/ningxia-tourism/blob/main/docs/content/IMAGE_PROVENANCE.md
+  credit: Thebrainchamber1
+  license: CC BY-SA 4.0
+  sourceUrl: https://commons.wikimedia.org/wiki/File:Xumishan_Grottoes_99.jpg
 gallery: []
 relatedAttractionIds: [xumishan, liupanshan, pengyangtitian]
 relatedRouteIds: [guyuan-2day, red-culture-3day]

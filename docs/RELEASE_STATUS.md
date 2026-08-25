@@ -6,7 +6,7 @@
 
 项目主线为 `main`，远端仓库为 [Minkelxy/ningxia-tourism](https://github.com/Minkelxy/ningxia-tourism)。站点通过 [GitHub Actions](https://github.com/Minkelxy/ningxia-tourism/actions/workflows/deploy.yml) 构建，并部署到 [GitHub Pages](https://minkelxy.github.io/ningxia-tourism/)。
 
-2026-08-26 线上验收：`main` 最新校验与部署 job 均为 **success**；首页可正常渲染，AI 示例图片滚动加载正常，页面无横向溢出。
+2026-08-26 线上验收：`main` 最新校验与部署 job 均为 **success**；首页可正常渲染，实景照片加载正常，页面无横向溢出。
 
 当前公开数据规模：
 
@@ -39,9 +39,8 @@ VITE_BASE_URL=/ningxia-tourism/ npm run build
 
 ## 视觉与图片边界
 
-- `public/images/ai-samples/` 是编辑插画示例，只用于主题氛围和页面视觉展示。
-- AI 插画不会作为景点实景、菜品规格、商户推荐、路线证据或个人经历的证明。
-- 页面通过替代文本和可见徽标标注“AI 视觉示例 · 非实景 / 非实拍”。
-- 授权或可追溯的实景资料继续保留来源、核对日期、作者和许可信息。
+- 景点、路线、城市、专题和美食页面优先使用有原始页面和许可记录的网络实拍照片。
+- 照片与文字描述不完全对应时，替代文本会写明“参考图”，不把图片当作景区、菜品或商户证据。
+- 图片数据保留来源页面、作者、许可和处理后的响应式文件关系。
 
 完整说明见：[图片来源记录](content/IMAGE_PROVENANCE.md)、[内容审计](content/CONTENT_AUDIT.md) 和 [部署指南](product/DEPLOYMENT.md)。

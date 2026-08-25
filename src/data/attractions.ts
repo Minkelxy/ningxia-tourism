@@ -108,7 +108,7 @@ const published: Attraction[] = [
       transportation: '位于银川老城核心区域，公交、打车到达后以步行为主；周末和节假日不建议在核心街巷频繁挪车',
       address: '银川市兴庆区，以鼓楼为中心，东至清和街、南至南熏路、西至利民路、北至文化路',
     },
-    images: [image('images/journal/editorial/yinchuan-old-city.webp', '银川老城步行主题编辑插画（非街区实景）', 'OpenAI 图像生成（站点编辑提示词）', '项目编辑插画', 'https://github.com/Minkelxy/ningxia-tourism/blob/main/docs/IMAGE_PROVENANCE.md')],
+    images: [image('images/attractions/yinchuan-drum-tower.webp', '银川鼓楼实景', 'Fanghong', 'CC BY-SA 3.0', 'https://commons.wikimedia.org/wiki/File:YichuanDrumTower.jpg')],
     nearbyIds: ['nanguan', 'ningxiamuseum'],
     sources: [
       officialSource('宁夏文旅厅 · 鼓楼—玉皇阁历史文化街区评定公告', 'https://whhlyt.nx.gov.cn/zwgk/fdzdgknr/tzgg/202601/t20260109_5131409_zzb.html', 'direct', ['overview', 'location'], '2026-08-15'),
@@ -116,7 +116,7 @@ const published: Attraction[] = [
       officialSource('银川市政府 · 银川玉皇阁', 'https://www.yinchuan.gov.cn/sshc/lyjd/zdwbcs/202303/t20230301_3980503.html', 'direct', ['overview', 'location'], '2026-08-15'),
     ],
     verifiedAt: '2026-08-15',
-    verificationNote: '街区身份、四至范围、鼓楼与玉皇阁等核心节点及保护性更新均有自治区文旅厅和银川市政府直接页面支撑。配图为站点生成的编辑插画，不是街区实景；具体展览、光影秀和古建筑内部开放仍需当天确认。',
+    verificationNote: '街区身份、四至范围、鼓楼与玉皇阁等核心节点及保护性更新均有自治区文旅厅和银川市政府直接页面支撑。配图为银川鼓楼实景；具体展览、光影秀和古建筑内部开放仍需当天确认。',
   },
   {
     id: 'nanguan', status: 'published', verificationLevel: 'review', name: '南关清真大寺', cityId: 'yinchuan', locality: '兴庆区', category: 'religion',
@@ -172,7 +172,7 @@ const published: Attraction[] = [
       transportation: '从大武口城区打车、自驾或包车更方便；返程叫车和山地手机信号建议提前确认，外部导航按景区全名搜索',
       address: '石嘴山市大武口区西北贺兰山东麓铁弹公路北头',
     },
-    images: [image('images/attractions/beiwudang.webp', '北武当山地生态主题编辑插画（非景区实景）', 'OpenAI 图像生成（站点编辑提示词）', '项目编辑插画', 'https://github.com/Minkelxy/ningxia-tourism/blob/main/docs/IMAGE_PROVENANCE.md')],
+    images: [image('images/attractions/helan-forest.webp', '贺兰山山地沟谷实景参考图', 'Caaat', 'Public domain', 'https://commons.wikimedia.org/wiki/File:贺兰山_大水沟.JPG')],
     nearbyIds: ['shahu', 'dawukou-industrial'],
     sources: [
       officialSource('宁夏文旅厅 · 北武当生态旅游区', 'https://whhlyt.nx.gov.cn/jqjd/szss_66574/bwdstlyq/', 'direct', ['overview', 'visit', 'location'], '2026-08-15'),
@@ -180,7 +180,7 @@ const published: Attraction[] = [
       officialSource('宁夏文旅厅 · 2025 贺兰山金秋红叶徒步嘉年华', 'https://whhlyt.nx.gov.cn/xxfb/wlyw/202510/t20251020_5057659_zzb.html', 'direct', ['overview', 'visit'], '2026-08-15'),
     ],
     verifiedAt: '2026-08-15',
-    verificationNote: '景区组成、开放时段、参考票价和地址均有自治区文旅厅直接景区页支撑；现行 A 级名录确认其为 4A，优先级高于景区旧详情页残留的 3A 文案。坐标为景区片区级落点，外部导航应按名称搜索。配图为项目编辑插画，不作为实景证据。',
+    verificationNote: '景区组成、开放时段、参考票价和地址均有自治区文旅厅直接景区页支撑；现行 A 级名录确认其为 4A，优先级高于景区旧详情页残留的 3A 文案。配图为贺兰山山地实景参考图，不等同于景区内部游线；坐标为景区片区级落点，外部导航应按名称搜索。',
   },
   {
     id: 'dawukou-industrial', status: 'published', verificationLevel: 'verified', name: '大武口工业遗址公园', cityId: 'shizuishan', locality: '大武口区', category: 'experience',
@@ -195,7 +195,7 @@ const published: Attraction[] = [
       transportation: '从大武口城区打车、自驾或骑行较方便；使用“大武口工业遗址公园”或“大武口洗煤厂工业遗址公园”搜索，并以最新开放入口为准',
       address: '石嘴山市大武口区原大武口洗煤厂片区（导航按景区全名并核对最新入口）',
     },
-    images: [image('images/attractions/dawukou-industrial.webp', '大武口工业遗产活化主题编辑插画（非景区实景）', 'OpenAI 图像生成（站点编辑提示词）', '项目编辑插画', 'https://github.com/Minkelxy/ningxia-tourism/blob/main/docs/IMAGE_PROVENANCE.md')],
+    images: [image('images/attractions/dawukou-industrial.webp', '大武口工业遗址公园实景', '大武口区文化体育旅游广电局', '政府网站公开图片', 'https://www.dwk.gov.cn/zjdwk/whly/ly/202104/t20210409_2739311.html')],
     nearbyIds: ['beiwudang', 'shahu'],
     sources: [
       officialSource('大武口区人民政府 · 大武口工业遗址公园简介', 'https://www.dwk.gov.cn/zjdwk/whly/ly/202104/t20210409_2739311.html', 'direct', ['overview', 'location'], '2026-08-15'),
@@ -203,7 +203,7 @@ const published: Attraction[] = [
       officialSource('宁夏文旅厅 · 宁夏 A 级旅游景区名录', 'https://whhlyt.nx.gov.cn/wlgz/202412/t20241212_4756344.html', 'directory', ['overview'], '2026-08-15'),
     ],
     verifiedAt: '2026-08-15',
-    verificationNote: '大武口区文旅部门直接页面确认其由原大武口洗煤厂更新而来、2020 年开园并于 2021 年获评 3A，近期政府活动记录也表明园区仍在使用。公共园区和内部展馆没有统一开放口径，因此不展示未经证实的固定时间与票价。坐标为原洗煤厂片区级落点，导航应按名称确认最新入口；配图为项目编辑插画，不作为实景证据。',
+    verificationNote: '大武口区文旅部门直接页面确认其由原大武口洗煤厂更新而来、2020 年开园并于 2021 年获评 3A，近期政府活动记录也表明园区仍在使用。配图来自大武口区政府文旅页面并对应园区实景；公共园区和内部展馆没有统一开放口径，因此不展示未经证实的固定时间与票价。坐标为原洗煤厂片区级落点，导航应按名称确认最新入口。',
   },
   {
     id: 'shapotou', status: 'published', verificationLevel: 'verified', name: '沙坡头旅游景区', cityId: 'zhongwei', locality: '沙坡头区', category: 'experience',
