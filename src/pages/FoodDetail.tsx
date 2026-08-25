@@ -1,6 +1,7 @@
 import { ArrowLeft, ExternalLink, MapPin, Navigation, Share2, ShieldCheck, Utensils, UtensilsCrossed } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import SEO from '../components/SEO';
+import ResponsiveImage from '../components/ResponsiveImage';
 import { cityName } from '../data/cities';
 import { foodById } from '../data/foods';
 import { createAmapMarkerUrl, formatVerifiedDate, getVerificationFreshness } from '../lib/site';
@@ -9,6 +10,15 @@ import type { FoodCategory } from '../types';
 
 const foodCategoryLabels: Record<FoodCategory, string> = {
   mutton: '羊肉', noodle: '面食', snack: '小吃', drink: '饮品', fruit: '瓜果', specialty: '特产', staple: '主食',
+};
+const foodVisualByCategory: Record<FoodCategory, string> = {
+  mutton: '/images/ai-samples/mutton-still-life.webp',
+  noodle: '/images/ai-samples/ningxia-noodles.webp',
+  snack: '/images/ai-samples/mutton-still-life.webp',
+  drink: '/images/ai-samples/tea-fruit-still-life.webp',
+  fruit: '/images/ai-samples/grape-goji-still-life.webp',
+  specialty: '/images/ai-samples/grape-goji-still-life.webp',
+  staple: '/images/ai-samples/mutton-still-life.webp',
 };
 const sourceLevelLabels = { direct: '直接专页', directory: '专题目录', homepage: '机构首页' } as const;
 const sourceCoverageLabels = { overview: '美食概况', visit: '开放预约', location: '地址交通' } as const;
@@ -28,13 +38,19 @@ export default function FoodDetail() {
     <>
       <SEO title={`${food.name} · 宁夏美食 · 宁夏旅行地图`} description={food.description} />
       <div className="detail-page">
-        <header className="page-hero compact-hero">
-          <div className="section-shell">
-            <Link to="/foods" className="back-link"><ArrowLeft aria-hidden="true" /> 返回美食列表</Link>
-            <p className="eyebrow"><UtensilsCrossed aria-hidden="true" /> {foodCategoryLabels[food.category]}</p>
-            <h1>{food.name}</h1>
-            <p><MapPin aria-hidden="true" /> 产地：{food.origin}{food.verificationLevel === 'verified' ? ' · 已核实' : ' · 待复核'}</p>
-            <div className="route-detail-actions"><button type="button" className="btn-quiet" onClick={handleShare}><Share2 aria-hidden="true" /> 分享美食</button></div>
+        <header className="page-hero compact-hero food-detail-hero">
+          <div className="section-shell food-detail-hero-grid">
+            <div>
+              <Link to="/foods" className="back-link"><ArrowLeft aria-hidden="true" /> 返回美食列表</Link>
+              <p className="eyebrow"><UtensilsCrossed aria-hidden="true" /> {foodCategoryLabels[food.category]}</p>
+              <h1>{food.name}</h1>
+              <p><MapPin aria-hidden="true" /> 产地：{food.origin}{food.verificationLevel === 'verified' ? ' · 已核实' : ' · 待复核'}</p>
+              <div className="route-detail-actions"><button type="button" className="btn-quiet" onClick={handleShare}><Share2 aria-hidden="true" /> 分享美食</button></div>
+            </div>
+            <div className="food-detail-visual">
+              <ResponsiveImage src={foodVisualByCategory[food.category]} alt={`AI 生成的${foodCategoryLabels[food.category]}主题插画，仅作视觉示例`} width="720" height="480" loading="eager" fetchPriority="high" sizes="(max-width: 768px) 100vw, 42vw" />
+              <span>AI 视觉示例 · 非实拍</span>
+            </div>
           </div>
         </header>
         {ShareToast}

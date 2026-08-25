@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ArrowDown, ArrowRight, BadgeCheck, CalendarCheck2, CalendarDays, Footprints, Gauge, MapPin, MapPinned, NotebookPen, ShieldAlert, TrainFront } from 'lucide-react';
+import { ArrowDown, ArrowRight, BadgeCheck, CalendarCheck2, CalendarDays, Footprints, Gauge, MapPin, MapPinned, NotebookPen, ShieldAlert, Sparkles, TrainFront } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import LazyInteractiveMap from '../components/LazyInteractiveMap';
 import ResponsiveImage from '../components/ResponsiveImage';
@@ -9,6 +9,37 @@ import { reviewAttractions, verifiedAttractions } from '../data/attractions';
 import { cities, cityName } from '../data/cities';
 import { routePaceMeta, routeWalkingMeta } from '../data/meta';
 import { routes } from '../data/routes';
+
+const aiVisualSamples = [
+  {
+    src: '/images/ai-samples/yellow-river-desert.webp',
+    alt: 'AI 生成示例图：黄河穿过金色沙丘与绿洲',
+    label: '沙水意象',
+    title: '黄河与沙丘的相遇',
+    description: '用纸张肌理和暖色层次，表现宁夏最有辨识度的沙水关系。',
+  },
+  {
+    src: '/images/ai-samples/mountain-valley.webp',
+    alt: 'AI 生成示例图：宁夏山地谷地与远山',
+    label: '山地意象',
+    title: '山谷里的慢行线',
+    description: '把山地、松林和石窟线索压缩成一张安静的旅行情绪图。',
+  },
+  {
+    src: '/images/ai-samples/ningxia-noodles.webp',
+    alt: 'AI 生成示例图：羊肉面、茶与红枣组成的宁夏味道',
+    label: '城市味道',
+    title: '一碗面与一杯茶',
+    description: '以桌面静物的方式呈现地方味道，只作为视觉灵感，不对应具体商户。',
+  },
+  {
+    src: '/images/ai-samples/city-constellation.webp',
+    alt: 'AI 生成示例图：宁夏五城、铁路、山河与城市节点组成的旅行图景',
+    label: '城市群意象',
+    title: '五座城市，一条慢慢展开的线',
+    description: '把城市、铁路与山河放在同一张编辑插画里，表达宁夏旅行的整体关系。',
+  },
+] as const;
 
 export default function Home() {
   const [selectedDays, setSelectedDays] = useState(3);
@@ -74,6 +105,11 @@ export default function Home() {
         <header className="split-heading"><div><p className="eyebrow"><NotebookPen aria-hidden="true" /> 最近整理</p><h2 id="home-topics-title">先读专题，再决定怎么走</h2></div><p>这些内容来自公开资料整理，会注明核对日期、适用范围和仍需现场确认的部分。</p></header>
         <div className="home-topic-grid">{latestTopics.map((entry) => <article className="home-topic-card" key={entry.slug}><Link to={`/journal/${entry.type}/${entry.slug}`} className="home-topic-image"><ResponsiveImage src={entry.cover.src} alt={entry.cover.alt} width="720" height="450" loading="lazy" sizes="(max-width: 768px) 100vw, 33vw" /><span>旅行专题</span></Link><div><p className="eyebrow"><MapPin aria-hidden="true" /> {cityName(entry.cityId)} · {entry.reviewedAt} 核对</p><h3><Link to={`/journal/${entry.type}/${entry.slug}`}>{entry.title}</Link></h3><p>{entry.excerpt}</p><div className="journal-tags">{entry.tags.slice(0, 3).map((tag) => <span key={tag}>#{tag}</span>)}</div><Link to={`/journal/${entry.type}/${entry.slug}`} className="text-link">阅读全文 <ArrowRight aria-hidden="true" /></Link></div></article>)}</div>
         <div className="home-topics-footer"><Link to="/journal?type=guide" className="btn-secondary">查看全部旅行专题 <ArrowRight aria-hidden="true" /></Link></div>
+      </section>
+
+      <section className="home-ai-gallery section-shell" aria-labelledby="home-ai-gallery-title">
+        <header className="split-heading"><div><p className="eyebrow"><Sparkles aria-hidden="true" /> AI 视觉示例</p><h2 id="home-ai-gallery-title">把宁夏的气质，先画出来。</h2></div><p>这组图片由 AI 生成，仅用于展示网站的视觉方向与旅行氛围，不作为景点实景、路线证据或商户推荐。</p></header>
+        <div className="home-ai-grid">{aiVisualSamples.map((sample) => <figure className="home-ai-card" key={sample.src}><div className="home-ai-image"><ResponsiveImage src={sample.src} alt={sample.alt} width="720" height="480" loading="lazy" sizes="(max-width: 768px) 100vw, 33vw" /><span>AI 视觉示例 · 非实景</span></div><figcaption><p className="eyebrow">{sample.label}</p><h3>{sample.title}</h3><p>{sample.description}</p></figcaption></figure>)}</div>
       </section>
 
       <section className="home-journal section-shell">

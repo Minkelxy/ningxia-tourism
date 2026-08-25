@@ -41,8 +41,16 @@ export default function AttractionsList() {
   return (
     <>
       <SEO title="精选景点 · 宁夏旅行地图" description="浏览分级核实的宁夏代表性景点，按城市和主题筛选实用旅行信息。" />
-      <header className="page-hero compact-hero">
-        <div className="section-shell"><p className="eyebrow">精选目的地</p><h1>{publishedAttractions.length} 个公开景点，按证据清晰分级</h1><p>{verifiedAttractions.length} 个核心资料已核实，{reviewAttractions.length} 个待复核。区域配图会明确说明；开放、票价与交通仍请在出发前查看最新网络与官方公告。</p></div>
+      <header className="page-hero compact-hero collection-hero">
+        <div className="section-shell collection-hero-grid">
+          <div>
+            <p className="eyebrow">精选目的地</p><h1>{publishedAttractions.length} 个公开景点，按证据清晰分级</h1><p>{verifiedAttractions.length} 个核心资料已核实，{reviewAttractions.length} 个待复核。区域配图会明确说明；开放、票价与交通仍请在出发前查看最新网络与官方公告。</p>
+          </div>
+          <div className="collection-hero-visual">
+            <ResponsiveImage src="/images/ai-samples/yellow-river-desert.webp" alt="AI 生成的黄河与沙丘主题插画，仅作景点页面氛围示例" width="720" height="480" loading="eager" fetchPriority="high" sizes="(max-width: 768px) 100vw, 42vw" />
+            <span><Sparkles aria-hidden="true" /> AI 视觉示例 · 非实景</span>
+          </div>
+        </div>
       </header>
       <div className="section-shell page-content">
         <div className="mobile-filter-bar">

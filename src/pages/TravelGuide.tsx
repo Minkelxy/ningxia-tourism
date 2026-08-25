@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { ArrowRight, BadgeCheck, CalendarCheck2, Check, CircleHelp, ExternalLink, MapPin, RefreshCcw, Route, ShieldCheck, SunMedium, TrainFront } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import ResponsiveImage from '../components/ResponsiveImage';
 import { guideSources, guideVerifiedAt, seasonGuides, transportNotes, travelChecklist } from '../data/guide';
 import { routes } from '../data/routes';
 import { formatVerifiedDate } from '../lib/site';
@@ -37,7 +38,7 @@ export default function TravelGuide() {
       <header className="guide-hero">
         <div className="section-shell guide-hero-grid">
           <div><p className="eyebrow"><BadgeCheck aria-hidden="true" /> 行前信息核对至 {formatVerifiedDate(guideVerifiedAt)}</p><h1>先解决四件事，<br />再收拾行李。</h1><p>什么时候来、准备几天、城市怎么串、出发前查什么。把这些决定做完，宁夏行程会轻松很多。</p><div className="guide-hero-actions"><a href="#guide-seasons" className="btn-primary"><SunMedium aria-hidden="true" /> 按季节开始</a><Link to="/routes" className="btn-quiet">直接看路线 <ArrowRight aria-hidden="true" /></Link></div></div>
-          <dl className="guide-hero-summary"><div><dt>季节建议</dt><dd>4</dd></div><div><dt>路线天数</dt><dd>1—5</dd></div><div><dt>行前事项</dt><dd>{travelChecklist.length}</dd></div></dl>
+          <div className="guide-hero-side"><div className="guide-hero-visual"><ResponsiveImage src="/images/ai-samples/trip-planning-desk.webp" alt="AI 生成的旅行计划桌面主题插画，仅作行前指南氛围示例" width="720" height="480" loading="eager" fetchPriority="high" sizes="(max-width: 768px) 100vw, 36vw" /><span>AI 视觉示例 · 非实景</span></div><dl className="guide-hero-summary"><div><dt>季节建议</dt><dd>4</dd></div><div><dt>路线天数</dt><dd>1—5</dd></div><div><dt>行前事项</dt><dd>{travelChecklist.length}</dd></div></dl></div>
         </div>
       </header>
 
