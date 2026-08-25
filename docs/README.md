@@ -1,10 +1,11 @@
 # 文档索引
 
-`docs/` 目录收录项目的**产品、技术、内容与贡献**相关文档，按主题分为三个子目录。
+`docs/` 目录收录项目的**发布、产品、技术、内容与贡献**相关文档，按主题分为三个子目录；当前发布快照与验收记录位于根部的 `RELEASE_STATUS.md`。
 
 ```
 docs/
 ├── README.md                 ← 本文档：目录与使用指引
+├── RELEASE_STATUS.md         ← 当前数据规模、验收命令与图片边界
 ├── product/                  产品与工程（工程向必读）
 │   ├── 宁夏旅游地图PRD.md          产品需求文档：用户、功能、UI、内容全景
 │   ├── 宁夏旅游地图技术架构.md     技术架构文档：分层、组件、路由、数据模型、测试、部署
@@ -31,6 +32,7 @@ docs/
 | 你想做什么 | 应该先看 |
 |-----------|---------|
 | 快速跑起来项目 | 根目录 [README.md](../README.md) |
+| 查看当前发布状态与验收结果 | [RELEASE_STATUS.md](RELEASE_STATUS.md) |
 | 提交数据 / 代码 PR | 根目录 [CONTRIBUTING.md](../CONTRIBUTING.md) + [content/MAINTENANCE.md](content/MAINTENANCE.md) |
 | 理解**产品为什么做这些功能** | [product/宁夏旅游地图PRD.md](product/宁夏旅游地图PRD.md) |
 | 理解**代码怎么组织、技术选型原因** | [product/宁夏旅游地图技术架构.md](product/宁夏旅游地图技术架构.md) |

@@ -4,6 +4,8 @@
 
 > 相关文档：[技术架构文档 · 部署架构章节](./宁夏旅游地图技术架构.md#18-部署架构) ｜ [开发计划（CI 缓存 / 版本策略）](./DEVELOPMENT_PLAN.md) ｜ [贡献指南 · 本地自检 5 步法](../../CONTRIBUTING.md)
 
+> 当前发布快照与验收命令：[RELEASE_STATUS.md](../RELEASE_STATUS.md)。线上地址：[minkelxy.github.io/ningxia-tourism](https://minkelxy.github.io/ningxia-tourism/)。
+
 ---
 
 ## 1. 架构总览
@@ -22,6 +24,7 @@
   - `pull_request` 针对 `main`
   - `workflow_dispatch`（手动触发）
 - **构建产物目录**：`dist/`（Vite 输出）
+- **当前仓库运行时**：项目使用 Node.js 22；Action 主版本由 GitHub 官方维护，不能把 Action 内部运行时与项目 Node 版本混为一谈。
 
 ---
 

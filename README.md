@@ -12,6 +12,8 @@
 
 在线访问：**[https://minkelxy.github.io/ningxia-tourism/](https://minkelxy.github.io/ningxia-tourism/)**
 
+当前发布快照、验收命令与数据规模见 [docs/RELEASE_STATUS.md](docs/RELEASE_STATUS.md)。
+
 ---
 
 ## ✨ 核心特性
@@ -27,6 +29,7 @@
 - **移动端适配**：响应式布局、底部预览面板、兴趣卡横向滑动、搜索与路线筛选入口优化
 - **收藏与对比**：基于 localStorage 的景点/路线收藏；最多 3 景点横向对比
 - **统一搜索页**：`/search` 一键检索景点、美食、城市、路线与旅行专题
+- **统一视觉示例**：首页、路线、美食、指南、手记、搜索和 404 页面使用成套 AI 编辑插画，并明确标注非实景 / 非实拍
 
 ---
 
@@ -82,6 +85,7 @@ npm run dev
 | `npm run build` | 执行数据校验 → 类型检查 → 生产构建 → 生成 sitemap |
 | `npm run preview` | 本地预览构建产物 |
 | `npm run validate:data` | 仅运行数据完整性 + 反糟粕门禁 |
+| `npm run validate:data:reminder` | 扫描 170—180 天核实周期软提醒（warning-only） |
 | `npm run content:lint` | 手记 Markdown / Frontmatter 内容 lint |
 | `npm run new:article` | 基于模板快速创建新的手记 Markdown |
 | `npm run check` | TypeScript 类型检查（`tsc -b --noEmit`） |
@@ -106,13 +110,14 @@ npm run dev
 ```
 ningxia-tourism/
 ├── .github/workflows/deploy.yml  # CI/CD：校验 → 构建 → GitHub Pages
+├── .github/workflows/verification-reminder.yml # 每周核实周期提醒
 ├── docs/                          # 项目文档（详见 docs/README.md）
 │   ├── product/                   # 产品需求、技术架构、开发计划
 │   ├── content/                   # 内容审计、图片来源、维护说明
 │   └── templates/                 # 手记 / 探店 / 路线模板（不参与发布）
 ├── public/
 │   ├── data/                      # 地图边界 GeoJSON（唯一源）
-│   ├── images/                    # 景点 / 美食 / 专题图片（WebP+AVIF）
+│   ├── images/                    # 景点 / 美食 / 专题 / AI 示例图片（WebP+AVIF）
 │   ├── videos/                    # 宣传视频
 │   ├── 404.html                   # GitHub Pages SPA 深层链接回退
 │   ├── manifest.webmanifest       # PWA 清单
@@ -238,7 +243,7 @@ ningxia-tourism/
       → Lighthouse 移动端门禁（≥ 0.9） → 部署 GitHub Pages
 ```
 
-详细说明见 [docs/product/DEPLOYMENT.md](docs/product/DEPLOYMENT.md)。
+最近一次构建状态以 [Actions 工作流](https://github.com/Minkelxy/ningxia-tourism/actions/workflows/deploy.yml) 为准；详细说明见 [docs/product/DEPLOYMENT.md](docs/product/DEPLOYMENT.md)。
 
 ---
 
@@ -273,6 +278,7 @@ npm run test:e2e        # Playwright E2E
 ```
 docs/
 ├── README.md                   文档总索引
+├── RELEASE_STATUS.md           当前发布快照与验收记录
 ├── product/                    产品与工程文档
 │   ├── 宁夏旅游地图PRD.md          产品需求（功能模块、数据内容、UI 设计）
 │   ├── 宁夏旅游地图技术架构.md     技术架构（分层、路由、数据模型、测试、部署）

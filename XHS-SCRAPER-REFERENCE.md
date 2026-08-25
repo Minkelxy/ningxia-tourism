@@ -3,13 +3,14 @@
 > Sister 仓库：[Minkelxy/ningxia-scraper](https://github.com/Minkelxy/ningxia-scraper)
 > 主项目：[Minkelxy/ningxia-tourism](https://github.com/Minkelxy/ningxia-tourism)
 > 对应素材库版本：**v0.1.0**
+> 本手册复核日期：**2026-08-25**；素材库是独立外部仓库，不属于主项目发布构建。
 > 未来扩展：微博 / 携程等平台爬虫将逐步整合到同一 sister 仓库
 
 ---
 
 ## 1. 概述
 
-`ningxia-xhs-scraper` 是一条合规可追溯的 UGC 素材候选池：它**不生产发布级内容**，
+外部 sister 素材库 `ningxia-scraper` 是一条合规可追溯的 UGC 素材候选池：它**不生产发布级内容**，
 只提供可追溯的小红书公开笔记的线索（标题/正文摘要/图片元数据/来源 URL/作者）。
 主项目通过 `xhs-to-content-kit` 脚本把线索转换为编辑任务卡片和 journal 草稿。
 

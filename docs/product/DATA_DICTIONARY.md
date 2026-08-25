@@ -1,5 +1,7 @@
 # 数据字典（Data Dictionary）
 
+> 当前数据规模与发布验收入口见 [RELEASE_STATUS.md](../RELEASE_STATUS.md)。字段定义以 `src/types/index.ts` 为唯一事实来源；本文用于给贡献者查阅字段含义、枚举与构建门禁。
+
 > 本文档是 [`src/types/index.ts`](../../src/types/index.ts) 的**人类可读速查表**。字段级定义以 TypeScript 源码为准；本字典用于帮助内容维护者与新贡献者快速查找字段含义、枚举值、必填约束与构建校验规则。
 
 ---

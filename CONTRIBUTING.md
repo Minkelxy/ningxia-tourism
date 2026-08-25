@@ -2,6 +2,8 @@
 
 感谢参与宁夏旅行地图的维护。本指南说明数据贡献流程、数据规范、构建期门禁和开发约定，帮助你在提 PR 前自检。
 
+当前发布快照、数据规模和完整验收命令见 [docs/RELEASE_STATUS.md](docs/RELEASE_STATUS.md)。
+
 ## 快速开始
 
 需要 Node.js 22 或更新版本。
@@ -22,6 +24,7 @@ npm run dev
 3. **本地自检（必须全绿）**：
    ```bash
    npm run validate:data   # 数据完整性 + 反糟粕门禁
+   npm run validate:data:reminder # 170—180 天核实周期软提醒
    npm run check           # TypeScript 类型检查
    npm run lint            # ESLint
    npm test                # Vitest 单元测试
