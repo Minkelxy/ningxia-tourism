@@ -5,6 +5,7 @@ import SEO from '../components/SEO';
 import ResponsiveImage from '../components/ResponsiveImage';
 import { cities, cityName } from '../data/cities';
 import { publishedFoods, reviewFoods, verifiedFoods } from '../data/foods';
+import { assetUrl } from '../lib/site';
 import useSearchParamsFilter, { useFiltersWithPanel } from '../lib/useSearchParamsFilter';
 import type { CityId, FoodCategory } from '../types';
 

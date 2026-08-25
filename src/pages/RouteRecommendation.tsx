@@ -8,6 +8,7 @@ import { routePaceMeta, routeThemeLabels, routeWalkingMeta } from '../data/meta'
 import { routes } from '../data/routes';
 import useSearchParamsFilter, { useFiltersWithPanel } from '../lib/useSearchParamsFilter';
 import { getRouteEvidenceSummary } from '../lib/route';
+import { assetUrl } from '../lib/site';
 import type { CityId } from '../types';
 import FavoriteButton from '../components/FavoriteButton';
 

@@ -43,3 +43,9 @@ playwright-report
 
 # GitHub Pages build
 docs-build
+
+# XHS scraper — content-kit intermediate work dir (main project side)
+content-kit/
+
+# Ningxia scraper (sister repo, cloned separately)
+ningxia-scraper/

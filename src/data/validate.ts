@@ -15,13 +15,37 @@ const today = siteDateString();
 const placeholderPattern = /(示例|演示用|示例店名|示例地址|待填写|example\.com)/i;
 
 // 周期校验：verifiedAt 超过半年（180 天）视为过期，需重新复核。
+// 在真正到期 10 天前（170 天阈值）进入软提醒窗口：日志 / CI 发 warning + 每周自动开 Issue，但不阻断构建。
 export const VERIFICATION_STALE_DAYS = 180;
+export const VERIFICATION_REMINDER_DAYS = 170;
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 const todayMs = Date.parse(`${today}T00:00:00Z`);
 export const isStale = (verifiedAt: string): boolean => {
   if (!validDate(verifiedAt)) return true;
   const verifiedMs = Date.parse(`${verifiedAt}T00:00:00Z`);
   return (todayMs - verifiedMs) / MS_PER_DAY > VERIFICATION_STALE_DAYS;
+};
+
+/**
+ * 返回距离「过期（>180 天）」还剩几天；基于 Asia/Shanghai 今日 00:00 计算。
+ * - 无效日期 → null；
+ * - 未过期 → ≥ 0（今天录入 = 180；第 180 天当天 = 0）；
+ * - 已过期 → < 0（例如第 181 天 = -1）。
+ * 这个纯函数供 180 天前置提醒脚本复用，避免同一份时间差分逻辑重复实现。
+ */
+export const daysUntilStale = (verifiedAt: string, referenceToday = today): number | null => {
+  if (!validDate(verifiedAt)) return null;
+  const referenceMs = Date.parse(`${referenceToday}T00:00:00Z`);
+  const verifiedMs = Date.parse(`${verifiedAt}T00:00:00Z`);
+  const diffDays = (referenceMs - verifiedMs) / MS_PER_DAY;
+  return Math.round(VERIFICATION_STALE_DAYS - diffDays);
+};
+
+/** 是否进入了「10 天软提醒窗口（170–180 天）」；无效日期视为 true 以避免漏提醒。 */
+export const isInReminderWindow = (verifiedAt: string, referenceToday = today): boolean => {
+  const remaining = daysUntilStale(verifiedAt, referenceToday);
+  if (remaining === null) return true;
+  return remaining <= VERIFICATION_REMINDER_DAYS;
 };
 
 // 反糟粕校验所需的纯函数 helper（导出以便单元测试直接调用，不依赖文件系统）。

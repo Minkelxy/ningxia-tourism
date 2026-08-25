@@ -7,7 +7,7 @@ import { cityName } from '../data/cities';
 import { routePaceMeta, routeWalkingMeta } from '../data/meta';
 import { getRouteById } from '../data/routes';
 import { getRouteEvidenceSummary, type RouteEvidenceSummary } from '../lib/route';
-import { createAmapMarkerUrl, formatVerifiedDate } from '../lib/site';
+import { assetUrl, createAmapMarkerUrl, formatVerifiedDate } from '../lib/site';
 import useShare from '../lib/useShare';
 import FavoriteButton from '../components/FavoriteButton';
 import ResponsiveImage from '../components/ResponsiveImage';

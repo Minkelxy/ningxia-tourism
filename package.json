@@ -8,6 +8,8 @@
     "process:images": "tsx scripts/process-images.ts",
     "simplify:map": "tsx scripts/simplify-geojson.ts",
     "validate:data": "tsx scripts/validate-data.ts",
+    "validate:data:reminder": "tsx scripts/check-verification-reminder.ts",
+    "validate:data:reminder:ci": "tsx scripts/check-verification-reminder.ts --format=json",
     "content:lint": "tsx scripts/content-lint.ts",
     "new:article": "tsx scripts/new-article.ts",
     "build": "npm run validate:data && tsc -b && vite build && tsx scripts/generate-sitemap.ts",

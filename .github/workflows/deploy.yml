@@ -33,6 +33,8 @@ jobs:
         run: npm run audit
       - name: Validate content data
         run: npm run validate:data
+      - name: Verification reminder (warning only, never blocks build)
+        run: npm run validate:data:reminder
       - name: Type check
         run: npm run check
       - name: Lint

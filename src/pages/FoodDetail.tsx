@@ -4,7 +4,7 @@ import SEO from '../components/SEO';
 import ResponsiveImage from '../components/ResponsiveImage';
 import { cityName } from '../data/cities';
 import { foodById } from '../data/foods';
-import { createAmapMarkerUrl, formatVerifiedDate, getVerificationFreshness } from '../lib/site';
+import { assetUrl, createAmapMarkerUrl, formatVerifiedDate, getVerificationFreshness } from '../lib/site';
 import useShare from '../lib/useShare';
 import type { FoodCategory } from '../types';
 
@@ -53,6 +53,7 @@ export default function FoodDetail() {
             </div>
           </div>
         </header>
+        <div className="detail-hero-image"><img src={assetUrl(food.image.src)} alt={food.image.alt} width="1440" height="960" loading="eager" decoding="async" fetchPriority="high" /><p className="detail-image-credit">图片为 AI 生成示意，仅作展示，非真实门店实拍</p></div>
         {ShareToast}
 
         <div className="detail-layout section-shell">

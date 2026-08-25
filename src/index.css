@@ -338,6 +338,11 @@ button { color: inherit; }
 .attraction-card:hover .food-card-image img { transform: scale(1.035); filter: saturate(1.04); }
 .food-card-image::after { content: ""; position: absolute; z-index: 1; inset: 45% 0 0; pointer-events: none; background: linear-gradient(180deg, transparent, rgba(25,30,23,.2)); }
 .food-image-note { position: absolute; z-index: 2; left: 14px; bottom: 14px; padding: 5px 9px; border: 1px solid rgba(255,255,255,.4); border-radius: 999px; background: rgba(31,57,47,.86); color: #fff; font-size: .68rem; font-weight: 800; letter-spacing: .04em; }
+.route-card-image { margin: -28px -28px 22px; aspect-ratio: 16 / 10; border-top-left-radius: calc(var(--radius) - 1px); border-top-right-radius: calc(var(--radius) - 1px); }
+.route-card-image:hover img { transform: scale(1.03); }
+.detail-hero-image { margin: 0 auto; max-width: 1440px; }
+.detail-hero-image img { display: block; width: 100%; height: auto; max-height: 60vh; object-fit: cover; }
+.detail-image-credit { margin: 6px 16px 0; color: var(--muted); font-size: .72rem; text-align: right; }
 .detail-badges { display: flex; flex-wrap: wrap; gap: 8px; }
 .verification-card.review { border-color: rgba(169, 69, 53, .26); background: #fff8ed; }
 .stop-verification { display: inline-flex; margin-left: 9px; padding: 3px 7px; border-radius: 999px; background: #e7f0ea; color: var(--green); font-family: var(--sans); font-size: .65rem; vertical-align: middle; }

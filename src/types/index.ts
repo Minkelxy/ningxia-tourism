@@ -100,6 +100,7 @@ export interface Food {
   priceRange?: string;
   restaurants: Restaurant[];
   tips?: string;
+  image: AttractionImage;
   sources: SourceRef[];
   verifiedAt: string;
 }
@@ -213,6 +214,7 @@ export interface RoutePlan {
   transportSummary: string;
   summary: string;
   highlights: string[];
+  image: AttractionImage;
   days: RouteDay[];
   verifiedAt: string;
 }

@@ -68,6 +68,22 @@ npm run dev
 
 每条来源必须包含 `label`、`url`、`kind`、`level`、`coverage` 和 `checkedAt`（`YYYY-MM-DD`）。
 
+### 小红书素材候选池 (UGC 线索级来源)
+
+对于「亲历游记 / 探店手记 / 专题 editorial」类的 review 级内容，项目维护一条
+独立 sister 仓库作为 UGC 线索候选池：
+
+- **仓库**：[Minkelxy/ningxia-scraper](https://github.com/Minkelxy/ningxia-scraper)
+  - 当前支持小红书，未来将整合微博 / 携程等平台
+- **对接手册**：[`XHS-SCRAPER-REFERENCE.md`](./XHS-SCRAPER-REFERENCE.md)
+- **使用规则**：
+  1. UGC 素材仅作「线索」；产出的 journal `verificationLevel` **必须**为 `review`，不得标 `verified`。
+  2. 正文必须通过 sister 仓库 `scripts/xhs-to-content-kit.ts` 转换器生成，确保与原文相似度 <30%、连续汉字段 <20 字。
+  3. 每条转换后的 journal 必须保留 `source_xhs_noteId` 和 `source_xhs_url`，以便溯源与下架联动。
+  4. 素材库侧作者若提交下架申请，主项目需在 24–48 小时内同步把对应 journal 置 draft。
+- **贡献线索**：不要直接贴正文到主项目 PR；前往 sister 仓库按 README「半人工投喂」流程
+  发 PR 提交 HTML 快照即可。
+
 ### verifiedAt 时效性
 
 - 格式：`YYYY-MM-DD`（如 `2026-08-17`）
@@ -106,6 +122,7 @@ npm run dev
 | **异常 ID** | 所有 `id` 必须符合 kebab-case ASCII | `src/data/validate.ts` |
 | **电话区号匹配** | 交通枢纽电话区号必须与所在城市一致 | `src/data/validate.ts` |
 | **verifiedAt 过期** | 超过 180 天未复核的条目阻断构建 | `src/data/validate.ts` |
+| **⏰ verifiedAt 10 天预警窗口（170–180 天）** | 输出日志 warning、GitHub Actions 黄条、每周一自动开 Issue；**不阻断构建** | `scripts/check-verification-reminder.ts` + `.github/workflows/verification-reminder.yml` |
 | **占位文本** | 拒绝"示例""演示用""待填写""example.com"等占位内容 | `src/data/validate.ts` |
 | **跨数据引用** | 路线停靠点只能引用已发布景点；兴趣组合只能引用已公开景点 | `src/data/validate.ts` |
 | **图片完整性** | 已发布景点和手记的图片必须有本地多格式文件（webp + avif） | `scripts/validate-data.ts` |
@@ -171,9 +188,14 @@ npm run dev
 
 ## 相关文档
 
+- [文档总索引](docs/README.md)：所有文档入口与使用向导
+- [产品需求文档](docs/product/宁夏旅游地图PRD.md)：PRD
+- [技术架构文档](docs/product/宁夏旅游地图技术架构.md)：架构说明
+- [开发计划与里程碑](docs/product/DEVELOPMENT_PLAN.md)：阶段目标、后续规划、技术债务
+- [部署指南](docs/product/DEPLOYMENT.md)：CI/CD 流水线、Vite base、SPA 回退、PWA、其它平台部署
+- [数据字典](docs/product/DATA_DICTIONARY.md)：字段速查、枚举、必填、校验说明
 - [内容审计记录](docs/content/CONTENT_AUDIT.md)：分级标准、复核日期与历史变更
 - [图片来源记录](docs/content/IMAGE_PROVENANCE.md)：编辑插画生成方式与提示词
 - [内容维护说明](docs/content/MAINTENANCE.md)：数据与内容维护准则
-- [产品需求文档](docs/product/宁夏旅游地图PRD.md)：PRD
-- [技术架构文档](docs/product/宁夏旅游地图技术架构.md)：架构说明
+- [更新日志](./CHANGELOG.md)：重要版本里程碑
 - [行前指南模板](docs/templates/)：手记与探店模板（不参与发布）
