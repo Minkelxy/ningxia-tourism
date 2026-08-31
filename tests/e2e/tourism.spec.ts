@@ -366,6 +366,25 @@ test('深色头图操作状态保持高对比', async ({ page }) => {
   await expect(guideQuiet).toHaveCSS('color', 'rgb(255, 255, 255)');
 });
 
+test('轻量文字操作状态与全站交互色保持一致', async ({ page }) => {
+  await page.goto(`${appBase}routes?city=shizuishan`);
+  const routeClear = page.getByRole('button', { name: '清除筛选' });
+  await routeClear.hover();
+  await expect(routeClear).toHaveCSS('color', 'rgb(169, 69, 53)');
+
+  await page.goto(`${appBase}journal?type=guide&q=%E6%B2%99%E6%B9%96`);
+  const journalClear = page.getByRole('button', { name: '清空筛选' });
+  await journalClear.hover();
+  await expect(journalClear).toHaveCSS('color', 'rgb(49, 95, 79)');
+
+  await page.goto(`${appBase}guide`);
+  const checklistItem = page.getByRole('checkbox', { name: '核对身份证件、往返车票与入住日期' });
+  await checklistItem.check();
+  const checklistReset = page.getByRole('button', { name: '重置清单' });
+  await checklistReset.hover();
+  await expect(checklistReset).toHaveCSS('color', 'rgb(49, 95, 79)');
+});
+
 test('黄河楼专题说明资质变化并区分黄河坛', async ({ page }) => {
   await page.goto(`${appBase}journal/guide/huanghe-landmarks-difference`);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('黄河楼和黄河坛不是一处');
