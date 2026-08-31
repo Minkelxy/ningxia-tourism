@@ -6,7 +6,7 @@
 
 项目主线为 `main`，远端仓库为 [Minkelxy/ningxia-tourism](https://github.com/Minkelxy/ningxia-tourism)。站点通过 [GitHub Actions](https://github.com/Minkelxy/ningxia-tourism/actions/workflows/deploy.yml) 构建，并部署到 [GitHub Pages](https://minkelxy.github.io/ningxia-tourism/)。
 
-2026-09-01 线上验收：代码提交 `d25005c` 的 [校验工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33422187352) 与 [Pages 构建部署](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33422185190) 均为 **success**；首页天数选择、路线按天跳转、详情图片切换、收藏操作和页脚链接统一悬停与键盘聚焦反馈，既有地图、搜索、筛选、卡片及纯展示图层语义继续通过回归，已通过本地类型、规范、单元、内容、端到端、生产构建与 Lighthouse 校验。
+2026-09-01 线上验收：代码提交 `fdbc8c4` 的 [校验工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33423197469) 与 [Pages 构建部署](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33423195922) 均为 **success**；首页天数选择、路线按天跳转、详情图片切换、收藏操作、页脚链接和筛选面板统一悬停与键盘聚焦反馈，既有地图、搜索、筛选、卡片及纯展示图层语义继续通过回归，已通过本地类型、规范、单元、内容、端到端、生产构建与 Lighthouse 校验。
 
 当前公开数据规模：
 
