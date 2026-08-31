@@ -413,9 +413,11 @@ test('地图政府标记与交通枢纽点位为纯展示语义且有可读 aria
   const governmentMarker = map.locator('.map-government').first();
   await expect(governmentMarker).toHaveAttribute('role', 'img');
   await expect(governmentMarker).toHaveAttribute('aria-label', /政府标记/);
+  await expect(governmentMarker).not.toHaveAttribute('tabindex');
 
   await map.getByRole('button', { name: '交通' }).click();
   const hub = map.locator('.map-hub').first();
   await expect(hub).toHaveAttribute('role', 'img');
   await expect(hub).toHaveAttribute('aria-label', /交通枢纽/);
+  await expect(hub).not.toHaveAttribute('tabindex');
 });
