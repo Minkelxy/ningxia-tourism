@@ -302,6 +302,29 @@ test('旅行专题展示资料边界、来源与相关目的地', async ({ page 
   await expect(page.getByRole('link', { name: '六盘山红军长征旅游区' })).toBeVisible();
 });
 
+test('阅读资料入口支持键盘连续聚焦', async ({ page }) => {
+  await page.goto(`${appBase}attraction/huangyeguda`);
+  const attractionSource = page.locator('.source-list a').first();
+  await attractionSource.focus();
+  await expect(attractionSource).toBeFocused();
+
+  await page.goto(`${appBase}journal/guide/zhongwei-sand-water-choice`);
+  const journalSource = page.locator('.journal-sources a').first();
+  await journalSource.focus();
+  await expect(journalSource).toBeFocused();
+  const relatedNote = page.locator('.related-notes a').first();
+  await relatedNote.focus();
+  await expect(relatedNote).toBeFocused();
+
+  await page.goto(`${appBase}guide`);
+  const seasonSource = page.locator('.season-card > a').first();
+  await seasonSource.focus();
+  await expect(seasonSource).toBeFocused();
+  const guideSource = page.locator('.guide-source-panel a').first();
+  await guideSource.focus();
+  await expect(guideSource).toBeFocused();
+});
+
 test('黄河楼专题说明资质变化并区分黄河坛', async ({ page }) => {
   await page.goto(`${appBase}journal/guide/huanghe-landmarks-difference`);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('黄河楼和黄河坛不是一处');
