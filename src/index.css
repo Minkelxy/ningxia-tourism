@@ -547,9 +547,9 @@ button { color: inherit; }
 .route-filter { display: grid; gap: 16px; }
 .route-filter > div { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
 .route-filter > div > span { width: 78px; color: var(--muted); font-size: .78rem; font-weight: 700; }
-.route-filter button { min-height: 44px; padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; background: #fff; cursor: pointer; transition: background .2s ease, border-color .2s ease, color .2s ease; }
-.route-filter button:hover, .route-filter button:focus-visible { border-color: var(--green); background: #eef3ed; color: var(--green); }
-.route-filter button.active { border-color: var(--green); background: var(--green); color: #fff; }
+.route-filter button { min-height: 44px; padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; background: #fff; cursor: pointer; transition: transform .2s ease, background .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease; }
+.route-filter button:hover, .route-filter button:focus-visible { border-color: var(--green); background: #eef3ed; color: var(--green); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(49,95,79,.1); }
+.route-filter button.active { border-color: var(--green); background: var(--green); color: #fff; transform: none; }
 .route-comparison { margin-bottom: 38px; padding: 30px; border: 1px solid var(--line); border-radius: 24px; background: linear-gradient(145deg, #fffdf8, #eee5d6); box-shadow: 0 12px 34px rgba(64,48,25,.06); }
 .route-comparison > header { display: flex; justify-content: space-between; align-items: end; gap: 32px; margin-bottom: 22px; }
 .route-comparison > header h2 { margin-top: 7px; font-size: clamp(1.8rem, 3vw, 2.6rem); }

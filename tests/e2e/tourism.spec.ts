@@ -325,6 +325,21 @@ test('旅行手记栏目切换保持轻量反馈', async ({ page }) => {
   await expect(travelTab).toHaveCSS('color', 'rgb(255, 255, 255)');
 });
 
+test('路线筛选入口保持轻量反馈', async ({ page }) => {
+  await page.goto(`${appBase}routes`);
+  if ((page.viewportSize()?.width ?? 999) <= 768) {
+    await page.getByRole('button', { name: /筛选路线/ }).click();
+  }
+  const cityFilter = page.getByRole('button', { name: '石嘴山', exact: true });
+  await cityFilter.hover();
+  await expect(cityFilter).toHaveCSS('background-color', 'rgb(238, 243, 237)');
+  await expect(cityFilter).toHaveCSS('color', 'rgb(49, 95, 79)');
+  await cityFilter.click();
+  await expect(cityFilter).toHaveAttribute('aria-pressed', 'true');
+  await expect(cityFilter).toHaveCSS('background-color', 'rgb(49, 95, 79)');
+  await expect(cityFilter).toHaveCSS('color', 'rgb(255, 255, 255)');
+});
+
 test('中卫沙水专题可比较目的地并查看来源', async ({ page }) => {
   await page.goto(`${appBase}journal/guide/zhongwei-sand-water-choice`);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('沙坡头和金沙岛怎么选');
