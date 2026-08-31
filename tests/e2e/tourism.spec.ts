@@ -463,6 +463,15 @@ test('首页与搜索起始入口保持轻量反馈', async ({ page }) => {
   await suggestion.hover();
   await expect(suggestion).toHaveCSS('background-color', 'rgb(238, 243, 237)');
   await expect(suggestion).toHaveCSS('border-color', 'rgb(49, 95, 79)');
+
+  await page.goto(`${appBase}search?q=沙漠`);
+  const searchClear = page.getByRole('button', { name: '清空搜索内容' });
+  await searchClear.hover();
+  await expect(searchClear).toHaveCSS('background-color', 'rgb(238, 243, 237)');
+  await expect(searchClear).toHaveCSS('color', 'rgb(49, 95, 79)');
+  await expect(searchClear).not.toHaveCSS('transform', 'none');
+  await searchClear.click();
+  await expect(page).toHaveURL(new RegExp(`${appBase.replace(/[.*+?^${}()|[\\]\\]/g, '\\\\$&')}search$`));
 });
 
 test('黄河楼专题说明资质变化并区分黄河坛', async ({ page }) => {
