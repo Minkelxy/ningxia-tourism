@@ -161,6 +161,17 @@ test('收藏操作保持跨页面反馈一致', async ({ page }) => {
   await expect(page.getByRole('heading', { name: '收藏的景点' })).toBeVisible();
 });
 
+test('景点对比操作保持状态反馈一致', async ({ page }) => {
+  await page.goto(`${appBase}attractions`);
+  const compareToggle = page.getByRole('button', { name: '加入对比' }).first();
+  await compareToggle.hover();
+  await expect(compareToggle).toHaveCSS('background-color', 'rgb(238, 243, 237)');
+  await expect(compareToggle).toHaveCSS('color', 'rgb(49, 95, 79)');
+  await compareToggle.click();
+  await expect(page.getByRole('button', { name: '已加入对比' }).first()).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('region', { name: '景点横向比较表' })).toBeVisible();
+});
+
 test('城市详情和路线详情可直接访问', async ({ page }) => {
   await page.goto(`${appBase}city/yinchuan`);
   await expect(page.getByRole('heading', { level: 1, name: '银川市' })).toBeVisible();
