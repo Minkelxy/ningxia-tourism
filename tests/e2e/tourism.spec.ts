@@ -344,6 +344,28 @@ test('阅读资料入口支持键盘连续聚焦', async ({ page }) => {
   await expect(sourceDirectory).toBeFocused();
 });
 
+test('深色头图操作状态保持高对比', async ({ page }) => {
+  await page.goto(`${appBase}routes/classic-3day`);
+  const routePrimary = page.getByRole('button', { name: '打印行程' });
+  await routePrimary.hover();
+  await expect(routePrimary).toHaveCSS('background-color', 'rgb(240, 197, 121)');
+  await expect(routePrimary).toHaveCSS('color', 'rgb(35, 30, 22)');
+  const routeQuiet = page.getByRole('button', { name: '分享路线' });
+  await routeQuiet.hover();
+  await expect(routeQuiet).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.15)');
+  await expect(routeQuiet).toHaveCSS('color', 'rgb(255, 255, 255)');
+
+  await page.goto(`${appBase}guide`);
+  const guidePrimary = page.getByRole('link', { name: /按季节开始/ });
+  await guidePrimary.hover();
+  await expect(guidePrimary).toHaveCSS('background-color', 'rgb(240, 197, 121)');
+  await expect(guidePrimary).toHaveCSS('color', 'rgb(35, 30, 22)');
+  const guideQuiet = page.getByRole('link', { name: /直接看路线/ });
+  await guideQuiet.hover();
+  await expect(guideQuiet).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.15)');
+  await expect(guideQuiet).toHaveCSS('color', 'rgb(255, 255, 255)');
+});
+
 test('黄河楼专题说明资质变化并区分黄河坛', async ({ page }) => {
   await page.goto(`${appBase}journal/guide/huanghe-landmarks-difference`);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('黄河楼和黄河坛不是一处');
