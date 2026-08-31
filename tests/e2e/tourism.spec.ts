@@ -385,6 +385,22 @@ test('轻量文字操作状态与全站交互色保持一致', async ({ page }) 
   await expect(checklistReset).toHaveCSS('color', 'rgb(49, 95, 79)');
 });
 
+test('首页与搜索起始入口保持轻量反馈', async ({ page }) => {
+  await page.goto(appBase);
+  const scrollCue = page.getByRole('link', { name: '向下探索' });
+  await scrollCue.hover();
+  await expect(scrollCue).toHaveCSS('color', 'rgb(227, 182, 107)');
+  const methodLink = page.getByRole('link', { name: '了解内容方法' });
+  await methodLink.hover();
+  await expect(methodLink).toHaveCSS('color', 'rgb(255, 255, 255)');
+
+  await page.goto(`${appBase}search`);
+  const suggestion = page.getByRole('button', { name: '沙漠' });
+  await suggestion.hover();
+  await expect(suggestion).toHaveCSS('background-color', 'rgb(238, 243, 237)');
+  await expect(suggestion).toHaveCSS('border-color', 'rgb(49, 95, 79)');
+});
+
 test('黄河楼专题说明资质变化并区分黄河坛', async ({ page }) => {
   await page.goto(`${appBase}journal/guide/huanghe-landmarks-difference`);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('黄河楼和黄河坛不是一处');

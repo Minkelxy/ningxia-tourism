@@ -119,7 +119,8 @@ button { color: inherit; }
 .hero-seal { position: absolute; left: 36px; bottom: 34px; width: 96px; height: 108px; display: grid; place-content: center; border: 2px solid rgba(255,255,255,.85); outline: 1px solid rgba(255,255,255,.55); outline-offset: -7px; background: var(--red); color: #fff; font-family: var(--serif); text-align: center; transform: rotate(-3deg); }
 .hero-seal span { font-size: .82rem; letter-spacing: .25em; }
 .hero-seal strong { font-size: 1.8rem; }
-.scroll-cue { position: absolute; right: 30px; bottom: 28px; display: flex; align-items: center; gap: 7px; min-height: 44px; color: #fff; font-size: .78rem; }
+.scroll-cue { position: absolute; right: 30px; bottom: 28px; display: flex; align-items: center; gap: 7px; min-height: 44px; color: #fff; font-size: .78rem; transition: color .2s ease, transform .2s ease; }
+.scroll-cue:hover, .scroll-cue:focus-visible { color: #e3b66b; transform: translateY(3px); }
 .hero-orbit { position: absolute; border: 1px solid rgba(153,112,51,.15); border-radius: 50%; }
 .hero-orbit-one { width: 540px; height: 540px; left: -320px; top: -300px; }
 .hero-orbit-two { width: 700px; height: 700px; right: -370px; bottom: -480px; }
@@ -714,6 +715,7 @@ button { color: inherit; }
 .verification-note strong { font-family: var(--serif); font-size: 1.45rem; }
 .verification-note p { margin-top: 12px; color: rgba(255,255,255,.72); }
 .verification-note .text-link { margin-top: 14px; color: #ffe0a3; }
+.verification-note .text-link:hover, .verification-note .text-link:focus-visible { color: #fff; transform: translateX(2px); }
 
 .journal-hero { position: relative; overflow: hidden; padding-block: 88px; background: radial-gradient(circle at 78% 35%, rgba(255,255,255,.72), transparent 23%), #e8ddca; }
 .journal-hero::after { content: ""; position: absolute; inset: 0; opacity: .35; pointer-events: none; background: repeating-linear-gradient(0deg, transparent 0 31px, rgba(74,61,39,.08) 31px 32px); }
@@ -1025,8 +1027,8 @@ button { color: inherit; }
 .search-start > svg, .search-empty > svg { width: 30px; color: var(--sand-dark); }
 .search-start h2, .search-empty h2 { color: var(--ink); font-size: 1.8rem; }
 .search-suggestions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 12px; }
-.search-suggestions button { min-height: 40px; padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--green); cursor: pointer; font-weight: 750; }
-.search-suggestions button:hover, .search-suggestions button:focus-visible { border-color: var(--green); background: #eef3ed; }
+.search-suggestions button { min-height: 40px; padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--green); cursor: pointer; font-weight: 750; transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.search-suggestions button:hover, .search-suggestions button:focus-visible { border-color: var(--green); background: #eef3ed; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(49,95,79,.1); }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes float { 50% { transform: translateY(-6px); } }
