@@ -138,7 +138,7 @@ npm run dev
 
 - **可交互图层**（景点、美食）：使用 `role="button"` + `onKeyDown`（通过 `activateWithKeyboard` 支持 Enter/Space 激活）
 - **纯展示图层**（政府标记、交通枢纽，以及无 `onSelect` 的美食图层）：使用 `role="img"` + 可读 `aria-label`，不加入键盘 Tab 顺序；屏幕阅读器可朗读但无伪激活动作
-- 图层开关使用 `aria-pressed` 标记激活状态
+- 图层开关使用 `aria-pressed` 标记激活状态；选中态需保持主题色、文字对比与阴影层次，悬停时不得覆盖状态识别
 
 ### 性能
 

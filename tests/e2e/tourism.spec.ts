@@ -51,6 +51,10 @@ test('地图支持键盘进入城市、选择区县和切换交通图层', async
   const transport = map.getByRole('button', { name: '交通' });
   await transport.click();
   await expect(transport).toHaveAttribute('aria-pressed', 'true');
+  await transport.hover();
+  await expect(transport).toHaveCSS('background-color', 'rgb(49, 95, 79)');
+  await expect(transport).toHaveCSS('color', 'rgb(255, 255, 255)');
+  await expect(transport).toHaveCSS('transform', 'none');
 });
 
 test('景点页支持按旅行兴趣发现新增目的地', async ({ page }) => {

@@ -136,7 +136,7 @@ button { color: inherit; }
 .map-breadcrumb, .map-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
 .map-toolbar button { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: #fff; cursor: pointer; transition: transform .2s ease, background .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease; }
 .map-toolbar button:hover, .map-toolbar button:focus-visible { border-color: var(--green); background: #eef3ed; color: var(--green); transform: translateY(-1px); box-shadow: 0 5px 14px rgba(67,48,24,.07); }
-.map-toolbar button[aria-pressed="true"] { background: var(--green); color: #fff; }
+.map-toolbar button[aria-pressed="true"] { background: var(--green); color: #fff; box-shadow: 0 7px 16px rgba(33,70,59,.16); transform: none; }
 .map-toolbar svg { width: 17px; }
 .map-breadcrumb > span { font-weight: 800; }
 .map-canvas-wrap { position: relative; min-height: 600px; display: grid; place-items: center; overflow: hidden; background: linear-gradient(180deg, #efe5cc 0%, #e3d3b1 100%); }
