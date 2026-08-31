@@ -6,7 +6,7 @@
 
 项目主线为 `main`，远端仓库为 [Minkelxy/ningxia-tourism](https://github.com/Minkelxy/ningxia-tourism)。站点通过 [GitHub Actions](https://github.com/Minkelxy/ningxia-tourism/actions/workflows/deploy.yml) 构建，并部署到 [GitHub Pages](https://minkelxy.github.io/ningxia-tourism/)。
 
-2026-09-01 本地验收：移动端当前导航语义、首页地图锚点偏移、手记画廊尺寸提示，以及地图预览焦点回退与滚动隔离已通过组件回归；本轮提交待网络恢复后推送 GitHub Pages。
+2026-09-01 线上验收：提交 `b43fa11` 的校验与 Pages 部署 job 均为 **success**；移动端当前导航语义、首页地图锚点偏移、手记画廊尺寸提示，以及地图预览焦点回退与滚动隔离已通过回归。
 
 当前公开数据规模：
 
