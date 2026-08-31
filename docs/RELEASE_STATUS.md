@@ -1,12 +1,12 @@
 # 发布状态与验收记录
 
-更新时间：2026-08-26
+更新时间：2026-08-31
 
 ## 当前发布快照
 
 项目主线为 `main`，远端仓库为 [Minkelxy/ningxia-tourism](https://github.com/Minkelxy/ningxia-tourism)。站点通过 [GitHub Actions](https://github.com/Minkelxy/ningxia-tourism/actions/workflows/deploy.yml) 构建，并部署到 [GitHub Pages](https://minkelxy.github.io/ningxia-tourism/)。
 
-2026-08-26 线上验收：`main` 最新校验与部署 job 均为 **success**；首页可正常渲染，实景照片加载正常，页面无横向溢出。
+2026-08-31 线上验收：`main` 最新校验与部署 job 均为 **success**；首页可正常渲染，实景照片加载正常，页面无横向溢出。本轮补充移动端当前导航语义、首页地图锚点偏移和手记画廊尺寸提示。
 
 当前公开数据规模：
 

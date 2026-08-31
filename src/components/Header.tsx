@@ -85,7 +85,7 @@ export default function Header() {
           {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
         </button>
       </div>
-      {open && <nav ref={mobileNavRef} id="mobile-navigation" className="mobile-nav" aria-label="移动端导航"><Link to="/search" className={active('/search') ? 'active' : ''}>全站搜索</Link>{navLinks.map((link) => <Link key={link.path} to={link.path} className={active(link.path) ? 'active' : ''}>{link.label}</Link>)}<Link to="/favorites" className={active('/favorites') ? 'active' : ''}>我的收藏{count > 0 ? `（${count}）` : ''}</Link></nav>}
+      {open && <nav ref={mobileNavRef} id="mobile-navigation" className="mobile-nav" aria-label="移动端导航"><Link to="/search" className={active('/search') ? 'active' : ''} aria-current={active('/search') ? 'page' : undefined}>全站搜索</Link>{navLinks.map((link) => <Link key={link.path} to={link.path} className={active(link.path) ? 'active' : ''} aria-current={active(link.path) ? 'page' : undefined}>{link.label}</Link>)}<Link to="/favorites" className={active('/favorites') ? 'active' : ''} aria-current={active('/favorites') ? 'page' : undefined}>我的收藏{count > 0 ? `（${count}）` : ''}</Link></nav>}
     </header>
   );
 }

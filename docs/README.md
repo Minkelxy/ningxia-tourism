@@ -16,7 +16,7 @@ docs/
 │
 ├── content/                  内容与资产（内容维护向必读）
 │   ├── CONTENT_AUDIT.md           内容审计：景点 / 美食 / 枢纽 / 手记的分级与复核记录
-│   ├── IMAGE_PROVENANCE.md        图片来源：AI 编辑插画的用途、工具与提示词
+│   ├── IMAGE_PROVENANCE.md        图片来源：实拍/官方图片、许可与处理记录
 │   ├── MAINTENANCE.md             维护手册：日常新增 / 复核 / 发布操作准则
 │   └── attraction-template.json   新增景点数据 JSON 模板（参考字段清单）
 │

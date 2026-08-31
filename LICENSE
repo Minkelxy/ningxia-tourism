@@ -25,6 +25,4 @@ SOFTWARE.
 ## 内容数据与媒体附加声明
 
 - 项目中的文字内容（景点 / 美食 / 城市 / 路线 / 行前指南 / 旅行手记）以**信息分享为目的**，不构成商业建议或运营承诺。所有条目均保留 `sources`（来源）、`checkedAt`（来源核对日期）与 `verifiedAt`（内容最近复核日期）字段，请读者在出行前以官方最新公告为准。
-- 项目使用的图片（`public/images/`）分为两类：
-  1. **授权实拍图**：保留 `credit`（署名）、`license`（许可）、`sourceUrl`（原始来源页）；请在复用时保留原始署名信息。
-  2. **AI 生成编辑插画**：在页面 alt 文本与图片 credit 中明确标注「编辑插画 / 非实景 / 非实拍」；生成方式、工具与提示词记录见 [`docs/content/IMAGE_PROVENANCE.md`](./docs/content/IMAGE_PROVENANCE.md)。此类插画仅作主题氛围表达，不作为具体地点、门店、菜品或个人经历的视觉证据。
+- 项目使用的图片（`public/images/`）均应保留 `credit`（署名）、`license`（许可）与 `sourceUrl`（原始来源页）；网络实拍或官方公开图片在与文字对象不完全对应时，会在 alt 文本中标注“参考图”，不作为具体地点、门店或菜品事实的唯一证据。详细规则见 [`docs/content/IMAGE_PROVENANCE.md`](./docs/content/IMAGE_PROVENANCE.md)。

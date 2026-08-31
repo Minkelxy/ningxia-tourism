@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
 import { FavoritesProvider } from '../lib/favorites';
@@ -9,8 +9,8 @@ afterEach(() => {
   window.localStorage.clear();
 });
 
-const renderHeader = () => render(
-  <MemoryRouter>
+const renderHeader = (initialEntries = ['/']) => render(
+  <MemoryRouter initialEntries={initialEntries}>
     <FavoritesProvider><Header /></FavoritesProvider>
   </MemoryRouter>,
 );
@@ -73,5 +73,12 @@ describe('Header 移动端菜单', () => {
     const mobileNav = screen.getByRole('navigation', { name: '移动端导航' });
     fireEvent.mouseDown(mobileNav.querySelector('a')!);
     expect(mobileNav).toBeInTheDocument();
+  });
+
+  it('移动端菜单会标记当前页面', () => {
+    renderHeader(['/foods']);
+    fireEvent.click(screen.getByRole('button', { name: '打开导航菜单' }));
+    const mobileNav = screen.getByRole('navigation', { name: '移动端导航' });
+    expect(within(mobileNav).getByRole('link', { name: '宁夏美食', current: 'page' })).toBeInTheDocument();
   });
 });
