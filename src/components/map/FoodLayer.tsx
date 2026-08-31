@@ -12,7 +12,7 @@ interface FoodLayerProps {
 
 // 美食图层：仅渲染第一个含坐标的餐厅点位，颜色采用 PRD 枸杞红 #E85D4C。
 // onSelect 存在时使用 role="button" + onKeyDown 支持键盘跳转详情页；
-// 不存在时退回 role="img"，仅作展示。
+// 不存在时退回 role="img"，仅作展示且不进入 Tab 顺序。
 function FoodLayer({ foods, project, onSelect }: FoodLayerProps) {
   const visible = useMemo(() => foods.flatMap((food) => {
     const restaurant = food.restaurants.find((item) => item.coordinates);
@@ -24,9 +24,9 @@ function FoodLayer({ foods, project, onSelect }: FoodLayerProps) {
     return (
       <g
         key={food.id}
-        className="map-food"
+        className={`map-food${handleSelect ? ' map-food--interactive' : ''}`}
         transform={`translate(${point.x} ${point.y})`}
-        tabIndex={0}
+        tabIndex={handleSelect ? 0 : undefined}
         role={handleSelect ? 'button' : 'img'}
         aria-label={handleSelect ? `${food.name}，按回车查看详情` : `${food.name}，宁夏美食`}
         onClick={handleSelect ? (event) => { event.stopPropagation(); handleSelect(); } : undefined}

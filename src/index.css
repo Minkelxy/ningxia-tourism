@@ -171,7 +171,8 @@ button { color: inherit; }
 .map-hub { color: #fff; }
 .map-hub circle { fill: #4d5350; stroke: #fff; stroke-width: 2; }
 .map-hub--airport circle { fill: #7C3AED; }
-.map-food { color: #fff; cursor: pointer; }
+.map-food { color: #fff; }
+.map-food--interactive { cursor: pointer; }
 .map-food circle { fill: #E85D4C; stroke: #fff; stroke-width: 2; }
 .map-government { color: #fff; }
 .map-government circle { fill: #2D5A4A; stroke: #fff; stroke-width: 2; }
@@ -282,7 +283,7 @@ button { color: inherit; }
 .active-filter-note { padding: 4px 10px; border-radius: 999px; background: #e9f1ea; color: var(--green); font-size: .75rem; font-weight: 800; }
 .attraction-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .attraction-card, .city-card, .route-card { overflow: hidden; border: 1px solid rgba(58,48,32,.12); border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow-soft); }
-.attraction-card { transition: transform .2s ease, box-shadow .2s ease; }
+.attraction-card { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
 .card-heading-row { display: flex; align-items: start; justify-content: space-between; gap: 12px; }
 .card-heading-row .card-location { flex: 1; }
 .favorite-button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-height: 38px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.72); color: var(--muted); cursor: pointer; font-size: .76rem; font-weight: 800; white-space: nowrap; }
@@ -336,7 +337,7 @@ button { color: inherit; }
 .food-card-image { isolation: isolate; background: var(--paper-deep); }
 .food-card-image picture, .food-card-image img { width: 100%; height: 100%; object-fit: cover; }
 .food-card-image img { transition: transform .45s ease, filter .35s ease; }
-.attraction-card:hover .food-card-image img { transform: scale(1.035); filter: saturate(1.04); }
+.attraction-card:hover .food-card-image img, .attraction-card:focus-within .food-card-image img { transform: scale(1.035); filter: saturate(1.04); }
 .food-card-image::after { content: ""; position: absolute; z-index: 1; inset: 45% 0 0; pointer-events: none; background: linear-gradient(180deg, transparent, rgba(25,30,23,.2)); }
 .route-card-image { margin: -28px -28px 22px; aspect-ratio: 16 / 10; border-top-left-radius: calc(var(--radius) - 1px); border-top-right-radius: calc(var(--radius) - 1px); }
 .route-card-image:hover img { transform: scale(1.03); }

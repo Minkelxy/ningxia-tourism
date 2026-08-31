@@ -140,7 +140,7 @@ ningxia-tourism/
 │   │   │   ├── config.ts          # 地图配置、政府标记、键盘工具
 │   │   │   ├── MapRegionLayer.tsx # 行政区域图层
 │   │   │   ├── AttractionLayer.tsx# 景点图层（role=button，可交互）
-│   │   │   ├── FoodLayer.tsx      # 美食图层
+│   │   │   ├── FoodLayer.tsx      # 美食图层（有 onSelect 时可交互）
 │   │   │   ├── TransportLayer.tsx # 交通枢纽图层（role=img，纯展示）
 │   │   │   ├── GovernmentLayer.tsx# 政府标记图层（role=img，纯展示）
 │   │   │   ├── MapControls.tsx    # 图层开关控件
