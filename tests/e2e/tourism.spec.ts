@@ -142,6 +142,25 @@ test('景点页支持按旅行兴趣发现新增目的地', async ({ page }) => 
   await expect(page.getByRole('heading', { level: 1, name: '彭阳梯田' })).toBeVisible();
 });
 
+test('收藏操作保持跨页面反馈一致', async ({ page }) => {
+  await page.goto(`${appBase}attractions`);
+  const attractionFavorite = page.getByRole('button', { name: /收藏/ }).first();
+  await attractionFavorite.hover();
+  await expect(attractionFavorite).toHaveCSS('background-color', 'rgb(255, 243, 237)');
+  await expect(attractionFavorite).toHaveCSS('color', 'rgb(169, 69, 53)');
+  await attractionFavorite.click();
+  await expect(attractionFavorite).toHaveAttribute('aria-pressed', 'true');
+
+  await page.goto(`${appBase}routes`);
+  const routeFavorite = page.getByRole('button', { name: /收藏/ }).first();
+  await routeFavorite.hover();
+  await expect(routeFavorite).toHaveCSS('background-color', 'rgb(255, 243, 237)');
+  await expect(routeFavorite).toHaveCSS('color', 'rgb(169, 69, 53)');
+
+  await page.goto(`${appBase}favorites`);
+  await expect(page.getByRole('heading', { name: '收藏的景点' })).toBeVisible();
+});
+
 test('城市详情和路线详情可直接访问', async ({ page }) => {
   await page.goto(`${appBase}city/yinchuan`);
   await expect(page.getByRole('heading', { level: 1, name: '银川市' })).toBeVisible();
