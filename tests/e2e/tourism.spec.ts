@@ -30,6 +30,10 @@ test('首页可按天数缩小路线范围并阅读最新专题', async ({ page 
   await expect(page.getByRole('link', { name: /打开完整筛选/ })).toHaveAttribute('href', /routes\?duration=5/);
   await expect(page.locator('.home-topic-card')).toHaveCount(3);
   await expect(page.getByRole('heading', { name: /沙坡头和金沙岛怎么选/ })).toBeVisible();
+
+  await fiveDays.press('ArrowLeft');
+  await expect(page.getByRole('radio', { name: '4 天' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByRole('radio', { name: '4 天' })).toBeFocused();
 });
 
 test('地图支持键盘进入城市、选择区县和切换交通图层', async ({ page }) => {
@@ -152,6 +156,10 @@ test('城市详情和路线详情可直接访问', async ({ page }) => {
   await expect(page.getByRole('button', { name: /打印行程/ })).toBeVisible();
   await expect(page.locator('.route-day')).toHaveCount(3);
   await expect(page.getByRole('navigation', { name: '按天快速跳转' }).getByRole('link')).toHaveCount(3);
+  const dayTwoLink = page.getByRole('navigation', { name: '按天快速跳转' }).getByRole('link', { name: /D02/ });
+  await expect(dayTwoLink).toHaveAttribute('href', '#route-day-2');
+  await dayTwoLink.click();
+  await expect(page).toHaveURL(/#route-day-2$/);
   const evidenceCard = page.locator('.route-evidence-card');
   await expect(evidenceCard.getByRole('heading', { name: '路线事实一眼看懂' })).toBeVisible();
   await expect(evidenceCard.locator('dd').nth(0)).toHaveText('5');
