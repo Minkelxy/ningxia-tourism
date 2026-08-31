@@ -736,9 +736,9 @@ button { color: inherit; }
 .journal-cover-stack .date-stamp { position: absolute; right: 0; bottom: 0; background: rgba(247,243,234,.88); }
 .journal-page { padding-block: 52px 100px; }
 .journal-tabs { display: inline-flex; gap: 6px; padding: 6px; border-radius: 999px; background: #e6dccb; }
-.journal-tabs button { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 8px 18px; border: 0; border-radius: 999px; background: transparent; cursor: pointer; }
-.journal-tabs button:hover, .journal-tabs button:focus-visible { background: #eef3ed; color: var(--green); }
-.journal-tabs button[aria-selected="true"] { background: var(--green); color: #fff; box-shadow: 0 8px 20px rgba(33,70,59,.16); }
+.journal-tabs button { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 8px 18px; border: 0; border-radius: 999px; background: transparent; cursor: pointer; transition: transform .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease; }
+.journal-tabs button:hover, .journal-tabs button:focus-visible { background: #eef3ed; color: var(--green); transform: translateY(-1px); box-shadow: 0 5px 14px rgba(49,95,79,.1); }
+.journal-tabs button[aria-selected="true"] { background: var(--green); color: #fff; box-shadow: 0 8px 20px rgba(33,70,59,.16); transform: none; }
 .journal-tabs button small { display: grid; place-items: center; min-width: 22px; height: 22px; padding-inline: 5px; border-radius: 999px; background: rgba(255,255,255,.56); color: var(--muted); font-size: .68rem; font-weight: 800; }
 .journal-tabs button[aria-selected="true"] small { background: rgba(255,255,255,.18); color: #fff; }
 .journal-tabs svg, .journal-filters svg { flex: 0 0 auto; width: 18px; }

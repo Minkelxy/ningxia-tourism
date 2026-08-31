@@ -313,6 +313,18 @@ test('旅行手记双栏目、键盘切换和未知详情可恢复', async ({ pa
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex,nofollow');
 });
 
+test('旅行手记栏目切换保持轻量反馈', async ({ page }) => {
+  await page.goto(`${appBase}journal`);
+  const travelTab = page.getByRole('tab', { name: /个人游记/ });
+  await travelTab.hover();
+  await expect(travelTab).toHaveCSS('background-color', 'rgb(238, 243, 237)');
+  await expect(travelTab).toHaveCSS('color', 'rgb(49, 95, 79)');
+  await travelTab.click();
+  await expect(travelTab).toHaveAttribute('aria-selected', 'true');
+  await expect(travelTab).toHaveCSS('background-color', 'rgb(49, 95, 79)');
+  await expect(travelTab).toHaveCSS('color', 'rgb(255, 255, 255)');
+});
+
 test('中卫沙水专题可比较目的地并查看来源', async ({ page }) => {
   await page.goto(`${appBase}journal/guide/zhongwei-sand-water-choice`);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('沙坡头和金沙岛怎么选');
