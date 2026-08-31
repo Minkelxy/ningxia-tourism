@@ -304,9 +304,18 @@ test('旅行专题展示资料边界、来源与相关目的地', async ({ page 
 
 test('阅读资料入口支持键盘连续聚焦', async ({ page }) => {
   await page.goto(`${appBase}attraction/huangyeguda`);
+  const detailBackLink = page.locator('.detail-top-actions .icon-button').first();
+  await detailBackLink.focus();
+  await expect(detailBackLink).toBeFocused();
+  const detailShareButton = page.getByRole('button', { name: '分享此景点' });
+  await detailShareButton.focus();
+  await expect(detailShareButton).toBeFocused();
   const attractionSource = page.locator('.source-list a').first();
   await attractionSource.focus();
   await expect(attractionSource).toBeFocused();
+  const imageCredit = page.locator('.image-credit a').first();
+  await imageCredit.focus();
+  await expect(imageCredit).toBeFocused();
 
   await page.goto(`${appBase}journal/guide/zhongwei-sand-water-choice`);
   const journalSource = page.locator('.journal-sources a').first();
