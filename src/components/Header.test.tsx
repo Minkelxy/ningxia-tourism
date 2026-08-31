@@ -81,4 +81,13 @@ describe('Header 移动端菜单', () => {
     const mobileNav = screen.getByRole('navigation', { name: '移动端导航' });
     expect(within(mobileNav).getByRole('link', { name: '宁夏美食', current: 'page' })).toBeInTheDocument();
   });
+
+  it('桌面端搜索与收藏入口也会标记当前页面', () => {
+    renderHeader(['/search']);
+    expect(screen.getByRole('link', { name: '全站搜索', current: 'page' })).toBeInTheDocument();
+
+    cleanup();
+    renderHeader(['/favorites']);
+    expect(screen.getByRole('link', { name: '我的收藏', current: 'page' })).toBeInTheDocument();
+  });
 });

@@ -164,6 +164,10 @@ npm run dev
 
 新增功能或 UI 变更时，应同步补充对应测试用例。
 
+### 导航语义
+
+- 当前页面的主导航、搜索和收藏入口需同时保持视觉选中态与 `aria-current="page"` 语义。
+
 ## 提交信息规范
 
 使用 [Conventional Commits](https://www.conventionalcommits.org/) 格式：

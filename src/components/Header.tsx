@@ -79,8 +79,8 @@ export default function Header() {
         <nav className="desktop-nav" aria-label="主导航">
           {navLinks.map((link) => <Link key={link.path} to={link.path} className={active(link.path) ? 'active' : ''} aria-current={active(link.path) ? 'page' : undefined}>{link.label}</Link>)}
         </nav>
-        <Link to="/search" className={`search-nav-link ${active('/search') ? 'active' : ''}`} aria-label="全站搜索" title="全站搜索"><Search aria-hidden="true" /></Link>
-        <Link to="/favorites" className={`favorites-nav-link ${active('/favorites') ? 'active' : ''}`} aria-label={`我的收藏${count ? `，${count} 项` : ''}`}><Heart aria-hidden="true" fill={count ? 'currentColor' : 'none'} /><span>收藏</span>{count > 0 && <small>{count}</small>}</Link>
+        <Link to="/search" className={`search-nav-link ${active('/search') ? 'active' : ''}`} aria-current={active('/search') ? 'page' : undefined} aria-label="全站搜索" title="全站搜索"><Search aria-hidden="true" /></Link>
+        <Link to="/favorites" className={`favorites-nav-link ${active('/favorites') ? 'active' : ''}`} aria-current={active('/favorites') ? 'page' : undefined} aria-label={`我的收藏${count ? `，${count} 项` : ''}`}><Heart aria-hidden="true" fill={count ? 'currentColor' : 'none'} /><span>收藏</span>{count > 0 && <small>{count}</small>}</Link>
         <button ref={menuButtonRef} type="button" className="mobile-menu-button" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-controls="mobile-navigation" aria-label={open ? '关闭导航菜单' : '打开导航菜单'}>
           {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
         </button>
