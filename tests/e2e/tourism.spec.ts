@@ -277,6 +277,13 @@ test('行前指南支持天数选路和本机清单', async ({ page }) => {
   await expect(page.locator('.duration-card')).toHaveCount(5);
   await expect(page.getByRole('link', { name: /3 天行程/ })).toHaveAttribute('href', /routes\?duration=3/);
 
+  const pendingItem = page.getByRole('checkbox', { name: '打开核心景点来源，确认当天开放与预约' });
+  const pendingLabel = page.locator('.travel-checklist label').filter({ hasText: '打开核心景点来源，确认当天开放与预约' });
+  await pendingLabel.hover();
+  await expect(pendingLabel).toHaveCSS('background-color', 'rgb(247, 251, 246)');
+  await pendingItem.focus();
+  await expect(pendingLabel).toHaveCSS('outline-style', 'solid');
+
   const firstItem = page.getByRole('checkbox', { name: '核对身份证件、往返车票与入住日期' });
   await firstItem.check();
   await expect(firstItem).toBeChecked();
