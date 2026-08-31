@@ -323,6 +323,16 @@ test('阅读资料入口支持键盘连续聚焦', async ({ page }) => {
   const guideSource = page.locator('.guide-source-panel a').first();
   await guideSource.focus();
   await expect(guideSource).toBeFocused();
+
+  await page.goto(appBase);
+  const topicTitle = page.locator('.home-topic-card h3 a').first();
+  await topicTitle.focus();
+  await expect(topicTitle).toBeFocused();
+
+  await page.goto(`${appBase}about`);
+  const sourceDirectory = page.locator('.source-directory a').first();
+  await sourceDirectory.focus();
+  await expect(sourceDirectory).toBeFocused();
 });
 
 test('黄河楼专题说明资质变化并区分黄河坛', async ({ page }) => {
