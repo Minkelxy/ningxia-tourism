@@ -450,7 +450,8 @@ button { color: inherit; }
 .image-credit span { display: block; color: var(--muted); font-size: .75rem; }
 .image-credit > strong { display: block; margin-top: 7px; font-family: var(--serif); font-size: .95rem; line-height: 1.55; }
 .nearby-grid, .city-attraction-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-.nearby-grid a, .city-attraction-row a { display: grid; grid-template-columns: 90px 1fr auto; align-items: center; gap: 14px; min-height: 90px; overflow: hidden; border: 1px solid var(--line); border-radius: 15px; background: #fff; }
+.nearby-grid a, .city-attraction-row a { display: grid; grid-template-columns: 90px 1fr auto; align-items: center; gap: 14px; min-height: 90px; overflow: hidden; border: 1px solid var(--line); border-radius: 15px; background: #fff; transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, background .2s ease; }
+.nearby-grid a:hover, .nearby-grid a:focus-visible, .city-attraction-row a:hover, .city-attraction-row a:focus-visible { transform: translateY(-2px); border-color: rgba(49,95,79,.35); background: #f7fbf6; box-shadow: var(--shadow-soft); }
 .nearby-grid picture, .city-attraction-row picture { width: 90px; height: 90px; }
 .nearby-grid img, .city-attraction-row img { width: 90px; height: 90px; object-fit: cover; }
 .nearby-grid small, .city-attraction-row small { display: block; color: var(--muted); }
@@ -476,10 +477,12 @@ button { color: inherit; }
 .city-table-tags { display: flex; flex-wrap: wrap; gap: 5px; min-width: 150px; }
 .city-table-tags span { padding: 4px 8px; border-radius: 999px; background: #f3e8d0; color: #71551f; font-size: .7rem; white-space: nowrap; }
 .city-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px; }
-.city-card { display: grid; grid-template-columns: 44% 56%; min-height: 390px; }
+.city-card { display: grid; grid-template-columns: 44% 56%; min-height: 390px; transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.city-card:hover, .city-card:focus-within { transform: translateY(-4px); border-color: rgba(49,95,79,.28); box-shadow: var(--shadow); }
 .city-card-image { position: relative; min-height: 280px; overflow: hidden; }
 .city-card-image picture { display: block; width: 100%; height: 100%; }
-.city-card-image img { width: 100%; height: 100%; object-fit: cover; }
+.city-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease, filter .35s ease; }
+.city-card:hover .city-card-image img, .city-card:focus-within .city-card-image img { transform: scale(1.035); filter: saturate(1.04); }
 .city-card-image span { position: absolute; left: 16px; bottom: 16px; padding: 5px 9px; border-radius: 999px; background: rgba(28,31,26,.72); color: #fff; font-size: .75rem; }
 .city-card > div { padding: 26px; }
 .city-card h2 { margin: 8px 0 12px; font-size: 2rem; }
@@ -523,7 +526,8 @@ button { color: inherit; }
 .city-routes { padding-block: 70px; background: #e9dfce; }
 .city-routes h2 { margin: 8px 0 24px; font-size: 2.4rem; }
 .route-mini-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-.route-mini-grid a { min-height: 120px; display: grid; grid-template-columns: 1fr auto; align-content: center; gap: 4px 12px; padding: 22px; border-radius: 17px; background: #fff; }
+.route-mini-grid a { min-height: 120px; display: grid; grid-template-columns: 1fr auto; align-content: center; gap: 4px 12px; padding: 22px; border: 1px solid transparent; border-radius: 17px; background: #fff; transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, background .2s ease; }
+.route-mini-grid a:hover, .route-mini-grid a:focus-visible { transform: translateY(-3px); border-color: rgba(49,95,79,.28); background: #f7fbf6; box-shadow: var(--shadow-soft); }
 .route-mini-grid span { grid-column: 1; color: var(--red); font-size: .75rem; }
 .route-mini-grid strong { grid-column: 1; font-family: var(--serif); font-size: 1.2rem; }
 .route-mini-grid svg { grid-column: 2; grid-row: 1 / 3; width: 20px; color: var(--green); }
