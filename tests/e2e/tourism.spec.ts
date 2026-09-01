@@ -592,6 +592,12 @@ test('首页与搜索起始入口保持轻量反馈', async ({ page }) => {
   await expect(topicsLink).not.toHaveCSS('transform', 'none');
 
   await page.goto(`${appBase}search`);
+  const searchInput = page.getByRole('textbox', { name: '搜索宁夏旅行内容' });
+  if ((page.viewportSize()?.width ?? 999) > 768) {
+    await expect(searchInput).toBeFocused();
+  } else {
+    await expect(searchInput).not.toBeFocused();
+  }
   const suggestion = page.getByRole('button', { name: '沙漠' });
   await expect(suggestion).toHaveCSS('min-height', '44px');
   await suggestion.hover();

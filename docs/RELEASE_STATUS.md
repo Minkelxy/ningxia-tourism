@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.44 发布待复核：搜索页仅在桌面端自动聚焦，移动端不再自动唤起系统键盘；E2E 已覆盖两种端型，待 GitHub Actions 完成后补充提交、工作流与线上验收链接。
+
 2026-09-02 v0.3.43 发布复核：代码提交 [`e8b0ba6`](https://github.com/Minkelxy/ningxia-tourism/commit/e8b0ba6e0b1bcebaae82f63b31d1e00a2a00e85d) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33553630519)为 **success**；72 条 E2E 通过、2 条按端型跳过，线上移动端搜索页与收藏页均只保留一个主内容区域，页面标题、导航与空状态正常。
 
 2026-09-02 v0.3.42 发布复核：代码提交 [`4e08799`](https://github.com/Minkelxy/ningxia-tourism/commit/4e087997f85653cfda35bcb7ad2640d4ea7e9444) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33551418610)为 **success**；移动端 E2E 为 70 条通过、2 条按端型跳过，线上美食页首图为约 269px 高、4:3 视觉节奏，首页与深层链接继续正常。
