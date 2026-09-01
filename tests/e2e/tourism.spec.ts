@@ -20,6 +20,17 @@ test('首页、景点筛选与详情可以连续浏览', async ({ page }) => {
   await expect(page.locator('.source-list').getByText(/直接专页 · 景点概况/).first()).toBeVisible();
 });
 
+test('移动端菜单入口保持统一的轻量反馈', async ({ page }) => {
+  if ((page.viewportSize()?.width ?? 999) > 768) test.skip();
+  await page.goto(appBase);
+  const menuButton = page.getByRole('button', { name: '打开导航菜单' });
+  await menuButton.hover();
+  await expect(menuButton).toHaveCSS('background-color', 'rgb(238, 243, 237)');
+  await expect(menuButton).toHaveCSS('color', 'rgb(49, 95, 79)');
+  await expect(menuButton).not.toHaveCSS('transform', 'none');
+  await expect(menuButton).toHaveCSS('box-shadow', /rgba\(49, 95, 79, 0\.1\)/);
+});
+
 test('404 页面次级入口保持轻量层次反馈', async ({ page }) => {
   await page.goto(`${appBase}this-page-does-not-exist`);
   const browseAttractions = page.getByRole('link', { name: '浏览景点' });
