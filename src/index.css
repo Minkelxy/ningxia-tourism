@@ -58,8 +58,9 @@ button { color: inherit; }
 .btn-quiet { border-color: var(--line); background: rgba(255,255,255,.7); box-shadow: 0 5px 14px rgba(67,48,24,.07); }
 .btn-quiet:hover, .btn-quiet:focus-visible { background: #fff; border-color: var(--sand); transform: translateY(-2px); box-shadow: 0 9px 22px rgba(67,48,24,.11); }
 .text-link { min-height: 44px; justify-content: flex-start; color: var(--green); }
-.text-link svg { width: 17px; height: 17px; }
-.text-link:hover, .text-link:focus-visible { color: var(--red); transform: translateX(2px); }
+.text-link svg { width: 17px; height: 17px; transition: transform .2s ease; }
+.text-link:hover, .text-link:focus-visible { color: var(--red); }
+.text-link:hover svg:last-of-type, .text-link:focus-visible svg:last-of-type { transform: translateX(2px); }
 .icon-button { width: 46px; height: 46px; border: 1px solid rgba(255,255,255,.45); border-radius: 50%; background: rgba(25,27,23,.45); color: #fff; backdrop-filter: blur(12px); }
 .icon-button:hover, .icon-button:focus-visible { border-color: rgba(255,255,255,.8); background: rgba(49,95,79,.9); transform: translateY(-2px); }
 .back-link { justify-content: flex-start; color: inherit; }

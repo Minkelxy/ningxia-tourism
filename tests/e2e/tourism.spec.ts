@@ -41,7 +41,7 @@ test('首页可按天数缩小路线范围并阅读最新专题', async ({ page 
   const fullFilterLink = page.getByRole('link', { name: /打开完整筛选/ });
   await fullFilterLink.hover();
   await expect(fullFilterLink).toHaveCSS('color', 'rgb(169, 69, 53)');
-  await expect(fullFilterLink).not.toHaveCSS('transform', 'none');
+  await expect(fullFilterLink.locator('svg').last()).not.toHaveCSS('transform', 'none');
   await expect(page.locator('.home-topic-card')).toHaveCount(3);
   await expect(page.getByRole('heading', { name: /沙坡头和金沙岛怎么选/ })).toBeVisible();
 
@@ -225,7 +225,7 @@ test('城市详情和路线详情可直接访问', async ({ page }) => {
   const stopMapLink = page.locator('.route-stop .text-link').first();
   await stopMapLink.hover();
   await expect(stopMapLink).toHaveCSS('color', 'rgb(169, 69, 53)');
-  await expect(stopMapLink).not.toHaveCSS('transform', 'none');
+  await expect(stopMapLink.locator('svg').last()).not.toHaveCSS('transform', 'none');
 });
 
 test('路线筛选同步地址并展示内容核实概览', async ({ page }) => {
