@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.41 发布复核：代码提交 [`614c371`](https://github.com/Minkelxy/ningxia-tourism/commit/614c371ed58e21305b397e33211c215a8a02ff5e) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33548816422)为 **success**；GitHub Pages 发布源已切换为 `workflow`，构建新增 `dist/404.html` 深层链接回退门禁。线上首页 HTTP 200，直接访问 [`/attractions`](https://minkelxy.github.io/ningxia-tourism/attractions) 已正常进入“精选景点 · 宁夏旅行地图”，不再返回 GitHub 默认 404。
+
 2026-09-02 v0.3.40 验收补充：代码提交 `413929f` 的[主校验与 Pages 部署工作流](https://github.com/minkelxy/ningxia-tourism/actions/runs/33546625948)与[独立 Pages 构建部署](https://github.com/minkelxy/ningxia-tourism/actions/runs/33546625286)均为 **success**；结果区“清除筛选”已统一至少 44px 触控高度。线上首页返回 HTTP 200，页面标题与站点一致。
 
 项目主线为 `main`，远端仓库为 [Minkelxy/ningxia-tourism](https://github.com/Minkelxy/ningxia-tourism)。站点通过 [GitHub Actions](https://github.com/Minkelxy/ningxia-tourism/actions/workflows/deploy.yml) 构建，并部署到 [GitHub Pages](https://minkelxy.github.io/ningxia-tourism/)。
