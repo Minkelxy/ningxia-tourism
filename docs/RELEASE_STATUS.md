@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.52 发布复核：代码提交 [`5a46ec1`](https://github.com/Minkelxy/ningxia-tourism/commit/5a46ec18327de69bb70fc897068bd8b00a98c8d9) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33568458275)为 **success**；174 条单元测试、77 条 E2E 通过、3 条按端型跳过，路由懒加载使用与站点标志一致的地图印章加载态，并提供 `role="status"` 与可访问名称，Pages 状态为 built。
+
 2026-09-02 v0.3.51 发布复核：代码提交 [`2087157`](https://github.com/Minkelxy/ningxia-tourism/commit/2087157aeef9d446a152bdb5726062f796fc70e7) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33567359007)为 **success**；173 条单元测试、77 条 E2E 通过、3 条按端型跳过，桌面端与移动端的地图景点预览统一使用 `map-preview-in` 轻量入场动效，移动端继续使用底部面板把手与安全区，Pages 状态为 built。
 
 2026-09-02 v0.3.50 发布复核：代码提交 [`e9b715a`](https://github.com/Minkelxy/ningxia-tourism/commit/e9b715a2641f2cf2f1eb0f925ed4a17efb0f9daf) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33565747585)为 **success**；173 条单元测试、76 条 E2E 通过、4 条按端型跳过，移动端地图景点预览增加可见面板把手与 `map-preview-in` 轻量上滑入场动效，Pages 状态为 built。
