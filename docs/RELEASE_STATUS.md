@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.46 发布复核：代码提交 [`7c2a183`](https://github.com/Minkelxy/ningxia-tourism/commit/7c2a18303053381cdfcf3992854fc7f71af7bf11) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33558742282)为 **success**；171 条单元测试、74 条 E2E 通过、2 条按端型跳过，路线详情 `#route-day-N` 深链接在桌面端与移动端均能定位到对应日程，Pages 状态为 built。
+
 2026-09-02 v0.3.45 发布复核：最终代码提交 [`239c180`](https://github.com/Minkelxy/ningxia-tourism/commit/239c18066e0004a309dd0e9b78b43f6e1d9309f7) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33556953258)为 **success**；171 条单元测试、72 条 E2E 通过、2 条按端型跳过，查询参数变化会重新触发页面状态播报，中文产品文档路径已校正，Pages 状态为 built。
 
 2026-09-02 v0.3.44 发布复核：代码提交 [`0c70a71`](https://github.com/Minkelxy/ningxia-tourism/commit/0c70a71b7e56745a7e9f19c4ceae2b8388af4a48) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33555057927)为 **success**；72 条 E2E 通过、2 条按端型跳过，线上资源已包含桌面端条件聚焦逻辑，移动端不再默认唤起系统键盘。
