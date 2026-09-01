@@ -719,17 +719,21 @@ test('地图美食图层可切换并展示已发布美食点位', async ({ page 
 });
 
 test('移动端景点预览使用底部面板提示与入场动效', async ({ page }) => {
-  if ((page.viewportSize()?.width ?? 999) > 768) test.skip();
   await page.goto(appBase);
   await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
   const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
   await map.getByRole('button', { name: /沙坡头.*打开预览/ }).click();
   const preview = page.getByRole('dialog', { name: '沙坡头旅游景区' });
   await expect(preview).toBeVisible();
-  await expect(preview).toHaveCSS('position', 'fixed');
   await expect(preview).toHaveCSS('animation-name', 'map-preview-in');
-  await expect(preview.locator('.map-preview-handle')).toBeVisible();
-  await expect(preview.locator('.map-preview-handle')).toHaveAttribute('aria-hidden', 'true');
+  if ((page.viewportSize()?.width ?? 999) <= 768) {
+    await expect(preview).toHaveCSS('position', 'fixed');
+    await expect(preview.locator('.map-preview-handle')).toBeVisible();
+    await expect(preview.locator('.map-preview-handle')).toHaveAttribute('aria-hidden', 'true');
+  } else {
+    await expect(preview).toHaveCSS('position', 'absolute');
+    await expect(preview.locator('.map-preview-handle')).not.toBeVisible();
+  }
 });
 
 test('地图政府标记图层可切换并展示自治区与五市政府', async ({ page }) => {
