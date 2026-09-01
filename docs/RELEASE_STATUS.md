@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.55 发布复核：代码提交 [`540e22c`](https://github.com/Minkelxy/ningxia-tourism/commit/540e22c44546687ac47f17427c495be88506a2fa) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33572144305)为 **success**；174 条单元测试、83 条 E2E 通过、3 条按端型跳过，320px 窄屏品牌主名保持单行，360px 以下隐藏重复副标题但保留完整无障碍品牌名称，页面无横向溢出，Pages 状态为 built。
+
 2026-09-02 v0.3.54 发布复核：代码提交 [`ce4960c`](https://github.com/Minkelxy/ningxia-tourism/commit/ce4960cc350b7d78c2a493d67ebcbb36c53a14ad) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33570664829)为 **success**；174 条单元测试、81 条 E2E 通过、3 条按端型跳过，移动端收藏页英雄区底部内边距从遗留的 300px 收口为 76px，桌面端保留 58px，主要收藏内容更早进入首屏，Pages 状态为 built。
 
 2026-09-02 v0.3.53 发布复核：代码提交 [`db7b08c`](https://github.com/Minkelxy/ningxia-tourism/commit/db7b08c2d16dffab875d5814a80e5c9f75381cd3) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33569640553)为 **success**；174 条单元测试、79 条 E2E 通过、3 条按端型跳过，收藏反馈、PWA 更新提示和景点对比停靠条统一使用 `env(safe-area-inset-bottom, 0px)` 预留移动端底部手势安全区，Pages 状态为 built。
