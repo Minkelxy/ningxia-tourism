@@ -34,14 +34,16 @@ function ScrollToTop() {
   return null;
 }
 
-function RouteAnnouncer() {
+export function RouteAnnouncer() {
   const location = useLocation();
   const [message, setMessage] = useState('');
   useEffect(() => {
+    // 同一路径切换筛选或搜索参数时，也需要让 aria-live 产生一次新的播报。
+    setMessage('');
     const timer = window.setTimeout(() => setMessage(document.title), 0);
     return () => window.clearTimeout(timer);
-  }, [location.pathname]);
-  return <div className="sr-only" aria-live="polite" aria-atomic="true">{message}</div>;
+  }, [location.pathname, location.search]);
+  return <div key={`${location.pathname}${location.search}`} className="sr-only" aria-live="polite" aria-atomic="true">{message}</div>;
 }
 
 function AppRoutes() {
