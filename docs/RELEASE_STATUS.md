@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.50 发布复核：代码提交 [`e9b715a`](https://github.com/Minkelxy/ningxia-tourism/commit/e9b715a2641f2cf2f1eb0f925ed4a17efb0f9daf) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33565747585)为 **success**；173 条单元测试、76 条 E2E 通过、4 条按端型跳过，移动端地图景点预览增加可见面板把手与 `map-preview-in` 轻量上滑入场动效，Pages 状态为 built。
+
 2026-09-02 v0.3.49 发布复核：代码提交 [`fd5fd6d`](https://github.com/Minkelxy/ningxia-tourism/commit/fd5fd6da3b8a36709712ba179dea432b169d12a0) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33564250620)为 **success**；173 条单元测试、75 条 E2E 通过、3 条按端型跳过，移动端导航使用实色悬浮面板、菜单外遮罩与背景虚化，点击遮罩、关闭、Escape 和路由切换均可退出，Pages 状态为 built。
 
 2026-09-02 v0.3.48 发布复核：代码提交 [`bda04a2`](https://github.com/Minkelxy/ningxia-tourism/commit/bda04a23bee4b0ce37154d7fb0e5b9dd8cafb3d7) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33562109504)为 **success**；172 条单元测试、75 条 E2E 通过、3 条按端型跳过，移动端导航以悬浮面板打开并锁定背景滚动，关闭、Escape 和路由切换后恢复原有设置，Pages 状态为 built。
