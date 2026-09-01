@@ -21,6 +21,7 @@ describe('MapPreview', () => {
     );
 
     await waitFor(() => expect(screen.getByRole('button', { name: '关闭景点预览' })).toHaveFocus());
+    expect(view.container.querySelector('.map-preview-handle')).toHaveAttribute('aria-hidden', 'true');
     view.unmount();
     expect(trigger).toHaveFocus();
     trigger.remove();

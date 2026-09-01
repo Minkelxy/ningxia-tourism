@@ -26,6 +26,7 @@ function MapPreview({ attraction, onClose }: MapPreviewProps) {
   }, [onClose]);
   return (
     <aside className="map-preview" role="dialog" aria-modal="false" aria-labelledby={`map-preview-title-${attraction.id}`}>
+      <span className="map-preview-handle" aria-hidden="true" />
       <button ref={closeButtonRef} type="button" className="map-preview-close" onClick={onClose} aria-label="关闭景点预览">
         <X aria-hidden="true" />
       </button>
