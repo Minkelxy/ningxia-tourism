@@ -1156,17 +1156,24 @@ button { color: inherit; }
   .detail-layout, .city-detail-layout, .route-detail-layout { grid-template-columns: 1fr; padding-block: 52px 72px; }
   .foods-hero { padding-block: 44px; }
   .foods-hero-grid { grid-template-columns: 1fr; gap: 30px; }
-  .foods-hero-visual { min-height: 220px; transform: rotate(-1deg); }
+  .foods-hero-visual,
+  .collection-hero-visual,
+  .route-detail-visual,
+  .food-detail-visual,
+  .guide-hero-visual,
+  .search-hero-visual,
+  .not-found-visual { min-height: 0; aspect-ratio: 4 / 3; }
+  .foods-hero-visual { transform: rotate(-1deg); }
   .collection-hero { padding-block: 44px; }
   .collection-hero-grid { grid-template-columns: 1fr; gap: 30px; }
-  .collection-hero-visual { min-height: 220px; transform: rotate(1deg); }
+  .collection-hero-visual { transform: rotate(1deg); }
   .route-detail-hero { padding-block: 54px; }
   .route-detail-hero-grid { grid-template-columns: 1fr; gap: 30px; }
-  .route-detail-visual { min-height: 220px; transform: rotate(-1deg); }
+  .route-detail-visual { transform: rotate(-1deg); }
   .favorites-hero { padding-bottom: 300px !important; }
   .food-detail-hero { padding-block: 44px; }
   .food-detail-hero-grid { grid-template-columns: 1fr; gap: 30px; }
-  .food-detail-visual { min-height: 220px; transform: rotate(1deg); }
+  .food-detail-visual { transform: rotate(1deg); }
   .detail-sidebar, .route-sidebar { grid-row: auto; }
   .planning-card, .city-sidebar, .route-summary-card { position: static; }
   .highlight-list, .info-grid { grid-template-columns: 1fr; }
@@ -1186,7 +1193,7 @@ button { color: inherit; }
   .journal-sidebar { align-items: flex-start; }
   .journal-detail-title .icon-button { right: 16px; bottom: 54px; }
   .guide-hero { padding-block: 62px; }
-  .guide-hero-visual { min-height: 220px; transform: rotate(1deg); }
+  .guide-hero-visual { transform: rotate(1deg); }
   .guide-page { padding-block: 58px 78px; }
   .guide-section + .guide-section { margin-top: 72px; }
   .season-grid, .duration-grid { grid-template-columns: 1fr; }
@@ -1203,14 +1210,14 @@ button { color: inherit; }
   .favorites-empty .text-link { width: 100%; margin-left: 36px; }
   .search-hero { padding-block: 54px 42px; }
   .search-hero-grid { grid-template-columns: 1fr; gap: 30px; }
-  .search-hero-visual { min-height: 220px; transform: rotate(1deg); }
+  .search-hero-visual { transform: rotate(1deg); }
   .search-hero h1 { margin-bottom: 22px; font-size: 3rem; line-height: 1.08; }
   .site-search-form { flex-direction: column; }
   .site-search-form .btn-primary { width: 100%; }
   .search-groups { grid-template-columns: 1fr; gap: 14px; }
   .search-group { padding: 20px; }
   .not-found-layout { grid-template-columns: 1fr; gap: 36px; }
-  .not-found-visual { min-height: 220px; transform: rotate(1deg); }
+  .not-found-visual { transform: rotate(1deg); }
 }
 
 @media (max-width: 480px) {

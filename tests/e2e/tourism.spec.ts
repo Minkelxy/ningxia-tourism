@@ -45,6 +45,17 @@ test('品牌首页入口保持44px触控高度', async ({ page }) => {
   await expect(brandLink).toHaveCSS('min-height', '44px');
 });
 
+test('移动端内容页首图保持统一横向比例', async ({ page }) => {
+  if ((page.viewportSize()?.width ?? 999) > 768) test.skip();
+  for (const path of ['foods', 'attractions', 'routes']) {
+    await page.goto(`${appBase}${path}`);
+    const visual = page.locator(path === 'foods' ? '.foods-hero-visual' : '.collection-hero-visual');
+    await expect(visual).toHaveCSS('aspect-ratio', '4 / 3');
+    const box = await visual.boundingBox();
+    expect(box?.height ?? 999).toBeLessThan(300);
+  }
+});
+
 test('结果区清除筛选保持44px触控高度', async ({ page }) => {
   await page.goto(`${appBase}attractions?city=yinchuan`);
   const clearFilters = page.getByRole('button', { name: '清除筛选' });

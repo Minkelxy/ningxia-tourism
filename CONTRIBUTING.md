@@ -29,6 +29,7 @@ npm run dev
    npm run lint            # ESLint
    npm test                # Vitest 单元测试
    npm run build           # 生产构建 + sitemap 生成
+   npm run verify:pages-fallback # GitHub Pages 深层链接回退产物
    ```
 4. **E2E 测试（涉及 UI 变更时）**：
    ```bash
@@ -183,6 +184,7 @@ npm run dev
 - 品牌首页入口保持至少 44px 触控高度；桌面与移动端 logo 可按布局缩放，但不得让首页链接热区随 logo 缩小。
 - 详情页返回入口保留 44px 触控高度；悬停和键盘聚焦只移动左侧箭头，不整体移动链接热区。
 - 移动端菜单按钮保持 44px 触控尺寸；悬停和键盘聚焦需使用胡杨绿、轻量抬升与阴影反馈，与搜索和收藏入口节奏一致。
+- 内容页首图在移动端使用统一 4:3 视觉框并通过 `object-fit: cover` 裁切；图片来源说明与 alt 文本必须保持，不得用比例调整掩盖素材边界。
 
 ## 提交信息规范
 
