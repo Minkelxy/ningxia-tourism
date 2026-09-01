@@ -534,6 +534,8 @@ test('首页与搜索起始入口保持轻量反馈', async ({ page }) => {
   const methodLink = page.getByRole('link', { name: '了解内容方法' });
   await methodLink.hover();
   await expect(methodLink).toHaveCSS('color', 'rgb(255, 255, 255)');
+  await expect(methodLink).toHaveCSS('transform', 'none');
+  await expect(methodLink.locator('svg').last()).not.toHaveCSS('transform', 'none');
   const topicsLink = page.getByRole('link', { name: '查看全部旅行专题' });
   await topicsLink.hover();
   await expect(topicsLink).toHaveCSS('background-color', 'rgb(135, 94, 36)');
@@ -551,7 +553,9 @@ test('首页与搜索起始入口保持轻量反馈', async ({ page }) => {
   await searchClear.hover();
   await expect(searchClear).toHaveCSS('background-color', 'rgb(238, 243, 237)');
   await expect(searchClear).toHaveCSS('color', 'rgb(49, 95, 79)');
-  await expect(searchClear).not.toHaveCSS('transform', 'none');
+  await expect(searchClear).toHaveCSS('width', '44px');
+  await expect(searchClear).toHaveCSS('height', '44px');
+  await expect(searchClear).toHaveCSS('transform', 'none');
   await searchClear.click();
   await expect(page).toHaveURL(new RegExp(`${appBase.replace(/[.*+?^${}()|[\\]\\]/g, '\\\\$&')}search$`));
 });

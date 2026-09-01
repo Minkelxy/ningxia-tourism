@@ -78,7 +78,7 @@ export default function Home() {
 
       <section className="home-journal section-shell">
         <div className="journal-home-card"><span className="date-stamp">宁夏<br />手记</span><p className="eyebrow"><NotebookPen aria-hidden="true" /> 旅行手记与专题</p><h2>亲历讲感受，专题帮你先把选择想清楚。</h2><p>个人游记与探店坚持真实发生；资料专题则从公开来源整理常见决策，并展示核对日期和适用边界。</p><Link to="/journal?type=guide" className="btn-primary">阅读旅行专题 <ArrowRight aria-hidden="true" /></Link></div>
-        <aside className="verification-note"><ShieldAlert aria-hidden="true" /><div><strong>信息有出处，配图有说明</strong><p>核心事实由直接来源支撑；区域氛围图会明确标注，不会被当成景点实景。</p><Link to="/about" className="text-link">了解内容方法</Link></div></aside>
+        <aside className="verification-note"><ShieldAlert aria-hidden="true" /><div><strong>信息有出处，配图有说明</strong><p>核心事实由直接来源支撑；区域氛围图会明确标注，不会被当成景点实景。</p><Link to="/about" className="text-link">了解内容方法 <ArrowRight aria-hidden="true" /></Link></div></aside>
       </section>
     </>
   );
