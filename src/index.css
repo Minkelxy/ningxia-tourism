@@ -80,7 +80,7 @@ button { color: inherit; }
 .mobile-menu-button:hover, .mobile-menu-button:focus-visible { border-color: var(--green); background: #eef3ed; color: var(--green); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(49,95,79,.1); }
 .mobile-menu-button svg { margin: auto; }
 .mobile-nav { display: none; }
-.favorites-nav-link { position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-left: 8px; padding: 8px 10px; border-radius: 999px; color: var(--muted); font-size: .82rem; font-weight: 750; transition: background .2s ease, color .2s ease, box-shadow .2s ease; }
+.favorites-nav-link { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 44px; min-height: 44px; margin-left: 8px; padding: 8px 10px; border-radius: 999px; color: var(--muted); font-size: .82rem; font-weight: 750; transition: background .2s ease, color .2s ease, box-shadow .2s ease; }
 .favorites-nav-link:hover, .favorites-nav-link:focus-visible, .favorites-nav-link.active { background: #fff; color: var(--red); box-shadow: 0 5px 14px rgba(67,48,24,.06); }
 .favorites-nav-link svg { width: 17px; height: 17px; }
 .favorites-nav-link small { display: grid; place-items: center; min-width: 19px; height: 19px; padding-inline: 4px; border-radius: 50%; background: var(--red); color: #fff; font-size: .65rem; line-height: 1; }
