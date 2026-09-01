@@ -1180,7 +1180,7 @@ button { color: inherit; }
   .route-detail-hero { padding-block: 54px; }
   .route-detail-hero-grid { grid-template-columns: 1fr; gap: 30px; }
   .route-detail-visual { transform: rotate(-1deg); }
-  .favorites-hero { padding-bottom: 300px !important; }
+  .favorites-hero { padding-bottom: 76px !important; }
   .food-detail-hero { padding-block: 44px; }
   .food-detail-hero-grid { grid-template-columns: 1fr; gap: 30px; }
   .food-detail-visual { transform: rotate(1deg); }

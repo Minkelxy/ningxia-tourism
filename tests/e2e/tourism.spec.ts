@@ -285,6 +285,20 @@ test('公共反馈层为移动端底部手势区预留安全间距', async ({ pa
   expect(safeAreaRulesPresent).toBe(true);
 });
 
+test('收藏页移动端英雄区保持紧凑首屏节奏', async ({ page }) => {
+  await page.goto(`${appBase}favorites`);
+  const heroPaddingBottom = await page.locator('.favorites-hero').evaluate((element) => getComputedStyle(element).paddingBottom);
+  if ((page.viewportSize()?.width ?? 999) <= 768) {
+    expect(heroPaddingBottom).toBe('76px');
+  } else {
+    expect(heroPaddingBottom).toBe('58px');
+  }
+  const heroBottom = await page.locator('.favorites-hero').evaluate((element) => element.getBoundingClientRect().bottom);
+  const firstSectionTop = await page.locator('.favorites-section').first().evaluate((element) => element.getBoundingClientRect().top);
+  expect(firstSectionTop - heroBottom).toBeGreaterThanOrEqual(38);
+  expect(firstSectionTop - heroBottom).toBeLessThan(46);
+});
+
 test('城市详情和路线详情可直接访问', async ({ page }) => {
   await page.goto(`${appBase}city/yinchuan`);
   await expect(page.getByRole('heading', { level: 1, name: '银川市' })).toBeVisible();
