@@ -452,6 +452,32 @@ test('阅读资料入口支持键盘连续聚焦', async ({ page }) => {
   await expect(sourceDirectory).toBeFocused();
 });
 
+test('资料来源入口保持末端图标反馈与稳定热区', async ({ page }) => {
+  await page.goto(`${appBase}attraction/huangyeguda`);
+  const attractionSource = page.locator('.source-list .source-link').first();
+  await attractionSource.hover();
+  await expect(attractionSource).toHaveCSS('transform', 'none');
+  await expect(attractionSource.locator('svg').last()).not.toHaveCSS('transform', 'none');
+
+  await page.goto(`${appBase}journal/guide/zhongwei-sand-water-choice`);
+  const journalSource = page.locator('.journal-sources .source-link').first();
+  await journalSource.hover();
+  await expect(journalSource).toHaveCSS('transform', 'none');
+  await expect(journalSource.locator('svg').last()).not.toHaveCSS('transform', 'none');
+
+  await page.goto(`${appBase}guide`);
+  const guideSource = page.locator('.guide-source-panel .source-link').first();
+  await guideSource.hover();
+  await expect(guideSource).toHaveCSS('transform', 'none');
+  await expect(guideSource.locator('svg').last()).not.toHaveCSS('transform', 'none');
+
+  await page.goto(`${appBase}about`);
+  const aboutSource = page.locator('.source-directory .source-link').first();
+  await aboutSource.hover();
+  await expect(aboutSource).toHaveCSS('transform', 'none');
+  await expect(aboutSource.locator('svg').last()).not.toHaveCSS('transform', 'none');
+});
+
 test('深色头图操作状态保持高对比', async ({ page }) => {
   await page.goto(`${appBase}routes/classic-3day`);
   const routePrimary = page.getByRole('button', { name: '打印行程' });

@@ -66,7 +66,7 @@ export default function FoodDetail() {
               <ShieldCheck aria-hidden="true" />
               <div><h2>{food.verificationLevel === 'verified' ? '核心资料已核实' : '资料待进一步复核'}</h2><p>{food.verificationLevel === 'verified' ? '本美食有官方直接专页或非遗项目专页支撑。' : '本美食仅有目录级或首页级来源，待进一步补齐直接专页。'}</p></div>
               <div className={`source-freshness ${freshness.status}`}><span>{freshness.label}</span><strong>{formatVerifiedDate(food.verifiedAt)}</strong>{freshness.days !== null && <small>{freshness.days === 0 ? '今天核验' : `${freshness.days} 天前`}</small>}</div>
-              <div className="source-list">{food.sources.map((source) => <a key={source.url} href={source.url} target="_blank" rel="noreferrer"><span><strong>{source.label}</strong><small>{sourceLevelLabels[source.level]}{source.coverage.length > 0 ? ` · ${source.coverage.map((item) => sourceCoverageLabels[item]).join('／')}` : ' · 未直接支撑具体字段'} · 核对于 {formatVerifiedDate(source.checkedAt)}</small></span><ExternalLink aria-hidden="true" /></a>)}</div>
+              <div className="source-list">{food.sources.map((source) => <a className="source-link" key={source.url} href={source.url} target="_blank" rel="noreferrer"><span><strong>{source.label}</strong><small>{sourceLevelLabels[source.level]}{source.coverage.length > 0 ? ` · ${source.coverage.map((item) => sourceCoverageLabels[item]).join('／')}` : ' · 未直接支撑具体字段'} · 核对于 {formatVerifiedDate(source.checkedAt)}</small></span><ExternalLink aria-hidden="true" /></a>)}</div>
               <p className="source-disclaimer">餐厅营业状态、价格和推荐菜品属于易变信息，即使标为"已核实"，出发前也请打开直接来源或致电确认当日安排。</p>
             </div>
           </aside>

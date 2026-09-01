@@ -45,7 +45,7 @@ export default function TravelGuide() {
       <div className="section-shell guide-page">
         <section id="guide-seasons" className="guide-section" aria-labelledby="guide-seasons-title">
           <div className="section-heading split-heading"><div><p className="eyebrow">01 · 什么时候来</p><h2 id="guide-seasons-title">四季都能走，重点不同</h2></div><p>季节建议来自宁夏文旅与地方政府网络资料；具体花期、天气和活动仍要在出发前再次确认。</p></div>
-          <div className="season-grid">{seasonGuides.map((season) => <article key={season.id} className={`season-card season-${season.id}`}><div className="season-card-top"><span>{season.months}</span><SunMedium aria-hidden="true" /></div><h3>{season.title}</h3><p>{season.summary}</p><div className="season-tags">{season.suitableFor.map((item) => <span key={item}>{item}</span>)}</div><div className="season-reminder"><CircleHelp aria-hidden="true" /><p>{season.reminder}</p></div><a href={season.source.url} target="_blank" rel="noreferrer">查看参考资料 <ExternalLink aria-hidden="true" /></a></article>)}</div>
+          <div className="season-grid">{seasonGuides.map((season) => <article key={season.id} className={`season-card season-${season.id}`}><div className="season-card-top"><span>{season.months}</span><SunMedium aria-hidden="true" /></div><h3>{season.title}</h3><p>{season.summary}</p><div className="season-tags">{season.suitableFor.map((item) => <span key={item}>{item}</span>)}</div><div className="season-reminder"><CircleHelp aria-hidden="true" /><p>{season.reminder}</p></div><a className="source-link" href={season.source.url} target="_blank" rel="noreferrer">查看参考资料 <ExternalLink aria-hidden="true" /></a></article>)}</div>
         </section>
 
         <section className="guide-section" aria-labelledby="guide-duration-title">
@@ -69,7 +69,7 @@ export default function TravelGuide() {
             <p className="local-note"><ShieldCheck aria-hidden="true" /> 勾选结果只保存在当前浏览器，不会上传或获取你的位置。</p>
           </div>
 
-          <aside className="guide-source-panel"><p className="eyebrow">出发当天再打开</p><h2>动态信息以这些入口为准</h2><div>{guideSources.map((source) => <a key={source.url} href={source.url} target="_blank" rel="noreferrer"><span><strong>{source.label}</strong><small>核对：{formatVerifiedDate(source.checkedAt)}</small></span><ExternalLink aria-hidden="true" /></a>)}</div><p>本站负责整理顺序和提醒，不替代铁路、气象、景区或文旅部门的当天公告。</p></aside>
+          <aside className="guide-source-panel"><p className="eyebrow">出发当天再打开</p><h2>动态信息以这些入口为准</h2><div>{guideSources.map((source) => <a className="source-link" key={source.url} href={source.url} target="_blank" rel="noreferrer"><span><strong>{source.label}</strong><small>核对：{formatVerifiedDate(source.checkedAt)}</small></span><ExternalLink aria-hidden="true" /></a>)}</div><p>本站负责整理顺序和提醒，不替代铁路、气象、景区或文旅部门的当天公告。</p></aside>
         </section>
 
         <section className="guide-final-cta"><div><p className="eyebrow">准备得差不多了</p><h2>回到地图，或者直接选路线</h2></div><div><Link to="/" className="btn-quiet"><MapPin aria-hidden="true" /> 地图探索</Link><Link to="/routes" className="btn-primary"><CalendarCheck2 aria-hidden="true" /> 查看 {routes.length} 条路线</Link></div></section>

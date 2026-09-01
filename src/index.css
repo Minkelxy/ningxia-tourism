@@ -457,6 +457,8 @@ button { color: inherit; }
 .source-list { margin-top: 12px; }
 .source-list a { align-items: flex-start; margin: 0 -10px; padding: 11px 10px; border-top: 1px solid var(--line); border-radius: 10px; transition: background .2s ease, color .2s ease, border-color .2s ease; }
 .source-list a:hover, .source-list a:focus-visible { background: #f0f5ef; color: var(--green); }
+.source-link > svg:last-child { transition: transform .2s ease; }
+.source-link:hover > svg:last-child, .source-link:focus-visible > svg:last-child { transform: translateX(2px); }
 .source-list a > span { min-width: 0; }
 .source-list a strong { display: block; line-height: 1.45; }
 .source-list a small { display: block; margin-top: 3px; color: var(--muted); font-size: .7rem; font-weight: 550; line-height: 1.55; }
