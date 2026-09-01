@@ -177,6 +177,7 @@ test('景点页支持按旅行兴趣发现新增目的地', async ({ page }) => 
 test('收藏操作保持跨页面反馈一致', async ({ page }) => {
   await page.goto(`${appBase}attractions`);
   const attractionFavorite = page.getByRole('button', { name: /收藏/ }).first();
+  await expect(attractionFavorite).toHaveCSS('min-height', '44px');
   await attractionFavorite.hover();
   await expect(attractionFavorite).toHaveCSS('background-color', 'rgb(255, 243, 237)');
   await expect(attractionFavorite).toHaveCSS('color', 'rgb(169, 69, 53)');
@@ -185,6 +186,7 @@ test('收藏操作保持跨页面反馈一致', async ({ page }) => {
 
   await page.goto(`${appBase}routes`);
   const routeFavorite = page.getByRole('button', { name: /收藏/ }).first();
+  await expect(routeFavorite).toHaveCSS('min-height', '44px');
   await routeFavorite.hover();
   await expect(routeFavorite).toHaveCSS('background-color', 'rgb(255, 243, 237)');
   await expect(routeFavorite).toHaveCSS('color', 'rgb(169, 69, 53)');
