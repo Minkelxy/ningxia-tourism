@@ -6,7 +6,7 @@
 
 项目主线为 `main`，远端仓库为 [Minkelxy/ningxia-tourism](https://github.com/Minkelxy/ningxia-tourism)。站点通过 [GitHub Actions](https://github.com/Minkelxy/ningxia-tourism/actions/workflows/deploy.yml) 构建，并部署到 [GitHub Pages](https://minkelxy.github.io/ningxia-tourism/)。
 
-2026-09-02 线上验收：代码提交 `13a32d1` 的 [主校验工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33541707077) 已完成构建门禁，[独立 Pages 构建部署](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33541706237) 为 **success**；桌面端与移动端比较结果栏、旅行手记正文目录与相关内容入口、PWA 更新提示刷新/关闭入口统一至少 44px 触控热区，并修正 Windows 换行内容下正文目录不渲染的问题。既有景点卡片、路线卡片、详情页与收藏夹收藏入口、导航搜索入口、首页内容方法入口、搜索清空按钮、资料来源入口、详情返回入口、景点兴趣筛选选中态、地图图层选中态、搜索、筛选、卡片、详情页操作、深色头图按钮、文字链接、移动端菜单入口、清除/重置类文字操作及纯展示图层语义继续通过回归；构建依赖安全审计为 0 vulnerabilities，已通过本地类型、规范、单元、内容、端到端、生产构建与 Lighthouse 校验；线上首页 HTTP 200，页面标题与站点一致。
+2026-09-02 线上验收：代码提交 `804b11a` 的 [主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33543693671) 与 [独立 Pages 构建部署](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33543693259) 均为 **success**；移动端导航收藏入口在隐藏文字与数量后仍保持至少 44×44px 触控热区，与搜索和菜单入口对齐。既有景点卡片、路线卡片、详情页与收藏夹收藏入口、导航搜索入口、首页内容方法入口、搜索清空按钮、资料来源入口、详情返回入口、景点兴趣筛选选中态、地图图层选中态、搜索、筛选、卡片、详情页操作、深色头图按钮、文字链接、移动端菜单入口、清除/重置类文字操作及纯展示图层语义继续通过回归；构建依赖安全审计为 0 vulnerabilities，已通过本地类型、规范、单元、内容、端到端、生产构建与 Lighthouse 校验；线上首页 HTTP 200，页面标题与站点一致。
 
 当前公开数据规模：
 
