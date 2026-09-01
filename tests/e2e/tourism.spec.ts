@@ -270,6 +270,16 @@ test('城市详情和路线详情可直接访问', async ({ page }) => {
   await expect(dayTwoLink).toHaveAttribute('href', '#route-day-2');
   await dayTwoLink.click();
   await expect(page).toHaveURL(/#route-day-2$/);
+  const routeDayOffset = await page.evaluate(() => {
+    const target = document.querySelector<HTMLElement>('#route-day-2');
+    const header = document.querySelector<HTMLElement>('.site-header');
+    const dayNav = document.querySelector<HTMLElement>('.route-day-nav');
+    return {
+      top: target?.getBoundingClientRect().top ?? -1,
+      safeTop: (header?.getBoundingClientRect().height ?? 0) + (dayNav?.getBoundingClientRect().height ?? 0),
+    };
+  });
+  expect(routeDayOffset.top).toBeGreaterThanOrEqual(routeDayOffset.safeTop - 2);
   const evidenceCard = page.locator('.route-evidence-card');
   await expect(evidenceCard.getByRole('heading', { name: '路线事实一眼看懂' })).toBeVisible();
   await expect(evidenceCard.locator('dd').nth(0)).toHaveText('5');
