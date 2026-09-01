@@ -6,7 +6,7 @@
 
 项目主线为 `main`，远端仓库为 [Minkelxy/ningxia-tourism](https://github.com/Minkelxy/ningxia-tourism)。站点通过 [GitHub Actions](https://github.com/Minkelxy/ningxia-tourism/actions/workflows/deploy.yml) 构建，并部署到 [GitHub Pages](https://minkelxy.github.io/ningxia-tourism/)。
 
-2026-09-01 线上验收：代码提交 `34759c8` 的 [校验工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33524973409) 与 [Pages 构建部署](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33524973048) 均为 **success**；安静按钮已统一浅色页面的默认阴影、悬停/键盘聚焦轻量抬升与阴影过渡，并为路线详情与行前指南的深色头图切换为深色环境阴影。既有桌面与移动导航当前页语义、景点兴趣筛选选中态、地图图层选中态、搜索、筛选、卡片、详情页操作、深色头图按钮及纯展示图层语义继续通过回归，已通过本地类型、规范、单元、内容、端到端、生产构建与 Lighthouse 校验。
+2026-09-01 线上验收：代码提交 `f7eae4d` 的 [校验工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33526971995) 与 [Pages 构建部署](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33526971576) 均为 **success**；全站文字链接已统一悬停/键盘聚焦的主题色反馈，并仅移动末端箭头图标，保持整条链接热区稳定。既有桌面与移动导航当前页语义、景点兴趣筛选选中态、地图图层选中态、搜索、筛选、卡片、详情页操作、深色头图按钮及纯展示图层语义继续通过回归，已通过本地类型、规范、单元、内容、端到端、生产构建与 Lighthouse 校验。
 
 当前公开数据规模：
 
