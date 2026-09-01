@@ -475,11 +475,13 @@ test('轻量文字操作状态与全站交互色保持一致', async ({ page }) 
   const routeClear = page.getByRole('button', { name: '清除筛选' });
   await routeClear.hover();
   await expect(routeClear).toHaveCSS('color', 'rgb(169, 69, 53)');
+  await expect(routeClear).toHaveCSS('transform', 'none');
 
   await page.goto(`${appBase}journal?type=guide&q=%E6%B2%99%E6%B9%96`);
   const journalClear = page.getByRole('button', { name: '清空筛选' });
   await journalClear.hover();
   await expect(journalClear).toHaveCSS('color', 'rgb(49, 95, 79)');
+  await expect(journalClear).toHaveCSS('transform', 'none');
 
   await page.goto(`${appBase}guide`);
   const checklistItem = page.getByRole('checkbox', { name: '核对身份证件、往返车票与入住日期' });
@@ -487,6 +489,7 @@ test('轻量文字操作状态与全站交互色保持一致', async ({ page }) 
   const checklistReset = page.getByRole('button', { name: '重置清单' });
   await checklistReset.hover();
   await expect(checklistReset).toHaveCSS('color', 'rgb(49, 95, 79)');
+  await expect(checklistReset).toHaveCSS('transform', 'none');
 });
 
 test('首页与搜索起始入口保持轻量反馈', async ({ page }) => {

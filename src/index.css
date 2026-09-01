@@ -293,8 +293,8 @@ button { color: inherit; }
 .result-summary { display: flex; align-items: center; gap: 12px; margin: 28px 2px 18px; scroll-margin-top: 92px; color: var(--muted); }
 .result-summary strong { color: var(--ink); font-family: var(--serif); font-size: 1.7rem; }
 .result-summary button { border: 0; background: none; color: var(--green); font-weight: 700; cursor: pointer; }
-.result-summary button, .journal-result-bar button, .checklist-reset { transition: color .2s ease, transform .2s ease; }
-.result-summary button:hover, .result-summary button:focus-visible { color: var(--red); transform: translateX(2px); }
+.result-summary button, .journal-result-bar button, .checklist-reset { transition: color .2s ease; }
+.result-summary button:hover, .result-summary button:focus-visible { color: var(--red); }
 .active-filter-note { padding: 4px 10px; border-radius: 999px; background: #e9f1ea; color: var(--green); font-size: .75rem; font-weight: 800; }
 .attraction-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .attraction-card, .city-card, .route-card { overflow: hidden; border: 1px solid rgba(58,48,32,.12); border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow-soft); }
@@ -756,7 +756,7 @@ button { color: inherit; }
 .journal-result-bar { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin: -12px 0 20px; padding-bottom: 14px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .84rem; }
 .journal-result-bar strong { color: var(--green); font-size: 1.08rem; }
 .journal-result-bar button { display: inline-flex; align-items: center; gap: 5px; min-height: 44px; padding: 0 4px; border: 0; background: transparent; color: var(--red); cursor: pointer; font-weight: 750; }
-.journal-result-bar button:hover, .journal-result-bar button:focus-visible { color: var(--green); transform: translateX(2px); }
+.journal-result-bar button:hover, .journal-result-bar button:focus-visible { color: var(--green); }
 .journal-result-bar button svg { width: 16px; }
 .journal-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
 .journal-card { overflow: hidden; border: 1px solid rgba(58,48,32,.12); border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow-soft); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
@@ -922,7 +922,7 @@ button { color: inherit; }
 .travel-checklist label > span svg { width: 15px; }
 .travel-checklist label > strong { font-size: .76rem; line-height: 1.45; }
 .checklist-reset { min-height: 44px; display: inline-flex; align-items: center; gap: 7px; margin-top: 18px; border: 0; background: none; color: var(--red); font-weight: 750; cursor: pointer; }
-.checklist-reset:hover:not(:disabled), .checklist-reset:focus-visible:not(:disabled) { color: var(--green); transform: translateX(2px); }
+.checklist-reset:hover:not(:disabled), .checklist-reset:focus-visible:not(:disabled) { color: var(--green); }
 .checklist-reset:disabled { color: var(--muted); cursor: default; opacity: .55; }
 .checklist-reset svg { width: 17px; }
 .local-note { display: flex; align-items: flex-start; gap: 8px; color: var(--muted); font-size: .72rem; }
@@ -968,8 +968,8 @@ button { color: inherit; }
 .favorites-hero { background: linear-gradient(135deg, #eee3d0, #f7f3ea 62%, #e1d5c0); }
 .favorites-page { padding-top: 42px; }
 .favorites-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 42px; color: var(--muted); font-size: .9rem; font-weight: 750; }
-.text-button { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 8px 0; border: 0; background: transparent; color: var(--red); cursor: pointer; font-weight: 750; transition: color .2s ease, transform .2s ease; }
-.text-button:hover, .text-button:focus-visible { color: var(--green); transform: translateX(2px); }
+.text-button { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 8px 0; border: 0; background: transparent; color: var(--red); cursor: pointer; font-weight: 750; transition: color .2s ease; }
+.text-button:hover, .text-button:focus-visible { color: var(--green); }
 .text-button svg { width: 17px; }
 .favorites-section + .favorites-section { margin-top: 72px; }
 .favorites-section > header { margin-bottom: 22px; }
