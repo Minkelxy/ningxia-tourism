@@ -6,7 +6,7 @@
 
 项目主线为 `main`，远端仓库为 [Minkelxy/ningxia-tourism](https://github.com/Minkelxy/ningxia-tourism)。站点通过 [GitHub Actions](https://github.com/Minkelxy/ningxia-tourism/actions/workflows/deploy.yml) 构建，并部署到 [GitHub Pages](https://minkelxy.github.io/ningxia-tourism/)。
 
-2026-09-02 线上验收：代码提交 `72b4d9a` 的 [校验工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33535970763) 与 [Pages 构建部署](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33535968715) 均为 **success**；桌面端与移动端导航搜索入口统一为 44px 圆形热区，并保留胡杨绿聚焦反馈与 `aria-current` 当前页语义。既有首页内容方法入口、搜索清空按钮、资料来源入口、详情返回入口、景点兴趣筛选选中态、地图图层选中态、搜索、筛选、卡片、详情页操作、深色头图按钮、文字链接、移动端菜单入口、清除/重置类文字操作及纯展示图层语义继续通过回归，已通过本地类型、规范、单元、内容、端到端、生产构建与 Lighthouse 校验。
+2026-09-02 线上验收：代码提交 `b880c1a` 的 [校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33537416114) 为 **success**；桌面端与移动端景点卡片、路线卡片、详情页与收藏夹收藏入口统一至少 44px 触控热区，并保留收藏颜色、`aria-pressed` 语义与轻量抬升反馈。既有导航搜索入口、首页内容方法入口、搜索清空按钮、资料来源入口、详情返回入口、景点兴趣筛选选中态、地图图层选中态、搜索、筛选、卡片、详情页操作、深色头图按钮、文字链接、移动端菜单入口、清除/重置类文字操作及纯展示图层语义继续通过回归，已通过本地类型、规范、单元、内容、端到端、生产构建与 Lighthouse 校验；线上首页 HTTP 200，页面标题与站点一致。独立 Pages 自动任务曾因上一笔部署尚未结束返回 400，随后主工作流部署成功，不影响本次线上发布。
 
 当前公开数据规模：
 
