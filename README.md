@@ -84,6 +84,7 @@ npm run dev
 |------|------|
 | `npm run dev` | 启动本地开发服务器（Vite HMR） |
 | `npm run build` | 执行数据校验 → 类型检查 → 生产构建 → 生成 sitemap |
+| `npm run verify:pages-fallback` | 校验 GitHub Pages 深层链接回退产物 |
 | `npm run preview` | 本地预览构建产物 |
 | `npm run validate:data` | 仅运行数据完整性 + 反糟粕门禁 |
 | `npm run validate:data:reminder` | 扫描 170—180 天核实周期软提醒（warning-only） |
@@ -120,7 +121,7 @@ ningxia-tourism/
 │   ├── data/                      # 地图边界 GeoJSON（唯一源）
 │   ├── images/                    # 景点 / 美食 / 专题 / AI 示例图片（WebP+AVIF）
 │   ├── videos/                    # 宣传视频
-│   ├── 404.html                   # GitHub Pages SPA 深层链接回退
+│   ├── 404.html                   # GitHub Pages SPA 深层链接回退（Actions 发布）
 │   ├── manifest.webmanifest       # PWA 清单
 │   ├── sw.js                      # Service Worker（离线缓存）
 │   └── robots.txt

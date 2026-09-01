@@ -60,6 +60,8 @@ jobs:
         run: npm run build
         env:
           VITE_BASE_URL: /ningxia-tourism/
+      - name: Verify Pages deep-link fallback
+        run: npm run verify:pages-fallback
       - name: Lighthouse quality gate
         run: npm run quality:lighthouse
       - name: Upload Pages artifact

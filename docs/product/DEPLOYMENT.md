@@ -94,10 +94,13 @@ const base = process.env.GITHUB_ACTIONS
 
 ## 4. SPA 深层链接回退
 
-GitHub Pages 默认不支持 SPA 路由的刷新回退。仓库已通过 `public/404.html` 解决：
+GitHub Pages 默认不支持 SPA 路由的刷新回退。仓库使用 GitHub Actions 发布，并通过 `public/404.html` 解决：
 
 - 构建时 `public/404.html` 会被原封不动复制到 `dist/404.html`
-- 该文件与 `index.html` 内容一致，任何未匹配到的路径都会被 Pages 当作 404 返回它，从而接管前端路由
+- 未匹配到的路径会先由 `404.html` 重定向到站点首页，再由 `index.html` 恢复原始路径并接管前端路由
+- `npm run verify:pages-fallback` 会在 CI 中确认回退文件、仓库子路径和地址恢复逻辑均存在
+
+Pages 设置必须保持为 **GitHub Actions**，不要再启用 `main /` 的 legacy 分支发布；两种发布源同时存在会导致首页与深层链接来自不同构建结果。
 
 > ⚠️ 如果你部署到**其它平台**（Netlify / Vercel / Nginx），请使用各自的 rewrite 规则，不要依赖 `404.html` 方案。
 
