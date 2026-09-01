@@ -464,6 +464,11 @@ test('首页与搜索起始入口保持轻量反馈', async ({ page }) => {
   const methodLink = page.getByRole('link', { name: '了解内容方法' });
   await methodLink.hover();
   await expect(methodLink).toHaveCSS('color', 'rgb(255, 255, 255)');
+  const topicsLink = page.getByRole('link', { name: '查看全部旅行专题' });
+  await topicsLink.hover();
+  await expect(topicsLink).toHaveCSS('background-color', 'rgb(135, 94, 36)');
+  await expect(topicsLink).toHaveCSS('color', 'rgb(255, 255, 255)');
+  await expect(topicsLink).not.toHaveCSS('transform', 'none');
 
   await page.goto(`${appBase}search`);
   const suggestion = page.getByRole('button', { name: '沙漠' });
