@@ -4,7 +4,7 @@
 
 ## 当前发布快照
 
-2026-09-02 v0.3.42 发布记录：移动端内容页首图统一为 4:3 视觉框，减少竖幅素材造成的首屏高度波动；本地 E2E 新增回归，代码与文档待本轮 GitHub Actions 发布后补入最终提交与线上验收链接。
+2026-09-02 v0.3.42 发布复核：代码提交 [`4e08799`](https://github.com/Minkelxy/ningxia-tourism/commit/4e087997f85653cfda35bcb7ad2640d4ea7e9444) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33551418610)为 **success**；移动端 E2E 为 70 条通过、2 条按端型跳过，线上美食页首图为约 269px 高、4:3 视觉节奏，首页与深层链接继续正常。
 
 2026-09-02 v0.3.41 发布复核：代码提交 [`614c371`](https://github.com/Minkelxy/ningxia-tourism/commit/614c371ed58e21305b397e33211c215a8a02ff5e) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33548816422)为 **success**；GitHub Pages 发布源已切换为 `workflow`，构建新增 `dist/404.html` 深层链接回退门禁。线上首页 HTTP 200，直接访问 [`/attractions`](https://minkelxy.github.io/ningxia-tourism/attractions) 已正常进入“精选景点 · 宁夏旅行地图”，不再返回 GitHub 默认 404。
 
