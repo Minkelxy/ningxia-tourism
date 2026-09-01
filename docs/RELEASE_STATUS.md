@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.48 发布复核：代码提交 [`bda04a2`](https://github.com/Minkelxy/ningxia-tourism/commit/bda04a23bee4b0ce37154d7fb0e5b9dd8cafb3d7) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33562109504)为 **success**；172 条单元测试、75 条 E2E 通过、3 条按端型跳过，移动端导航以悬浮面板打开并锁定背景滚动，关闭、Escape 和路由切换后恢复原有设置，Pages 状态为 built。
+
 2026-09-02 v0.3.47 发布复核：代码提交 [`ee9129f`](https://github.com/Minkelxy/ningxia-tourism/commit/ee9129f13e1f3a1644e7af4bee6365e625fba50a) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33560985885)为 **success**；171 条单元测试、74 条 E2E 通过、2 条按端型跳过，路线详情的站点头部、按天导航、日程锚点与 DAY 标记已统一响应式吸顶安全区，Pages 状态为 built。
 
 2026-09-02 v0.3.46 发布复核：代码提交 [`7c2a183`](https://github.com/Minkelxy/ningxia-tourism/commit/7c2a18303053381cdfcf3992854fc7f71af7bf11) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33558742282)为 **success**；171 条单元测试、74 条 E2E 通过、2 条按端型跳过，路线详情 `#route-day-N` 深链接在桌面端与移动端均能定位到对应日程，Pages 状态为 built。
