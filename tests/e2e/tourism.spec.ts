@@ -39,6 +39,12 @@ test('导航搜索与收藏入口保持44px触控热区', async ({ page }) => {
   await expect(favoritesLink).toHaveCSS('justify-content', 'center');
 });
 
+test('品牌首页入口保持44px触控高度', async ({ page }) => {
+  await page.goto(appBase);
+  const brandLink = page.locator('.brand');
+  await expect(brandLink).toHaveCSS('min-height', '44px');
+});
+
 test('404 页面次级入口保持轻量层次反馈', async ({ page }) => {
   await page.goto(`${appBase}this-page-does-not-exist`);
   const browseAttractions = page.getByRole('link', { name: '浏览景点' });
