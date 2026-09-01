@@ -6,7 +6,7 @@
 
 项目主线为 `main`，远端仓库为 [Minkelxy/ningxia-tourism](https://github.com/Minkelxy/ningxia-tourism)。站点通过 [GitHub Actions](https://github.com/Minkelxy/ningxia-tourism/actions/workflows/deploy.yml) 构建，并部署到 [GitHub Pages](https://minkelxy.github.io/ningxia-tourism/)。
 
-2026-09-01 线上验收：代码提交 `a8aa811` 的 [校验工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33441133585) 与 [Pages 构建部署](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33441133303) 均为 **success**；桌面端搜索与收藏入口补齐 `aria-current="page"`，与主导航和移动导航保持当前页语义一致。地图交通、美食、政府图层开关的选中态主题色、白字对比、阴影层次与悬停行为也继续保持统一。既有地图、搜索、筛选、卡片、详情页操作、深色头图按钮及纯展示图层语义继续通过回归，已通过本地类型、规范、单元、内容、端到端、生产构建与 Lighthouse 校验。
+2026-09-01 线上验收：代码提交 `6749b64` 的 [校验工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33520309600) 与 [Pages 构建部署](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33520307799) 均为 **success**；景点兴趣筛选卡选中后保持胡杨绿边框、浅色底和内嵌阴影层次，悬停时不再抬升干扰当前筛选识别。既有桌面与移动导航当前页语义、地图图层选中态、搜索、筛选、卡片、详情页操作、深色头图按钮及纯展示图层语义继续通过回归，已通过本地类型、规范、单元、内容、端到端、生产构建与 Lighthouse 校验。
 
 当前公开数据规模：
 
