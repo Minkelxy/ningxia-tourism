@@ -1037,7 +1037,7 @@ button { color: inherit; }
 .search-start > svg, .search-empty > svg { width: 30px; color: var(--sand-dark); }
 .search-start h2, .search-empty h2 { color: var(--ink); font-size: 1.8rem; }
 .search-suggestions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 12px; }
-.search-suggestions button { min-height: 40px; padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--green); cursor: pointer; font-weight: 750; transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.search-suggestions button { min-height: 44px; padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--green); cursor: pointer; font-weight: 750; transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease; }
 .search-suggestions button:hover, .search-suggestions button:focus-visible { border-color: var(--green); background: #eef3ed; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(49,95,79,.1); }
 
 @keyframes spin { to { transform: rotate(360deg); } }

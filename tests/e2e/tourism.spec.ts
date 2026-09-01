@@ -550,6 +550,7 @@ test('首页与搜索起始入口保持轻量反馈', async ({ page }) => {
 
   await page.goto(`${appBase}search`);
   const suggestion = page.getByRole('button', { name: '沙漠' });
+  await expect(suggestion).toHaveCSS('min-height', '44px');
   await suggestion.hover();
   await expect(suggestion).toHaveCSS('background-color', 'rgb(238, 243, 237)');
   await expect(suggestion).toHaveCSS('border-color', 'rgb(49, 95, 79)');
