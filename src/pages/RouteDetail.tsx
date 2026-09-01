@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, BadgeCheck, CalendarDays, CircleDollarSign, Clock3, ExternalLink, Footprints, Gauge, MapPin, MapPinned, Navigation, Printer, Share2, Sparkles, TrainFront, Utensils } from 'lucide-react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { getAttractionById } from '../data/attractions';
 import { cityName } from '../data/cities';
@@ -15,6 +15,7 @@ import ResponsiveImage from '../components/ResponsiveImage';
 const EMPTY_EVIDENCE: RouteEvidenceSummary = { totalStops: 0, verifiedStops: 0, reviewStops: 0, ordinaryStops: 0, cityIds: [] };
 export default function RouteDetail() {
   const { routeId } = useParams();
+  const location = useLocation();
   const route = getRouteById(routeId);
   // Hooks 必须在任何 early return 之前调用，参数使用空字符串/安全兜底
   const evidence = useMemo(() => (route ? getRouteEvidenceSummary(route) : EMPTY_EVIDENCE), [route]);
@@ -36,6 +37,19 @@ export default function RouteDetail() {
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
   }, [route]);
+
+  useEffect(() => {
+    if (!route) return;
+    const match = location.hash.match(/^#route-day-(\d+)$/);
+    if (!match) return;
+    const day = Number(match[1]);
+    if (!route.days.some((item) => item.day === day)) return;
+    setActiveDay(day);
+    const timer = window.setTimeout(() => {
+      document.getElementById(`route-day-${day}`)?.scrollIntoView({ block: 'start' });
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [location.hash, route]);
 
   if (!route) return <div className="full-state"><SEO title="路线未找到 · 宁夏旅行地图" noIndex /><CalendarDays aria-hidden="true" /><h1>没有找到这条路线</h1><p>回到路线列表，选择一条适合你的行程。</p><Link to="/routes" className="btn-primary">查看全部路线</Link></div>;
   return (

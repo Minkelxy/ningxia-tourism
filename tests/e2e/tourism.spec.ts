@@ -291,6 +291,13 @@ test('城市详情和路线详情可直接访问', async ({ page }) => {
   await expect(stopMapLink.locator('svg').last()).not.toHaveCSS('transform', 'none');
 });
 
+test('路线日程深链接会定位到对应天数', async ({ page }) => {
+  await page.goto(`${appBase}routes/classic-3day#route-day-2`);
+  await expect(page.getByRole('region', { name: '西夏陵与镇北堡' })).toBeVisible();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+  await expect(page.locator('#route-day-2')).toBeVisible();
+});
+
 test('路线筛选同步地址并展示内容核实概览', async ({ page }) => {
   await page.goto(`${appBase}routes`);
   if ((page.viewportSize()?.width ?? 999) <= 768) {

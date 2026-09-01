@@ -165,7 +165,7 @@ npm run dev
 - 运行：`npm run test:e2e`（首次需 `npx playwright install chromium`）
 - 桌面端和移动端两个 viewport 均需通过
 
-新增功能或 UI 变更时，应同步补充对应测试用例。
+新增功能或 UI 变更时，应同步补充对应测试用例。路线详情的日程锚点支持直接访问；调整路由初始化、懒加载或滚动逻辑时，需回归 `#route-day-N` 深链接在桌面端与移动端的定位。
 
 ### 导航语义
 
