@@ -75,6 +75,16 @@ describe('Header 移动端菜单', () => {
     expect(mobileNav).toBeInTheDocument();
   });
 
+  it('打开菜单时锁定页面滚动，关闭后恢复原有设置', async () => {
+    document.body.style.overflow = 'auto';
+    renderHeader();
+    fireEvent.click(screen.getByRole('button', { name: '打开导航菜单' }));
+    await waitFor(() => expect(document.body.style.overflow).toBe('hidden'));
+
+    fireEvent.click(screen.getByRole('button', { name: '关闭导航菜单' }));
+    await waitFor(() => expect(document.body.style.overflow).toBe('auto'));
+  });
+
   it('移动端菜单会标记当前页面', () => {
     renderHeader(['/foods']);
     fireEvent.click(screen.getByRole('button', { name: '打开导航菜单' }));

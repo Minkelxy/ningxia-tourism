@@ -24,6 +24,8 @@ export default function Header() {
     if (!open) return;
     const nav = mobileNavRef.current;
     if (!nav) return;
+    const previousBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     const firstLink = nav.querySelector<HTMLAnchorElement>('a');
     firstLink?.focus();
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -56,6 +58,7 @@ export default function Header() {
     document.addEventListener('keydown', trapFocus);
     document.addEventListener('mousedown', closeOnOutsideClick);
     return () => {
+      document.body.style.overflow = previousBodyOverflow;
       document.removeEventListener('keydown', closeOnEscape);
       document.removeEventListener('keydown', trapFocus);
       document.removeEventListener('mousedown', closeOnOutsideClick);

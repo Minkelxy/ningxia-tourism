@@ -31,6 +31,24 @@ test('移动端菜单入口保持统一的轻量反馈', async ({ page }) => {
   await expect(menuButton).toHaveCSS('box-shadow', /rgba\(49, 95, 79, 0\.1\)/);
 });
 
+test('移动端菜单浮于内容之上并锁定页面滚动', async ({ page }) => {
+  if ((page.viewportSize()?.width ?? 999) > 768) test.skip();
+  await page.goto(appBase);
+  const main = page.locator('main');
+  const before = await main.boundingBox();
+  await page.getByRole('button', { name: '打开导航菜单' }).click();
+  const mobileNav = page.getByRole('navigation', { name: '移动端导航' });
+  await expect(mobileNav).toBeVisible();
+  await expect(mobileNav).toHaveCSS('position', 'absolute');
+  await expect(mobileNav).toHaveCSS('box-shadow', /rgba\(67, 48, 24, 0\.16\)/);
+  await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe('hidden');
+  const after = await main.boundingBox();
+  expect(after?.y).toBe(before?.y);
+
+  await page.getByRole('button', { name: '关闭导航菜单' }).click();
+  await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe('');
+});
+
 test('导航搜索与收藏入口保持44px触控热区', async ({ page }) => {
   await page.goto(appBase);
   const favoritesLink = page.locator('.favorites-nav-link');
