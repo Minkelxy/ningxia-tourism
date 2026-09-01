@@ -212,6 +212,10 @@ test('城市详情和路线详情可直接访问', async ({ page }) => {
   await expect(page.getByText(/西夏陵、镇北堡都在远郊西线/)).toBeVisible();
   await expect(page.getByText(/个公开景点/).first()).toBeVisible();
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/ningxia-tourism\/city\/yinchuan$|\/city\/yinchuan$/);
+  const cityBackLink = page.locator('.city-detail-copy .back-link');
+  await cityBackLink.hover();
+  await expect(cityBackLink).toHaveCSS('transform', 'none');
+  await expect(cityBackLink.locator('svg').first()).not.toHaveCSS('transform', 'none');
 
   await page.goto(`${appBase}routes/classic-3day`);
   await expect(page.getByRole('heading', { level: 1, name: '经典三日全景游' })).toBeVisible();
@@ -227,6 +231,10 @@ test('城市详情和路线详情可直接访问', async ({ page }) => {
   await expect(evidenceCard.locator('dd').nth(0)).toHaveText('5');
   await expect(page.getByText('适中节奏').first()).toBeVisible();
   await expect(page.getByRole('heading', { name: '先判断这条路线是否适合你' })).toBeVisible();
+  const routeBackLink = page.locator('.route-detail-hero .back-link');
+  await routeBackLink.hover();
+  await expect(routeBackLink).toHaveCSS('transform', 'none');
+  await expect(routeBackLink.locator('svg').first()).not.toHaveCSS('transform', 'none');
 
   await page.goto(`${appBase}routes/shizuishan-2day`);
   await expect(page.getByRole('heading', { level: 1, name: '山湖与工业石嘴山两日游' })).toBeVisible();

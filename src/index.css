@@ -64,7 +64,9 @@ button { color: inherit; }
 .icon-button { width: 46px; height: 46px; border: 1px solid rgba(255,255,255,.45); border-radius: 50%; background: rgba(25,27,23,.45); color: #fff; backdrop-filter: blur(12px); }
 .icon-button:hover, .icon-button:focus-visible { border-color: rgba(255,255,255,.8); background: rgba(49,95,79,.9); transform: translateY(-2px); }
 .back-link { justify-content: flex-start; color: inherit; }
-.back-link:hover, .back-link:focus-visible { color: var(--red); transform: translateX(-3px); }
+.back-link:hover, .back-link:focus-visible { color: var(--red); }
+.back-link svg { transition: transform .2s ease; }
+.back-link:hover svg:first-child, .back-link:focus-visible svg:first-child { transform: translateX(-3px); }
 
 .site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgba(71,58,37,.12); background: rgba(250,247,239,.88); box-shadow: 0 8px 24px rgba(67,48,24,.045); backdrop-filter: blur(18px); }
 .site-header-inner { width: min(1280px, calc(100% - 48px)); min-height: 72px; margin: auto; display: flex; align-items: center; justify-content: space-between; }
