@@ -271,6 +271,20 @@ test('景点对比操作保持状态反馈一致', async ({ page }) => {
   await expect(page.getByRole('region', { name: '景点横向比较表' })).toBeVisible();
 });
 
+test('公共反馈层为移动端底部手势区预留安全间距', async ({ page }) => {
+  await page.goto(`${appBase}attractions`);
+  const safeAreaRulesPresent = await page.evaluate(() => {
+    const cssText = Array.from(document.styleSheets).flatMap((sheet) => {
+      try { return Array.from(sheet.cssRules).map((rule) => rule.cssText); } catch { return []; }
+    }).join('\n');
+    return ['.toast', '.sw-update-toast', '.compare-dock'].every((selector) => {
+      const ruleStart = cssText.indexOf(selector);
+      return ruleStart >= 0 && cssText.slice(ruleStart, ruleStart + 700).includes('safe-area-inset-bottom');
+    });
+  });
+  expect(safeAreaRulesPresent).toBe(true);
+});
+
 test('城市详情和路线详情可直接访问', async ({ page }) => {
   await page.goto(`${appBase}city/yinchuan`);
   await expect(page.getByRole('heading', { level: 1, name: '银川市' })).toBeVisible();
