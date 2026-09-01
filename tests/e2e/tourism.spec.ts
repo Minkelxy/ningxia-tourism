@@ -20,6 +20,16 @@ test('首页、景点筛选与详情可以连续浏览', async ({ page }) => {
   await expect(page.locator('.source-list').getByText(/直接专页 · 景点概况/).first()).toBeVisible();
 });
 
+test('404 页面次级入口保持轻量层次反馈', async ({ page }) => {
+  await page.goto(`${appBase}this-page-does-not-exist`);
+  const browseAttractions = page.getByRole('link', { name: '浏览景点' });
+  await browseAttractions.hover();
+  await expect(browseAttractions).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+  await expect(browseAttractions).toHaveCSS('border-color', 'rgb(185, 135, 60)');
+  await expect(browseAttractions).not.toHaveCSS('transform', 'none');
+  await expect(browseAttractions).toHaveCSS('box-shadow', /rgba\(67, 48, 24, 0\.11\)/);
+});
+
 test('首页可按天数缩小路线范围并阅读最新专题', async ({ page }) => {
   await page.goto(appBase);
   const fiveDays = page.getByRole('radio', { name: '5 天' });
@@ -425,6 +435,8 @@ test('深色头图操作状态保持高对比', async ({ page }) => {
   await routeQuiet.hover();
   await expect(routeQuiet).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.15)');
   await expect(routeQuiet).toHaveCSS('color', 'rgb(255, 255, 255)');
+  await expect(routeQuiet).not.toHaveCSS('transform', 'none');
+  await expect(routeQuiet).toHaveCSS('box-shadow', /rgba\(8, 25, 20, 0\.22\)/);
 
   await page.goto(`${appBase}guide`);
   const guidePrimary = page.getByRole('link', { name: /按季节开始/ });
@@ -435,6 +447,8 @@ test('深色头图操作状态保持高对比', async ({ page }) => {
   await guideQuiet.hover();
   await expect(guideQuiet).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.15)');
   await expect(guideQuiet).toHaveCSS('color', 'rgb(255, 255, 255)');
+  await expect(guideQuiet).not.toHaveCSS('transform', 'none');
+  await expect(guideQuiet).toHaveCSS('box-shadow', /rgba\(8, 25, 20, 0\.22\)/);
 });
 
 test('轻量文字操作状态与全站交互色保持一致', async ({ page }) => {
