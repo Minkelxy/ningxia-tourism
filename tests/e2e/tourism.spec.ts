@@ -528,6 +528,10 @@ test('轻量文字操作状态与全站交互色保持一致', async ({ page }) 
 
 test('首页与搜索起始入口保持轻量反馈', async ({ page }) => {
   await page.goto(appBase);
+  const searchNavLink = page.locator('.search-nav-link');
+  await expect(searchNavLink).toBeVisible();
+  await expect(searchNavLink).toHaveCSS('width', '44px');
+  await expect(searchNavLink).toHaveCSS('height', '44px');
   const scrollCue = page.getByRole('link', { name: '向下探索' });
   await scrollCue.hover();
   await expect(scrollCue).toHaveCSS('color', 'rgb(227, 182, 107)');

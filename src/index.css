@@ -84,7 +84,7 @@ button { color: inherit; }
 .favorites-nav-link:hover, .favorites-nav-link:focus-visible, .favorites-nav-link.active { background: #fff; color: var(--red); box-shadow: 0 5px 14px rgba(67,48,24,.06); }
 .favorites-nav-link svg { width: 17px; height: 17px; }
 .favorites-nav-link small { display: grid; place-items: center; min-width: 19px; height: 19px; padding-inline: 4px; border-radius: 50%; background: var(--red); color: #fff; font-size: .65rem; line-height: 1; }
-.search-nav-link { display: grid; place-items: center; width: 42px; height: 42px; margin-left: 8px; border-radius: 50%; color: var(--muted); transition: background .2s ease, color .2s ease, box-shadow .2s ease; }
+.search-nav-link { display: grid; place-items: center; width: 44px; height: 44px; margin-left: 8px; border-radius: 50%; color: var(--muted); transition: background .2s ease, color .2s ease, box-shadow .2s ease; }
 .search-nav-link:hover, .search-nav-link:focus-visible, .search-nav-link.active { background: #fff; color: var(--green); box-shadow: 0 5px 14px rgba(67,48,24,.06); }
 .search-nav-link svg { width: 18px; }
 
