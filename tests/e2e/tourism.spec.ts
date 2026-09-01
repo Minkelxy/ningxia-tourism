@@ -90,6 +90,9 @@ test('景点页支持按旅行兴趣发现新增目的地', async ({ page }) => 
   await ancientTheme.click();
   await expect(page).toHaveURL(/theme=ancient-traces/);
   await expect(ancientTheme).toHaveAttribute('aria-pressed', 'true');
+  await ancientTheme.hover();
+  await expect(ancientTheme).toHaveCSS('background-color', 'rgb(240, 246, 241)');
+  await expect(ancientTheme).toHaveCSS('transform', 'none');
   await expect(page.locator('.attraction-card')).toHaveCount(4);
   await expect(page.getByRole('heading', { name: '水洞沟旅游区' })).toBeVisible();
   await expect(page.getByRole('heading', { name: '须弥山旅游区' })).toBeVisible();
