@@ -1,12 +1,12 @@
 # 发布状态与验收记录
 
-更新时间：2026-09-01
+更新时间：2026-09-02
 
 ## 当前发布快照
 
 项目主线为 `main`，远端仓库为 [Minkelxy/ningxia-tourism](https://github.com/Minkelxy/ningxia-tourism)。站点通过 [GitHub Actions](https://github.com/Minkelxy/ningxia-tourism/actions/workflows/deploy.yml) 构建，并部署到 [GitHub Pages](https://minkelxy.github.io/ningxia-tourism/)。
 
-2026-09-01 线上验收：代码提交 `2229bba` 的 [校验工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33528249824) 与 [Pages 构建部署](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33528249747) 均为 **success**；移动端菜单按钮已统一胡杨绿、轻量抬升与阴影反馈，并保持 44px 触控尺寸。既有桌面与移动导航当前页语义、景点兴趣筛选选中态、地图图层选中态、搜索、筛选、卡片、详情页操作、深色头图按钮、轻量文字操作及纯展示图层语义继续通过回归，已通过本地类型、规范、单元、内容、端到端、生产构建与 Lighthouse 校验。
+2026-09-02 线上验收：代码提交 `3f8c460` 的 [校验工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33530172500) 与 [Pages 构建部署](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33530171711) 均为 **success**；清除筛选、清空筛选、清空对比、清空收藏和清单重置等安静文字操作仅改变主题色，不整体位移，并保持 44px 触控高度。既有桌面与移动导航当前页语义、景点兴趣筛选选中态、地图图层选中态、搜索、筛选、卡片、详情页操作、深色头图按钮、文字链接、移动端菜单入口及纯展示图层语义继续通过回归，已通过本地类型、规范、单元、内容、端到端、生产构建与 Lighthouse 校验。
 
 当前公开数据规模：
 
