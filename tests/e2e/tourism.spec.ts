@@ -203,6 +203,7 @@ test('景点对比操作保持状态反馈一致', async ({ page }) => {
   await expect(compareToggle).toHaveCSS('color', 'rgb(49, 95, 79)');
   await compareToggle.click();
   await expect(page.getByRole('button', { name: '已加入对比' }).first()).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('link', { name: '查看对比' })).toHaveCSS('min-height', '44px');
   await expect(page.getByRole('region', { name: '景点横向比较表' })).toBeVisible();
 });
 
@@ -428,6 +429,7 @@ test('阅读资料入口支持键盘连续聚焦', async ({ page }) => {
   await expect(imageCredit).toBeFocused();
 
   await page.goto(`${appBase}journal/guide/zhongwei-sand-water-choice`);
+  await expect(page.locator('.journal-toc a').first()).toHaveCSS('min-height', '44px');
   const journalSource = page.locator('.journal-sources a').first();
   await journalSource.focus();
   await expect(journalSource).toBeFocused();

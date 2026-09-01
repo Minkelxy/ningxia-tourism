@@ -19,7 +19,7 @@ export default function JournalDetail() {
   const entry = getJournalEntry(type, slug);
   // Hooks 必须在任何 early return 之前调用，参数使用空字符串兜底
   const { handleShare, ShareToast } = useShare(entry?.title ?? '', entry?.excerpt ?? '');
-  const headings = useMemo(() => (entry?.body ?? '').split('\n').flatMap((line) => { const match = line.match(/^(##|###)\s+(.+)$/); return match ? [{ level: match[1].length, text: match[2], id: headingId(match[2]) }] : []; }), [entry?.body]);
+  const headings = useMemo(() => (entry?.body ?? '').split('\n').flatMap((line) => { const match = line.match(/^(##|###)\s+(.+?)\r?$/); return match ? [{ level: match[1].length, text: match[2], id: headingId(match[2]) }] : []; }), [entry?.body]);
   if (!entry || !isPublishedJournalEntry(entry)) return <div className="full-state journal-missing"><SEO title="内容整理中 · 宁夏旅行地图" noIndex /><NotebookPen aria-hidden="true" /><p className="eyebrow">内容整理中</p><h1>这篇内容还没有公开</h1><p>亲历手记会先核对真实经历与照片，旅行专题会先补齐资料来源。完成前不会进入公开列表。</p><Link to="/journal" className="btn-primary">返回旅行手记</Link></div>;
   const food = entry.type === 'food' ? entry : null;
   const travel = entry.type === 'travel' ? entry : null;
