@@ -1304,6 +1304,11 @@ button { color: inherit; }
   .comparison-panel h2 { font-size: 1.65rem; }
 }
 
+@media (max-width: 360px) {
+  .brand { gap: 8px; font-size: .95rem; white-space: nowrap; }
+  .brand small { display: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }

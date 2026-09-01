@@ -68,6 +68,21 @@ test('品牌首页入口保持44px触控高度', async ({ page }) => {
   await expect(brandLink).toHaveCSS('min-height', '44px');
 });
 
+test('320px 窄屏品牌标识保持单行并避免横向溢出', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 900 });
+  await page.goto(appBase);
+  const brandLink = page.locator('.brand');
+  await expect(brandLink).toHaveCSS('white-space', 'nowrap');
+  await expect(brandLink.locator('small')).toBeHidden();
+  const layout = await page.evaluate(() => ({
+    brandHeight: document.querySelector<HTMLElement>('.brand')?.getBoundingClientRect().height ?? 999,
+    pageWidth: document.documentElement.scrollWidth,
+    viewportWidth: window.innerWidth,
+  }));
+  expect(layout.brandHeight).toBeLessThanOrEqual(44);
+  expect(layout.pageWidth).toBeLessThanOrEqual(layout.viewportWidth + 1);
+});
+
 test('搜索与收藏页面保持单一主内容区域', async ({ page }) => {
   for (const path of ['search', 'favorites']) {
     await page.goto(`${appBase}${path}`);

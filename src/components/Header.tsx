@@ -76,7 +76,7 @@ export default function Header() {
     <>
       <header className="site-header">
       <div className="site-header-inner">
-        <Link to="/" className="brand">
+        <Link to="/" className="brand" aria-label="塞上江南宁夏旅行地图">
           <span className="brand-mark"><Map aria-hidden="true" /></span>
           <span><strong>塞上江南</strong><small>宁夏旅行地图</small></span>
         </Link>
