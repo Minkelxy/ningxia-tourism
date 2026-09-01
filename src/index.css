@@ -294,7 +294,7 @@ button { color: inherit; }
 .filter-panel select:focus-visible, .journal-filters select:focus-visible { outline: 0; }
 .result-summary { display: flex; align-items: center; gap: 12px; margin: 28px 2px 18px; scroll-margin-top: 92px; color: var(--muted); }
 .result-summary strong { color: var(--ink); font-family: var(--serif); font-size: 1.7rem; }
-.result-summary button { border: 0; background: none; color: var(--green); font-weight: 700; cursor: pointer; }
+.result-summary button { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 0; border: 0; background: none; color: var(--green); font-weight: 700; cursor: pointer; }
 .result-summary button, .journal-result-bar button, .checklist-reset { transition: color .2s ease; }
 .result-summary button:hover, .result-summary button:focus-visible { color: var(--red); }
 .active-filter-note { padding: 4px 10px; border-radius: 999px; background: #e9f1ea; color: var(--green); font-size: .75rem; font-weight: 800; }

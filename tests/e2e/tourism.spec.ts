@@ -45,6 +45,14 @@ test('品牌首页入口保持44px触控高度', async ({ page }) => {
   await expect(brandLink).toHaveCSS('min-height', '44px');
 });
 
+test('结果区清除筛选保持44px触控高度', async ({ page }) => {
+  await page.goto(`${appBase}attractions?city=yinchuan`);
+  const clearFilters = page.getByRole('button', { name: '清除筛选' });
+  await expect(clearFilters).toHaveCSS('min-height', '44px');
+  await expect(clearFilters).toHaveCSS('padding-top', '8px');
+  await expect(clearFilters).toHaveCSS('padding-bottom', '8px');
+});
+
 test('404 页面次级入口保持轻量层次反馈', async ({ page }) => {
   await page.goto(`${appBase}this-page-does-not-exist`);
   const browseAttractions = page.getByRole('link', { name: '浏览景点' });
