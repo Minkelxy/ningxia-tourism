@@ -38,14 +38,19 @@ test('移动端菜单浮于内容之上并锁定页面滚动', async ({ page }) 
   const before = await main.boundingBox();
   await page.getByRole('button', { name: '打开导航菜单' }).click();
   const mobileNav = page.getByRole('navigation', { name: '移动端导航' });
+  const backdrop = page.locator('.mobile-nav-backdrop');
   await expect(mobileNav).toBeVisible();
+  await expect(backdrop).toBeVisible();
+  await expect(mobileNav).toHaveCSS('background-color', 'rgb(247, 243, 234)');
   await expect(mobileNav).toHaveCSS('position', 'absolute');
   await expect(mobileNav).toHaveCSS('box-shadow', /rgba\(67, 48, 24, 0\.16\)/);
   await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe('hidden');
   const after = await main.boundingBox();
   expect(after?.y).toBe(before?.y);
 
-  await page.getByRole('button', { name: '关闭导航菜单' }).click();
+  const backdropBox = await backdrop.boundingBox();
+  await page.mouse.click(8, (backdropBox?.y ?? 64) + (backdropBox?.height ?? 780) - 10);
+  await expect(page.getByRole('navigation', { name: '移动端导航' })).not.toBeVisible();
   await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe('');
 });
 

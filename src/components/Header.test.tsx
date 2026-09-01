@@ -67,6 +67,15 @@ describe('Header 移动端菜单', () => {
     await waitFor(() => expect(screen.queryByRole('navigation', { name: '移动端导航' })).not.toBeInTheDocument());
   });
 
+  it('打开时显示遮罩，点击遮罩关闭菜单', async () => {
+    renderHeader();
+    fireEvent.click(screen.getByRole('button', { name: '打开导航菜单' }));
+    expect(document.querySelector('.mobile-nav-backdrop')).toBeInTheDocument();
+
+    fireEvent.mouseDown(document.querySelector('.mobile-nav-backdrop')!);
+    await waitFor(() => expect(screen.queryByRole('navigation', { name: '移动端导航' })).not.toBeInTheDocument());
+  });
+
   it('点击菜单内部元素不会关闭菜单', async () => {
     renderHeader();
     fireEvent.click(screen.getByRole('button', { name: '打开导航菜单' }));
