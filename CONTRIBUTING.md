@@ -38,6 +38,8 @@ npm run dev
    ```
 5. **提交并发起 PR**：使用 Conventional Commits 格式（见下文），PR 标题与提交信息保持一致。
 
+涉及页面结构时，请保持应用外壳提供的唯一 `<main id="main-content">`；页面组件内部使用 `<div>` 或语义化 section，不要再嵌套第二个 `<main>`。涉及搜索、收藏、错误状态或开发工具页时，至少补一条“页面仅有一个主内容区域”的端到端回归。
+
 ## 数据规范
 
 所有内容数据位于 `src/data/` 下，以 TypeScript 模块形式维护（非 JSON），类型定义在 `src/types/index.ts`。

@@ -62,7 +62,7 @@ export default function GeoJSONViewer() {
   if (!geoData) return null;
 
   return (
-    <main className="min-h-screen bg-gray-100 py-8">
+    <div className="min-h-screen bg-gray-100 py-8">
       <div className="max-w-6xl mx-auto px-4">
         <h1 className="text-3xl font-bold text-center mb-2">宁夏正式地图数据查看器</h1>
         <p className="text-center text-gray-600 mb-8">开发环境专用，与旅游地图读取同一份省级边界数据。</p>
@@ -127,6 +127,6 @@ export default function GeoJSONViewer() {
           </div>
         </section>
       </div>
-    </main>
+    </div>
   );
 }
