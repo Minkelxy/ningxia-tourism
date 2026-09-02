@@ -1158,6 +1158,165 @@ test('旅行手记减少动效时恢复静态绘图', async ({ page }) => {
   });
 });
 
+test('景点、美食与城市详情按内容层级完成渐进绘图', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+
+  await page.goto(`${appBase}attraction/pengyangtitian`);
+  await expect(page.getByRole('heading', { level: 1, name: '彭阳梯田' })).toBeVisible();
+  const attractionMotion = await page.evaluate(() => {
+    const hero = document.querySelector('.detail-hero > picture');
+    const title = document.querySelector('.detail-title');
+    const heading = title?.querySelector('h1');
+    const highlight = document.querySelector('.highlight-list li');
+    const info = document.querySelector('.info-grid > div');
+    const sidebar = document.querySelector('.detail-sidebar > *');
+    return {
+      heroAnimation: hero ? getComputedStyle(hero).animationName : '',
+      titleAnimation: title ? getComputedStyle(title).animationName : '',
+      headingInkAnimation: heading ? getComputedStyle(heading, '::after').animationName : '',
+      highlightAnimation: highlight ? getComputedStyle(highlight).animationName : '',
+      infoAnimation: info ? getComputedStyle(info).animationName : '',
+      sidebarAnimation: sidebar ? getComputedStyle(sidebar).animationName : '',
+    };
+  });
+  expect(attractionMotion).toMatchObject({
+    heroAnimation: 'detail-hero-photo-in',
+    titleAnimation: 'detail-copy-in',
+    headingInkAnimation: 'detail-title-ink',
+    highlightAnimation: 'detail-info-in',
+    infoAnimation: 'detail-info-in',
+    sidebarAnimation: 'detail-side-in',
+  });
+
+  await page.goto(`${appBase}food/shouzhua-yangrou`);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('手抓羊肉');
+  const foodMotion = await page.evaluate(() => {
+    const copy = document.querySelector('.food-detail-hero-grid > div:first-child');
+    const visual = document.querySelector('.food-detail-visual');
+    const heading = document.querySelector('.food-detail-hero h1');
+    const section = document.querySelector('.detail-main > .detail-section');
+    return {
+      copyAnimation: copy ? getComputedStyle(copy).animationName : '',
+      visualAnimation: visual ? getComputedStyle(visual).animationName : '',
+      headingInkAnimation: heading ? getComputedStyle(heading, '::after').animationName : '',
+      sectionAnimation: section ? getComputedStyle(section).animationName : '',
+    };
+  });
+  expect(foodMotion).toMatchObject({
+    copyAnimation: 'detail-copy-in',
+    visualAnimation: 'detail-visual-in',
+    headingInkAnimation: 'detail-title-ink',
+    sectionAnimation: 'detail-section-in',
+  });
+
+  await page.goto(`${appBase}city/yinchuan`);
+  await expect(page.getByRole('heading', { level: 1, name: '银川市' })).toBeVisible();
+  const cityMotion = await page.evaluate(() => {
+    const hero = document.querySelector('.city-detail-hero > picture');
+    const copy = document.querySelector('.city-detail-copy');
+    const heading = copy?.querySelector('h1');
+    const facts = document.querySelector('.city-facts');
+    const fact = document.querySelector('.city-facts > div');
+    const sidebar = document.querySelector('.city-sidebar > section');
+    const attraction = document.querySelector('.city-attraction-row a');
+    const route = document.querySelector('.route-mini-grid a');
+    return {
+      heroAnimation: hero ? getComputedStyle(hero).animationName : '',
+      copyAnimation: copy ? getComputedStyle(copy).animationName : '',
+      headingInkAnimation: heading ? getComputedStyle(heading, '::after').animationName : '',
+      factsAnimation: facts ? getComputedStyle(facts).animationName : '',
+      factAnimation: fact ? getComputedStyle(fact).animationName : '',
+      sidebarAnimation: sidebar ? getComputedStyle(sidebar).animationName : '',
+      attractionAnimation: attraction ? getComputedStyle(attraction).animationName : '',
+      routeAnimation: route ? getComputedStyle(route).animationName : '',
+    };
+  });
+  expect(cityMotion).toMatchObject({
+    heroAnimation: 'detail-hero-photo-in',
+    copyAnimation: 'detail-copy-in',
+    headingInkAnimation: 'detail-title-ink',
+    factsAnimation: 'detail-section-in',
+    factAnimation: 'detail-info-in',
+    sidebarAnimation: 'detail-side-in',
+    attractionAnimation: 'detail-info-in',
+    routeAnimation: 'detail-info-in',
+  });
+});
+
+test('景点、美食与城市详情减少动效时恢复静态绘图', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+
+  await page.goto(`${appBase}attraction/pengyangtitian`);
+  await expect(page.getByRole('heading', { level: 1, name: '彭阳梯田' })).toBeVisible();
+  const attractionMotion = await page.evaluate(() => {
+    const hero = document.querySelector('.detail-hero > picture');
+    const title = document.querySelector('.detail-title');
+    const heading = title?.querySelector('h1');
+    const card = document.querySelector('.detail-sidebar > *');
+    return {
+      heroAnimation: hero ? getComputedStyle(hero).animationName : '',
+      heroOpacity: hero ? getComputedStyle(hero).opacity : '',
+      titleAnimation: title ? getComputedStyle(title).animationName : '',
+      headingInkAnimation: heading ? getComputedStyle(heading, '::after').animationName : '',
+      headingInkOpacity: heading ? getComputedStyle(heading, '::after').opacity : '',
+      cardAnimation: card ? getComputedStyle(card).animationName : '',
+    };
+  });
+  expect(attractionMotion).toMatchObject({
+    heroAnimation: 'none',
+    heroOpacity: '1',
+    titleAnimation: 'none',
+    headingInkAnimation: 'none',
+    headingInkOpacity: '0.84',
+    cardAnimation: 'none',
+  });
+
+  await page.goto(`${appBase}food/shouzhua-yangrou`);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('手抓羊肉');
+  const foodMotion = await page.evaluate(() => {
+    const copy = document.querySelector('.food-detail-hero-grid > div:first-child');
+    const visual = document.querySelector('.food-detail-visual');
+    return {
+      copyAnimation: copy ? getComputedStyle(copy).animationName : '',
+      visualAnimation: visual ? getComputedStyle(visual).animationName : '',
+      copyOpacity: copy ? getComputedStyle(copy).opacity : '',
+      visualOpacity: visual ? getComputedStyle(visual).opacity : '',
+    };
+  });
+  expect(foodMotion).toMatchObject({
+    copyAnimation: 'none',
+    visualAnimation: 'none',
+    copyOpacity: '1',
+    visualOpacity: '1',
+  });
+
+  await page.goto(`${appBase}city/yinchuan`);
+  await expect(page.getByRole('heading', { level: 1, name: '银川市' })).toBeVisible();
+  const cityMotion = await page.evaluate(() => {
+    const hero = document.querySelector('.city-detail-hero > picture');
+    const copy = document.querySelector('.city-detail-copy');
+    const heading = copy?.querySelector('h1');
+    const facts = document.querySelector('.city-facts');
+    const sidebar = document.querySelector('.city-sidebar > section');
+    return {
+      heroAnimation: hero ? getComputedStyle(hero).animationName : '',
+      copyAnimation: copy ? getComputedStyle(copy).animationName : '',
+      headingInkAnimation: heading ? getComputedStyle(heading, '::after').animationName : '',
+      headingInkOpacity: heading ? getComputedStyle(heading, '::after').opacity : '',
+      factsAnimation: facts ? getComputedStyle(facts).animationName : '',
+      sidebarAnimation: sidebar ? getComputedStyle(sidebar).animationName : '',
+    };
+  });
+  expect(cityMotion).toMatchObject({
+    heroAnimation: 'none',
+    copyAnimation: 'none',
+    headingInkAnimation: 'none',
+    headingInkOpacity: '0.84',
+    factsAnimation: 'none',
+    sidebarAnimation: 'none',
+  });
+});
+
 test('路线筛选入口保持轻量反馈', async ({ page }) => {
   await page.goto(`${appBase}routes`);
   if ((page.viewportSize()?.width ?? 999) <= 768) {
