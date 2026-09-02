@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.88 发布复核：代码提交 [`e213f5d`](https://github.com/Minkelxy/ningxia-tourism/commit/e213f5d59f2b1184e7ec99faaddae65cd81bd2e1) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33625348854)为 **success**；179 条单元测试、123 条 E2E 通过、11 条按端型跳过，路线详情在 320px、360px 极窄屏下将打印、分享、收藏入口保持同一行，保留 390px 与桌面端原有操作层级；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。线上已复核路线详情在 320px、360px、390px 下操作区同排、触控高度和页面宽度。
+
 2026-09-02 v0.3.87 发布复核：代码提交 [`a750efe`](https://github.com/Minkelxy/ningxia-tourism/commit/a750efe96e3d18b478526b35b50572acb9cf3f4f) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33623756781)为 **success**；179 条单元测试、121 条 E2E 通过、11 条按端型跳过，路线详情在 320px、360px 极窄屏下将打印、分享、收藏入口保持同一行，保留 390px 与桌面端原有操作层级；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。线上已复核路线详情在 320px、360px、390px 下操作区同排、触控高度和页面宽度。
 
 2026-09-02 v0.3.86 发布复核：代码提交 [`b8e5735`](https://github.com/Minkelxy/ningxia-tourism/commit/b8e5735907764affa461639ff42b7d4a5a15082d) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33622237711)为 **success**；179 条单元测试、119 条 E2E 通过、11 条按端型跳过，详情页“周边推荐”和搜索结果末端箭头统一使用胡杨绿与轻量右移反馈，并保持卡片整体反馈独立；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。线上已复核景点详情关联入口与搜索结果在桌面端、移动端的箭头颜色和悬停反馈。
