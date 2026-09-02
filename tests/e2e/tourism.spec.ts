@@ -110,6 +110,15 @@ test('路线卡片核实概览保持可识别的语义分组', async ({ page }) 
   await expect(page.getByRole('group', { name: '路线内容核实概览' }).first()).toBeVisible();
 });
 
+test('桌面端推荐路线卡片行动入口保持底部对齐', async ({ page }) => {
+  if ((page.viewportSize()?.width ?? 999) <= 768) test.skip();
+  await page.goto(`${appBase}routes`);
+  await expect(page.locator('.route-card').first()).toBeVisible();
+  const bottoms = await page.locator('.route-card > .text-link').evaluateAll((elements) => elements.slice(0, 2).map((element) => element.getBoundingClientRect().bottom));
+  expect(bottoms.length).toBe(2);
+  expect(Math.abs(bottoms[0] - bottoms[1])).toBeLessThanOrEqual(1);
+});
+
 test('比较表名称入口保持44px触控热区', async ({ page }) => {
   await page.goto(`${appBase}cities`);
   await expect(page.locator('.city-table-wrap tbody th a').first()).toHaveCSS('min-height', '44px');
