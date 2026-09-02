@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
@@ -34,6 +34,23 @@ function ScrollToTop() {
   return null;
 }
 
+export function RouteFocusManager() {
+  const location = useLocation();
+  const previousPathRef = useRef(location.pathname);
+
+  useEffect(() => {
+    if (previousPathRef.current === location.pathname) return;
+    previousPathRef.current = location.pathname;
+
+    const activeElement = document.activeElement;
+    if (activeElement instanceof HTMLElement && activeElement.classList.contains('mobile-menu-button')) return;
+
+    document.getElementById('main-content')?.focus({ preventScroll: true });
+  }, [location.pathname]);
+
+  return null;
+}
+
 export function RouteAnnouncer() {
   const location = useLocation();
   const [message, setMessage] = useState('');
@@ -51,6 +68,7 @@ function AppRoutes() {
     <div className="site-frame">
       <a href="#main-content" className="skip-link">跳到主要内容</a>
       <ScrollToTop />
+      <RouteFocusManager />
       <RouteAnnouncer />
       <Header />
       <NetworkStatus />

@@ -80,6 +80,14 @@ test('移动端点击菜单入口后立即收起并恢复菜单按钮焦点', as
   await expect(page.getByRole('button', { name: '打开导航菜单' })).toBeFocused();
 });
 
+test('桌面端页面跳转后将焦点交给新的主要内容', async ({ page }) => {
+  if ((page.viewportSize()?.width ?? 999) <= 768) test.skip();
+  await page.goto(appBase);
+  await page.locator('header').getByRole('link', { name: '精选景点' }).click();
+  await expect(page).toHaveURL(/\/attractions$/);
+  await expect(page.locator('main#main-content')).toBeFocused();
+});
+
 test('导航搜索与收藏入口保持44px触控热区', async ({ page }) => {
   await page.goto(appBase);
   const favoritesLink = page.locator('.favorites-nav-link');
