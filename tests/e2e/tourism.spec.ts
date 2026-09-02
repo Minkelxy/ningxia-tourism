@@ -31,6 +31,48 @@ test('移动端菜单入口保持统一的轻量反馈', async ({ page }) => {
   await expect(menuButton).toHaveCSS('box-shadow', /rgba\(49, 95, 79, 0\.1\)/);
 });
 
+test('桌面端站点头部使用统一的入场与导航墨线绘图', async ({ page }) => {
+  if ((page.viewportSize()?.width ?? 999) <= 768) test.skip();
+  await page.goto(`${appBase}attractions`);
+  const styles = await page.evaluate(() => {
+    const header = document.querySelector<HTMLElement>('.site-header-inner');
+    const brandMark = document.querySelector<HTMLElement>('.brand-mark');
+    const activeLink = document.querySelector<HTMLElement>('.desktop-nav a.active');
+    return {
+      headerAnimation: header ? getComputedStyle(header).animationName : '',
+      brandAnimation: brandMark ? getComputedStyle(brandMark).animationName : '',
+      navAnimation: activeLink ? getComputedStyle(activeLink, '::after').animationName : '',
+    };
+  });
+  expect(styles.headerAnimation).toBe('site-header-in');
+  expect(styles.brandAnimation).toBe('site-brand-mark-stamp');
+  expect(styles.navAnimation).toBe('site-nav-ink');
+});
+
+test('桌面端站点头部减少动效时恢复静态与导航墨线', async ({ page }) => {
+  if ((page.viewportSize()?.width ?? 999) <= 768) test.skip();
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(`${appBase}attractions`);
+  const styles = await page.evaluate(() => {
+    const header = document.querySelector<HTMLElement>('.site-header-inner');
+    const brandMark = document.querySelector<HTMLElement>('.brand-mark');
+    const activeLink = document.querySelector<HTMLElement>('.desktop-nav a.active');
+    const navInk = activeLink ? getComputedStyle(activeLink, '::after') : null;
+    return {
+      headerAnimation: header ? getComputedStyle(header).animationName : '',
+      brandAnimation: brandMark ? getComputedStyle(brandMark).animationName : '',
+      navAnimation: navInk?.animationName ?? '',
+      navOpacity: navInk?.opacity ?? '',
+      navTransform: navInk?.transform ?? '',
+    };
+  });
+  expect(styles.headerAnimation).toBe('none');
+  expect(styles.brandAnimation).toBe('none');
+  expect(styles.navAnimation).toBe('none');
+  expect(styles.navOpacity).toBe('0.72');
+  expect(styles.navTransform).not.toBe('none');
+});
+
 test('移动端菜单浮于内容之上并锁定页面滚动', async ({ page }) => {
   if ((page.viewportSize()?.width ?? 999) > 768) test.skip();
   await page.goto(appBase);
