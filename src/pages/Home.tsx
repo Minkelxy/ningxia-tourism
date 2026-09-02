@@ -34,7 +34,7 @@ export default function Home() {
             <div><dt>座城市</dt><dd>{cities.length}</dd></div><div><dt>个已核实景点</dt><dd>{verifiedAttractions.length}</dd></div><div><dt>个待复核景点</dt><dd>{reviewAttractions.length}</dd></div><div><dt>条主题路线</dt><dd>{routes.length}</dd></div>
           </dl>
         </div>
-        <div className="hero-landscape" aria-label="宁夏山河主题图形">
+        <div className="hero-landscape" role="img" aria-label="宁夏山河主题图形">
           <div className="sun-disc" /><div className="mountain mountain-back" /><div className="mountain mountain-front" /><div className="river-ribbon" />
           <div className="hero-seal"><span>塞上</span><strong>江南</strong></div>
           <a href="#explore-map" className="scroll-cue"><ArrowDown aria-hidden="true" /> 向下探索</a>

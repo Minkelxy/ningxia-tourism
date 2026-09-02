@@ -63,7 +63,7 @@ export default function TravelGuide() {
 
         <section className="guide-section preparation-grid" aria-labelledby="guide-checklist-title">
           <div className="checklist-card">
-            <div className="checklist-heading"><div><p className="eyebrow">04 · 出发前检查</p><h2 id="guide-checklist-title">一份保存在本机的清单</h2></div><div className="checklist-progress" aria-label={`已完成 ${completed} 项，共 ${travelChecklist.length} 项`}><strong>{completed}/{travelChecklist.length}</strong><span><i style={{ width: `${progress}%` }} /></span></div></div>
+            <div className="checklist-heading"><div><p className="eyebrow">04 · 出发前检查</p><h2 id="guide-checklist-title">一份保存在本机的清单</h2></div><div className="checklist-progress" role="progressbar" aria-label={`行前清单进度：已完成 ${completed} 项，共 ${travelChecklist.length} 项`} aria-valuetext={`已完成 ${completed} 项，共 ${travelChecklist.length} 项`} aria-valuemin={0} aria-valuemax={travelChecklist.length} aria-valuenow={completed}><strong>{completed}/{travelChecklist.length}</strong><span><i style={{ width: `${progress}%` }} /></span></div></div>
             <div className="travel-checklist">{travelChecklist.map((item, index) => <label key={item} className={checkedItems.includes(index) ? 'checked' : ''}><input type="checkbox" checked={checkedItems.includes(index)} onChange={() => toggleChecklistItem(index)} /><span><Check aria-hidden="true" /></span><strong>{item}</strong></label>)}</div>
             <button type="button" className="checklist-reset" onClick={() => setCheckedItems([])} disabled={completed === 0}><RefreshCcw aria-hidden="true" /> 重置清单</button>
             <p className="local-note"><ShieldCheck aria-hidden="true" /> 勾选结果只保存在当前浏览器，不会上传或获取你的位置。</p>

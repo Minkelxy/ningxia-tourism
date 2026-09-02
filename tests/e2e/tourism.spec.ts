@@ -621,6 +621,8 @@ test('行前指南支持天数选路和本机清单', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toContainText('先解决四件事');
   await expect(page.locator('.duration-card')).toHaveCount(5);
   await expect(page.getByRole('link', { name: /3 天行程/ })).toHaveAttribute('href', /routes\?duration=3/);
+  const checklistProgress = page.getByRole('progressbar', { name: /行前清单进度：已完成 0 项，共/ });
+  await expect(checklistProgress).toHaveAttribute('aria-valuenow', '0');
 
   const pendingItem = page.getByRole('checkbox', { name: '打开核心景点来源，确认当天开放与预约' });
   const pendingLabel = page.locator('.travel-checklist label').filter({ hasText: '打开核心景点来源，确认当天开放与预约' });
@@ -632,6 +634,7 @@ test('行前指南支持天数选路和本机清单', async ({ page }) => {
   const firstItem = page.getByRole('checkbox', { name: '核对身份证件、往返车票与入住日期' });
   await firstItem.check();
   await expect(firstItem).toBeChecked();
+  await expect(page.getByRole('progressbar', { name: /行前清单进度：已完成 1 项，共/ })).toHaveAttribute('aria-valuenow', '1');
   await page.reload();
   await expect(page.getByRole('checkbox', { name: '核对身份证件、往返车票与入住日期' })).toBeChecked();
   await page.getByRole('button', { name: '重置清单' }).click();
@@ -847,6 +850,7 @@ test('轻量文字操作状态与全站交互色保持一致', async ({ page }) 
 
 test('首页与搜索起始入口保持轻量反馈', async ({ page }) => {
   await page.goto(appBase);
+  await expect(page.getByRole('img', { name: '宁夏山河主题图形' })).toBeVisible();
   const searchNavLink = page.locator('.search-nav-link');
   await expect(searchNavLink).toBeVisible();
   await expect(searchNavLink).toHaveCSS('width', '44px');
