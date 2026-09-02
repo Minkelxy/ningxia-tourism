@@ -1038,6 +1038,126 @@ test('旅行手记栏目在320px窄屏保持可横向浏览', async ({ page }) =
   expect(visibility.fullyVisible).toBe(true);
 });
 
+test('旅行手记列表与详情按阅读层级完成渐进绘图', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto(`${appBase}journal`);
+  await expect(page.locator('.journal-card').first()).toBeVisible();
+  const listMotion = await page.evaluate(() => {
+    const card = document.querySelector('.journal-card');
+    const title = card?.querySelector('h2');
+    const heroCopy = document.querySelector('.journal-hero-grid > div:first-child');
+    const cover = document.querySelector('.journal-photo-visual');
+    const principle = document.querySelector('.journal-principles article');
+    return {
+      cardAnimation: card ? getComputedStyle(card).animationName : '',
+      cardIndex: card?.style.getPropertyValue('--journal-card-index'),
+      titleAnimation: title ? getComputedStyle(title, '::after').animationName : '',
+      heroAnimation: heroCopy ? getComputedStyle(heroCopy).animationName : '',
+      coverAnimation: cover ? getComputedStyle(cover).animationName : '',
+      principleAnimation: principle ? getComputedStyle(principle).animationName : '',
+    };
+  });
+  expect(listMotion).toMatchObject({
+    cardAnimation: 'journal-card-in',
+    cardIndex: '0',
+    titleAnimation: 'journal-card-title-ink',
+    heroAnimation: 'journal-copy-in',
+    coverAnimation: 'journal-photo-in',
+    principleAnimation: 'journal-principle-in',
+  });
+
+  await page.goto(`${appBase}journal/guide/zhongwei-sand-water-choice`);
+  await expect(page.locator('.journal-detail-title h1')).toBeVisible();
+  const detailMotion = await page.evaluate(() => {
+    const hero = document.querySelector('.journal-detail-hero > picture');
+    const title = document.querySelector('.journal-detail-title');
+    const heading = title?.querySelector('h1');
+    const facts = document.querySelector('.journal-fact-strip');
+    const note = document.querySelector('.journal-article > .receipt-card');
+    const body = document.querySelector('.journal-article > .markdown-body');
+    const sidebar = document.querySelector('.journal-sidebar > *');
+    return {
+      heroAnimation: hero ? getComputedStyle(hero).animationName : '',
+      titleAnimation: title ? getComputedStyle(title).animationName : '',
+      headingInkAnimation: heading ? getComputedStyle(heading, '::after').animationName : '',
+      factsAnimation: facts ? getComputedStyle(facts).animationName : '',
+      noteAnimation: note ? getComputedStyle(note).animationName : '',
+      bodyAnimation: body ? getComputedStyle(body).animationName : '',
+      sidebarAnimation: sidebar ? getComputedStyle(sidebar).animationName : '',
+    };
+  });
+  expect(detailMotion).toMatchObject({
+    heroAnimation: 'journal-detail-photo-in',
+    titleAnimation: 'journal-detail-title-in',
+    headingInkAnimation: 'journal-detail-title-ink',
+    factsAnimation: 'journal-detail-fact-in',
+    noteAnimation: 'journal-detail-block-in',
+    bodyAnimation: 'journal-detail-body-in',
+    sidebarAnimation: 'journal-sidebar-in',
+  });
+});
+
+test('旅行手记减少动效时恢复静态绘图', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(`${appBase}journal`);
+  await expect(page.locator('.journal-card').first()).toBeVisible();
+  const listMotion = await page.evaluate(() => {
+    const card = document.querySelector('.journal-card');
+    const title = card?.querySelector('h2');
+    const cover = document.querySelector('.journal-photo-visual');
+    return {
+      cardAnimation: card ? getComputedStyle(card).animationName : '',
+      cardOpacity: card ? getComputedStyle(card).opacity : '',
+      titleAnimation: title ? getComputedStyle(title, '::after').animationName : '',
+      titleOpacity: title ? getComputedStyle(title, '::after').opacity : '',
+      coverAnimation: cover ? getComputedStyle(cover).animationName : '',
+      coverOpacity: cover ? getComputedStyle(cover).opacity : '',
+    };
+  });
+  expect(listMotion).toMatchObject({
+    cardAnimation: 'none',
+    cardOpacity: '1',
+    titleAnimation: 'none',
+    titleOpacity: '0.82',
+    coverAnimation: 'none',
+    coverOpacity: '1',
+  });
+
+  await page.goto(`${appBase}journal/guide/zhongwei-sand-water-choice`);
+  await expect(page.locator('.journal-detail-title h1')).toBeVisible();
+  const detailMotion = await page.evaluate(() => {
+    const hero = document.querySelector('.journal-detail-hero > picture');
+    const title = document.querySelector('.journal-detail-title');
+    const heading = title?.querySelector('h1');
+    const facts = document.querySelector('.journal-fact-strip');
+    const note = document.querySelector('.journal-article > .receipt-card');
+    const body = document.querySelector('.journal-article > .markdown-body');
+    const sidebar = document.querySelector('.journal-sidebar > *');
+    return {
+      heroAnimation: hero ? getComputedStyle(hero).animationName : '',
+      heroOpacity: hero ? getComputedStyle(hero).opacity : '',
+      titleAnimation: title ? getComputedStyle(title).animationName : '',
+      headingInkAnimation: heading ? getComputedStyle(heading, '::after').animationName : '',
+      headingInkOpacity: heading ? getComputedStyle(heading, '::after').opacity : '',
+      factsAnimation: facts ? getComputedStyle(facts).animationName : '',
+      noteAnimation: note ? getComputedStyle(note).animationName : '',
+      bodyAnimation: body ? getComputedStyle(body).animationName : '',
+      sidebarAnimation: sidebar ? getComputedStyle(sidebar).animationName : '',
+    };
+  });
+  expect(detailMotion).toMatchObject({
+    heroAnimation: 'none',
+    heroOpacity: '1',
+    titleAnimation: 'none',
+    headingInkAnimation: 'none',
+    headingInkOpacity: '0.86',
+    factsAnimation: 'none',
+    noteAnimation: 'none',
+    bodyAnimation: 'none',
+    sidebarAnimation: 'none',
+  });
+});
+
 test('路线筛选入口保持轻量反馈', async ({ page }) => {
   await page.goto(`${appBase}routes`);
   if ((page.viewportSize()?.width ?? 999) <= 768) {

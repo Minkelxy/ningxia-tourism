@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-03 v0.3.108 发布复核：待 GitHub Actions 完成后回填代码提交、工作流编号与最终测试统计。旅行手记列表使用 `--journal-card-delay` 触发 `journal-card-in` 错峰入场，标题使用 `journal-card-title-ink` 展开墨线；文章详情使用 `journal-detail-photo-in`、`journal-detail-title-in`、`journal-detail-block-in`、`journal-detail-body-in` 和 `journal-sidebar-in` 分层入场；减少动效设置下恢复静态阅读层级与墨线，目录、来源、关联内容和链接行为不变。
+
 2026-09-03 v0.3.107 发布复核：代码提交 [`d6cf76c`](https://github.com/Minkelxy/ningxia-tourism/commit/d6cf76c134471284675a567c63b3b9aa0a19650b) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33662136395)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、145 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。行前指南首屏、四季/天数卡片和交通流程按阅读层级使用 `guide-card-in`、`guide-card-title-ink`、`guide-transit-line-draw` 与 `guide-flow-icon-stamp` 错峰绘图，清单勾选使用 `guide-check-draw`；减少动效设置下恢复静态，行前信息、链接和清单逻辑不变。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
 2026-09-03 v0.3.106 发布复核：代码提交 [`4495c74`](https://github.com/Minkelxy/ningxia-tourism/commit/4495c746ce0a5fb06ee50bedaa5b1a3496c5fe2d) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33659979956)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、141 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过：首页按天数筛选路线结果使用 `--home-route-index` 触发 `home-route-match-in` 错峰入场，标题使用 `home-route-title-ink` 展开墨线；减少动效设置下恢复静态，筛选、键盘单选和路线链接行为不变。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
