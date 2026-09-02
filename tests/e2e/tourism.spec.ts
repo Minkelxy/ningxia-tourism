@@ -134,6 +134,11 @@ test('品牌首页入口保持44px触控高度', async ({ page }) => {
   await expect(brandLink).toHaveCSS('min-height', '44px');
 });
 
+test('关于页内容审计入口指向实际 GitHub 文档', async ({ page }) => {
+  await page.goto(`${appBase}about`);
+  await expect(page.getByRole('link', { name: '查看内容审计记录' })).toHaveAttribute('href', 'https://github.com/Minkelxy/ningxia-tourism/blob/main/docs/content/CONTENT_AUDIT.md');
+});
+
 test('320px 窄屏品牌标识保持单行并避免横向溢出', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 900 });
   await page.goto(appBase);
