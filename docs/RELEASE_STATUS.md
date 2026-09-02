@@ -4,7 +4,7 @@
 
 ## 当前发布快照
 
-2026-09-03 v0.3.106 发布复核：首页按天数筛选路线结果使用 `--home-route-index` 触发 `home-route-match-in` 错峰入场，标题使用 `home-route-title-ink` 展开墨线；减少动效设置下恢复静态，筛选、键盘单选和路线链接行为不变。代码提交、Actions 构建与 Pages 部署完成后补录最终链接与测试数字。
+2026-09-03 v0.3.106 发布复核：代码提交 [`4495c74`](https://github.com/Minkelxy/ningxia-tourism/commit/4495c746ce0a5fb06ee50bedaa5b1a3496c5fe2d) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33659979956)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、141 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过：首页按天数筛选路线结果使用 `--home-route-index` 触发 `home-route-match-in` 错峰入场，标题使用 `home-route-title-ink` 展开墨线；减少动效设置下恢复静态，筛选、键盘单选和路线链接行为不变。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
 2026-09-03 v0.3.105 发布复核：代码提交 [`aa11e32`](https://github.com/Minkelxy/ningxia-tourism/commit/aa11e32d2e1fa6523a5eadcd21432e67894cf486) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33658308466)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、139 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。选中景点使用独立 `marker-ink-ring` SVG 装饰环，按 `pathLength="1"` 与 `marker-ink-ring-draw` 绘制，不改变点位热区、键盘语义或预览行为；减少动效设置下恢复静态高亮。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
