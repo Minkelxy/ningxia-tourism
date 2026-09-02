@@ -4,7 +4,7 @@
 
 ## 当前发布快照
 
-2026-09-02 v0.3.70 发布复核：代码提交 [`ec1e0c2`](https://github.com/Minkelxy/ningxia-tourism/commit/ec1e0c28ac6410bfa8d5ffa10c70f50eb4a4f6a9) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33591191419)为 **success**；178 条单元测试、98 条 E2E 通过、4 条按端型跳过，地图美食点位已补齐透明触控热区并统一键盘聚焦反馈，Lighthouse、深链回退与 Pages 部署均通过，Pages 状态为 built。
+2026-09-02 v0.3.70 发布复核：代码提交 [`ec1e0c2`](https://github.com/Minkelxy/ningxia-tourism/commit/ec1e0c28ac6410bfa8d5ffa10c70f50eb4a4f6a9) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33591191419)为 **success**；178 条单元测试、101 条 E2E 通过、5 条按端型跳过，地图美食点位已补齐透明触控热区并统一键盘聚焦反馈，Lighthouse、深链回退与 Pages 部署均通过，Pages 状态为 built。
 
 2026-09-02 v0.3.69 发布复核：代码提交 [`9d574e0`](https://github.com/Minkelxy/ningxia-tourism/commit/9d574e0d5500d4eab3a69b7042c69fe244126fd4) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33590234576)为 **success**；178 条单元测试、98 条 E2E 通过、4 条按端型跳过，移动端菜单入口会立即收起并将焦点回收到菜单按钮，Lighthouse 与深链回退均通过，Pages 状态为 built。
 
