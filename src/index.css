@@ -185,6 +185,7 @@ button { color: inherit; }
 .map-attraction .marker-hit, .map-food .marker-hit { fill: transparent; stroke: none; pointer-events: none; }
 .map-attraction .marker-dot { fill: var(--red); stroke: #fff; stroke-width: 3; filter: drop-shadow(0 5px 5px rgba(59,31,20,.25)); transform-box: fill-box; transform-origin: center; transition: r .18s ease; }
 .map-attraction.is-selected .marker-dot, .map-attraction:focus-visible .marker-dot { fill: var(--green); }
+.map-attraction .marker-ink-ring { fill: none; stroke: #f7d07b; stroke-width: 2; stroke-linecap: round; opacity: 0; pointer-events: none; stroke-dasharray: 1; stroke-dashoffset: 1; transform-box: fill-box; transform-origin: center; animation: marker-ink-ring-draw .58s cubic-bezier(.22,.8,.26,1) both; vector-effect: non-scaling-stroke; }
 .map-attraction.is-selected .marker-dot { animation: marker-pulse 1.35s ease-in-out infinite; }
 .map-hub { color: #fff; }
 .map-hub circle { fill: #4d5350; stroke: #fff; stroke-width: 2; }
@@ -1091,6 +1092,7 @@ button { color: inherit; }
 @keyframes route-rail-draw { to { transform: scaleY(1); } }
 @keyframes route-stop-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes route-stop-ink-ring { 0% { opacity: 0; transform: scale(.45) rotate(-20deg); } 60% { opacity: .74; } 100% { opacity: .56; transform: scale(1) rotate(7deg); } }
+@keyframes marker-ink-ring-draw { 0% { opacity: 0; stroke-dashoffset: 1; transform: scale(.56) rotate(-18deg); } 62% { opacity: .82; } 100% { opacity: .7; stroke-dashoffset: 0; transform: scale(1) rotate(8deg); } }
 @keyframes marker-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: .82; } }
 @keyframes mobile-nav-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes mobile-nav-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
@@ -1383,9 +1385,10 @@ button { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  .hero-orbit-one, .hero-orbit-two, .sun-disc, .river-ribbon, .mountain-back, .mountain-front, .hero-seal, .scroll-cue, .map-region, .map-region-emphasis, .map-attraction.is-selected .marker-dot, .map-viewport, .map-label__glyph, .map-attraction-glyph, .map-food-glyph, .map-government-glyph, .map-hub-glyph, .route-stops::before, .route-stop, .stop-number::after { animation: none !important; transition: none !important; }
+  .hero-orbit-one, .hero-orbit-two, .sun-disc, .river-ribbon, .mountain-back, .mountain-front, .hero-seal, .scroll-cue, .map-region, .map-region-emphasis, .map-attraction.is-selected .marker-dot, .map-attraction .marker-ink-ring, .map-viewport, .map-label__glyph, .map-attraction-glyph, .map-food-glyph, .map-government-glyph, .map-hub-glyph, .route-stops::before, .route-stop, .stop-number::after { animation: none !important; transition: none !important; }
   .map-region { opacity: 1; stroke-dasharray: none; stroke-dashoffset: 0; transform: none; }
   .map-region-emphasis { opacity: .94; stroke-dasharray: none; stroke-dashoffset: 0; }
+  .map-attraction .marker-ink-ring { opacity: .7; stroke-dasharray: none; stroke-dashoffset: 0; transform: scale(1) rotate(8deg); }
   .map-label__glyph, .map-attraction-glyph, .map-food-glyph, .map-government-glyph, .map-hub-glyph { opacity: 1; transform: none; }
   .route-stops::before { transform: scaleY(1); }
   .route-stop { opacity: 1; transform: none; }

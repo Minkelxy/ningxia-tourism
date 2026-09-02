@@ -1319,6 +1319,9 @@ test('移动端景点预览使用底部面板提示与入场动效', async ({ pa
   await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
   const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
   await map.getByRole('button', { name: /沙坡头.*打开预览/ }).click();
+  const selectedMarker = map.locator('.map-attraction.is-selected');
+  await expect(selectedMarker.locator('.marker-ink-ring')).toHaveCount(1);
+  await expect(selectedMarker.locator('.marker-ink-ring')).toHaveCSS('animation-name', 'marker-ink-ring-draw');
   const preview = page.getByRole('dialog', { name: '沙坡头旅游景区' });
   await expect(preview).toBeVisible();
   await expect(preview).toHaveCSS('animation-name', 'map-preview-in');
