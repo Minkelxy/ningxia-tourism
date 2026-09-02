@@ -50,7 +50,7 @@ export default function NingxiaInteractiveMap() {
   const [legendHighlightCode, setLegendHighlightCode] = useState<string | undefined>(undefined);
   const districtRequestRef = useRef<AbortController | null>(null);
   const districtCacheRef = useRef<Map<string, GeoFeature[]>>(new Map());
-  const { zoom, pan, zoomIn, zoomOut, resetViewport, viewportHandlers } = useMapViewport();
+  const { zoom, pan, zoomIn, zoomOut, resetViewport, isDragging, viewportHandlers } = useMapViewport();
 
   const loadProvince = useCallback(async (signal: AbortSignal) => {
     setLoading(true);
@@ -400,7 +400,8 @@ export default function NingxiaInteractiveMap() {
           />
 
           <g
-            transform={`translate(${mapView.width / 2 + pan.x} ${mapView.height / 2 + pan.y}) scale(${zoom}) translate(${-mapView.width / 2} ${-mapView.height / 2})`}
+            className={`map-viewport${isDragging ? ' is-dragging' : ''}`}
+            style={{ transform: `translate(${mapView.width / 2 + pan.x}px, ${mapView.height / 2 + pan.y}px) scale(${zoom}) translate(${-mapView.width / 2}px, ${-mapView.height / 2}px)` }}
           >
             <g filter="url(#mapGlow)">
               <MapRegionLayer

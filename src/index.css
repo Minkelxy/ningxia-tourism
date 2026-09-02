@@ -149,6 +149,8 @@ button { color: inherit; }
 .map-canvas-wrap { position: relative; min-height: 600px; display: grid; place-items: center; overflow: hidden; background: linear-gradient(180deg, #efe5cc 0%, #e3d3b1 100%); }
 .map-canvas { width: 100%; max-height: 720px; touch-action: none; cursor: grab; }
 .map-canvas:active { cursor: grabbing; }
+.map-viewport { transform-box: view-box; transform-origin: center; transition: transform .36s cubic-bezier(.22,.8,.26,1); }
+.map-viewport.is-dragging { transition: none; }
 .map-region { fill: var(--region-color); stroke: rgba(255,255,255,.92); stroke-width: 3; cursor: pointer; opacity: 0; stroke-dasharray: 1; stroke-dashoffset: 1; animation: map-region-draw .78s cubic-bezier(.22,.8,.26,1) calc(var(--map-region-index, 0) * 45ms) both; transition: filter .18s ease, opacity .18s ease, stroke-width .18s ease, transform .18s ease; filter: url(#mapRegionInnerShadow); transform-origin: center; transform-box: fill-box; vector-effect: non-scaling-stroke; }
 .map-region:hover, .map-region:focus-visible, .map-region.is-focused { filter: brightness(1.08) url(#mapRegionInnerShadow); stroke: #fff0c7; stroke-width: 5; outline: none; }
 .map-region.is-selected { filter: brightness(1.12) drop-shadow(0 6px 12px rgba(48,34,12,.42)); stroke: #f7d07b; stroke-width: 6; }
@@ -1364,7 +1366,7 @@ button { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  .hero-orbit-one, .hero-orbit-two, .sun-disc, .river-ribbon, .map-region, .map-attraction.is-selected .marker-dot { animation: none !important; }
+  .hero-orbit-one, .hero-orbit-two, .sun-disc, .river-ribbon, .map-region, .map-attraction.is-selected .marker-dot, .map-viewport { animation: none !important; transition: none !important; }
   .map-region { opacity: 1; stroke-dasharray: none; stroke-dashoffset: 0; transform: none; }
 }
 

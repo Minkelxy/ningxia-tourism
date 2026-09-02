@@ -5,6 +5,7 @@ const panLimit = 180;
 export default function useMapViewport() {
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
   const drag = useRef<{ pointerId: number; x: number; y: number; panX: number; panY: number } | null>(null);
 
   const resetViewport = useCallback(() => {
@@ -20,6 +21,7 @@ export default function useMapViewport() {
     if (event.target instanceof Element && event.target.closest('[role="button"]')) return;
     event.currentTarget.setPointerCapture(event.pointerId);
     drag.current = { pointerId: event.pointerId, x: event.clientX, y: event.clientY, panX: pan.x, panY: pan.y };
+    setIsDragging(true);
   };
 
   const onPointerMove = (event: PointerEvent<SVGSVGElement>) => {
@@ -29,7 +31,10 @@ export default function useMapViewport() {
     setPan({ x: nextX, y: nextY });
   };
 
-  const stopDrag = () => { drag.current = null; };
+  const stopDrag = () => {
+    drag.current = null;
+    setIsDragging(false);
+  };
 
   const onWheel = (event: WheelEvent<SVGSVGElement>) => {
     // 普通滚轮交给页面，只有 Ctrl/Cmd + 滚轮才缩放地图，避免地图吞掉整页滚动。
@@ -60,6 +65,7 @@ export default function useMapViewport() {
     zoomIn,
     zoomOut,
     resetViewport,
+    isDragging,
     viewportHandlers: { onPointerDown, onPointerMove, onPointerUp: stopDrag, onPointerCancel: stopDrag, onWheel, onKeyDown },
   };
 }

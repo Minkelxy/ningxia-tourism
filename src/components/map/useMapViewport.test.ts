@@ -7,6 +7,17 @@ describe('useMapViewport', () => {
     const { result } = renderHook(() => useMapViewport());
     expect(result.current.zoom).toBe(1);
     expect(result.current.pan).toEqual({ x: 0, y: 0 });
+    expect(result.current.isDragging).toBe(false);
+  });
+
+  it('拖拽期间标记即时跟手状态，结束后恢复过渡状态', () => {
+    const { result } = renderHook(() => useMapViewport());
+    const target = { setPointerCapture: vi.fn() } as unknown as SVGSVGElement;
+    const down = { button: 0, pointerId: 7, clientX: 10, clientY: 20, currentTarget: target, target } as unknown as React.PointerEvent<SVGSVGElement>;
+    act(() => result.current.viewportHandlers.onPointerDown(down));
+    expect(result.current.isDragging).toBe(true);
+    act(() => result.current.viewportHandlers.onPointerUp());
+    expect(result.current.isDragging).toBe(false);
   });
 
   it('zoomIn 递增并上限 2.4', () => {

@@ -389,6 +389,18 @@ test('首页山河绘图与地图区域动效保持轻量并尊重减少动效�
   expect(mapAnimation.names.every((name) => name === 'map-region-draw')).toBe(true);
   expect(mapAnimation.delays[1]).not.toBe(mapAnimation.delays[0]);
   expect(mapAnimation.pathLength).toBe('1');
+  await expect(map.locator('.map-viewport')).toHaveCSS('transition-property', 'transform');
+  await expect(map.locator('.map-viewport')).toHaveCSS('transition-duration', '0.36s');
+  const canvasBox = await map.locator('.map-canvas').boundingBox();
+  expect(canvasBox).not.toBeNull();
+  const backgroundX = (canvasBox?.x ?? 0) + 10;
+  const backgroundY = (canvasBox?.y ?? 0) + 10;
+  await page.mouse.move(backgroundX, backgroundY);
+  await page.mouse.down();
+  await expect(map.locator('.map-viewport')).toHaveClass(/is-dragging/);
+  await page.mouse.move(backgroundX + 18, backgroundY + 12);
+  await page.mouse.up();
+  await expect(map.locator('.map-viewport')).not.toHaveClass(/is-dragging/);
 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.reload();
