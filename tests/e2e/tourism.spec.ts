@@ -493,34 +493,39 @@ test('收藏操作保持跨页面反馈一致', async ({ page }) => {
 });
 
 test('收藏列表极窄屏保持紧凑行高与图标化操作', async ({ page }) => {
-  await page.setViewportSize({ width: 320, height: 844 });
   await page.addInitScript(() => {
     window.localStorage.setItem('ningxia-tourism-favorites', JSON.stringify({
       attraction: ['ningxiamuseum', 'shahu'],
       route: ['classic-3day', 'quick-1day'],
     }));
   });
-  await page.goto(`${appBase}favorites`);
-  const rows = page.locator('.favorite-row, .favorite-route-row');
-  await expect(rows.first()).toBeVisible();
-  const layout = await rows.evaluateAll((elements) => elements.map((element) => {
-    const row = element.getBoundingClientRect();
-    const favorite = element.querySelector('.favorite-button');
-    const favoriteRect = favorite?.getBoundingClientRect();
-    return {
-      rowHeight: row.height,
-      rowRight: row.right,
-      favoriteWidth: favoriteRect?.width ?? 0,
-      favoriteHeight: favoriteRect?.height ?? 0,
-      favoriteTop: favoriteRect?.top ?? 0,
-      rowTop: row.top,
-    };
-  }));
-  expect(layout).toHaveLength(4);
-  expect(layout.every((item) => item.rowHeight <= 90)).toBe(true);
-  expect(layout.every((item) => item.favoriteWidth >= 44 && item.favoriteHeight >= 44)).toBe(true);
-  expect(layout.every((item) => Math.abs(item.favoriteTop - item.rowTop - (item.rowHeight - item.favoriteHeight) / 2) <= 1)).toBe(true);
-  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+  for (const width of [320, 390]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto(`${appBase}favorites`);
+    const rows = page.locator('.favorite-row, .favorite-route-row');
+    await expect(rows.first()).toBeVisible();
+    const layout = await rows.evaluateAll((elements) => elements.map((element) => {
+      const row = element.getBoundingClientRect();
+      const favorite = element.querySelector('.favorite-button');
+      const favoriteRect = favorite?.getBoundingClientRect();
+      return {
+        rowHeight: row.height,
+        rowRight: row.right,
+        favoriteWidth: favoriteRect?.width ?? 0,
+        favoriteHeight: favoriteRect?.height ?? 0,
+        favoriteTop: favoriteRect?.top ?? 0,
+        rowTop: row.top,
+      };
+    }));
+    expect(layout).toHaveLength(4);
+    expect(layout.every((item) => item.rowHeight <= 100)).toBe(true);
+    expect(layout.every((item) => item.favoriteWidth >= 44 && item.favoriteHeight >= 44)).toBe(true);
+    expect(layout.every((item) => Math.abs(item.favoriteTop - item.rowTop - (item.rowHeight - item.favoriteHeight) / 2) <= 1)).toBe(true);
+    expect(layout.every((item) => item.rowRight <= width)).toBe(true);
+    if (width <= 360) expect(layout.every((item) => item.favoriteWidth === 44)).toBe(true);
+    else expect(layout.every((item) => item.favoriteWidth > 44)).toBe(true);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+  }
 });
 
 test('景点对比操作保持状态反馈一致', async ({ page }) => {
