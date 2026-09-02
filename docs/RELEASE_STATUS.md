@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.95 发布复核：代码提交 [`a0d9f17`](https://github.com/Minkelxy/ningxia-tourism/commit/a0d9f176e853121e6e4cb7a5ee1d1d54d2a30335) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33636903857)为 **success**，build 与 deploy 两个 job 均成功；179 条单元测试、131 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。全站搜索输入控件本体在 320px、390px、1280px 下均为 44px 高，页面根宽度与视口一致；生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200，线上搜索页已复核三档视口的输入高度。
+
 2026-09-02 v0.3.94 发布复核：代码提交 [`ffc9caa`](https://github.com/Minkelxy/ningxia-tourism/commit/ffc9caae82726e022fe36ae3ae8305dcc20a5f4c) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33635449244)为 **success**，build 与 deploy 两个 job 均成功；179 条单元测试、131 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。窄屏地图控制区在 320px、390px 下均为三列两行，六个控制项保持 44px 以上触控热区且页面根宽度与视口一致；生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200，线上地图控制区已复核 320px、390px 两档布局。
 
 2026-09-02 v0.3.93 发布复核：代码提交 [`d3504f2`](https://github.com/Minkelxy/ningxia-tourism/commit/d3504f23b516ee80301b4105f9864906c2a2b126) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33633482009)为 **success**，build 与 deploy 两个 job 均成功；179 条单元测试、131 条 E2E 通过、11 条按端型跳过。收藏列表在 320px—480px 下统一收束景点标题/副标题与路线摘要，320px—360px 使用 44×44 图标收藏操作，390px—480px 保留文字按钮但条目高度保持 80–84px；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200，收藏页在 320px、390px、480px 下页面宽度与视口一致。
