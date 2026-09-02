@@ -200,7 +200,8 @@ test('首页可按天数缩小路线范围并阅读最新专题', async ({ page 
   await expect(page.getByRole('link', { name: /五日全景深度游/ })).toBeVisible();
   await expect(page.getByRole('link', { name: /打开完整筛选/ })).toHaveAttribute('href', /routes\?duration=5/);
   const fullFilterLink = page.getByRole('link', { name: /打开完整筛选/ });
-  await fullFilterLink.hover();
+  await page.keyboard.press('Tab');
+  await expect(fullFilterLink).toBeFocused();
   await expect(fullFilterLink).toHaveCSS('color', 'rgb(169, 69, 53)');
   await expect(fullFilterLink.locator('svg').last()).not.toHaveCSS('transform', 'none');
   await expect(page.locator('.home-topic-card')).toHaveCount(3);
