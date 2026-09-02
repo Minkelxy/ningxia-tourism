@@ -54,6 +54,20 @@ test('移动端菜单浮于内容之上并锁定页面滚动', async ({ page }) 
   await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe('');
 });
 
+test('移动端菜单项悬停反馈与桌面导航保持一致', async ({ page }) => {
+  if ((page.viewportSize()?.width ?? 999) > 768) test.skip();
+  await page.goto(appBase);
+  await page.getByRole('button', { name: '打开导航菜单' }).click();
+  const mobileNav = page.getByRole('navigation', { name: '移动端导航' });
+  await expect(mobileNav).toBeVisible();
+  await page.waitForTimeout(220);
+  const attractionsLink = mobileNav.getByRole('link', { name: '精选景点' });
+  await attractionsLink.hover();
+  await expect(attractionsLink).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+  await expect(attractionsLink).toHaveCSS('color', 'rgb(49, 95, 79)');
+  await expect(attractionsLink).toHaveCSS('box-shadow', /rgba\(67, 48, 24, 0\.06\)/);
+});
+
 test('导航搜索与收藏入口保持44px触控热区', async ({ page }) => {
   await page.goto(appBase);
   const favoritesLink = page.locator('.favorites-nav-link');
