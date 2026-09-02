@@ -665,6 +665,20 @@ test('地图区县图例支持键盘聚焦并联动区域高亮', async ({ page 
   await expect(map.getByRole('button', { name: /兴庆区，按回车进入/ })).toBeVisible();
   const legend = map.getByRole('complementary', { name: '银川市区县颜色图例' });
   await expect(legend).toBeVisible();
+  const legendMotion = await legend.evaluate(() => ({
+    panel: getComputedStyle(document.querySelector('.map-legend') as HTMLElement).animationName,
+    title: getComputedStyle(document.querySelector('.map-legend__title') as HTMLElement).animationName,
+    items: [...document.querySelectorAll('.map-legend__item')].slice(0, 3).map((element) => ({
+      name: getComputedStyle(element).animationName,
+      delay: getComputedStyle(element).animationDelay,
+    })),
+    swatches: [...document.querySelectorAll('.map-legend__swatch')].slice(0, 3).map((element) => getComputedStyle(element).animationName),
+  }));
+  expect(legendMotion.panel).toBe('map-legend-in');
+  expect(legendMotion.title).toBe('map-legend-title-in');
+  expect(legendMotion.items.every((item) => item.name === 'map-legend-item-in')).toBe(true);
+  expect(legendMotion.items[1]?.delay).not.toBe(legendMotion.items[0]?.delay);
+  expect(legendMotion.swatches.every((name) => name === 'map-legend-swatch-in')).toBe(true);
   const legendItem = legend.getByRole('button', { name: '兴庆区，高亮地图区域' });
   await legendItem.focus();
   await expect(legendItem).toBeFocused();
@@ -674,6 +688,20 @@ test('地图区县图例支持键盘聚焦并联动区域高亮', async ({ page 
   await expect(map.locator('.map-region.is-focused')).toHaveAttribute('aria-label', /兴庆区/);
   await map.getByRole('button', { name: '交通' }).focus();
   await expect(map.locator('.map-region.is-focused')).toHaveCount(0);
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.reload();
+  await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
+  const reducedMap = page.getByRole('region', { name: '宁夏交互式旅游地图' });
+  await reducedMap.getByRole('button', { name: /银川市，按回车进入/ }).press('Enter');
+  const reducedLegend = reducedMap.getByRole('complementary', { name: '银川市区县颜色图例' });
+  await expect(reducedLegend).toBeVisible();
+  const reducedLegendMotion = await reducedLegend.evaluate(() => ({
+    names: [...document.querySelectorAll('.map-legend, .map-legend__title, .map-legend__item, .map-legend__swatch')].map((element) => getComputedStyle(element).animationName),
+    transforms: [...document.querySelectorAll('.map-legend, .map-legend__title, .map-legend__item, .map-legend__swatch')].map((element) => getComputedStyle(element).transform),
+  }));
+  expect(reducedLegendMotion.names.every((name) => name === 'none')).toBe(true);
+  expect(reducedLegendMotion.transforms.every((transform) => transform === 'none')).toBe(true);
 });
 
 test('景点页支持按旅行兴趣发现新增目的地', async ({ page }) => {

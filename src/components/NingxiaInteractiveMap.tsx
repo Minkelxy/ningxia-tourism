@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import type { CSSProperties } from 'react';
 import { getPublishedAttractionsByCity, publishedAttractions } from '../data/attractions';
 import { getCityById } from '../data/cities';
 import { publishedFoods } from '../data/foods';
@@ -449,13 +450,17 @@ export default function NingxiaInteractiveMap() {
 
         {/* —— Task 4 (AC-10): 市级视图分区图例 —— */}
         {legendEntries.length > 0 && (
-          <aside className="map-legend" aria-label={`${featureName(selectedCity)}区县颜色图例`}>
+          <aside key={featureCode(selectedCity)} className="map-legend" aria-label={`${featureName(selectedCity)}区县颜色图例`}>
             <div className="map-legend__title">区县图例</div>
             <ul>
-              {legendEntries.map((entry) => {
+              {legendEntries.map((entry, index) => {
                 const active = effectiveFocusedCode === entry.code || selectedFeatureCode === entry.code;
                 return (
-                  <li key={entry.code} className={`map-legend__item ${active ? 'is-active' : ''}`}>
+                  <li
+                    key={entry.code}
+                    className={`map-legend__item ${active ? 'is-active' : ''}`}
+                    style={{ '--map-legend-index': index } as CSSProperties}
+                  >
                     <button
                       type="button"
                       className="map-legend__button"
