@@ -144,13 +144,21 @@ button { color: inherit; }
 .section-heading > p { max-width: 520px; color: var(--muted); }
 .split-heading { display: flex; align-items: end; justify-content: space-between; gap: 40px; }
 .interactive-map { overflow: hidden; border: 1px solid var(--line); border-radius: 30px; background: var(--card); box-shadow: var(--shadow); }
-.map-toolbar { min-height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 18px; border-bottom: 1px solid var(--line); }
+.map-toolbar { min-height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 18px; border-bottom: 1px solid var(--line); animation: map-toolbar-in .46s cubic-bezier(.22,.8,.26,1) both; }
 .map-breadcrumb, .map-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.map-breadcrumb { animation: map-breadcrumb-in .4s cubic-bezier(.22,.8,.26,1) .08s both; }
 .map-toolbar button { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: #fff; cursor: pointer; transition: transform .2s ease, background .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease; }
+.map-actions button { animation: map-control-in .4s cubic-bezier(.22,.8,.26,1) calc(var(--map-control-index, 0) * 45ms + .1s) both; }
+.map-actions button:nth-child(2) { --map-control-index: 1; }
+.map-actions button:nth-child(3) { --map-control-index: 2; }
+.map-actions button:nth-child(4) { --map-control-index: 3; }
+.map-actions button:nth-child(5) { --map-control-index: 4; }
+.map-actions button:nth-child(6) { --map-control-index: 5; }
 .map-toolbar button:hover, .map-toolbar button:focus-visible { border-color: var(--green); background: #eef3ed; color: var(--green); transform: translateY(-1px); box-shadow: 0 5px 14px rgba(67,48,24,.07); }
-.map-toolbar button[aria-pressed="true"] { background: var(--green); color: #fff; box-shadow: 0 7px 16px rgba(33,70,59,.16); transform: none; }
+.map-toolbar button[aria-pressed="true"] { background: var(--green); color: #fff; box-shadow: 0 7px 16px rgba(33,70,59,.16); transform: none; animation: map-control-pressed .36s cubic-bezier(.22,.8,.26,1) both; }
 .map-toolbar svg { width: 17px; }
-.map-breadcrumb > span { font-weight: 800; }
+.map-breadcrumb > span { position: relative; font-weight: 800; animation: map-level-label-in .36s cubic-bezier(.22,.8,.26,1) .18s both; }
+.map-breadcrumb > span::after { position: absolute; left: 0; right: 0; bottom: -3px; height: 2px; content: ''; border-radius: 999px; background: linear-gradient(90deg, var(--red), rgba(200,157,77,.2)); opacity: 0; transform: scaleX(0); transform-origin: left; animation: map-level-ink .36s cubic-bezier(.22,.8,.26,1) .32s both; }
 .map-canvas-wrap { position: relative; min-height: 600px; display: grid; place-items: center; overflow: hidden; background: linear-gradient(180deg, #efe5cc 0%, #e3d3b1 100%); }
 .map-canvas { width: 100%; max-height: 720px; touch-action: none; cursor: grab; }
 .map-canvas:active { cursor: grabbing; }
@@ -1246,6 +1254,12 @@ button { color: inherit; }
 @keyframes site-header-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes site-brand-mark-stamp { 0% { opacity: 0; transform: rotate(-2deg) scale(.78); } 68% { opacity: 1; transform: rotate(1deg) scale(1.04); } 100% { opacity: 1; transform: rotate(-2deg) scale(1); } }
 @keyframes site-nav-ink { from { opacity: 0; transform: scaleX(0); } to { opacity: .72; transform: scaleX(1); } }
+@keyframes map-toolbar-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes map-breadcrumb-in { from { opacity: 0; transform: translateX(-7px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes map-control-in { from { opacity: 0; transform: translateY(-5px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes map-control-pressed { 0% { box-shadow: 0 7px 16px rgba(33,70,59,.16), 0 0 0 0 rgba(240,197,121,0); } 65% { box-shadow: 0 7px 16px rgba(33,70,59,.16), 0 0 0 4px rgba(240,197,121,.28); } 100% { box-shadow: 0 7px 16px rgba(33,70,59,.16), 0 0 0 0 rgba(240,197,121,0); } }
+@keyframes map-level-label-in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes map-level-ink { from { opacity: 0; transform: scaleX(0); } to { opacity: .72; transform: scaleX(1); } }
 @keyframes guide-copy-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes guide-visual-in { from { opacity: 0; transform: rotate(2deg) translateY(14px) scale(.98); } to { opacity: 1; transform: rotate(2deg) translateY(0) scale(1); } }
 @keyframes guide-summary-in { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
@@ -1635,7 +1649,7 @@ button { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  .hero-orbit-one, .hero-orbit-two, .sun-disc, .river-ribbon, .mountain-back, .mountain-front, .hero-seal, .scroll-cue, .site-header-inner, .brand-mark, .desktop-nav a.active::after, .map-region, .map-region-emphasis, .map-attraction.is-selected .marker-dot, .map-attraction .marker-ink-ring, .map-viewport, .map-label__glyph, .map-attraction-glyph, .map-food-glyph, .map-government-glyph, .map-hub-glyph, .route-stops::before, .route-stop, .stop-number::after, .home-route-match, .home-route-match h3::after, .guide-hero-grid > div:first-child, .guide-hero-visual, .guide-hero-summary, .season-card, .season-card h3::after, .duration-card, .duration-card strong::after, .transit-flow::before, .transit-flow article, .transit-icon, .travel-checklist label.checked > span svg, .journal-hero-grid > div:first-child, .journal-cover-stack, .journal-photo-visual, .paper-note, .journal-cover-stack .date-stamp, .journal-card, .journal-card h2::after, .journal-principles article, .journal-detail-hero > picture, .journal-detail-title, .journal-detail-title h1::after, .journal-fact-strip, .journal-article > .receipt-card, .journal-article > .markdown-body, .journal-sidebar > *, .collection-hero-grid > div:first-child, .collection-hero-visual, .foods-hero-grid > div:first-child, .foods-hero-visual, .attraction-card, .city-card, .detail-hero > picture, .city-detail-hero > picture, .detail-top-actions, .detail-title, .city-detail-copy, .food-detail-hero-grid > div:first-child, .food-detail-visual, .detail-title h1::after, .city-detail-copy h1::after, .food-detail-hero h1::after, .image-dots, .detail-main > .eyebrow, .detail-main > h2, .detail-main > .detail-summary, .detail-main > .detail-section, .highlight-list li, .info-grid > div, .detail-sidebar > *, .city-facts, .city-facts > div, .city-sidebar > section, .nearby-grid a, .city-attraction-row a, .route-mini-grid a { animation: none !important; transition: none !important; }
+  .hero-orbit-one, .hero-orbit-two, .sun-disc, .river-ribbon, .mountain-back, .mountain-front, .hero-seal, .scroll-cue, .site-header-inner, .brand-mark, .desktop-nav a.active::after, .map-toolbar, .map-breadcrumb, .map-actions button, .map-toolbar button[aria-pressed="true"], .map-breadcrumb > span, .map-breadcrumb > span::after, .map-region, .map-region-emphasis, .map-attraction.is-selected .marker-dot, .map-attraction .marker-ink-ring, .map-viewport, .map-label__glyph, .map-attraction-glyph, .map-food-glyph, .map-government-glyph, .map-hub-glyph, .route-stops::before, .route-stop, .stop-number::after, .home-route-match, .home-route-match h3::after, .guide-hero-grid > div:first-child, .guide-hero-visual, .guide-hero-summary, .season-card, .season-card h3::after, .duration-card, .duration-card strong::after, .transit-flow::before, .transit-flow article, .transit-icon, .travel-checklist label.checked > span svg, .journal-hero-grid > div:first-child, .journal-cover-stack, .journal-photo-visual, .paper-note, .journal-cover-stack .date-stamp, .journal-card, .journal-card h2::after, .journal-principles article, .journal-detail-hero > picture, .journal-detail-title, .journal-detail-title h1::after, .journal-fact-strip, .journal-article > .receipt-card, .journal-article > .markdown-body, .journal-sidebar > *, .collection-hero-grid > div:first-child, .collection-hero-visual, .foods-hero-grid > div:first-child, .foods-hero-visual, .attraction-card, .city-card, .detail-hero > picture, .city-detail-hero > picture, .detail-top-actions, .detail-title, .city-detail-copy, .food-detail-hero-grid > div:first-child, .food-detail-visual, .detail-title h1::after, .city-detail-copy h1::after, .food-detail-hero h1::after, .image-dots, .detail-main > .eyebrow, .detail-main > h2, .detail-main > .detail-summary, .detail-main > .detail-section, .highlight-list li, .info-grid > div, .detail-sidebar > *, .city-facts, .city-facts > div, .city-sidebar > section, .nearby-grid a, .city-attraction-row a, .route-mini-grid a { animation: none !important; transition: none !important; }
   .map-region { opacity: 1; stroke-dasharray: none; stroke-dashoffset: 0; transform: none; }
   .map-region-emphasis { opacity: .94; stroke-dasharray: none; stroke-dashoffset: 0; }
   .map-attraction .marker-ink-ring { opacity: .7; stroke-dasharray: none; stroke-dashoffset: 0; transform: scale(1) rotate(8deg); }
@@ -1661,6 +1675,7 @@ button { color: inherit; }
   .food-detail-visual { opacity: 1; transform: rotate(2deg); }
   .detail-title h1::after, .city-detail-copy h1::after, .food-detail-hero h1::after { opacity: .84; transform: scaleX(1); }
   .desktop-nav a.active::after { opacity: .72; transform: scaleX(1); }
+  .map-breadcrumb > span::after { opacity: .72; transform: scaleX(1); }
 }
 
 @media (prefers-reduced-motion: reduce) {

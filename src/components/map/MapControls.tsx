@@ -26,7 +26,7 @@ function MapControls({ levelLabel, selectedCity, selectedDistrict, showTransport
       <div className="map-breadcrumb" role="group" aria-label="地图层级">
         {selectedCity && <button type="button" onClick={onBackToProvince}><Home aria-hidden="true" /> 全区</button>}
         {selectedDistrict && <button type="button" onClick={onBackToCity}><ChevronLeft aria-hidden="true" /> {featureName(selectedCity)}</button>}
-        <span>{levelLabel}</span>
+        <span key={levelLabel}>{levelLabel}</span>
       </div>
       <div className="map-actions" role="group" aria-label="地图控制">
         <button type="button" onClick={onToggleTransport} aria-pressed={showTransport}><Layers3 aria-hidden="true" /> 交通</button>

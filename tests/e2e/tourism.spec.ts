@@ -610,6 +610,51 @@ test('地图支持键盘进入城市、选择区县和切换交通图层', async
   await expect(transport).toHaveCSS('transform', 'none');
 });
 
+test('地图工具栏与层级切换使用统一渐进绘图', async ({ page }) => {
+  await page.goto(appBase);
+  await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
+  const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
+  await expect(map.locator('.map-toolbar')).toBeVisible();
+  const initialMotion = await map.evaluate(() => ({
+    toolbar: getComputedStyle(document.querySelector('.map-toolbar') as HTMLElement).animationName,
+    breadcrumb: getComputedStyle(document.querySelector('.map-breadcrumb') as HTMLElement).animationName,
+    label: getComputedStyle(document.querySelector('.map-breadcrumb > span') as HTMLElement).animationName,
+    ink: getComputedStyle(document.querySelector('.map-breadcrumb > span') as HTMLElement, '::after').animationName,
+    controls: [...document.querySelectorAll('.map-actions button')].map((element) => ({
+      name: getComputedStyle(element).animationName,
+      delay: getComputedStyle(element).animationDelay,
+    })),
+  }));
+  expect(initialMotion.toolbar).toBe('map-toolbar-in');
+  expect(initialMotion.breadcrumb).toBe('map-breadcrumb-in');
+  expect(initialMotion.label).toBe('map-level-label-in');
+  expect(initialMotion.ink).toBe('map-level-ink');
+  expect(initialMotion.controls.map((item) => item.name).every((name) => name === 'map-control-in')).toBe(true);
+  expect(initialMotion.controls[1]?.delay).not.toBe(initialMotion.controls[0]?.delay);
+
+  await map.getByRole('button', { name: /银川市，按回车进入/ }).press('Enter');
+  await expect(map.getByRole('button', { name: /兴庆区，按回车进入/ })).toBeVisible();
+  await expect(map.locator('.map-breadcrumb > span')).toHaveCSS('animation-name', 'map-level-label-in');
+  await expect(map.locator('.map-breadcrumb > span', { hasText: '银川市' })).toHaveCSS('animation-name', 'map-level-label-in');
+
+  const transport = map.getByRole('button', { name: '交通' });
+  await transport.click();
+  await expect(transport).toHaveAttribute('aria-pressed', 'true');
+  await expect(transport).toHaveCSS('animation-name', 'map-control-pressed');
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.reload();
+  await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
+  const reducedMotion = await page.getByRole('region', { name: '宁夏交互式旅游地图' }).evaluate(() => ({
+    elements: [...document.querySelectorAll('.map-toolbar, .map-breadcrumb, .map-breadcrumb > span, .map-actions button')].map((element) => getComputedStyle(element).animationName),
+    ink: getComputedStyle(document.querySelector('.map-breadcrumb > span') as HTMLElement, '::after').animationName,
+    inkOpacity: getComputedStyle(document.querySelector('.map-breadcrumb > span') as HTMLElement, '::after').opacity,
+  }));
+  expect(reducedMotion.elements.every((name) => name === 'none')).toBe(true);
+  expect(reducedMotion.ink).toBe('none');
+  expect(reducedMotion.inkOpacity).toBe('0.72');
+});
+
 test('地图区县图例支持键盘聚焦并联动区域高亮', async ({ page }) => {
   await page.goto(appBase);
   await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
