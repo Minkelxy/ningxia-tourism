@@ -4,7 +4,7 @@
 
 ## 当前发布快照
 
-2026-09-03 v0.3.111 发布复核：待 GitHub Actions 完成后回填代码提交、工作流编号与最终测试统计。收藏页与全站搜索页使用统一的首屏、标题墨线、工具栏/表单、结果分组和内容行渐进绘图；减少动效设置下恢复静态内容与墨线，收藏清空、搜索提交、建议词、清空输入、键盘焦点和空状态行为不变。
+2026-09-03 v0.3.111 发布复核：代码提交 [`773cfaf`](https://github.com/Minkelxy/ningxia-tourism/commit/773cfaf73b63a1d48be775920b9f1688a3e4ed94) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33669947482)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、161 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。收藏页与全站搜索页使用 `utility-copy-in`、`utility-title-ink`、`utility-visual-in`、`utility-form-in`、`utility-summary-in`、`utility-group-in`、`utility-row-in` 和 `utility-result-in` 按内容层级渐进绘图；减少动效设置下恢复静态内容与墨线，收藏清空、搜索提交、建议词、清空输入、键盘焦点和空状态行为不变。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
 2026-09-03 v0.3.110 发布复核：代码提交 [`d08f28f`](https://github.com/Minkelxy/ningxia-tourism/commit/d08f28fa9b05709bca510eafc70aa968a364cfa0) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33667905913)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、157 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。路线详情首屏、标题、事实信息、操作入口、日程导航、DAY 标记和资料侧栏按阅读顺序分层入场，DAY 标记增加与地图节点统一的轻量手绘环线；减少动效设置下恢复静态内容、层级与墨线，路线跳转、打印、分享、收藏和时间线行为不变。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
