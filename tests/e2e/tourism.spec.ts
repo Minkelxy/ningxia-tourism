@@ -579,6 +579,18 @@ test('旅行手记栏目切换保持轻量反馈', async ({ page }) => {
   await expect(travelTab).toHaveCSS('color', 'rgb(255, 255, 255)');
 });
 
+test('旅行手记栏目在320px窄屏保持可横向浏览', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 844 });
+  await page.goto(`${appBase}journal`);
+  const tabList = page.locator('.journal-tabs');
+  const lastTab = page.getByRole('tab', { name: /旅行专题/ });
+  await expect(tabList).toHaveCSS('overflow-x', 'auto');
+  const layout = await tabList.evaluate((element) => ({ clientWidth: element.clientWidth, scrollWidth: element.scrollWidth }));
+  expect(layout.scrollWidth).toBeGreaterThan(layout.clientWidth);
+  await lastTab.scrollIntoViewIfNeeded();
+  await expect(lastTab).toBeInViewport();
+});
+
 test('路线筛选入口保持轻量反馈', async ({ page }) => {
   await page.goto(`${appBase}routes`);
   if ((page.viewportSize()?.width ?? 999) <= 768) {
