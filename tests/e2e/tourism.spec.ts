@@ -1088,6 +1088,7 @@ test('首页与搜索起始入口保持轻量反馈', async ({ page }) => {
 
   await page.goto(`${appBase}search`);
   const searchInput = page.getByRole('textbox', { name: '搜索宁夏旅行内容' });
+  await expect(searchInput).toHaveCSS('min-height', '44px');
   if ((page.viewportSize()?.width ?? 999) > 768) {
     await expect(searchInput).toBeFocused();
   } else {
