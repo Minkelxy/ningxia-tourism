@@ -299,6 +299,24 @@ test('404 页面次级入口保持轻量层次反馈', async ({ page }) => {
   await expect(browseAttractions).toHaveCSS('box-shadow', /rgba\(67, 48, 24, 0\.11\)/);
 });
 
+test('全屏状态页高度跟随响应式站点头部', async ({ page }) => {
+  await page.goto(`${appBase}food/not-found-state`);
+  const layout = await page.evaluate(() => {
+    const state = document.querySelector<HTMLElement>('.full-state');
+    const header = document.querySelector<HTMLElement>('.site-header');
+    const stateBox = state?.getBoundingClientRect();
+    const headerBox = header?.getBoundingClientRect();
+    return {
+      stateHeight: stateBox?.height ?? 0,
+      headerHeight: headerBox?.height ?? 0,
+      viewportHeight: window.innerHeight,
+      headerVariable: getComputedStyle(document.documentElement).getPropertyValue('--site-header-height').trim(),
+    };
+  });
+  expect(layout.stateHeight).toBeGreaterThanOrEqual(layout.viewportHeight - layout.headerHeight - 1);
+  expect(Math.abs(parseFloat(layout.headerVariable) - layout.headerHeight)).toBeLessThanOrEqual(1);
+});
+
 test('首页可按天数缩小路线范围并阅读最新专题', async ({ page }) => {
   await page.goto(appBase);
   const fiveDays = page.getByRole('radio', { name: '5 天' });
