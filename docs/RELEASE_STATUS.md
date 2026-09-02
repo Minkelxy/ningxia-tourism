@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-03 v0.3.101 发布复核：代码提交 [`27ed465`](https://github.com/Minkelxy/ningxia-tourism/commit/27ed465f3d119c6369a1fd6f16a9a97d83f29620) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33651902556)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、139 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。城市/区县标签、景点、美食、政府和交通点位统一使用 `map-layer-pop-in` 轻量弹入绘图，区域描边完成后信息层级按顺序出现；固定透明触控热区保持至少 44px，减少动效设置下恢复静态图形。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
+
 2026-09-02 v0.3.100 发布复核：代码提交 [`cbd6fb2`](https://github.com/Minkelxy/ningxia-tourism/commit/cbd6fb261dac35e7c981d7f3cb84770735da1cc6) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33649942121)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、139 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。路线详情时间线增加渐进绘制的路线轨道与停靠点错峰入场，320px 窄屏调整轨道位置，减少动效设置下恢复静态轨道与内容；生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
 2026-09-02 v0.3.99 发布复核：代码提交 [`4f8b933`](https://github.com/Minkelxy/ningxia-tourism/commit/4f8b933e0340be54cdcdc0affda95e6bb06c0634) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33647391633)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、137 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。地图缩放、重置与城市/区县切换使用平滑视口过渡，拖拽期间关闭过渡保持即时跟手，减少动效设置下同时关闭视口过渡；线上已确认 `.map-viewport` 使用 `transform`、`0.36s` 过渡，地图区域使用 `map-region-draw` 与 `pathLength="1"`；生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200，页面宽度未超过视口。
