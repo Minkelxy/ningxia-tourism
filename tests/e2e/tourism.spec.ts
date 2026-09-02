@@ -389,6 +389,12 @@ test('首页山河绘图与地图区域动效保持轻量并尊重减少动效�
   expect(mapAnimation.names.every((name) => name === 'map-region-draw')).toBe(true);
   expect(mapAnimation.delays[1]).not.toBe(mapAnimation.delays[0]);
   expect(mapAnimation.pathLength).toBe('1');
+  const layerAnimation = await map.locator('.map-attraction-glyph, .map-label__glyph').evaluateAll((elements) => ({
+    names: elements.slice(0, 4).map((element) => getComputedStyle(element).animationName),
+    delays: elements.slice(0, 4).map((element) => getComputedStyle(element).animationDelay),
+  }));
+  expect(layerAnimation.names.every((name) => name === 'map-layer-pop-in')).toBe(true);
+  expect(layerAnimation.delays[1]).not.toBe(layerAnimation.delays[0]);
   await expect(map.locator('.map-viewport')).toHaveCSS('transition-property', 'transform');
   await expect(map.locator('.map-viewport')).toHaveCSS('transition-duration', '0.36s');
   const canvasBox = await map.locator('.map-canvas').boundingBox();
@@ -405,7 +411,7 @@ test('首页山河绘图与地图区域动效保持轻量并尊重减少动效�
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.reload();
   await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
-  const reducedMotion = await page.locator('.sun-disc, .map-region').evaluateAll((elements) => elements.slice(0, 2).map((element) => getComputedStyle(element).animationName));
+  const reducedMotion = await page.locator('.sun-disc, .map-region, .map-attraction-glyph, .map-label__glyph').evaluateAll((elements) => elements.map((element) => getComputedStyle(element).animationName));
   expect(reducedMotion.every((name) => name === 'none')).toBe(true);
 });
 

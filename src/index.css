@@ -158,6 +158,7 @@ button { color: inherit; }
 /* —— Task 5: 地图标签层样式 —— */
 .map-label-layer { pointer-events: none; }
 .map-label { pointer-events: none; user-select: none; }
+.map-label__glyph, .map-attraction-glyph, .map-food-glyph, .map-government-glyph, .map-hub-glyph { transform-box: fill-box; transform-origin: center; animation: map-layer-pop-in .44s cubic-bezier(.22,.8,.26,1) calc(var(--map-layer-index, 0) * 34ms) both; }
 .map-label__halo { fill: #fffdf7; stroke: #fffdf7; stroke-width: 6; stroke-linejoin: round; paint-order: stroke fill; opacity: .82; font-family: var(--serif); letter-spacing: .02em; }
 .map-label__text { fill: #2f2314; font-family: var(--serif); font-weight: 800; letter-spacing: .02em; transition: font-size .2s ease, fill .2s ease; }
 .map-label--city .map-label__halo,
@@ -1078,6 +1079,7 @@ button { color: inherit; }
 @keyframes orbit-drift-one { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(12px, 8px) rotate(3deg); } }
 @keyframes orbit-drift-two { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(-10px, -6px) rotate(-2deg); } }
 @keyframes map-region-draw { from { opacity: 0; stroke-dashoffset: 1; transform: translateY(6px) scale(.985); } to { opacity: 1; stroke-dashoffset: 0; transform: translateY(0) scale(1); } }
+@keyframes map-layer-pop-in { from { opacity: 0; transform: scale(.72); } to { opacity: 1; transform: scale(1); } }
 @keyframes route-rail-draw { to { transform: scaleY(1); } }
 @keyframes route-stop-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes marker-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: .82; } }
@@ -1372,8 +1374,9 @@ button { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  .hero-orbit-one, .hero-orbit-two, .sun-disc, .river-ribbon, .map-region, .map-attraction.is-selected .marker-dot, .map-viewport, .route-stops::before, .route-stop { animation: none !important; transition: none !important; }
+  .hero-orbit-one, .hero-orbit-two, .sun-disc, .river-ribbon, .map-region, .map-attraction.is-selected .marker-dot, .map-viewport, .map-label__glyph, .map-attraction-glyph, .map-food-glyph, .map-government-glyph, .map-hub-glyph, .route-stops::before, .route-stop { animation: none !important; transition: none !important; }
   .map-region { opacity: 1; stroke-dasharray: none; stroke-dashoffset: 0; transform: none; }
+  .map-label__glyph, .map-attraction-glyph, .map-food-glyph, .map-government-glyph, .map-hub-glyph { opacity: 1; transform: none; }
   .route-stops::before { transform: scaleY(1); }
   .route-stop { opacity: 1; transform: none; }
 }

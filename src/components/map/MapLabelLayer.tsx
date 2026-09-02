@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, type CSSProperties } from 'react';
 import { featureCode, featureName } from './config';
 import type { createProjection, GeoFeature } from './projection';
 
@@ -52,27 +52,30 @@ function MapLabelLayer({
             transform={`translate(${x.toFixed(1)} ${y.toFixed(1)})`}
             pointerEvents="none"
             aria-hidden="true"
+            style={{ '--map-layer-index': index } as CSSProperties}
           >
-            {/* Text-shadow-like halo for readability on any background */}
-            <text
-              className="map-label__halo"
-              x={0}
-              y={0}
-              textAnchor="middle"
-              dominantBaseline="central"
-            >
-              {text}
-            </text>
-            <text
-              id={labelId}
-              className="map-label__text"
-              x={0}
-              y={0}
-              textAnchor="middle"
-              dominantBaseline="central"
-            >
-              {text}
-            </text>
+            <g className="map-label__glyph">
+              {/* Text-shadow-like halo for readability on any background */}
+              <text
+                className="map-label__halo"
+                x={0}
+                y={0}
+                textAnchor="middle"
+                dominantBaseline="central"
+              >
+                {text}
+              </text>
+              <text
+                id={labelId}
+                className="map-label__text"
+                x={0}
+                y={0}
+                textAnchor="middle"
+                dominantBaseline="central"
+              >
+                {text}
+              </text>
+            </g>
           </g>
         );
       })}
