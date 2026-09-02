@@ -4,7 +4,7 @@
 
 ## 当前发布快照
 
-2026-09-02 v0.3.73 发布复核：地图懒加载占位沿用正式地图的沙纸渐变、点状纹理与抽象轮廓，保留 `role="status"` 和明确加载文案；懒加载未触发场景的 Playwright 回归通过，正式地图数据、进入视口后的加载时机与交互行为不变。
+2026-09-02 v0.3.73 发布复核：代码提交 [`c285114`](https://github.com/Minkelxy/ningxia-tourism/commit/c285114248d3656021626bb9494296e4b80a23a0) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33598011908)为 **success**；179 条单元测试、106 条 E2E 通过、6 条按端型跳过，地图懒加载占位沿用正式地图的沙纸渐变、点状纹理与抽象轮廓，保留 `role="status"` 和明确加载文案；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，线上手机菜单导航、地图点位 44px 热区与景点预览已复核通过。
 
 2026-09-02 v0.3.72 发布复核：代码提交 [`82b9801`](https://github.com/Minkelxy/ningxia-tourism/commit/82b9801a48a4f45062f06f22b492b3624d540f57) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33596260998)为 **success**；179 条单元测试、104 条 E2E 通过、6 条按端型跳过，景点与美食地图点位在缩放后保持至少 44px 实际触控热区，相邻点位由画布按最近距离分发；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。
 
