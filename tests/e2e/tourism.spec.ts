@@ -432,6 +432,16 @@ test('五城概览支持横向比较旅行节奏', async ({ page }) => {
   await expect(table.getByRole('row', { name: /吴忠市/ })).toContainText('中华黄河楼和黄河坛不是同一个地点');
   await expect(page.locator('.city-card')).toHaveCount(5);
   await expect(page.getByRole('link', { name: '查看城市指南' })).toHaveCount(5);
+  if ((page.viewportSize()?.width ?? 999) <= 768) {
+    const layout = await page.locator('.city-table-wrap').evaluate((element) => ({
+      tableWidth: element.scrollWidth,
+      viewportWidth: element.clientWidth,
+      pageWidth: document.documentElement.scrollWidth,
+      windowWidth: window.innerWidth,
+    }));
+    expect(layout.tableWidth).toBeGreaterThan(layout.viewportWidth);
+    expect(layout.pageWidth).toBeLessThanOrEqual(layout.windowWidth + 1);
+  }
 });
 
 test('网络资料与区域配图说明透明可见', async ({ page }) => {

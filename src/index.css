@@ -483,7 +483,7 @@ button { color: inherit; }
 .city-comparison > header h2 { margin-top: 7px; font-size: clamp(1.8rem, 3vw, 2.6rem); }
 .city-comparison > header > p { max-width: 430px; color: var(--muted); font-size: .86rem; }
 .city-comparison-hint { display: none; margin: -8px 0 14px; color: var(--muted); font-size: .75rem; }
-.city-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; background: #fff; scrollbar-width: thin; }
+.city-table-wrap { overflow-x: auto; contain: paint; border: 1px solid var(--line); border-radius: 16px; background: #fff; scrollbar-width: thin; }
 .city-table-wrap:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 .city-table-wrap table { width: 100%; min-width: 1020px; border-collapse: collapse; font-size: .8rem; }
 .city-table-wrap th, .city-table-wrap td { padding: 14px 13px; border-bottom: 1px solid #e8dfd1; text-align: left; vertical-align: middle; }
