@@ -289,6 +289,22 @@ test('结果区清除筛选保持44px触控高度', async ({ page }) => {
   await expect(clearFilters).toHaveCSS('padding-bottom', '8px');
 });
 
+test('列表筛选输入与下拉控件保持统一触控高度', async ({ page }) => {
+  await page.goto(`${appBase}attractions`);
+  if ((page.viewportSize()?.width ?? 999) <= 768) {
+    await page.getByRole('button', { name: /筛选景点/ }).click();
+  }
+  const filterPanel = page.getByRole('region', { name: '景点筛选' });
+  const searchInput = filterPanel.getByPlaceholder('搜索景点、城市或亮点');
+  const selects = filterPanel.locator('select');
+  await expect(searchInput).toHaveCSS('min-height', '44px');
+  await expect(selects.first()).toHaveCSS('min-height', '48px');
+  await expect(selects.last()).toHaveCSS('min-height', '48px');
+  const heights = await filterPanel.locator('input, select').evaluateAll((elements) => elements.map((element) => element.getBoundingClientRect().height));
+  expect(heights[0] ?? 0).toBeGreaterThanOrEqual(44);
+  expect(heights.slice(1).every((height) => height >= 44)).toBe(true);
+});
+
 test('404 页面次级入口保持轻量层次反馈', async ({ page }) => {
   await page.goto(`${appBase}this-page-does-not-exist`);
   const browseAttractions = page.getByRole('link', { name: '浏览景点' });

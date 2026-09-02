@@ -297,7 +297,7 @@ button { color: inherit; }
 .search-field { min-width: min(300px, 100%); flex: 1; display: flex; align-items: center; gap: 10px; min-height: 50px; padding: 0 16px; border: 1px solid var(--line); border-radius: 12px; background: #fff; transition: border-color .2s ease, box-shadow .2s ease, background .2s ease; }
 .search-field:focus-within { border-color: var(--gold-dark); background: #fff; box-shadow: 0 0 0 3px rgba(173,123,45,.14); }
 .search-field svg { width: 19px; color: var(--muted); }
-.search-field input { min-width: 0; width: 100%; border: 0; outline: 0; background: transparent; }
+.search-field input { min-width: 0; width: 100%; min-height: 44px; border: 0; outline: 0; background: transparent; }
 .filter-panel > label:not(.search-field) { display: flex; align-items: center; gap: 8px; min-height: 50px; padding: 0 13px; border: 1px solid var(--line); border-radius: 12px; background: #fff; transition: border-color .2s ease, box-shadow .2s ease, background .2s ease; }
 .filter-panel > label:not(.search-field):focus-within { border-color: var(--gold-dark); background: #fff; box-shadow: 0 0 0 3px rgba(173,123,45,.14); }
 .filter-panel > label:not(.search-field) > span { color: var(--muted); font-size: .8rem; white-space: nowrap; }
