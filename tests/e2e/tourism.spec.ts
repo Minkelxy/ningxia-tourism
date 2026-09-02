@@ -1010,6 +1010,92 @@ test('桌面端五城卡片按行保持行动入口底部对齐', async ({ page 
   }
 });
 
+test('发现型集合页按筛选、比较和结果顺序渐进绘图', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+
+  await page.goto(`${appBase}attractions`);
+  await expect(page.locator('.attraction-theme-card').first()).toBeVisible();
+  await expect(page.locator('.attraction-themes')).toHaveCSS('animation-name', 'collection-panel-in');
+  await expect(page.locator('.attraction-theme-card').first()).toHaveCSS('animation-name', 'collection-theme-in');
+  await expect(page.locator('.filter-panel')).toHaveCSS('animation-name', 'collection-filter-in');
+  await expect(page.locator('.result-summary')).toHaveCSS('animation-name', 'collection-result-in');
+  await expect(page.locator('.attraction-card').first()).toHaveCSS('animation-name', 'collection-card-in');
+  await page.locator('.compare-toggle').first().click();
+  await expect(page.locator('.comparison-panel')).toHaveCSS('animation-name', 'collection-comparison-in');
+  const attractionInk = await page.locator('.attraction-themes').evaluate((element) => getComputedStyle(element, '::before').animationName);
+  expect(attractionInk).toBe('collection-ink-line');
+
+  await page.goto(`${appBase}routes`);
+  await expect(page.locator('.route-card').first()).toBeVisible();
+  await expect(page.locator('.route-filter')).toHaveCSS('animation-name', 'collection-filter-in');
+  await expect(page.locator('#route-results')).toHaveCSS('animation-name', 'collection-result-in');
+  await expect(page.locator('.route-comparison')).toHaveCSS('animation-name', 'collection-comparison-in');
+  await expect(page.locator('.route-table-wrap tbody tr').first()).toHaveCSS('animation-name', 'collection-table-row-in');
+  await expect(page.locator('.route-card').first()).toHaveCSS('animation-name', 'collection-card-in');
+  await expect(page.locator('.route-profile-strip span').first()).toHaveCSS('animation-name', 'collection-chip-in');
+
+  await page.goto(`${appBase}cities`);
+  await expect(page.locator('.city-card').first()).toBeVisible();
+  await expect(page.locator('.city-comparison')).toHaveCSS('animation-name', 'collection-comparison-in');
+  await expect(page.locator('.city-table-wrap tbody tr').first()).toHaveCSS('animation-name', 'collection-table-row-in');
+  await expect(page.locator('.city-card').first()).toHaveCSS('animation-name', 'collection-card-in');
+
+  await page.goto(`${appBase}about`);
+  await expect(page.locator('.method-grid article').first()).toBeVisible();
+  await expect(page.locator('.about-intro')).toHaveCSS('animation-name', 'about-intro-in');
+  await expect(page.locator('.method-grid article').first()).toHaveCSS('animation-name', 'about-method-in');
+  await expect(page.locator('.source-directory')).toHaveCSS('animation-name', 'about-source-in');
+  await expect(page.locator('.source-directory a').first()).toHaveCSS('animation-name', 'about-source-link-in');
+});
+
+test('发现型集合页减少动效时恢复静态绘图', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+
+  await page.goto(`${appBase}attractions`);
+  await expect(page.locator('.attraction-theme-card').first()).toBeVisible();
+  const attractionsMotion = await page.evaluate(() => ({
+    themes: getComputedStyle(document.querySelector('.attraction-themes') as HTMLElement).animationName,
+    theme: getComputedStyle(document.querySelector('.attraction-theme-card') as HTMLElement).animationName,
+    filter: getComputedStyle(document.querySelector('.filter-panel') as HTMLElement).animationName,
+    result: getComputedStyle(document.querySelector('.result-summary') as HTMLElement).animationName,
+    card: getComputedStyle(document.querySelector('.attraction-card') as HTMLElement).animationName,
+    comparison: (() => { const element = document.querySelector('.comparison-panel'); return element ? getComputedStyle(element).animationName : ''; })(),
+    ink: getComputedStyle(document.querySelector('.attraction-themes') as HTMLElement, '::before').transform,
+  }));
+  expect(attractionsMotion).toMatchObject({ themes: 'none', theme: 'none', filter: 'none', result: 'none', card: 'none', ink: 'matrix(1, 0, 0, 1, 0, 0)' });
+
+  await page.goto(`${appBase}routes`);
+  await expect(page.locator('.route-card').first()).toBeVisible();
+  const routesMotion = await page.evaluate(() => ({
+    filter: getComputedStyle(document.querySelector('.route-filter') as HTMLElement).animationName,
+    result: getComputedStyle(document.querySelector('#route-results') as HTMLElement).animationName,
+    comparison: getComputedStyle(document.querySelector('.route-comparison') as HTMLElement).animationName,
+    row: getComputedStyle(document.querySelector('.route-table-wrap tbody tr') as HTMLElement).animationName,
+    card: getComputedStyle(document.querySelector('.route-card') as HTMLElement).animationName,
+    chip: getComputedStyle(document.querySelector('.route-profile-strip span') as HTMLElement).animationName,
+  }));
+  expect(routesMotion).toEqual({ filter: 'none', result: 'none', comparison: 'none', row: 'none', card: 'none', chip: 'none' });
+
+  await page.goto(`${appBase}cities`);
+  await expect(page.locator('.city-card').first()).toBeVisible();
+  const citiesMotion = await page.evaluate(() => ({
+    comparison: getComputedStyle(document.querySelector('.city-comparison') as HTMLElement).animationName,
+    row: getComputedStyle(document.querySelector('.city-table-wrap tbody tr') as HTMLElement).animationName,
+    card: getComputedStyle(document.querySelector('.city-card') as HTMLElement).animationName,
+  }));
+  expect(citiesMotion).toEqual({ comparison: 'none', row: 'none', card: 'none' });
+
+  await page.goto(`${appBase}about`);
+  await expect(page.locator('.method-grid article').first()).toBeVisible();
+  const aboutMotion = await page.evaluate(() => ({
+    intro: getComputedStyle(document.querySelector('.about-intro') as HTMLElement).animationName,
+    method: getComputedStyle(document.querySelector('.method-grid article') as HTMLElement).animationName,
+    source: getComputedStyle(document.querySelector('.source-directory') as HTMLElement).animationName,
+    link: getComputedStyle(document.querySelector('.source-directory a') as HTMLElement).animationName,
+  }));
+  expect(aboutMotion).toEqual({ intro: 'none', method: 'none', source: 'none', link: 'none' });
+});
+
 test('网络资料与区域配图说明透明可见', async ({ page }) => {
   await page.goto(`${appBase}attraction/pengyangtitian`);
   await expect(page.getByRole('heading', { level: 1, name: '彭阳梯田' })).toBeVisible();
