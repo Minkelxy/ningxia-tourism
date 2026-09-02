@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.74 发布复核：代码提交 [`4945159`](https://github.com/Minkelxy/ningxia-tourism/commit/49451596ce201f7230607efe501c233d56e8abfb) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33601537199)为 **success**；179 条单元测试、106 条 E2E 通过、6 条按端型跳过，路线筛选四组条件补充独立语义分组且桌面与移动端回归通过；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。
+
 2026-09-02 文档一致性补充：提交 [`418bc9a`](https://github.com/Minkelxy/ningxia-tourism/commit/418bc9af3576da718e0506334d725dd8e633a422) 已将 PRD 与技术架构的当前实现快照同步到 v0.3.73；对应的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33599493774)为 **success**，远端 `main` 与该提交一致。
 
 2026-09-02 工程元数据补充：`package.json` 与 `package-lock.json` 的项目版本已同步为 v0.3.73，与当前发布文档、测试基线和 Pages 构建基线保持一致。
