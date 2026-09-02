@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.62 发布复核：代码提交 [`1bc6470`](https://github.com/Minkelxy/ningxia-tourism/commit/1bc64708f1c54bb85da5bbcbe8b69ba18c1bc059) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33580281629)为 **success**；177 条单元测试、92 条 E2E 通过、4 条按端型跳过，城市与路线比较表名称入口统一保持至少 44px 触控高度，Pages 状态为 built。
+
 2026-09-02 v0.3.61 发布复核：代码提交 [`ad5b803`](https://github.com/Minkelxy/ningxia-tourism/commit/ad5b80361680ca7fa716cf61a0e9987c0c8452c0) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33579166495)为 **success**；177 条单元测试、90 条 E2E 通过、4 条按端型跳过，景点、美食与首页旅行专题卡片标题入口统一保持至少 44px 触控高度，Pages 状态为 built。
 
 2026-09-02 v0.3.60 发布复核：代码提交 [`4c78058`](https://github.com/Minkelxy/ningxia-tourism/commit/4c7805852a80fe101f8eac7c1ce2e93e2bc1e2ca) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33577932966)为 **success**；177 条单元测试、88 条 E2E 通过、4 条按端型跳过，页脚当前内容入口与顶部/移动导航统一使用路径匹配，当前页同步提供金色选中态与 `aria-current="page"`，Pages 状态为 built。
