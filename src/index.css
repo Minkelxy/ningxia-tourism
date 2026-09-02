@@ -172,7 +172,7 @@ button { color: inherit; }
 .map-legend__title { font-family: var(--serif); font-weight: 900; font-size: 15px; color: var(--ink); margin-bottom: 8px; letter-spacing: .05em; padding-bottom: 6px; border-bottom: 1px dashed rgba(80,60,30,.25); }
 .map-legend ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 5px; }
 .map-legend__item { display: flex; align-items: center; border-radius: 10px; }
-.map-legend__button { width: 100%; display: flex; align-items: center; gap: 9px; padding: 4px 6px; border: 0; border-radius: 10px; background: transparent; color: inherit; cursor: help; text-align: left; transition: background .15s ease, transform .15s ease; }
+.map-legend__button { width: 100%; display: flex; align-items: center; gap: 9px; padding: 4px 6px; border: 0; border-radius: 10px; background: transparent; color: inherit; cursor: pointer; text-align: left; transition: background .15s ease, transform .15s ease; }
 .map-legend__button:hover, .map-legend__button:focus-visible, .map-legend__item.is-active .map-legend__button { background: rgba(200, 157, 77, .15); transform: translateX(2px); }
 .map-legend__swatch { display: inline-block; width: 16px; height: 16px; border-radius: 5px; border: 1.5px solid rgba(255,255,255,.9); box-shadow: 0 1px 3px rgba(40,30,16,.35); flex-shrink: 0; }
 .map-legend__name { font-size: 13.5px; color: #2c2112; font-weight: 600; }

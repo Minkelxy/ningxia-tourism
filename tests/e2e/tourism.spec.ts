@@ -276,6 +276,8 @@ test('地图区县图例支持键盘聚焦并联动区域高亮', async ({ page 
   await page.goto(appBase);
   await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
   const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
+  await expect(map.getByRole('group', { name: '地图层级' })).toBeVisible();
+  await expect(map.getByRole('group', { name: '地图控制' })).toBeVisible();
   await map.getByRole('button', { name: /银川市，按回车进入/ }).press('Enter');
   await expect(map.getByRole('button', { name: /兴庆区，按回车进入/ })).toBeVisible();
   const legend = map.getByRole('complementary', { name: '银川市区县颜色图例' });
