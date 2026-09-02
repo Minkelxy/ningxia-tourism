@@ -4,7 +4,9 @@
 
 ## 当前发布快照
 
-2026-09-02 v0.3.56 发布复核：代码提交 [`519e7d9`](https://github.com/Minkelxy/ningxia-tourism/commit/519e7d98f4ea0b274f61b569474a3a21814ddd31) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33573571768)为 **success**；174 条单元测试、84 条 E2E 通过、3 条按端型跳过，移动端展开菜单未选中项补齐与桌面导航一致的白底、胡杨绿文字和轻量阴影反馈，Pages 状态为 built。
+2026-09-02 v0.3.57 发布复核：代码提交 [`883fbee`](https://github.com/Minkelxy/ningxia-tourism/commit/883fbeee55cb3d4de1ccc7c15f65eb3a28cb71c8) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33574577942)为 **success**；174 条单元测试、84 条 E2E 通过、4 条按端型跳过，320px 城市页的比较表保留容器内横向滚动，页面根 `scrollWidth` 恢复与视口一致，Pages 状态为 built。
+
+2026-09-02 v0.3.56 发布复核：代码提交 [`519e7d9`](https://github.com/Minkelxy/ningxia-tourism/commit/519e7d98f4ea0b274f61b569474a3a21814ddd31) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33573571768)为 **success**；174 条单元测试、84 条 E2E 通过、4 条按端型跳过，移动端展开菜单未选中项补齐与桌面导航一致的白底、胡杨绿文字和轻量阴影反馈，Pages 状态为 built。
 
 2026-09-02 v0.3.55 发布复核：代码提交 [`540e22c`](https://github.com/Minkelxy/ningxia-tourism/commit/540e22c44546687ac47f17427c495be88506a2fa) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33572144305)为 **success**；174 条单元测试、83 条 E2E 通过、3 条按端型跳过，320px 窄屏品牌主名保持单行，360px 以下隐藏重复副标题但保留完整无障碍品牌名称，页面无横向溢出，Pages 状态为 built。
 
