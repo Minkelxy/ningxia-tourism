@@ -779,6 +779,81 @@ test('路线详情时间线使用渐进绘图并尊重减少动效设置', async
   expect(reducedMotion).toEqual({ railAnimation: 'none', stopAnimation: 'none', stopInkRingAnimation: 'none', stopOpacity: '1' });
 });
 
+test('路线详情按首屏、导航、日程与侧栏层级完成渐进绘图', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto(`${appBase}routes/classic-3day`);
+  await expect(page.locator('.route-detail-hero')).toBeVisible();
+  await expect(page.locator('.route-sidebar > *').first()).toBeVisible();
+  const motion = await page.evaluate(() => {
+    const first = <T extends Element>(selector: string) => document.querySelector<T>(selector);
+    const copy = first<HTMLElement>('.route-detail-hero-grid > div:first-child');
+    const visual = first<HTMLElement>('.route-detail-visual');
+    const title = first<HTMLElement>('.route-detail-hero h1');
+    const fact = first<HTMLElement>('.route-detail-facts span');
+    const actions = first<HTMLElement>('.route-detail-actions');
+    const dayNav = first<HTMLElement>('.route-day-nav');
+    const dayLink = first<HTMLElement>('.route-day-nav a');
+    const audience = first<HTMLElement>('.route-audience');
+    const marker = first<HTMLElement>('.day-marker');
+    const dayHeading = first<HTMLElement>('.day-content > header');
+    const sidebar = first<HTMLElement>('.route-sidebar > *');
+    return {
+      copyAnimation: copy ? getComputedStyle(copy).animationName : '',
+      visualAnimation: visual ? getComputedStyle(visual).animationName : '',
+      titleInkAnimation: title ? getComputedStyle(title, '::after').animationName : '',
+      factAnimation: fact ? getComputedStyle(fact).animationName : '',
+      actionAnimation: actions ? getComputedStyle(actions).animationName : '',
+      dayNavAnimation: dayNav ? getComputedStyle(dayNav).animationName : '',
+      dayLinkAnimation: dayLink ? getComputedStyle(dayLink).animationName : '',
+      audienceAnimation: audience ? getComputedStyle(audience).animationName : '',
+      markerAnimation: marker ? getComputedStyle(marker).animationName : '',
+      markerInkAnimation: marker ? getComputedStyle(marker, '::after').animationName : '',
+      dayHeadingAnimation: dayHeading ? getComputedStyle(dayHeading).animationName : '',
+      sidebarAnimation: sidebar ? getComputedStyle(sidebar).animationName : '',
+      navLinkDelay: dayLink ? getComputedStyle(dayLink).animationDelay : '',
+    };
+  });
+  expect(motion).toMatchObject({
+    copyAnimation: 'route-detail-copy-in',
+    visualAnimation: 'route-detail-visual-in',
+    titleInkAnimation: 'route-detail-title-ink',
+    factAnimation: 'route-detail-fact-in',
+    actionAnimation: 'route-detail-actions-in',
+    dayNavAnimation: 'route-day-nav-in',
+    dayLinkAnimation: 'route-day-link-in',
+    audienceAnimation: 'route-section-in',
+    markerAnimation: 'route-day-marker-in',
+    markerInkAnimation: 'route-day-marker-ink',
+    dayHeadingAnimation: 'route-section-in',
+    sidebarAnimation: 'route-sidebar-in',
+    navLinkDelay: '0.26s',
+  });
+});
+
+test('路线详情减少动效时恢复静态层级与墨线', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(`${appBase}routes/classic-3day`);
+  await expect(page.locator('.route-detail-hero')).toBeVisible();
+  const motion = await page.evaluate(() => {
+    const first = <T extends Element>(selector: string) => document.querySelector<T>(selector);
+    const title = first<HTMLElement>('.route-detail-hero h1');
+    const marker = first<HTMLElement>('.day-marker');
+    const selectors = ['.route-detail-hero-grid > div:first-child', '.route-detail-visual', '.route-detail-facts span', '.route-detail-actions', '.route-day-nav', '.route-day-nav a', '.route-audience', '.day-marker', '.day-content > header', '.route-sidebar > *'];
+    return {
+      animations: selectors.map((selector) => getComputedStyle(first<HTMLElement>(selector) as HTMLElement).animationName),
+      titleInkAnimation: title ? getComputedStyle(title, '::after').animationName : '',
+      titleInkOpacity: title ? getComputedStyle(title, '::after').opacity : '',
+      markerInkAnimation: marker ? getComputedStyle(marker, '::after').animationName : '',
+      markerInkOpacity: marker ? getComputedStyle(marker, '::after').opacity : '',
+    };
+  });
+  expect(motion.animations.every((animationName) => animationName === 'none')).toBe(true);
+  expect(motion.titleInkAnimation).toBe('none');
+  expect(motion.titleInkOpacity).toBe('0.86');
+  expect(motion.markerInkAnimation).toBe('none');
+  expect(motion.markerInkOpacity).toBe('0.72');
+});
+
 test('路线详情极窄屏操作入口保持同一行', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 844 });
   await page.goto(`${appBase}routes/quick-1day`);
