@@ -7,3 +7,11 @@ export const mainNavLinks = [
   { path: '/journal', label: '旅行手记' },
   { path: '/cities', label: '五城概览' },
 ] as const;
+
+export function isNavigationPathActive(pathname: string, path: string) {
+  if (path === '/') return pathname === '/';
+  if (path === '/attractions') return pathname.startsWith('/attraction');
+  if (path === '/foods') return pathname.startsWith('/food');
+  if (path === '/cities') return pathname === '/cities' || pathname.startsWith('/city/');
+  return pathname.startsWith(path);
+}

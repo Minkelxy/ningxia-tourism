@@ -100,6 +100,8 @@ button { color: inherit; }
 .footer-grid a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: 5px; height: 1px; background: #f0c579; transition: right .2s ease; }
 .footer-grid a:hover, .footer-grid a:focus-visible { color: #f0c579; }
 .footer-grid a:hover::after, .footer-grid a:focus-visible::after { right: 0; }
+.footer-grid a.active { color: #f0c579; }
+.footer-grid a.active::after { right: 0; }
 .footer-grid p { max-width: 540px; font-size: .9rem; }
 .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: #fff; font-family: var(--serif); font-size: 1.1rem; }
 .footer-brand svg { width: 34px; height: 34px; padding: 8px; border: 1px solid rgba(255,255,255,.18); border-radius: 11px 4px 11px 4px; background: rgba(255,255,255,.08); color: #f0c579; }

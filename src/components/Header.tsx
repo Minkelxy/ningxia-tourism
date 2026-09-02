@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Heart, Map, Menu, Search, X } from 'lucide-react';
 import { useFavorites } from '../lib/favorites';
-import { mainNavLinks } from '../lib/site-navigation';
+import { isNavigationPathActive, mainNavLinks } from '../lib/site-navigation';
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -55,13 +55,7 @@ export default function Header() {
       document.removeEventListener('mousedown', closeOnOutsideClick);
     };
   }, [open]);
-  const active = (path: string) => {
-    if (path === '/') return location.pathname === '/';
-    if (path === '/attractions') return location.pathname.startsWith('/attraction');
-    if (path === '/foods') return location.pathname.startsWith('/food');
-    if (path === '/cities') return location.pathname === '/cities' || location.pathname.startsWith('/city/');
-    return location.pathname.startsWith(path);
-  };
+  const active = (path: string) => isNavigationPathActive(location.pathname, path);
 
   return (
     <>

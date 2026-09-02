@@ -22,4 +22,11 @@ describe('Footer 导航', () => {
     expect(within(resourceNav).getByRole('link', { name: /数据方法与免责声明/ })).toHaveAttribute('href', '/about');
     expect(within(resourceNav).getByRole('link', { name: /提交建议/ })).toHaveAttribute('href', 'https://github.com/Minkelxy/ningxia-tourism/issues');
   });
+
+  it('当前内容页在页脚保留选中态与 aria-current', () => {
+    render(<MemoryRouter initialEntries={['/foods']}><Footer /></MemoryRouter>);
+
+    const foodLink = within(screen.getByRole('navigation', { name: '继续探索' })).getByRole('link', { name: '宁夏美食', current: 'page' });
+    expect(foodLink).toHaveClass('active');
+  });
 });

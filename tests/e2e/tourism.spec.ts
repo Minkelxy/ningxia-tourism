@@ -97,6 +97,14 @@ test('顶部与页脚内容导航保持同一组入口', async ({ page }) => {
   }
 });
 
+test('页脚会标记当前内容入口', async ({ page }) => {
+  await page.goto(`${appBase}foods`);
+  const foodLink = page.getByRole('navigation', { name: '继续探索' }).getByRole('link', { name: '宁夏美食' });
+  await expect(foodLink).toHaveAttribute('aria-current', 'page');
+  await expect(foodLink).toHaveClass(/active/);
+  await expect(foodLink).toHaveCSS('color', 'rgb(240, 197, 121)');
+});
+
 test('品牌首页入口保持44px触控高度', async ({ page }) => {
   await page.goto(appBase);
   const brandLink = page.locator('.brand');
