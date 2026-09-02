@@ -84,6 +84,20 @@ describe('Header 移动端菜单', () => {
     expect(mobileNav).toBeInTheDocument();
   });
 
+  it('点击移动端导航后立即收起菜单并恢复菜单按钮焦点', async () => {
+    renderHeader();
+    const menuButton = screen.getByRole('button', { name: '打开导航菜单' });
+    fireEvent.click(menuButton);
+    const mobileNav = screen.getByRole('navigation', { name: '移动端导航' });
+
+    fireEvent.click(within(mobileNav).getByRole('link', { name: '精选景点' }));
+
+    await waitFor(() => {
+      expect(screen.queryByRole('navigation', { name: '移动端导航' })).not.toBeInTheDocument();
+      expect(screen.getByRole('button', { name: '打开导航菜单' })).toHaveFocus();
+    });
+  });
+
   it('打开菜单时锁定页面滚动，关闭后恢复原有设置', async () => {
     document.body.style.overflow = 'auto';
     renderHeader();

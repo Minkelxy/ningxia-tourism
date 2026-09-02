@@ -56,6 +56,10 @@ export default function Header() {
     };
   }, [open]);
   const active = (path: string) => isNavigationPathActive(location.pathname, path);
+  const handleMobileNavigation = () => {
+    setOpen(false);
+    menuButtonRef.current?.focus();
+  };
 
   return (
     <>
@@ -74,7 +78,7 @@ export default function Header() {
           {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
         </button>
       </div>
-      {open && <nav ref={mobileNavRef} id="mobile-navigation" className="mobile-nav" aria-label="移动端导航"><Link to="/search" className={active('/search') ? 'active' : ''} aria-current={active('/search') ? 'page' : undefined}>全站搜索</Link>{mainNavLinks.map((link) => <Link key={link.path} to={link.path} className={active(link.path) ? 'active' : ''} aria-current={active(link.path) ? 'page' : undefined}>{link.label}</Link>)}<Link to="/favorites" className={active('/favorites') ? 'active' : ''} aria-current={active('/favorites') ? 'page' : undefined}>我的收藏{count > 0 ? `（${count}）` : ''}</Link></nav>}
+      {open && <nav ref={mobileNavRef} id="mobile-navigation" className="mobile-nav" aria-label="移动端导航"><Link to="/search" onClick={handleMobileNavigation} className={active('/search') ? 'active' : ''} aria-current={active('/search') ? 'page' : undefined}>全站搜索</Link>{mainNavLinks.map((link) => <Link key={link.path} to={link.path} onClick={handleMobileNavigation} className={active(link.path) ? 'active' : ''} aria-current={active(link.path) ? 'page' : undefined}>{link.label}</Link>)}<Link to="/favorites" onClick={handleMobileNavigation} className={active('/favorites') ? 'active' : ''} aria-current={active('/favorites') ? 'page' : undefined}>我的收藏{count > 0 ? `（${count}）` : ''}</Link></nav>}
       </header>
       {open && <div className="mobile-nav-backdrop" aria-hidden="true" />}
     </>
