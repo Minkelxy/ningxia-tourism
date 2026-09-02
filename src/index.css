@@ -680,7 +680,9 @@ button { color: inherit; }
 .route-stop { display: grid; grid-template-columns: 68px 1fr; gap: 14px; padding: 25px 0; border-bottom: 1px solid var(--line); }
 .stop-time { padding-top: 3px; color: var(--red); font-size: .8rem; font-weight: 800; }
 .stop-body { position: relative; padding-left: 34px; }
-.stop-number { position: absolute; left: 0; top: 1px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--green); color: #fff; font-size: .68rem; }
+.stop-number { position: absolute; left: 0; top: 1px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--green); color: #fff; font-size: .68rem; isolation: isolate; }
+.stop-number::after { position: absolute; inset: -5px; content: ''; border: 1px solid rgba(200,157,77,.62); border-right-color: rgba(169,69,53,.72); border-bottom-color: transparent; border-radius: 50%; opacity: 0; pointer-events: none; transform: scale(.45) rotate(-20deg); animation: route-stop-ink-ring .52s cubic-bezier(.22,.8,.26,1) calc(var(--route-stop-index, 0) * 70ms + 160ms) both; }
+.stop-number--slot { background: var(--sand-dark); font-size: 1rem; line-height: 1; }
 .stop-body h3 { font-size: 1.25rem; }
 .stop-body h3 a { display: inline-block; min-height: 44px; padding-block: 7px; vertical-align: middle; color: var(--green); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: .18em; transition: color .2s ease, text-decoration-color .2s ease; }
 .stop-body h3 a:hover, .stop-body h3 a:focus-visible { color: var(--red); text-decoration-color: currentColor; }
@@ -1088,6 +1090,7 @@ button { color: inherit; }
 @keyframes map-layer-pop-in { from { opacity: 0; transform: scale(.72); } to { opacity: 1; transform: scale(1); } }
 @keyframes route-rail-draw { to { transform: scaleY(1); } }
 @keyframes route-stop-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes route-stop-ink-ring { 0% { opacity: 0; transform: scale(.45) rotate(-20deg); } 60% { opacity: .74; } 100% { opacity: .56; transform: scale(1) rotate(7deg); } }
 @keyframes marker-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: .82; } }
 @keyframes mobile-nav-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes mobile-nav-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
@@ -1380,12 +1383,13 @@ button { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  .hero-orbit-one, .hero-orbit-two, .sun-disc, .river-ribbon, .mountain-back, .mountain-front, .hero-seal, .scroll-cue, .map-region, .map-region-emphasis, .map-attraction.is-selected .marker-dot, .map-viewport, .map-label__glyph, .map-attraction-glyph, .map-food-glyph, .map-government-glyph, .map-hub-glyph, .route-stops::before, .route-stop { animation: none !important; transition: none !important; }
+  .hero-orbit-one, .hero-orbit-two, .sun-disc, .river-ribbon, .mountain-back, .mountain-front, .hero-seal, .scroll-cue, .map-region, .map-region-emphasis, .map-attraction.is-selected .marker-dot, .map-viewport, .map-label__glyph, .map-attraction-glyph, .map-food-glyph, .map-government-glyph, .map-hub-glyph, .route-stops::before, .route-stop, .stop-number::after { animation: none !important; transition: none !important; }
   .map-region { opacity: 1; stroke-dasharray: none; stroke-dashoffset: 0; transform: none; }
   .map-region-emphasis { opacity: .94; stroke-dasharray: none; stroke-dashoffset: 0; }
   .map-label__glyph, .map-attraction-glyph, .map-food-glyph, .map-government-glyph, .map-hub-glyph { opacity: 1; transform: none; }
   .route-stops::before { transform: scaleY(1); }
   .route-stop { opacity: 1; transform: none; }
+  .stop-number::after { opacity: .56; transform: scale(1) rotate(7deg); }
 }
 
 @media print {

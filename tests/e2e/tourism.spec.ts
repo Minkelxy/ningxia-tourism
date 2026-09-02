@@ -740,21 +740,24 @@ test('路线详情时间线使用渐进绘图并尊重减少动效设置', async
       railAnimation: rail.animationName,
       stopAnimations: stops.slice(0, 2).map((stop) => getComputedStyle(stop).animationName),
       stopDelays: stops.slice(0, 2).map((stop) => getComputedStyle(stop).animationDelay),
+      stopInkRingAnimation: getComputedStyle(stops[0].querySelector<HTMLElement>('.stop-number') as HTMLElement, '::after').animationName,
     };
   });
   expect(motion.railAnimation).toBe('route-rail-draw');
   expect(motion.stopAnimations).toEqual(['route-stop-in', 'route-stop-in']);
   expect(motion.stopDelays[0]).toBe('0s');
   expect(motion.stopDelays[1]).toBe('0.07s');
+  expect(motion.stopInkRingAnimation).toBe('route-stop-ink-ring');
 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.reload();
   const reducedMotion = await page.locator('.route-stops').first().evaluate((element) => ({
     railAnimation: getComputedStyle(element, '::before').animationName,
     stopAnimation: getComputedStyle(element.querySelector<HTMLElement>('.route-stop') as HTMLElement).animationName,
+    stopInkRingAnimation: getComputedStyle(element.querySelector<HTMLElement>('.stop-number') as HTMLElement, '::after').animationName,
     stopOpacity: getComputedStyle(element.querySelector<HTMLElement>('.route-stop') as HTMLElement).opacity,
   }));
-  expect(reducedMotion).toEqual({ railAnimation: 'none', stopAnimation: 'none', stopOpacity: '1' });
+  expect(reducedMotion).toEqual({ railAnimation: 'none', stopAnimation: 'none', stopInkRingAnimation: 'none', stopOpacity: '1' });
 });
 
 test('路线详情极窄屏操作入口保持同一行', async ({ page }) => {
