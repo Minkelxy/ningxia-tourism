@@ -4,7 +4,7 @@
 
 ## 当前发布快照
 
-2026-09-03 v0.3.104 发布复核：路线详情时间线的停靠点使用 `stop-number::after` 与 `route-stop-ink-ring` 按阅读顺序错峰落印，时段细节使用 `stop-number--slot` 补齐连续节点；装饰不改变路线链接、语义或打印版布局，减少动效设置下恢复静态。代码提交、Actions 构建与 Pages 部署完成后补录最终链接与测试数字。
+2026-09-03 v0.3.104 发布复核：代码提交 [`cb4ac5d`](https://github.com/Minkelxy/ningxia-tourism/commit/cb4ac5d9115a2b10cbfd35bd17f9f07708b11ef0) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33657060481)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、139 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。路线详情时间线的停靠点使用 `stop-number::after` 与 `route-stop-ink-ring` 按阅读顺序错峰落印，时段细节使用 `stop-number--slot` 补齐连续节点；装饰不改变路线链接、语义或打印版布局，减少动效设置下恢复静态。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
 2026-09-03 v0.3.103 发布复核：代码提交 [`6c89707`](https://github.com/Minkelxy/ningxia-tourism/commit/6c8970711f26286fa44e3500b6f39998b5138902) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33655323893)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、139 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。地图区域在键盘聚焦、区县图例联动和选中区县时使用 `map-region-emphasis` 装饰路径沿边界展开 `map-region-emphasis-draw` 高亮墨线，装饰线不参与交互；减少动效设置下恢复静态高亮。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
