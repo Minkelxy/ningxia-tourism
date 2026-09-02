@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.68 发布复核：代码提交 [`b7b523d`](https://github.com/Minkelxy/ningxia-tourism/commit/b7b523df54f705ef5387fe265a6ba11f436729dd) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33588198460)为 **success**；177 条单元测试、98 条 E2E 通过、4 条按端型跳过，美食详情页分享按钮已恢复浅色详情操作层级，Pages 状态为 built。
+
 2026-09-02 v0.3.67 发布复核：代码提交 [`8068d62`](https://github.com/Minkelxy/ningxia-tourism/commit/8068d626508352fee7e2a00c483a0fc850c56e87) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33587066453)为 **success**；177 条单元测试通过，97 条 E2E 通过、1 条桌面 E2E 首次波动后重试通过、4 条按端型跳过，路线详情深色头图操作区已统一为半透明深色按钮层级，Pages 状态为 built。
 
 2026-09-02 v0.3.66 发布复核：代码提交 [`634e250`](https://github.com/Minkelxy/ningxia-tourism/commit/634e250ec8fe90303447e1655925abfdfe17a88c) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33584919565)为 **success**；177 条单元测试、98 条 E2E 通过、4 条按端型跳过，关于页内容审计入口已修正为实际 GitHub 文档路径，Pages 状态为 built。
