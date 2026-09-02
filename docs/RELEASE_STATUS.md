@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.93 发布复核：代码提交 [`d3504f2`](https://github.com/Minkelxy/ningxia-tourism/commit/d3504f23b516ee80301b4105f9864906c2a2b126) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33633482009)为 **success**，build 与 deploy 两个 job 均成功；179 条单元测试、131 条 E2E 通过、11 条按端型跳过。收藏列表在 320px—480px 下统一收束景点标题/副标题与路线摘要，320px—360px 使用 44×44 图标收藏操作，390px—480px 保留文字按钮但条目高度保持 80–84px；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200，收藏页在 320px、390px、480px 下页面宽度与视口一致。
+
 2026-09-02 v0.3.92 发布复核：代码提交 [`c3374c0`](https://github.com/Minkelxy/ningxia-tourism/commit/c3374c0a213dcd678b20ed7d8e91827ac5bcdecd) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33631862223)为 **success**，build 与 deploy 两个 job 均成功；179 条单元测试、131 条 E2E 通过、11 条按端型跳过。收藏列表在 320px—360px 下将收藏操作收束为 44×44 图标热区，景点标题与路线摘要做极窄屏省略，四条已填充收藏均保持约 80px 紧凑行高；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200，收藏页在 320px、360px 下页面宽度与视口一致。
 
 2026-09-02 v0.3.91 发布复核：代码提交 [`451af10`](https://github.com/Minkelxy/ningxia-tourism/commit/451af10f626393849286fb8d2909ff770f255bd3) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33629977095)为 **success**，build 与 deploy 两个 job 均成功；179 条单元测试、129 条 E2E 通过、11 条按端型跳过。景点卡片在移动断点保持“加入对比”和“查看出行信息”同一行，与美食、路线卡片行动入口统一，生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200，景点列表深链按 GitHub Pages 预期返回 404 并由 SPA 回退正常渲染；320px、360px、390px 下已加入对比状态均保持 44px 高、同排且页面宽度不溢出。
