@@ -401,6 +401,11 @@ test('城市详情和路线详情可直接访问', async ({ page }) => {
   await page.goto(`${appBase}routes/classic-3day`);
   await expect(page.getByRole('heading', { level: 1, name: '经典三日全景游' })).toBeVisible();
   await expect(page.getByRole('button', { name: /打印行程/ })).toBeVisible();
+  const routeDetailFavorite = page.locator('.route-detail-actions .favorite-button');
+  await expect(routeDetailFavorite).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.08)');
+  await routeDetailFavorite.hover();
+  await expect(routeDetailFavorite).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.15)');
+  await expect(routeDetailFavorite).toHaveCSS('color', 'rgb(255, 255, 255)');
   await expect(page.locator('.route-day')).toHaveCount(3);
   await expect(page.getByRole('navigation', { name: '按天快速跳转' }).getByRole('link')).toHaveCount(3);
   const dayTwoLink = page.getByRole('navigation', { name: '按天快速跳转' }).getByRole('link', { name: /D02/ });

@@ -635,10 +635,13 @@ button { color: inherit; }
 .route-detail-facts svg { width: 17px; }
 .route-detail-actions .btn-primary { background: #e3b462; color: #211c13; }
 .route-detail-actions .btn-quiet { border-color: rgba(255,255,255,.3); background: rgba(255,255,255,.08); color: #fff; box-shadow: 0 7px 20px rgba(8,25,20,.16); }
+.route-detail-actions .favorite-button { border-color: rgba(255,255,255,.3); background: rgba(255,255,255,.08); color: #fff; box-shadow: 0 7px 20px rgba(8,25,20,.16); }
 .route-detail-actions .btn-primary:hover, .route-detail-actions .btn-primary:focus-visible,
 .guide-hero .btn-primary:hover, .guide-hero .btn-primary:focus-visible { background: #f0c579; border-color: #f0c579; color: #231e16; box-shadow: 0 10px 26px rgba(8,25,20,.22); }
 .route-detail-actions .btn-quiet:hover, .route-detail-actions .btn-quiet:focus-visible,
+.route-detail-actions .favorite-button:hover, .route-detail-actions .favorite-button:focus-visible,
 .guide-hero .btn-quiet:hover, .guide-hero .btn-quiet:focus-visible { border-color: #efc06d; background: rgba(255,255,255,.15); color: #fff; transform: translateY(-2px); box-shadow: 0 10px 26px rgba(8,25,20,.22); }
+.route-detail-actions .favorite-button.is-active { border-color: rgba(239,192,109,.78); background: rgba(255,243,237,.16); color: #f6d28d; }
 .route-day-nav { position: sticky; z-index: 12; top: var(--site-header-height); min-height: var(--route-day-nav-height); border-bottom: 1px solid var(--line); background: rgba(247,243,234,.94); backdrop-filter: blur(14px); }
 .route-day-nav > div { display: flex; align-items: center; gap: 18px; min-height: 74px; }
 .route-day-nav > div > span { flex: 0 0 auto; color: var(--muted); font-size: .76rem; font-weight: 800; }
