@@ -88,8 +88,10 @@ test('内容卡片标题入口保持44px触控热区', async ({ page }) => {
 test('比较表名称入口保持44px触控热区', async ({ page }) => {
   await page.goto(`${appBase}cities`);
   await expect(page.locator('.city-table-wrap tbody th a').first()).toHaveCSS('min-height', '44px');
+  await expect(page.locator('.city-table-wrap td:last-child .text-link').first()).toHaveCSS('min-width', '44px');
   await page.goto(`${appBase}routes`);
   await expect(page.locator('.route-table-wrap tbody th a').first()).toHaveCSS('min-height', '44px');
+  await expect(page.locator('.route-table-wrap td:last-child .text-link').first()).toHaveCSS('min-width', '44px');
 });
 
 test('路线详情停靠点名称保持44px触控热区', async ({ page }) => {
