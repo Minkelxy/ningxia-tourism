@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.72 发布复核：代码提交 [`82b9801`](https://github.com/Minkelxy/ningxia-tourism/commit/82b9801a48a4f45062f06f22b492b3624d540f57) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33596260998)为 **success**；179 条单元测试、104 条 E2E 通过、6 条按端型跳过，景点与美食地图点位在缩放后保持至少 44px 实际触控热区，相邻点位由画布按最近距离分发；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。
+
 2026-09-02 v0.3.71 发布复核：代码提交 [`2614c59`](https://github.com/Minkelxy/ningxia-tourism/commit/2614c591f0ecd68214333823b987db57771542d3) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33592954537)为 **success**；179 条单元测试、102 条 E2E 通过、6 条按端型跳过，桌面端路径切换后焦点交给新的主要内容区域，移动端菜单跳转继续回收到菜单按钮；生产构建、sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。
 
 2026-09-02 v0.3.70 发布复核：代码提交 [`ec1e0c2`](https://github.com/Minkelxy/ningxia-tourism/commit/ec1e0c28ac6410bfa8d5ffa10c70f50eb4a4f6a9) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33591191419)为 **success**；178 条单元测试、101 条 E2E 通过、5 条按端型跳过，地图美食点位已补齐透明触控热区并统一键盘聚焦反馈，Lighthouse、深链回退与 Pages 部署均通过，Pages 状态为 built。
