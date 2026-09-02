@@ -685,6 +685,9 @@ button { color: inherit; }
 .stop-body > p { margin-top: 7px; color: var(--muted); font-size: .9rem; }
 .stop-note { display: flex; align-items: flex-start; gap: 7px; }
 .stop-note svg { flex: 0 0 16px; width: 16px; margin-top: 4px; }
+.route-stops { position: relative; }
+.route-stops::before { position: absolute; z-index: 0; top: 37px; bottom: 37px; left: 94px; width: 2px; content: ''; background: linear-gradient(180deg, rgba(49,95,79,.14), rgba(169,69,53,.62), rgba(200,157,77,.28)); transform: scaleY(0); transform-origin: top; animation: route-rail-draw .9s cubic-bezier(.22,.8,.26,1) .16s both; }
+.route-stop { position: relative; z-index: 1; animation: route-stop-in .46s cubic-bezier(.22,.8,.26,1) calc(var(--route-stop-index, 0) * 70ms) both; }
 .day-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-top: 18px; }
 .day-footer div { display: flex; align-items: flex-start; gap: 8px; color: var(--muted); font-size: .82rem; }
 .day-footer svg { flex: 0 0 18px; width: 18px; color: var(--sand-dark); }
@@ -1075,6 +1078,8 @@ button { color: inherit; }
 @keyframes orbit-drift-one { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(12px, 8px) rotate(3deg); } }
 @keyframes orbit-drift-two { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(-10px, -6px) rotate(-2deg); } }
 @keyframes map-region-draw { from { opacity: 0; stroke-dashoffset: 1; transform: translateY(6px) scale(.985); } to { opacity: 1; stroke-dashoffset: 0; transform: translateY(0) scale(1); } }
+@keyframes route-rail-draw { to { transform: scaleY(1); } }
+@keyframes route-stop-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes marker-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: .82; } }
 @keyframes mobile-nav-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes mobile-nav-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
@@ -1295,6 +1300,7 @@ button { color: inherit; }
   .route-day { grid-template-columns: 1fr; gap: 12px; }
   .day-marker { position: static; width: 60px; height: 62px; }
   .route-stop { grid-template-columns: 55px 1fr; }
+  .route-stops::before { left: 115px; }
   .day-footer { grid-template-columns: 1fr; }
   .source-directory { padding: 22px; }
   .journal-home-card { padding: 34px 25px 130px; }
@@ -1366,8 +1372,10 @@ button { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  .hero-orbit-one, .hero-orbit-two, .sun-disc, .river-ribbon, .map-region, .map-attraction.is-selected .marker-dot, .map-viewport { animation: none !important; transition: none !important; }
+  .hero-orbit-one, .hero-orbit-two, .sun-disc, .river-ribbon, .map-region, .map-attraction.is-selected .marker-dot, .map-viewport, .route-stops::before, .route-stop { animation: none !important; transition: none !important; }
   .map-region { opacity: 1; stroke-dasharray: none; stroke-dashoffset: 0; transform: none; }
+  .route-stops::before { transform: scaleY(1); }
+  .route-stop { opacity: 1; transform: none; }
 }
 
 @media print {

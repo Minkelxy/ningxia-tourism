@@ -711,6 +711,34 @@ test('路线日程深链接会定位到对应天数', async ({ page }) => {
   await expect(page.locator('#route-day-2')).toBeVisible();
 });
 
+test('路线详情时间线使用渐进绘图并尊重减少动效设置', async ({ page }) => {
+  await page.goto(`${appBase}routes/classic-3day`);
+  const routeStops = page.locator('.route-stops').first();
+  await expect(routeStops).toBeVisible();
+  const motion = await routeStops.evaluate((element) => {
+    const stops = [...element.querySelectorAll<HTMLElement>('.route-stop')];
+    const rail = getComputedStyle(element, '::before');
+    return {
+      railAnimation: rail.animationName,
+      stopAnimations: stops.slice(0, 2).map((stop) => getComputedStyle(stop).animationName),
+      stopDelays: stops.slice(0, 2).map((stop) => getComputedStyle(stop).animationDelay),
+    };
+  });
+  expect(motion.railAnimation).toBe('route-rail-draw');
+  expect(motion.stopAnimations).toEqual(['route-stop-in', 'route-stop-in']);
+  expect(motion.stopDelays[0]).toBe('0s');
+  expect(motion.stopDelays[1]).toBe('0.07s');
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.reload();
+  const reducedMotion = await page.locator('.route-stops').first().evaluate((element) => ({
+    railAnimation: getComputedStyle(element, '::before').animationName,
+    stopAnimation: getComputedStyle(element.querySelector<HTMLElement>('.route-stop') as HTMLElement).animationName,
+    stopOpacity: getComputedStyle(element.querySelector<HTMLElement>('.route-stop') as HTMLElement).opacity,
+  }));
+  expect(reducedMotion).toEqual({ railAnimation: 'none', stopAnimation: 'none', stopOpacity: '1' });
+});
+
 test('路线详情极窄屏操作入口保持同一行', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 844 });
   await page.goto(`${appBase}routes/quick-1day`);
