@@ -1177,6 +1177,8 @@ button { color: inherit; }
   .city-table-wrap table { min-width: 900px; }
   .filter-panel select { flex: 1; min-width: 145px; }
   .attraction-grid, .route-grid { grid-template-columns: 1fr; }
+  .attraction-card .card-actions { flex-wrap: nowrap; }
+  .attraction-card .card-actions .text-link { min-width: 0; }
   .route-comparison { display: none; }
   .route-comparison > header { align-items: flex-start; flex-direction: column; gap: 10px; }
   .route-comparison-hint { display: block; }

@@ -168,6 +168,31 @@ test('移动端旅行手记卡片保持单列与页面宽度', async ({ page }) 
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(await page.evaluate(() => innerWidth));
 });
 
+test('景点卡片极窄屏行动入口保持单行并与美食卡片统一', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 844 });
+  await page.goto(`${appBase}attractions`);
+  const card = page.locator('.attraction-card').first();
+  const actions = card.locator('.card-actions');
+  await expect(actions).toBeVisible();
+  await card.locator('.compare-toggle').click();
+  const layout = await actions.evaluate((element) => ({
+    height: element.getBoundingClientRect().height,
+    children: [...element.children].map((child) => {
+      const rect = child.getBoundingClientRect();
+      return { top: rect.top, right: rect.right, height: rect.height };
+    }),
+    cardRight: element.closest('.attraction-card')?.getBoundingClientRect().right ?? 0,
+    pageWidth: document.documentElement.scrollWidth,
+    windowWidth: window.innerWidth,
+  }));
+  expect(layout.children).toHaveLength(2);
+  expect(layout.children.every((child) => Math.abs(child.top - layout.children[0].top) <= 1)).toBe(true);
+  expect(layout.children.every((child) => child.height >= 44)).toBe(true);
+  expect(layout.children.at(-1)?.right ?? 0).toBeLessThanOrEqual(layout.cardRight - 20 + 1);
+  expect(layout.height).toBeLessThanOrEqual(52);
+  expect(layout.pageWidth).toBeLessThanOrEqual(layout.windowWidth + 1);
+});
+
 test('比较表名称入口保持44px触控热区', async ({ page }) => {
   await page.goto(`${appBase}cities`);
   await expect(page.locator('.city-table-wrap tbody th a').first()).toHaveCSS('min-height', '44px');
