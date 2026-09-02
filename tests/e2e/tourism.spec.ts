@@ -92,6 +92,11 @@ test('比较表名称入口保持44px触控热区', async ({ page }) => {
   await expect(page.locator('.route-table-wrap tbody th a').first()).toHaveCSS('min-height', '44px');
 });
 
+test('路线详情停靠点名称保持44px触控热区', async ({ page }) => {
+  await page.goto(`${appBase}routes/classic-3day`);
+  await expect(page.locator('.stop-body h3 a').first()).toHaveCSS('min-height', '44px');
+});
+
 test('顶部与页脚内容导航保持同一组入口', async ({ page }) => {
   await page.goto(appBase);
   const routes = [

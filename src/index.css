@@ -663,7 +663,7 @@ button { color: inherit; }
 .stop-body { position: relative; padding-left: 34px; }
 .stop-number { position: absolute; left: 0; top: 1px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--green); color: #fff; font-size: .68rem; }
 .stop-body h3 { font-size: 1.25rem; }
-.stop-body h3 a { color: var(--green); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: .18em; transition: color .2s ease, text-decoration-color .2s ease; }
+.stop-body h3 a { display: inline-block; min-height: 44px; padding-block: 7px; vertical-align: middle; color: var(--green); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: .18em; transition: color .2s ease, text-decoration-color .2s ease; }
 .stop-body h3 a:hover, .stop-body h3 a:focus-visible { color: var(--red); text-decoration-color: currentColor; }
 .stop-body > p { margin-top: 7px; color: var(--muted); font-size: .9rem; }
 .stop-note { display: flex; align-items: flex-start; gap: 7px; }
