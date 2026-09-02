@@ -76,6 +76,15 @@ test('导航搜索与收藏入口保持44px触控热区', async ({ page }) => {
   await expect(favoritesLink).toHaveCSS('justify-content', 'center');
 });
 
+test('内容卡片标题入口保持44px触控热区', async ({ page }) => {
+  for (const [path, selector] of [['attractions', '.attraction-card h2 a'], ['foods', '.attraction-card h2 a']] as const) {
+    await page.goto(`${appBase}${path}`);
+    await expect(page.locator(selector).first()).toHaveCSS('min-height', '44px');
+  }
+  await page.goto(appBase);
+  await expect(page.locator('.home-topic-card h3 a').first()).toHaveCSS('min-height', '44px');
+});
+
 test('顶部与页脚内容导航保持同一组入口', async ({ page }) => {
   await page.goto(appBase);
   const routes = [
