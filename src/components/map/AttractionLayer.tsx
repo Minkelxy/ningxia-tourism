@@ -18,7 +18,7 @@ function AttractionLayer({ attractions, project, selectedAttractionId, onSelect 
     const select = () => onSelect(attraction);
     return (
       <g key={attraction.id} className={`map-attraction ${selected ? 'is-selected' : ''}`} transform={`translate(${point.x} ${point.y})`} tabIndex={0} role="button" aria-label={`${attraction.name}，打开预览`} onClick={(event) => { event.stopPropagation(); select(); }} onKeyDown={(event) => activateWithKeyboard(event, select)}>
-        <circle className="marker-hit" r="22" />
+        <circle className="marker-hit" r="38" />
         <circle className="marker-dot" r={selected ? 16 : 12} />
         <LocateFixed aria-hidden="true" x={-8} y={-8} width={16} height={16} />
         <title>{attraction.name}</title>

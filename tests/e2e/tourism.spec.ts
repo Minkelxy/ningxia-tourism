@@ -975,6 +975,18 @@ test('地图美食点位保持与景点一致的触控热区和聚焦反馈', as
   await expect(foodMarker.locator('circle:not(.marker-hit)')).toHaveCSS('fill', 'rgb(49, 95, 79)');
 });
 
+test('地图景点点位在移动端保持至少44px实际触控热区', async ({ page }) => {
+  await page.goto(appBase);
+  await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
+  const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
+  const attractionMarker = map.getByRole('button', { name: /沙坡头.*打开预览/ });
+  const hit = attractionMarker.locator('.marker-hit');
+  await expect(hit).toHaveAttribute('r', '38');
+  const hitBox = await hit.boundingBox();
+  expect(hitBox?.width ?? 0).toBeGreaterThanOrEqual(44);
+  expect(hitBox?.height ?? 0).toBeGreaterThanOrEqual(44);
+});
+
 test('地图政府标记与交通枢纽点位为纯展示语义且有可读 aria-label', async ({ page }) => {
   await page.goto(appBase);
   await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
