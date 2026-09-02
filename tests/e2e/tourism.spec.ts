@@ -68,6 +68,18 @@ test('移动端菜单项悬停反馈与桌面导航保持一致', async ({ page 
   await expect(attractionsLink).toHaveCSS('box-shadow', /rgba\(67, 48, 24, 0\.06\)/);
 });
 
+test('移动端点击菜单入口后立即收起并恢复菜单按钮焦点', async ({ page }) => {
+  if ((page.viewportSize()?.width ?? 999) > 768) test.skip();
+  await page.goto(appBase);
+  const menuButton = page.getByRole('button', { name: '打开导航菜单' });
+  await menuButton.click();
+  const mobileNav = page.getByRole('navigation', { name: '移动端导航' });
+  await mobileNav.getByRole('link', { name: '精选景点' }).click();
+  await expect(page).toHaveURL(/\/attractions$/);
+  await expect(mobileNav).not.toBeVisible();
+  await expect(page.getByRole('button', { name: '打开导航菜单' })).toBeFocused();
+});
+
 test('导航搜索与收藏入口保持44px触控热区', async ({ page }) => {
   await page.goto(appBase);
   const favoritesLink = page.locator('.favorites-nav-link');
@@ -938,6 +950,21 @@ test('地图美食点位支持键盘 Tab 聚焦并按回车跳转详情页', asy
   await foodMarker.focus();
   await foodMarker.press('Enter');
   await expect(page).toHaveURL(/\/food\//);
+});
+
+test('地图美食点位保持与景点一致的触控热区和聚焦反馈', async ({ page }) => {
+  await page.goto(appBase);
+  await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
+  const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
+  await map.getByRole('button', { name: '美食' }).click();
+  const foodMarker = map.locator('.map-food--interactive').first();
+  await expect(foodMarker.locator('.marker-hit')).toHaveAttribute('r', '38');
+  for (let index = 0; index < 80; index += 1) {
+    if (await foodMarker.evaluate((element) => document.activeElement === element)) break;
+    await page.keyboard.press('Tab');
+  }
+  await expect(foodMarker).toBeFocused();
+  await expect(foodMarker.locator('circle:not(.marker-hit)')).toHaveCSS('fill', 'rgb(49, 95, 79)');
 });
 
 test('地图政府标记与交通枢纽点位为纯展示语义且有可读 aria-label', async ({ page }) => {

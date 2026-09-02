@@ -32,6 +32,7 @@ function FoodLayer({ foods, project, onSelect }: FoodLayerProps) {
         onClick={handleSelect ? (event) => { event.stopPropagation(); handleSelect(); } : undefined}
         onKeyDown={handleSelect ? (event) => activateWithKeyboard(event, handleSelect) : undefined}
       >
+        {handleSelect && <circle className="marker-hit" r="38" />}
         <circle r="11" fill="#E85D4C" stroke="#fff" strokeWidth={2} />
         <UtensilsCrossed aria-hidden="true" x={-7} y={-7} width={14} height={14} />
         <title>{food.name}</title>

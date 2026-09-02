@@ -36,6 +36,7 @@ describe('FoodLayer', () => {
     expect(marker).toHaveAttribute('role', 'button');
     expect(marker).toHaveAttribute('tabindex', '0');
     expect(marker).toHaveClass('map-food--interactive');
+    expect(marker?.querySelector('.marker-hit')).toHaveAttribute('r', '38');
 
     fireEvent.keyDown(marker!, { key: 'Enter' });
     expect(onSelect).toHaveBeenCalledTimes(1);
