@@ -1,8 +1,10 @@
 # 发布状态与验收记录
 
-更新时间：2026-09-02
+更新时间：2026-09-03
 
 ## 当前发布快照
+
+2026-09-03 v0.3.103 发布复核：代码提交 [`6c89707`](https://github.com/Minkelxy/ningxia-tourism/commit/6c8970711f26286fa44e3500b6f39998b5138902) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33655323893)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、139 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。地图区域在键盘聚焦、区县图例联动和选中区县时使用 `map-region-emphasis` 装饰路径沿边界展开 `map-region-emphasis-draw` 高亮墨线，装饰线不参与交互；减少动效设置下恢复静态高亮。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
 2026-09-03 v0.3.102 发布复核：代码提交 [`249f22b`](https://github.com/Minkelxy/ningxia-tourism/commit/249f22b9c32dd213503e459d2d2c3f039cff309a) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33653924834)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、139 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。首页远景山体、近景山体、印章和探索提示使用 `hero-mountain-back-in`、`hero-mountain-front-in`、`hero-seal-stamp` 与 `hero-scroll-cue-in` 按层级依次入场，稳定断言等待图形挂载后再核对动画顺序；减少动效设置下恢复静态绘图。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
