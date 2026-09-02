@@ -4,7 +4,7 @@
 
 > 相关文档：[技术架构文档 · 部署架构章节](./宁夏旅游地图技术架构.md#18-部署架构) ｜ [开发计划（CI 缓存 / 版本策略）](./DEVELOPMENT_PLAN.md) ｜ [贡献指南 · 本地自检 5 步法](../../CONTRIBUTING.md)
 
-> 当前发布快照（v0.3.77）与验收命令：[RELEASE_STATUS.md](../RELEASE_STATUS.md)。线上地址：[minkelxy.github.io/ningxia-tourism](https://minkelxy.github.io/ningxia-tourism/)。
+> 当前发布快照（v0.3.78）与验收命令：[RELEASE_STATUS.md](../RELEASE_STATUS.md)。线上地址：[minkelxy.github.io/ningxia-tourism](https://minkelxy.github.io/ningxia-tourism/)。
 
 ---
 
