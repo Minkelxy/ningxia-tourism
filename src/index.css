@@ -1200,8 +1200,8 @@ button { color: inherit; }
   .detail-sidebar, .route-sidebar { grid-row: auto; }
   .planning-card, .city-sidebar, .route-summary-card { position: static; }
   .highlight-list, .info-grid { grid-template-columns: 1fr; }
-  .city-card { grid-template-columns: 1fr; }
-  .city-card-image { aspect-ratio: 16/9; }
+  .city-card { grid-template-columns: 1fr; min-width: 0; }
+  .city-card-image { width: 100%; min-width: 0; min-height: 0; aspect-ratio: 16/9; }
   .city-facts { grid-template-columns: 1fr; }
   .city-attraction-row, .route-mini-grid { grid-template-columns: 1fr; }
   .city-attraction-row a { grid-template-columns: 100px 1fr; }

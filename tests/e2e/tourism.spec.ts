@@ -578,6 +578,22 @@ test('五城概览支持横向比较旅行节奏', async ({ page }) => {
   }
 });
 
+test('五城卡片图片在极窄屏按卡片宽度自适应', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 844 });
+  await page.goto(`${appBase}cities`);
+  const card = page.locator('.city-card').first();
+  const image = card.locator('.city-card-image');
+  const sizes = await image.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    const cardRect = element.closest('.city-card')?.getBoundingClientRect();
+    return { imageWidth: rect.width, cardWidth: cardRect?.width ?? 0, imageHeight: rect.height, pageWidth: document.documentElement.scrollWidth };
+  });
+  expect(sizes.imageWidth).toBeLessThanOrEqual(sizes.cardWidth);
+  expect(sizes.imageWidth).toBeGreaterThan(sizes.cardWidth - 4);
+  expect(sizes.imageHeight).toBeGreaterThan(0);
+  expect(sizes.pageWidth).toBeLessThanOrEqual(320);
+});
+
 test('网络资料与区域配图说明透明可见', async ({ page }) => {
   await page.goto(`${appBase}attraction/pengyangtitian`);
   await expect(page.getByRole('heading', { level: 1, name: '彭阳梯田' })).toBeVisible();
