@@ -339,7 +339,11 @@ test('首页可按天数缩小路线范围并阅读最新专题', async ({ page 
   await fiveDays.click();
   await expect(fiveDays).toHaveAttribute('aria-checked', 'true');
   await expect(page.locator('.home-route-result-heading')).toContainText('1 条 5 天路线');
-  await expect(page.getByRole('link', { name: /五日全景深度游/ })).toBeVisible();
+  const fiveDayRoute = page.getByRole('link', { name: /五日全景深度游/ });
+  await expect(fiveDayRoute).toBeVisible();
+  await expect(fiveDayRoute).toHaveCSS('animation-name', 'home-route-match-in');
+  const titleInkAnimation = await fiveDayRoute.locator('h3').evaluate((element) => getComputedStyle(element, '::after').animationName);
+  expect(titleInkAnimation).toBe('home-route-title-ink');
   await expect(page.getByRole('link', { name: /打开完整筛选/ })).toHaveAttribute('href', /routes\?duration=5/);
   const fullFilterLink = page.getByRole('link', { name: /打开完整筛选/ });
   await page.keyboard.press('Tab');
@@ -352,6 +356,21 @@ test('首页可按天数缩小路线范围并阅读最新专题', async ({ page 
   await fiveDays.press('ArrowLeft');
   await expect(page.getByRole('radio', { name: '4 天' })).toHaveAttribute('aria-checked', 'true');
   await expect(page.getByRole('radio', { name: '4 天' })).toBeFocused();
+  await expect(page.locator('.home-route-match').first()).toHaveCSS('animation-name', 'home-route-match-in');
+});
+
+test('首页路线结果减少动效时保持静态内容与墨线', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(appBase);
+  const route = page.locator('.home-route-match').first();
+  await expect(route).toBeVisible();
+  const motion = await route.evaluate((element) => ({
+    cardAnimation: getComputedStyle(element).animationName,
+    cardOpacity: getComputedStyle(element).opacity,
+    titleAnimation: getComputedStyle(element.querySelector('h3') as HTMLElement, '::after').animationName,
+    titleOpacity: getComputedStyle(element.querySelector('h3') as HTMLElement, '::after').opacity,
+  }));
+  expect(motion).toEqual({ cardAnimation: 'none', cardOpacity: '1', titleAnimation: 'none', titleOpacity: '0.82' });
 });
 
 test('地图懒加载占位与正式画布保持同一视觉语言', async ({ page }) => {
