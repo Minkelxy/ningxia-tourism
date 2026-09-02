@@ -131,6 +131,16 @@ test('桌面端景点与美食卡片行动入口保持底部对齐', async ({ pa
   }
 });
 
+test('桌面端首页旅行专题卡片行动入口保持底部对齐', async ({ page }) => {
+  if ((page.viewportSize()?.width ?? 999) <= 768) test.skip();
+  await page.goto(appBase);
+  const cards = page.locator('.home-topic-card');
+  await expect(cards.first()).toBeVisible();
+  const bottoms = await cards.evaluateAll((elements) => elements.map((element) => element.querySelector('.text-link')?.getBoundingClientRect().bottom ?? 0));
+  expect(bottoms.length).toBe(3);
+  expect(Math.max(...bottoms) - Math.min(...bottoms)).toBeLessThanOrEqual(1);
+});
+
 test('比较表名称入口保持44px触控热区', async ({ page }) => {
   await page.goto(`${appBase}cities`);
   await expect(page.locator('.city-table-wrap tbody th a').first()).toHaveCSS('min-height', '44px');

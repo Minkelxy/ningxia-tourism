@@ -715,21 +715,21 @@ button { color: inherit; }
 .home-topics > header h2 { margin-top: 8px; font-size: clamp(2rem, 4vw, 3.5rem); }
 .home-topics > header > p { max-width: 480px; color: var(--muted); }
 .home-topic-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-.home-topic-card { min-width: 0; overflow: hidden; border: 1px solid rgba(58,48,32,.12); border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow-soft); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.home-topic-card { display: flex; min-width: 0; overflow: hidden; flex-direction: column; border: 1px solid rgba(58,48,32,.12); border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow-soft); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
 .home-topic-card:hover, .home-topic-card:focus-within { transform: translateY(-4px); border-color: rgba(49,95,79,.24); box-shadow: var(--shadow); }
 .home-topic-image { position: relative; display: block; aspect-ratio: 8 / 5; padding: 9px; overflow: hidden; background: #fff; }
 .home-topic-image picture, .home-topic-image img { width: 100%; height: 100%; object-fit: cover; }
 .home-topic-image img { transition: transform .5s ease, filter .35s ease; }
 .home-topic-card:hover .home-topic-image img, .home-topic-card:focus-within .home-topic-image img { transform: scale(1.035); filter: saturate(1.04); }
 .home-topic-image > span { position: absolute; right: 18px; bottom: 18px; padding: 5px 9px; background: var(--green); color: #fff; font-size: .7rem; font-weight: 750; }
-.home-topic-card > div { padding: 23px; }
+.home-topic-card > div { display: flex; flex: 1; flex-direction: column; padding: 23px; }
 .home-topic-card .eyebrow { display: flex; align-items: center; gap: 6px; font-size: .68rem; }
 .home-topic-card .eyebrow svg { width: 14px; }
 .home-topic-card h3 { margin: 10px 0; font-size: 1.5rem; }
 .home-topic-card h3 a { color: var(--ink); transition: color .2s ease; }
 .home-topic-card h3 a:hover, .home-topic-card h3 a:focus-visible { color: var(--green); }
 .home-topic-card > div > p:not(.eyebrow) { display: -webkit-box; min-height: 4.9em; overflow: hidden; -webkit-line-clamp: 3; -webkit-box-orient: vertical; color: var(--muted); font-size: .83rem; }
-.home-topic-card .text-link { margin-top: 10px; }
+.home-topic-card .text-link { margin-top: auto; }
 .home-topics-footer { display: flex; justify-content: center; margin-top: 26px; }
 .home-journal { display: grid; grid-template-columns: 1.3fr .7fr; gap: 24px; padding-block: 10px 100px; }
 .journal-home-card { position: relative; min-height: 360px; padding: 52px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: repeating-linear-gradient(0deg, rgba(84,68,41,.045) 0 1px, transparent 1px 32px), var(--card); box-shadow: var(--shadow); }
