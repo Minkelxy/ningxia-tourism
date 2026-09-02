@@ -1209,6 +1209,7 @@ button { color: inherit; }
   .city-facts { grid-template-columns: 1fr; }
   .city-attraction-row, .route-mini-grid { grid-template-columns: 1fr; }
   .city-attraction-row a { grid-template-columns: 100px 1fr; }
+  .city-attraction-row picture, .city-attraction-row img { width: 100px; }
   .about-intro { grid-template-columns: 1fr; gap: 12px; }
   .method-grid { grid-template-columns: 1fr; margin-top: 48px; }
   .source-directory { grid-template-columns: 1fr; gap: 22px; padding: 28px; }

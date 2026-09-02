@@ -657,6 +657,29 @@ test('五城卡片图片在极窄屏按卡片宽度自适应', async ({ page }) 
   expect(sizes.pageWidth).toBeLessThanOrEqual(320);
 });
 
+test('城市详情关联卡片图片与窄屏内容列宽一致', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 844 });
+  await page.goto(`${appBase}city/yinchuan`);
+  const card = page.locator('.city-attraction-row a').first();
+  await expect(card).toBeVisible();
+  const sizes = await card.evaluate((element) => {
+    const image = element.querySelector('img');
+    const imageRect = image?.getBoundingClientRect();
+    const columns = getComputedStyle(element).gridTemplateColumns.split(' ');
+    return {
+      firstColumnWidth: Number.parseFloat(columns[0] ?? '0'),
+      imageWidth: imageRect?.width ?? 0,
+      imageHeight: imageRect?.height ?? 0,
+      pageWidth: document.documentElement.scrollWidth,
+      windowWidth: window.innerWidth,
+    };
+  });
+  expect(sizes.imageWidth).toBeLessThanOrEqual(sizes.firstColumnWidth + 1);
+  expect(sizes.imageWidth).toBeGreaterThan(0);
+  expect(sizes.imageHeight).toBeGreaterThan(0);
+  expect(sizes.pageWidth).toBeLessThanOrEqual(sizes.windowWidth + 1);
+});
+
 test('桌面端五城卡片按行保持行动入口底部对齐', async ({ page }) => {
   if ((page.viewportSize()?.width ?? 999) <= 768) test.skip();
   await page.goto(`${appBase}cities`);
