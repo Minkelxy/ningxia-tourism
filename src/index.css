@@ -311,7 +311,7 @@ button { color: inherit; }
 .active-filter-note { padding: 4px 10px; border-radius: 999px; background: #e9f1ea; color: var(--green); font-size: .75rem; font-weight: 800; }
 .attraction-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .attraction-card, .city-card, .route-card { overflow: hidden; border: 1px solid rgba(58,48,32,.12); border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow-soft); }
-.attraction-card { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.attraction-card { display: flex; flex-direction: column; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
 .card-heading-row { display: flex; align-items: start; justify-content: space-between; gap: 12px; }
 .card-heading-row .card-location { flex: 1; }
 .favorite-button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-height: 44px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.72); color: var(--muted); cursor: pointer; font-size: .76rem; font-weight: 800; white-space: nowrap; transition: transform .2s ease, border-color .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease; }
@@ -329,7 +329,7 @@ button { color: inherit; }
 .category-badge.religion { background: #536e8a; }
 .category-badge.experience { background: #a54a39; }
 .card-image .category-badge { position: absolute; left: 14px; top: 14px; }
-.card-content { padding: 22px; }
+.card-content { display: flex; flex: 1; flex-direction: column; padding: 22px; }
 .card-location { display: flex; align-items: center; gap: 6px; color: var(--red); font-size: .78rem; font-weight: 700; }
 .card-location svg { width: 15px; }
 .card-content h2 { margin: 8px 0 10px; font-size: 1.55rem; }
@@ -339,6 +339,7 @@ button { color: inherit; }
 .card-meta span { display: inline-flex; align-items: center; gap: 5px; }
 .card-meta svg { width: 15px; }
 .card-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.card-content .card-actions { margin-top: auto; }
 .compare-toggle { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--green); cursor: pointer; font-size: .78rem; font-weight: 800; transition: transform .2s ease, border-color .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease; }
 .compare-toggle:hover, .compare-toggle:focus-visible { border-color: rgba(49,95,79,.45); background: #eef3ed; color: var(--green); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(49,95,79,.1); }
 .compare-toggle.is-active { border-color: rgba(49,95,79,.45); background: #eef3ed; color: var(--green); }

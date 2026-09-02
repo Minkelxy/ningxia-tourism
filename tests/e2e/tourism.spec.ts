@@ -119,6 +119,18 @@ test('桌面端推荐路线卡片行动入口保持底部对齐', async ({ page 
   expect(Math.abs(bottoms[0] - bottoms[1])).toBeLessThanOrEqual(1);
 });
 
+test('桌面端景点与美食卡片行动入口保持底部对齐', async ({ page }) => {
+  if ((page.viewportSize()?.width ?? 999) <= 768) test.skip();
+  for (const path of ['attractions', 'foods']) {
+    await page.goto(`${appBase}${path}`);
+    const cards = page.locator('.attraction-card');
+    await expect(cards.first()).toBeVisible();
+    const bottoms = await cards.evaluateAll((elements) => elements.slice(0, 3).map((element) => element.querySelector('.card-actions')?.getBoundingClientRect().bottom ?? 0));
+    expect(bottoms.length).toBe(3);
+    expect(Math.max(...bottoms) - Math.min(...bottoms)).toBeLessThanOrEqual(1);
+  }
+});
+
 test('比较表名称入口保持44px触控热区', async ({ page }) => {
   await page.goto(`${appBase}cities`);
   await expect(page.locator('.city-table-wrap tbody th a').first()).toHaveCSS('min-height', '44px');
