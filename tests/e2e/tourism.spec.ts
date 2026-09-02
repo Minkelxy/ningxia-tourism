@@ -85,6 +85,13 @@ test('内容卡片标题入口保持44px触控热区', async ({ page }) => {
   await expect(page.locator('.home-topic-card h3 a').first()).toHaveCSS('min-height', '44px');
 });
 
+test('比较表名称入口保持44px触控热区', async ({ page }) => {
+  await page.goto(`${appBase}cities`);
+  await expect(page.locator('.city-table-wrap tbody th a').first()).toHaveCSS('min-height', '44px');
+  await page.goto(`${appBase}routes`);
+  await expect(page.locator('.route-table-wrap tbody th a').first()).toHaveCSS('min-height', '44px');
+});
+
 test('顶部与页脚内容导航保持同一组入口', async ({ page }) => {
   await page.goto(appBase);
   const routes = [
