@@ -1329,6 +1329,16 @@ button { color: inherit; }
 @media (max-width: 360px) {
   .brand { gap: 8px; font-size: .95rem; white-space: nowrap; }
   .brand small { display: none; }
+  .favorites-page .favorite-row > .favorite-button,
+  .favorites-page .favorite-route-row > .favorite-button { width: 44px; min-width: 44px; padding: 0; }
+  .favorites-page .favorite-row > .favorite-button span,
+  .favorites-page .favorite-route-row > .favorite-button span { display: none; }
+  .favorites-page .favorite-row strong,
+  .favorites-page .favorite-row small,
+  .favorites-page .favorite-route-row strong,
+  .favorites-page .favorite-route-row small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .favorites-page .favorite-route-row { padding: 12px 12px 12px 16px; }
+  .favorites-page .favorite-route-row em { display: none; }
   .guide-hero-actions { gap: 6px; flex-wrap: nowrap; }
   .guide-hero-actions > .btn-primary, .guide-hero-actions > .btn-quiet { flex: 1 1 0; min-width: 0; padding-inline: 4px; }
   .route-detail-actions { gap: 6px; flex-wrap: nowrap; }
