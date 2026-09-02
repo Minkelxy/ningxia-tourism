@@ -1173,6 +1173,27 @@ test('地图美食图层可切换并展示已发布美食点位', async ({ page 
   await expect(map.locator('.map-food')).toHaveCount(0);
 });
 
+test('地图窄屏控制区保持三列两行且不溢出', async ({ page }) => {
+  test.skip((page.viewportSize()?.width ?? 999) > 480, '仅验证窄屏地图控制布局');
+  await page.goto(appBase);
+  await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
+  const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
+  const actions = map.locator('.map-actions');
+  await expect(actions).toHaveCSS('display', 'grid');
+  const metrics = await actions.locator('button').evaluateAll((buttons) => {
+    const gridColumns = getComputedStyle(buttons[0]?.parentElement ?? document.body).gridTemplateColumns.trim().split(/\s+/).length;
+    const rows = new Set(buttons.map((button) => Math.round(button.getBoundingClientRect().top)));
+    return {
+      count: buttons.length,
+      columns: gridColumns,
+      rows: rows.size,
+      allInside: buttons.every((button) => button.getBoundingClientRect().right <= (button.parentElement?.getBoundingClientRect().right ?? Infinity) + 1),
+    };
+  });
+  expect(metrics).toEqual({ count: 6, columns: 3, rows: 2, allInside: true });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(page.viewportSize()?.width ?? 999);
+});
+
 test('移动端景点预览使用底部面板提示与入场动效', async ({ page }) => {
   await page.goto(appBase);
   await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();

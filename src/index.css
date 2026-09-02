@@ -1327,6 +1327,12 @@ button { color: inherit; }
 }
 
 @media (max-width: 480px) {
+  .map-actions { grid-template-columns: repeat(3, minmax(0, 1fr)); display: grid; gap: 8px; }
+  .map-actions button:first-child { margin-right: 0; }
+  .map-actions button { width: 100%; min-width: 0; }
+}
+
+@media (max-width: 480px) {
   .favorites-page .favorite-row strong,
   .favorites-page .favorite-row small,
   .favorites-page .favorite-route-row strong,
