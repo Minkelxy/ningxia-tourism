@@ -162,6 +162,12 @@ export default function NingxiaInteractiveMap() {
   const handleRegionFocus = useCallback((feature: GeoFeature | null) => {
     setFocusedFeatureCode(feature ? featureCode(feature) : undefined);
   }, []);
+  const highlightLegend = useCallback((code: string) => {
+    setLegendHighlightCode(code);
+  }, []);
+  const clearLegendHighlight = useCallback((code: string) => {
+    setLegendHighlightCode((current) => (current === code ? undefined : current));
+  }, []);
 
   const activeBounds = useMemo<GeoBounds>(() => {
     if (selectedDistrict) return getFeatureBounds(selectedDistrict);
@@ -241,15 +247,6 @@ export default function NingxiaInteractiveMap() {
     }));
     return buildDistrictColorMap(activeCityId, districtsWithIndex);
   }, [selectedCity, activeCityId, districts]);
-
-  // 图例悬停高亮需要同步到 focusedFeatureCode
-  useEffect(() => {
-    if (legendHighlightCode && focusedFeatureCode !== legendHighlightCode) {
-      setFocusedFeatureCode(legendHighlightCode);
-    } else if (!legendHighlightCode && focusedFeatureCode) {
-      // 只有当当前聚焦来自图例（没有真的键盘聚焦）时才清
-    }
-  }, [legendHighlightCode, focusedFeatureCode]);
 
   const legendEntries = useMemo(() => {
     if (!selectedCity || !activeCityId) return [];
@@ -451,32 +448,37 @@ export default function NingxiaInteractiveMap() {
 
         {/* —— Task 4 (AC-10): 市级视图分区图例 —— */}
         {legendEntries.length > 0 && (
-          <div className="map-legend" role="list" aria-label={`${featureName(selectedCity)}区县颜色图例`}>
+          <aside className="map-legend" aria-label={`${featureName(selectedCity)}区县颜色图例`}>
             <div className="map-legend__title">区县图例</div>
             <ul>
               {legendEntries.map((entry) => {
                 const active = effectiveFocusedCode === entry.code || selectedFeatureCode === entry.code;
                 return (
-                  <li
-                    key={entry.code}
-                    role="listitem"
-                    className={`map-legend__item ${active ? 'is-active' : ''}`}
-                    onMouseEnter={() => setLegendHighlightCode(entry.code)}
-                    onMouseLeave={() =>
-                      setLegendHighlightCode((prev) => (prev === entry.code ? undefined : prev))
-                    }
-                  >
-                    <span
-                      className="map-legend__swatch"
-                      style={{ backgroundColor: entry.color }}
-                      aria-hidden="true"
-                    />
-                    <span className="map-legend__name">{entry.name}</span>
+                  <li key={entry.code} className={`map-legend__item ${active ? 'is-active' : ''}`}>
+                    <button
+                      type="button"
+                      className="map-legend__button"
+                      aria-label={`${entry.name}，高亮地图区域`}
+                      onClick={() => highlightLegend(entry.code)}
+                      onFocus={() => highlightLegend(entry.code)}
+                      onBlur={() => clearLegendHighlight(entry.code)}
+                      onMouseEnter={() => highlightLegend(entry.code)}
+                      onMouseLeave={(event) => {
+                        if (document.activeElement !== event.currentTarget) clearLegendHighlight(entry.code);
+                      }}
+                    >
+                      <span
+                        className="map-legend__swatch"
+                        style={{ backgroundColor: entry.color }}
+                        aria-hidden="true"
+                      />
+                      <span className="map-legend__name">{entry.name}</span>
+                    </button>
                   </li>
                 );
               })}
             </ul>
-          </div>
+          </aside>
         )}
       </div>
 

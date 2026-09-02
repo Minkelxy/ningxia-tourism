@@ -272,6 +272,23 @@ test('地图支持键盘进入城市、选择区县和切换交通图层', async
   await expect(transport).toHaveCSS('transform', 'none');
 });
 
+test('地图区县图例支持键盘聚焦并联动区域高亮', async ({ page }) => {
+  await page.goto(appBase);
+  await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
+  const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
+  await map.getByRole('button', { name: /银川市，按回车进入/ }).press('Enter');
+  await expect(map.getByRole('button', { name: /兴庆区，按回车进入/ })).toBeVisible();
+  const legend = map.getByRole('complementary', { name: '银川市区县颜色图例' });
+  await expect(legend).toBeVisible();
+  const legendItem = legend.getByRole('button', { name: '兴庆区，高亮地图区域' });
+  await legendItem.focus();
+  await expect(legendItem).toBeFocused();
+  await expect(map.locator('.map-region.is-focused')).toHaveCount(1);
+  await expect(map.locator('.map-region.is-focused')).toHaveAttribute('aria-label', /兴庆区/);
+  await map.getByRole('button', { name: '交通' }).focus();
+  await expect(map.locator('.map-region.is-focused')).toHaveCount(0);
+});
+
 test('景点页支持按旅行兴趣发现新增目的地', async ({ page }) => {
   await page.goto(`${appBase}attractions`);
   if ((page.viewportSize()?.width ?? 999) <= 768) {
