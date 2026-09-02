@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.82 发布复核：代码提交 [`e8a5c7b`](https://github.com/Minkelxy/ningxia-tourism/commit/e8a5c7b7aabad172d5d23a6da3189461f4fa3612) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33616299998)为 **success**；179 条单元测试、113 条 E2E 通过、9 条按端型跳过，旅行手记列表卡片使用纵向弹性布局，桌面双列按行保持行动入口底部对齐，移动端保持单列且页面不横向溢出；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。线上已复核旅行手记页桌面卡片按行对齐，以及 390px 移动端卡片单列和页面宽度。
+
 2026-09-02 v0.3.81 发布复核：代码提交 [`1b6cd10`](https://github.com/Minkelxy/ningxia-tourism/commit/1b6cd1094caf77d099f50ebf499d62cfbd1f4049) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33614574076)为 **success**；179 条单元测试、111 条 E2E 通过、7 条按端型跳过，首页旅行专题卡片与景点、美食、推荐路线卡片均使用纵向弹性布局，桌面端行动入口底部对齐，中屏保留组合卡片，移动端保持单列布局；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。线上已复核首页专题卡片行动入口对齐，以及 390px 页面无横向溢出。
 
 2026-09-02 v0.3.80 发布复核：代码提交 [`961922a`](https://github.com/Minkelxy/ningxia-tourism/commit/961922aa58df7a178052c568550418df33239f7f) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33612891741)为 **success**；179 条单元测试、110 条 E2E 通过、6 条按端型跳过，景点、美食与推荐路线卡片均使用纵向弹性布局，桌面端行动入口底部对齐，移动端保持原有单列/响应式布局；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。线上已复核 1440px 路线页首两张卡片行动入口底部坐标一致，以及 390px 景点页、美食页无横向溢出。
