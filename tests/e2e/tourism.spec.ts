@@ -898,6 +898,20 @@ test('资料来源入口保持末端图标反馈与稳定热区', async ({ page 
   await expect(aboutSource.locator('svg').last()).not.toHaveCSS('transform', 'none');
 });
 
+test('详情关联与搜索结果箭头使用统一轻量反馈', async ({ page }) => {
+  await page.goto(`${appBase}attraction/ningxiamuseum`);
+  const nearby = page.locator('.nearby-grid a').first();
+  await nearby.hover();
+  await expect(nearby.locator('svg')).toHaveCSS('color', 'rgb(49, 95, 79)');
+  await expect(nearby.locator('svg')).not.toHaveCSS('transform', 'none');
+
+  await page.goto(`${appBase}search?q=%E9%93%B6%E5%B7%9D`);
+  const result = page.locator('.search-result').first();
+  await result.hover();
+  await expect(result.locator('svg')).toHaveCSS('color', 'rgb(49, 95, 79)');
+  await expect(result.locator('svg')).not.toHaveCSS('transform', 'none');
+});
+
 test('深色头图操作状态保持高对比', async ({ page }) => {
   await page.goto(`${appBase}routes/classic-3day`);
   const routePrimary = page.getByRole('button', { name: '打印行程' });
