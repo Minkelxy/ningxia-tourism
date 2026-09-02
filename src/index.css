@@ -1327,6 +1327,8 @@ button { color: inherit; }
 @media (max-width: 360px) {
   .brand { gap: 8px; font-size: .95rem; white-space: nowrap; }
   .brand small { display: none; }
+  .route-detail-actions { gap: 6px; flex-wrap: nowrap; }
+  .route-detail-actions > .btn-primary, .route-detail-actions > .btn-quiet, .route-detail-actions > .favorite-button { padding-inline: 4px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

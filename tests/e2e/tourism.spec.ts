@@ -580,6 +580,28 @@ test('路线日程深链接会定位到对应天数', async ({ page }) => {
   await expect(page.locator('#route-day-2')).toBeVisible();
 });
 
+test('路线详情极窄屏操作入口保持同一行', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 844 });
+  await page.goto(`${appBase}routes/quick-1day`);
+  const actions = page.locator('.route-detail-actions');
+  await expect(actions).toBeVisible();
+  const layout = await actions.evaluate((element) => ({
+    height: element.getBoundingClientRect().height,
+    children: [...element.children].map((child) => {
+      const rect = child.getBoundingClientRect();
+      return { top: rect.top, height: rect.height, right: rect.right };
+    }),
+    pageWidth: document.documentElement.scrollWidth,
+    windowWidth: window.innerWidth,
+  }));
+  expect(layout.children).toHaveLength(3);
+  expect(layout.children.every((child) => Math.abs(child.top - layout.children[0].top) <= 1)).toBe(true);
+  expect(layout.children.every((child) => child.height >= 44)).toBe(true);
+  expect(layout.children.at(-1)?.right ?? 0).toBeLessThanOrEqual(layout.windowWidth - 12 + 1);
+  expect(layout.height).toBeLessThanOrEqual(52);
+  expect(layout.pageWidth).toBeLessThanOrEqual(layout.windowWidth + 1);
+});
+
 test('路线筛选同步地址并展示内容核实概览', async ({ page }) => {
   await page.goto(`${appBase}routes`);
   if ((page.viewportSize()?.width ?? 999) <= 768) {
