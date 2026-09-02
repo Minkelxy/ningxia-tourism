@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.98 发布复核：代码提交 [`0520d22`](https://github.com/Minkelxy/ningxia-tourism/commit/0520d2207fc257ff40006db7c3d8147db44236bf) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33644793878)为 **success**，build 与 deploy 两个 job 均成功；179 条单元测试、137 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。首页太阳、河流、轨道图形分别使用 `sun-breathe`、`river-shimmer`、`orbit-drift-*`，地图区域使用递进 `map-region-draw` 描边入场，减少动效设置下恢复静态绘图；线上地图区域已确认 `pathLength="1"` 与递进延迟，页面根宽度与视口一致；生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
+
 2026-09-02 v0.3.97 发布复核：代码提交 [`5065795`](https://github.com/Minkelxy/ningxia-tourism/commit/5065795c0181f1fe6d33ace999944af57aab42fe) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33642990078)为 **success**，build 与 deploy 两个 job 均成功；179 条单元测试、135 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。景点筛选搜索输入在 320px、390px、1280px 下实际高度均为 44px，页面根宽度与视口一致；生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
 2026-09-02 v0.3.96 发布复核：代码提交 [`f9ca2b4`](https://github.com/Minkelxy/ningxia-tourism/commit/f9ca2b4288678dd3456ca3c786a0186999d48760) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33639479592)为 **success**，build 与 deploy 两个 job 均成功；179 条单元测试、133 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。首页、全屏状态页和离线提示统一使用响应式站点头部高度变量，线上状态页在 320px、390px、1280px 下分别保持 64px、64px、72px 变量对应的高度关系，页面根宽度与视口一致；生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
