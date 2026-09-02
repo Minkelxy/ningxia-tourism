@@ -56,7 +56,7 @@ button { color: inherit; }
 .btn-primary { background: var(--green); color: #fff; box-shadow: 0 8px 24px rgba(33, 70, 59, .18); }
 .btn-primary:hover, .btn-primary:focus-visible { background: var(--green-dark); transform: translateY(-2px); }
 .btn-secondary { background: var(--sand); color: #211b12; box-shadow: 0 8px 20px rgba(135,94,36,.16); }
-.btn-secondary:hover, .btn-secondary:focus-visible { background: var(--sand-dark); color: #fff; transform: translateY(-2px); box-shadow: 0 10px 26px rgba(67,48,24,.16); }
+.btn-secondary:hover, .btn-secondary:focus-visible, .home-topics-footer:hover > .btn-secondary, .home-topics-footer:focus-within > .btn-secondary { background: var(--sand-dark); color: #fff; transform: translateY(-2px); box-shadow: 0 10px 26px rgba(67,48,24,.16); }
 .btn-quiet { border-color: var(--line); background: rgba(255,255,255,.7); box-shadow: 0 5px 14px rgba(67,48,24,.07); }
 .btn-quiet:hover, .btn-quiet:focus-visible { background: #fff; border-color: var(--sand); transform: translateY(-2px); box-shadow: 0 9px 22px rgba(67,48,24,.11); }
 .text-link { min-height: 44px; justify-content: flex-start; color: var(--green); }

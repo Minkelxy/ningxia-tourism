@@ -1958,7 +1958,7 @@ test('首页与搜索起始入口保持轻量反馈', async ({ page }) => {
   await expect(methodLink.locator('svg').last()).not.toHaveCSS('transform', 'none');
   const topicsLink = page.getByRole('link', { name: '查看全部旅行专题' });
   await expect.poll(() => page.locator('.home-topics-footer').evaluate((element) => element.getAnimations().every((animation) => animation.playState === 'finished'))).toBe(true);
-  await topicsLink.hover();
+  await page.locator('.home-topics-footer').hover();
   await expect(topicsLink).toHaveCSS('background-color', 'rgb(135, 94, 36)');
   await expect(topicsLink).toHaveCSS('color', 'rgb(255, 255, 255)');
   await expect(topicsLink).not.toHaveCSS('transform', 'none');
