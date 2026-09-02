@@ -76,6 +76,27 @@ test('导航搜索与收藏入口保持44px触控热区', async ({ page }) => {
   await expect(favoritesLink).toHaveCSS('justify-content', 'center');
 });
 
+test('顶部与页脚内容导航保持同一组入口', async ({ page }) => {
+  await page.goto(appBase);
+  const routes = [
+    ['精选景点', 'attractions'],
+    ['宁夏美食', 'foods'],
+    ['推荐路线', 'routes'],
+    ['行前指南', 'guide'],
+    ['旅行手记', 'journal'],
+    ['五城概览', 'cities'],
+  ] as const;
+  const header = page.locator('.desktop-nav');
+  const footer = page.getByRole('navigation', { name: '继续探索' });
+
+  for (const [label, path] of routes) {
+    const headerLink = header.locator('a').filter({ hasText: label });
+    const footerLink = footer.getByRole('link', { name: label });
+    await expect(headerLink).toHaveAttribute('href', new RegExp(`/${path}$`));
+    await expect(footerLink).toHaveAttribute('href', await headerLink.getAttribute('href') ?? '');
+  }
+});
+
 test('品牌首页入口保持44px触控高度', async ({ page }) => {
   await page.goto(appBase);
   const brandLink = page.locator('.brand');

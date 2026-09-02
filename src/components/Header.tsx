@@ -2,16 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Heart, Map, Menu, Search, X } from 'lucide-react';
 import { useFavorites } from '../lib/favorites';
-
-const navLinks = [
-  { path: '/', label: '地图探索' },
-  { path: '/attractions', label: '精选景点' },
-  { path: '/foods', label: '宁夏美食' },
-  { path: '/routes', label: '推荐路线' },
-  { path: '/guide', label: '行前指南' },
-  { path: '/journal', label: '旅行手记' },
-  { path: '/cities', label: '五城概览' },
-];
+import { mainNavLinks } from '../lib/site-navigation';
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -81,7 +72,7 @@ export default function Header() {
           <span><strong>塞上江南</strong><small>宁夏旅行地图</small></span>
         </Link>
         <nav className="desktop-nav" aria-label="主导航">
-          {navLinks.map((link) => <Link key={link.path} to={link.path} className={active(link.path) ? 'active' : ''} aria-current={active(link.path) ? 'page' : undefined}>{link.label}</Link>)}
+          {mainNavLinks.map((link) => <Link key={link.path} to={link.path} className={active(link.path) ? 'active' : ''} aria-current={active(link.path) ? 'page' : undefined}>{link.label}</Link>)}
         </nav>
         <Link to="/search" className={`search-nav-link ${active('/search') ? 'active' : ''}`} aria-current={active('/search') ? 'page' : undefined} aria-label="全站搜索" title="全站搜索"><Search aria-hidden="true" /></Link>
         <Link to="/favorites" className={`favorites-nav-link ${active('/favorites') ? 'active' : ''}`} aria-current={active('/favorites') ? 'page' : undefined} aria-label={`我的收藏${count ? `，${count} 项` : ''}`}><Heart aria-hidden="true" fill={count ? 'currentColor' : 'none'} /><span>收藏</span>{count > 0 && <small>{count}</small>}</Link>
@@ -89,7 +80,7 @@ export default function Header() {
           {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
         </button>
       </div>
-      {open && <nav ref={mobileNavRef} id="mobile-navigation" className="mobile-nav" aria-label="移动端导航"><Link to="/search" className={active('/search') ? 'active' : ''} aria-current={active('/search') ? 'page' : undefined}>全站搜索</Link>{navLinks.map((link) => <Link key={link.path} to={link.path} className={active(link.path) ? 'active' : ''} aria-current={active(link.path) ? 'page' : undefined}>{link.label}</Link>)}<Link to="/favorites" className={active('/favorites') ? 'active' : ''} aria-current={active('/favorites') ? 'page' : undefined}>我的收藏{count > 0 ? `（${count}）` : ''}</Link></nav>}
+      {open && <nav ref={mobileNavRef} id="mobile-navigation" className="mobile-nav" aria-label="移动端导航"><Link to="/search" className={active('/search') ? 'active' : ''} aria-current={active('/search') ? 'page' : undefined}>全站搜索</Link>{mainNavLinks.map((link) => <Link key={link.path} to={link.path} className={active(link.path) ? 'active' : ''} aria-current={active(link.path) ? 'page' : undefined}>{link.label}</Link>)}<Link to="/favorites" className={active('/favorites') ? 'active' : ''} aria-current={active('/favorites') ? 'page' : undefined}>我的收藏{count > 0 ? `（${count}）` : ''}</Link></nav>}
       </header>
       {open && <div className="mobile-nav-backdrop" aria-hidden="true" />}
     </>
