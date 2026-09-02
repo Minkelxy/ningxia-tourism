@@ -232,6 +232,25 @@ test('首页可按天数缩小路线范围并阅读最新专题', async ({ page 
   await expect(page.getByRole('radio', { name: '4 天' })).toBeFocused();
 });
 
+test('地图懒加载占位与正式画布保持同一视觉语言', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(window, 'IntersectionObserver', {
+      configurable: true,
+      value: class {
+        observe() {}
+        disconnect() {}
+      },
+    });
+  });
+  await page.goto(appBase);
+  const placeholder = page.locator('.map-lazy-placeholder');
+  await expect(placeholder).toBeVisible();
+  await expect(placeholder.locator('.map-placeholder-label')).toContainText('地图将在接近此处时加载');
+  await expect(placeholder).toHaveCSS('background-image', /linear-gradient/);
+  const silhouette = await placeholder.evaluate((element) => getComputedStyle(element, '::before').clipPath);
+  expect(silhouette).toContain('polygon');
+});
+
 test('地图支持键盘进入城市、选择区县和切换交通图层', async ({ page }) => {
   await page.goto(appBase);
   await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();

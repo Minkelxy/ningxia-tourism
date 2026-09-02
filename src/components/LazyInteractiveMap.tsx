@@ -3,7 +3,7 @@ import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 const InteractiveMap = lazy(() => import('./NingxiaInteractiveMap'));
 
 function MapPlaceholder({ label = '地图将在接近此处时加载' }: { label?: string }) {
-  return <div className="map-state map-lazy-placeholder" role="status"><span className="map-loader" />{label}</div>;
+  return <div className="map-state map-lazy-placeholder" role="status"><span className="map-loader" aria-hidden="true" /><span className="map-placeholder-label">{label}</span></div>;
 }
 
 export default function LazyInteractiveMap() {
