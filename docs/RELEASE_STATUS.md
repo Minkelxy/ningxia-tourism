@@ -4,7 +4,7 @@
 
 ## 当前发布快照
 
-2026-09-03 v0.3.115 发布复核：待 GitHub Actions 完成后回填代码提交、工作流编号与最终测试统计。全站固定头部使用 `site-header-in`、`site-brand-mark-stamp` 和 `site-nav-ink` 完成整体入场、品牌标识落印与当前导航墨线；减少动效设置下恢复静态头部与当前导航墨线，导航、收藏、搜索、移动端菜单和焦点行为不变。
+2026-09-03 v0.3.115 发布复核：代码提交 [`b589020`](https://github.com/Minkelxy/ningxia-tourism/commit/b58902041fdaa0ac2dcb6c0932291df5c51271d2) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33677212200)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、175 条 E2E 通过、15 条按端型跳过，Lighthouse 质量门禁通过：全站固定头部使用 `site-header-in`、`site-brand-mark-stamp` 和 `site-nav-ink` 完成整体入场、品牌标识落印与当前导航墨线；减少动效设置下恢复静态头部与当前导航墨线，导航、收藏、搜索、移动端菜单和焦点行为不变。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
 2026-09-03 v0.3.114 发布复核：代码提交 [`d71f95b`](https://github.com/Minkelxy/ningxia-tourism/commit/d71f95bb64c71be0f5a0708517b03354e6e22a8e) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33675469825)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、173 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过：首页路线查找、专题卡片、行前指南入口、旅行手记入口和资料提示使用 `home-section-in`、`home-copy-in`、`home-control-in`、`home-card-in`、`home-action-in`、`home-note-in` 和 `home-section-title-ink` 按区块、标题墨线与内容顺序渐进绘图；减少动效设置下恢复静态内容与墨线，筛选、链接与资料说明行为不变。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
