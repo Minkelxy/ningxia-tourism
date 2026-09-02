@@ -4,7 +4,7 @@
 
 ## 当前发布快照
 
-2026-09-03 v0.3.113 发布复核：待 GitHub Actions 完成后回填代码提交、工作流编号与最终测试统计。空结果、404/未找到、加载提示、分享提示、更新提示和离线提示统一使用状态容器、图标、标题墨线、说明和操作的轻量渐进绘图；减少动效设置下恢复静态内容与墨线，原有状态语义和操作行为不变。
+2026-09-03 v0.3.113 发布复核：代码提交 [`4759af1`](https://github.com/Minkelxy/ningxia-tourism/commit/4759af10e70785dc189da3338d0ce6ceacabb7e0) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33673638629)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、169 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。空结果、404/未找到、加载提示、分享提示、更新提示和离线提示统一使用 `state-shell-in`、`state-icon-in`、`state-copy-in`、`state-title-ink`、`state-action-in`、`state-visual-in`、`toast-in` 和 `notice-in` 按反馈层级渐进绘图；减少动效设置下恢复静态内容与墨线，原有状态语义和操作行为不变。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
 2026-09-03 v0.3.112 发布复核：代码提交 [`4d96753`](https://github.com/Minkelxy/ningxia-tourism/commit/4d967535358ce79d228b86d308672af53c22757c) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33671670594)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、165 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。景点主题、筛选面板、路线/五城比较区域、结果表格、路线卡片和关于本站方法卡片使用 `collection-panel-in`、`collection-ink-line`、`collection-theme-in`、`collection-filter-in`、`collection-comparison-in`、`collection-table-row-in`、`collection-card-in`、`collection-chip-in`、`about-intro-in`、`about-method-in`、`about-source-in` 和 `about-source-link-in` 按内容层级渐进绘图；减少动效设置下恢复静态内容与墨线，筛选、收藏、对比、横向浏览和链接行为不变。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
