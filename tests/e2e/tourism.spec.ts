@@ -506,6 +506,11 @@ test('路线筛选同步地址并展示内容核实概览', async ({ page }) => 
     await filterToggle.click();
     await expect(filterToggle).toHaveAttribute('aria-expanded', 'true');
   }
+  const routeFilters = page.getByRole('region', { name: '路线筛选' });
+  await expect(routeFilters.getByRole('group', { name: '行程天数' })).toBeVisible();
+  await expect(routeFilters.getByRole('group', { name: '涉及城市' })).toBeVisible();
+  await expect(routeFilters.getByRole('group', { name: '旅行主题' })).toBeVisible();
+  await expect(routeFilters.getByRole('group', { name: '行程节奏' })).toBeVisible();
   const cityFilter = page.getByRole('button', { name: '石嘴山', exact: true });
   await cityFilter.click();
   await expect(page).toHaveURL(/city=shizuishan/);
