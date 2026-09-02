@@ -177,7 +177,7 @@ button { color: inherit; }
 .map-legend__name { font-size: 13.5px; color: #2c2112; font-weight: 600; }
 .map-legend__item.is-active .map-legend__name { color: #8c1b1b; font-weight: 800; }
 .map-attraction { color: white; cursor: pointer; }
-.map-attraction .marker-hit, .map-food .marker-hit { fill: transparent; stroke: none; pointer-events: all; }
+.map-attraction .marker-hit, .map-food .marker-hit { fill: transparent; stroke: none; pointer-events: none; }
 .map-attraction .marker-dot { fill: var(--red); stroke: #fff; stroke-width: 3; filter: drop-shadow(0 5px 5px rgba(59,31,20,.25)); transition: r .18s ease; }
 .map-attraction.is-selected .marker-dot, .map-attraction:focus-visible .marker-dot { fill: var(--green); }
 .map-hub { color: #fff; }

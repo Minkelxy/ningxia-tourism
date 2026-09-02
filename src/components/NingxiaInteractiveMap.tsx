@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getPublishedAttractionsByCity, publishedAttractions } from '../data/attractions';
 import { getCityById } from '../data/cities';
@@ -189,6 +189,31 @@ export default function NingxiaInteractiveMap() {
     if (activeCityId) return getPublishedAttractionsByCity(activeCityId);
     return publishedAttractions;
   }, [activeBounds, selectedDistrict, activeCityId]);
+  const handleMarkerPointer = useCallback((event: ReactMouseEvent<SVGSVGElement> | ReactPointerEvent<SVGSVGElement>) => {
+    const candidates = [...event.currentTarget.querySelectorAll<SVGCircleElement>('.marker-hit')]
+      .map((hit) => {
+        const marker = hit.closest<SVGGElement>('[data-attraction-id], [data-food-id]');
+        if (!marker) return null;
+        const rect = hit.getBoundingClientRect();
+        const distance = Math.hypot(event.clientX - (rect.left + rect.width / 2), event.clientY - (rect.top + rect.height / 2));
+        return { marker, distance, radius: Math.min(rect.width, rect.height) / 2 };
+      })
+      .filter((item): item is { marker: SVGGElement; distance: number; radius: number } => Boolean(item && item.distance <= item.radius))
+      .sort((left, right) => left.distance - right.distance);
+    const nearest = candidates[0];
+    if (!nearest) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    const attractionId = nearest.marker.dataset.attractionId;
+    if (attractionId) {
+      const attraction = visibleAttractions.find((item) => item.id === attractionId);
+      if (attraction) setSelectedAttraction(attraction);
+      return;
+    }
+    const foodId = nearest.marker.dataset.foodId;
+    if (foodId) navigate(`/food/${foodId}`);
+  }, [navigate, visibleAttractions]);
   const visibleHubs = useMemo(
     () => transportHubs.filter((hub) => !activeCityId || hub.cityId === activeCityId),
     [activeCityId],
@@ -289,6 +314,8 @@ export default function NingxiaInteractiveMap() {
           viewBox={`0 0 ${mapView.width} ${mapView.height}`}
           className="map-canvas"
           aria-label={`${levelLabel}旅游地图，可用键盘选择城市和景点`}
+          onPointerDownCapture={handleMarkerPointer}
+          onClickCapture={handleMarkerPointer}
           {...viewportHandlers}
         >
           <defs>

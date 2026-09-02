@@ -24,6 +24,7 @@ function FoodLayer({ foods, project, onSelect }: FoodLayerProps) {
     return (
       <g
         key={food.id}
+        data-food-id={food.id}
         className={`map-food${handleSelect ? ' map-food--interactive' : ''}`}
         transform={`translate(${point.x} ${point.y})`}
         tabIndex={handleSelect ? 0 : undefined}
