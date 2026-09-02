@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.99 发布复核：代码提交 [`4f8b933`](https://github.com/Minkelxy/ningxia-tourism/commit/4f8b933e0340be54cdcdc0affda95e6bb06c0634) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33647391633)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、137 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。地图缩放、重置与城市/区县切换使用平滑视口过渡，拖拽期间关闭过渡保持即时跟手，减少动效设置下同时关闭视口过渡；线上已确认 `.map-viewport` 使用 `transform`、`0.36s` 过渡，地图区域使用 `map-region-draw` 与 `pathLength="1"`；生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200，页面宽度未超过视口。
+
 2026-09-02 v0.3.98 发布复核：代码提交 [`0520d22`](https://github.com/Minkelxy/ningxia-tourism/commit/0520d2207fc257ff40006db7c3d8147db44236bf) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33644793878)为 **success**，build 与 deploy 两个 job 均成功；179 条单元测试、137 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。首页太阳、河流、轨道图形分别使用 `sun-breathe`、`river-shimmer`、`orbit-drift-*`，地图区域使用递进 `map-region-draw` 描边入场，减少动效设置下恢复静态绘图；线上地图区域已确认 `pathLength="1"` 与递进延迟，页面根宽度与视口一致；生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
 2026-09-02 v0.3.97 发布复核：代码提交 [`5065795`](https://github.com/Minkelxy/ningxia-tourism/commit/5065795c0181f1fe6d33ace999944af57aab42fe) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33642990078)为 **success**，build 与 deploy 两个 job 均成功；179 条单元测试、135 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。景点筛选搜索输入在 320px、390px、1280px 下实际高度均为 44px，页面根宽度与视口一致；生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
