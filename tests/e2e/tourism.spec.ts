@@ -1681,6 +1681,130 @@ test('首页与搜索起始入口保持轻量反馈', async ({ page }) => {
   await expect(page).toHaveURL(new RegExp(`${appBase.replace(/[.*+?^${}()|[\\]\\]/g, '\\\\$&')}search$`));
 });
 
+test('收藏与搜索工具页按内容层级完成渐进绘图', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.addInitScript(() => {
+    window.localStorage.setItem('ningxia-tourism-favorites', JSON.stringify({
+      attraction: ['ningxiamuseum', 'shahu'],
+      route: ['classic-3day'],
+    }));
+  });
+  await page.goto(`${appBase}favorites`);
+  await expect(page.locator('.favorites-hero')).toBeVisible();
+  await expect(page.locator('.favorite-row').first()).toBeVisible();
+  const favoritesMotion = await page.evaluate(() => {
+    const first = <T extends Element>(selector: string) => document.querySelector<T>(selector);
+    const heroCopy = first<HTMLElement>('.favorites-hero .section-shell');
+    const title = first<HTMLElement>('.favorites-hero h1');
+    const toolbar = first<HTMLElement>('.favorites-toolbar');
+    const section = first<HTMLElement>('.favorites-section');
+    const row = first<HTMLElement>('.favorite-row');
+    return {
+      copyAnimation: heroCopy ? getComputedStyle(heroCopy).animationName : '',
+      titleInkAnimation: title ? getComputedStyle(title, '::after').animationName : '',
+      toolbarAnimation: toolbar ? getComputedStyle(toolbar).animationName : '',
+      sectionAnimation: section ? getComputedStyle(section).animationName : '',
+      rowAnimation: row ? getComputedStyle(row).animationName : '',
+    };
+  });
+  expect(favoritesMotion).toEqual({
+    copyAnimation: 'utility-copy-in',
+    titleInkAnimation: 'utility-title-ink',
+    toolbarAnimation: 'utility-toolbar-in',
+    sectionAnimation: 'utility-section-in',
+    rowAnimation: 'utility-row-in',
+  });
+
+  await page.goto(`${appBase}search`);
+  await expect(page.locator('.search-start')).toBeVisible();
+  const searchStartMotion = await page.evaluate(() => {
+    const first = <T extends Element>(selector: string) => document.querySelector<T>(selector);
+    const copy = first<HTMLElement>('.search-hero-grid > div:first-child');
+    const visual = first<HTMLElement>('.search-hero-visual');
+    const title = first<HTMLElement>('.search-hero h1');
+    const form = first<HTMLElement>('.site-search-form');
+    const hint = first<HTMLElement>('.search-hint');
+    const empty = first<HTMLElement>('.search-start');
+    const suggestion = first<HTMLElement>('.search-suggestions button');
+    return {
+      copyAnimation: copy ? getComputedStyle(copy).animationName : '',
+      visualAnimation: visual ? getComputedStyle(visual).animationName : '',
+      titleInkAnimation: title ? getComputedStyle(title, '::after').animationName : '',
+      formAnimation: form ? getComputedStyle(form).animationName : '',
+      hintAnimation: hint ? getComputedStyle(hint).animationName : '',
+      emptyAnimation: empty ? getComputedStyle(empty).animationName : '',
+      suggestionAnimation: suggestion ? getComputedStyle(suggestion).animationName : '',
+    };
+  });
+  expect(searchStartMotion).toEqual({
+    copyAnimation: 'utility-copy-in',
+    visualAnimation: 'utility-visual-in',
+    titleInkAnimation: 'utility-title-ink',
+    formAnimation: 'utility-form-in',
+    hintAnimation: 'utility-hint-in',
+    emptyAnimation: 'utility-empty-in',
+    suggestionAnimation: 'utility-suggestion-in',
+  });
+
+  await page.goto(`${appBase}search?q=沙漠`);
+  await expect(page.locator('.search-group').first()).toBeVisible();
+  const searchResultMotion = await page.evaluate(() => {
+    const first = <T extends Element>(selector: string) => document.querySelector<T>(selector);
+    const summary = first<HTMLElement>('.search-result-summary');
+    const group = first<HTMLElement>('.search-group');
+    const result = first<HTMLElement>('.search-group > div > span');
+    return {
+      summaryAnimation: summary ? getComputedStyle(summary).animationName : '',
+      groupAnimation: group ? getComputedStyle(group).animationName : '',
+      resultAnimation: result ? getComputedStyle(result).animationName : '',
+    };
+  });
+  expect(searchResultMotion).toEqual({
+    summaryAnimation: 'utility-summary-in',
+    groupAnimation: 'utility-group-in',
+    resultAnimation: 'utility-result-in',
+  });
+});
+
+test('收藏与搜索工具页减少动效时恢复静态绘图', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.addInitScript(() => {
+    window.localStorage.setItem('ningxia-tourism-favorites', JSON.stringify({
+      attraction: ['ningxiamuseum'],
+      route: ['classic-3day'],
+    }));
+  });
+  await page.goto(`${appBase}favorites`);
+  await expect(page.locator('.favorite-row').first()).toBeVisible();
+  const favoritesMotion = await page.evaluate(() => {
+    const selectors = ['.favorites-hero .section-shell', '.favorites-toolbar', '.favorites-section', '.favorite-row'];
+    const title = document.querySelector<HTMLElement>('.favorites-hero h1');
+    return {
+      animations: selectors.map((selector) => getComputedStyle(document.querySelector<HTMLElement>(selector) as HTMLElement).animationName),
+      titleInkAnimation: title ? getComputedStyle(title, '::after').animationName : '',
+      titleInkOpacity: title ? getComputedStyle(title, '::after').opacity : '',
+    };
+  });
+  expect(favoritesMotion.animations.every((animationName) => animationName === 'none')).toBe(true);
+  expect(favoritesMotion.titleInkAnimation).toBe('none');
+  expect(favoritesMotion.titleInkOpacity).toBe('0.84');
+
+  await page.goto(`${appBase}search?q=沙漠`);
+  await expect(page.locator('.search-group').first()).toBeVisible();
+  const searchMotion = await page.evaluate(() => {
+    const selectors = ['.search-hero-grid > div:first-child', '.search-hero-visual', '.site-search-form', '.search-hint', '.search-result-summary', '.search-group', '.search-group > div > span'];
+    const title = document.querySelector<HTMLElement>('.search-hero h1');
+    return {
+      animations: selectors.map((selector) => getComputedStyle(document.querySelector<HTMLElement>(selector) as HTMLElement).animationName),
+      titleInkAnimation: title ? getComputedStyle(title, '::after').animationName : '',
+      titleInkOpacity: title ? getComputedStyle(title, '::after').opacity : '',
+    };
+  });
+  expect(searchMotion.animations.every((animationName) => animationName === 'none')).toBe(true);
+  expect(searchMotion.titleInkAnimation).toBe('none');
+  expect(searchMotion.titleInkOpacity).toBe('0.84');
+});
+
 test('黄河楼专题说明资质变化并区分黄河坛', async ({ page }) => {
   await page.goto(`${appBase}journal/guide/huanghe-landmarks-difference`);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('黄河楼和黄河坛不是一处');
