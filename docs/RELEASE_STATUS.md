@@ -4,7 +4,7 @@
 
 ## 当前发布快照
 
-2026-09-03 v0.3.110 发布复核：待 GitHub Actions 完成后回填代码提交、工作流编号与最终测试统计。路线详情首屏、标题、事实信息、操作入口、日程导航、DAY 标记和资料侧栏按阅读顺序分层入场，DAY 标记增加轻量手绘环线；减少动效设置下恢复静态内容、层级与墨线，路线跳转、打印、分享、收藏和时间线行为不变。
+2026-09-03 v0.3.110 发布复核：代码提交 [`d08f28f`](https://github.com/Minkelxy/ningxia-tourism/commit/d08f28fa9b05709bca510eafc70aa968a364cfa0) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33667905913)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、157 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。路线详情首屏、标题、事实信息、操作入口、日程导航、DAY 标记和资料侧栏按阅读顺序分层入场，DAY 标记增加与地图节点统一的轻量手绘环线；减少动效设置下恢复静态内容、层级与墨线，路线跳转、打印、分享、收藏和时间线行为不变。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
 2026-09-03 v0.3.109 发布复核：代码提交 [`f63acdd`](https://github.com/Minkelxy/ningxia-tourism/commit/f63acdd68f0f676d4ffbc7bf78ad056259df3575) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33666055331)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、153 条 E2E 通过、13 条按端型跳过，Lighthouse 质量门禁通过。景点、美食与城市详情使用 `detail-hero-photo-in`、`detail-copy-in`、`detail-title-ink`、`detail-info-in` 和 `detail-side-in` 分层入场；景点/美食/五城列表卡片使用 `collection-card-in` 按阅读顺序错峰淡入，集合页视觉使用对应 hero 入场动画；减少动效设置下恢复静态内容、层级与墨线，内容、筛选、收藏、来源和链接行为不变。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
