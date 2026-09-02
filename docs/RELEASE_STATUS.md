@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.65 发布复核：代码提交 [`c51cb1a`](https://github.com/Minkelxy/ningxia-tourism/commit/c51cb1ab0646f189273a3a4d47bc0a57cac118f0) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33583948148)为 **success**；177 条单元测试、96 条 E2E 通过、4 条按端型跳过，旅行手记栏目在 320px 等窄屏下可横向浏览，Pages 状态为 built。
+
 2026-09-02 v0.3.64 发布复核：代码提交 [`7ad1c78`](https://github.com/Minkelxy/ningxia-tourism/commit/7ad1c78496d04930ed4696df955ac3aa458d34d3) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33582358926)为 **success**；177 条单元测试、94 条 E2E 通过、4 条按端型跳过，五城与路线比较表的“查看”操作入口统一保持至少 44×44px，Pages 状态为 built。
 
 2026-09-02 v0.3.63 发布复核：代码提交 [`ba312cd`](https://github.com/Minkelxy/ningxia-tourism/commit/ba312cdb2dde970405673b0e4c62dd7f1f9a5a67) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33581270355)为 **success**；177 条单元测试、94 条 E2E 通过、4 条按端型跳过，路线详情时间线中的停靠点名称入口统一保持至少 44px 触控高度，Pages 状态为 built。
