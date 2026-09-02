@@ -373,6 +373,30 @@ test('地图懒加载占位与正式画布保持同一视觉语言', async ({ pa
   expect(silhouette).toContain('polygon');
 });
 
+test('首页山河绘图与地图区域动效保持轻量并尊重减少动效设置', async ({ page }) => {
+  await page.goto(appBase);
+  const heroAnimations = await page.locator('.sun-disc, .river-ribbon, .hero-orbit-one, .hero-orbit-two').evaluateAll((elements) => elements.map((element) => getComputedStyle(element).animationName));
+  expect(heroAnimations.every((name) => name !== 'none')).toBe(true);
+
+  await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
+  const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
+  await expect(map.locator('.map-region').first()).toBeVisible();
+  const mapAnimation = await map.locator('.map-region').evaluateAll((elements) => ({
+    names: elements.slice(0, 3).map((element) => getComputedStyle(element).animationName),
+    delays: elements.slice(0, 3).map((element) => getComputedStyle(element).animationDelay),
+    pathLength: elements[0]?.getAttribute('pathLength'),
+  }));
+  expect(mapAnimation.names.every((name) => name === 'map-region-draw')).toBe(true);
+  expect(mapAnimation.delays[1]).not.toBe(mapAnimation.delays[0]);
+  expect(mapAnimation.pathLength).toBe('1');
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.reload();
+  await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
+  const reducedMotion = await page.locator('.sun-disc, .map-region').evaluateAll((elements) => elements.slice(0, 2).map((element) => getComputedStyle(element).animationName));
+  expect(reducedMotion.every((name) => name === 'none')).toBe(true);
+});
+
 test('地图支持键盘进入城市、选择区县和切换交通图层', async ({ page }) => {
   await page.goto(appBase);
   await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();

@@ -62,8 +62,9 @@ function MapRegionLayer({
           <path
             key={code || `${featureName(feature)}-${index}`}
             d={geometryToPath(feature, project)}
+            pathLength={1}
             className={classNames.join(' ')}
-            style={{ '--region-color': regionColor } as CSSProperties}
+            style={{ '--region-color': regionColor, '--map-region-index': index } as CSSProperties}
             tabIndex={0}
             role="button"
             aria-label={`${featureName(feature)}，按回车进入`}
