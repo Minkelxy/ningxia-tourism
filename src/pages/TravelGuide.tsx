@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { ArrowRight, BadgeCheck, CalendarCheck2, Check, CircleHelp, ExternalLink, MapPin, RefreshCcw, Route, ShieldCheck, SunMedium, TrainFront } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
@@ -45,26 +45,26 @@ export default function TravelGuide() {
       <div className="section-shell guide-page">
         <section id="guide-seasons" className="guide-section" aria-labelledby="guide-seasons-title">
           <div className="section-heading split-heading"><div><p className="eyebrow">01 · 什么时候来</p><h2 id="guide-seasons-title">四季都能走，重点不同</h2></div><p>季节建议来自宁夏文旅与地方政府网络资料；具体花期、天气和活动仍要在出发前再次确认。</p></div>
-          <div className="season-grid">{seasonGuides.map((season) => <article key={season.id} className={`season-card season-${season.id}`}><div className="season-card-top"><span>{season.months}</span><SunMedium aria-hidden="true" /></div><h3>{season.title}</h3><p>{season.summary}</p><div className="season-tags">{season.suitableFor.map((item) => <span key={item}>{item}</span>)}</div><div className="season-reminder"><CircleHelp aria-hidden="true" /><p>{season.reminder}</p></div><a className="source-link" href={season.source.url} target="_blank" rel="noreferrer">查看参考资料 <ExternalLink aria-hidden="true" /></a></article>)}</div>
+          <div className="season-grid">{seasonGuides.map((season, index) => <article key={season.id} className={`season-card season-${season.id}`} style={{ '--guide-card-index': index, '--guide-card-delay': `${index * 75}ms` } as CSSProperties}><div className="season-card-top"><span>{season.months}</span><SunMedium aria-hidden="true" /></div><h3>{season.title}</h3><p>{season.summary}</p><div className="season-tags">{season.suitableFor.map((item) => <span key={item}>{item}</span>)}</div><div className="season-reminder"><CircleHelp aria-hidden="true" /><p>{season.reminder}</p></div><a className="source-link" href={season.source.url} target="_blank" rel="noreferrer">查看参考资料 <ExternalLink aria-hidden="true" /></a></article>)}</div>
         </section>
 
         <section className="guide-section" aria-labelledby="guide-duration-title">
           <div className="section-heading split-heading"><div><p className="eyebrow">02 · 准备几天</p><h2 id="guide-duration-title">先用天数压缩选择</h2></div><p>不用一次读完 {routes.length} 条路线。选择可支配天数，再比较主题、预算和资料覆盖情况。</p></div>
           <div className="duration-grid">{[1, 2, 3, 4, 5].map((days) => {
             const matchedRoutes = routes.filter((route) => route.durationDays === days);
-            return <Link key={days} to={`/routes?duration=${days}`} className="duration-card"><span>0{days}</span><div><strong>{days === 1 ? '一天也能认识宁夏' : `${days} 天行程`}</strong><small>{matchedRoutes.map((route) => route.name).join(' · ')}</small></div><ArrowRight aria-hidden="true" /></Link>;
+            return <Link key={days} to={`/routes?duration=${days}`} className="duration-card" style={{ '--guide-card-index': days - 1, '--guide-card-delay': `${(days - 1) * 75}ms` } as CSSProperties}><span>0{days}</span><div><strong>{days === 1 ? '一天也能认识宁夏' : `${days} 天行程`}</strong><small>{matchedRoutes.map((route) => route.name).join(' · ')}</small></div><ArrowRight aria-hidden="true" /></Link>;
           })}</div>
         </section>
 
         <section className="guide-section guide-transit-section" aria-labelledby="guide-transit-title">
           <div className="section-heading split-heading"><div><p className="eyebrow">03 · 城市怎么串</p><h2 id="guide-transit-title">铁路连主城，公路进景区</h2></div><p>不写死车次与分钟数，只给更稳定的衔接原则。出发日仍以购票平台和实时导航为准。</p></div>
-          <div className="transit-flow">{transportNotes.map((item, index) => <article key={item.title}><span>{String(index + 1).padStart(2, '0')}</span><div className="transit-icon">{index === 1 ? <TrainFront aria-hidden="true" /> : index === 2 ? <Route aria-hidden="true" /> : <MapPin aria-hidden="true" />}</div><h3>{item.title}</h3><p>{item.text}</p></article>)}</div>
+          <div className="transit-flow">{transportNotes.map((item, index) => <article key={item.title} style={{ '--guide-flow-index': index, '--guide-flow-delay': `${index * 82}ms` } as CSSProperties}><span>{String(index + 1).padStart(2, '0')}</span><div className="transit-icon">{index === 1 ? <TrainFront aria-hidden="true" /> : index === 2 ? <Route aria-hidden="true" /> : <MapPin aria-hidden="true" />}</div><h3>{item.title}</h3><p>{item.text}</p></article>)}</div>
         </section>
 
         <section className="guide-section preparation-grid" aria-labelledby="guide-checklist-title">
           <div className="checklist-card">
             <div className="checklist-heading"><div><p className="eyebrow">04 · 出发前检查</p><h2 id="guide-checklist-title">一份保存在本机的清单</h2></div><div className="checklist-progress" role="progressbar" aria-label={`行前清单进度：已完成 ${completed} 项，共 ${travelChecklist.length} 项`} aria-valuetext={`已完成 ${completed} 项，共 ${travelChecklist.length} 项`} aria-valuemin={0} aria-valuemax={travelChecklist.length} aria-valuenow={completed}><strong>{completed}/{travelChecklist.length}</strong><span><i style={{ width: `${progress}%` }} /></span></div></div>
-            <div className="travel-checklist">{travelChecklist.map((item, index) => <label key={item} className={checkedItems.includes(index) ? 'checked' : ''}><input type="checkbox" checked={checkedItems.includes(index)} onChange={() => toggleChecklistItem(index)} /><span><Check aria-hidden="true" /></span><strong>{item}</strong></label>)}</div>
+            <div className="travel-checklist">{travelChecklist.map((item, index) => <label key={item} className={checkedItems.includes(index) ? 'checked' : ''} style={{ '--guide-checklist-index': index } as CSSProperties}><input type="checkbox" checked={checkedItems.includes(index)} onChange={() => toggleChecklistItem(index)} /><span><Check aria-hidden="true" /></span><strong>{item}</strong></label>)}</div>
             <button type="button" className="checklist-reset" onClick={() => setCheckedItems([])} disabled={completed === 0}><RefreshCcw aria-hidden="true" /> 重置清单</button>
             <p className="local-note"><ShieldCheck aria-hidden="true" /> 勾选结果只保存在当前浏览器，不会上传或获取你的位置。</p>
           </div>

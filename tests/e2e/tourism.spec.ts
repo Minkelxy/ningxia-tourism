@@ -1181,6 +1181,83 @@ test('深色头图操作状态保持高对比', async ({ page }) => {
   await expect(guideQuiet).toHaveCSS('box-shadow', /rgba\(8, 25, 20, 0\.22\)/);
 });
 
+test('行前指南按阅读顺序完成错峰绘图', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto(`${appBase}guide`);
+  await expect(page.locator('.season-card').first()).toBeVisible();
+  const motion = await page.evaluate(() => {
+    const seasonCard = document.querySelector('.season-card');
+    const seasonTitle = seasonCard?.querySelector('h3');
+    const durationCard = document.querySelector('.duration-card');
+    const durationTitle = durationCard?.querySelector('strong');
+    const transitFlow = document.querySelector('.transit-flow');
+    const transitItem = document.querySelector('.transit-flow article');
+    const transitIcon = document.querySelector('.transit-icon');
+    return {
+      seasonAnimation: seasonCard ? getComputedStyle(seasonCard).animationName : '',
+      seasonIndex: seasonCard?.style.getPropertyValue('--guide-card-index'),
+      seasonTitleAnimation: seasonTitle ? getComputedStyle(seasonTitle, '::after').animationName : '',
+      durationAnimation: durationCard ? getComputedStyle(durationCard).animationName : '',
+      durationIndex: durationCard?.style.getPropertyValue('--guide-card-index'),
+      durationTitleAnimation: durationTitle ? getComputedStyle(durationTitle, '::after').animationName : '',
+      transitLineAnimation: transitFlow ? getComputedStyle(transitFlow, '::before').animationName : '',
+      transitItemAnimation: transitItem ? getComputedStyle(transitItem).animationName : '',
+      transitIndex: transitItem?.style.getPropertyValue('--guide-flow-index'),
+      transitIconAnimation: transitIcon ? getComputedStyle(transitIcon).animationName : '',
+    };
+  });
+  expect(motion.seasonAnimation).toBe('guide-card-in');
+  expect(motion.seasonIndex).toBe('0');
+  expect(motion.seasonTitleAnimation).toBe('guide-card-title-ink');
+  expect(motion.durationAnimation).toBe('guide-card-in');
+  expect(motion.durationIndex).toBe('0');
+  expect(motion.durationTitleAnimation).toBe('guide-card-title-ink');
+  expect(['guide-transit-line-draw', 'guide-transit-line-draw-vertical']).toContain(motion.transitLineAnimation);
+  expect(motion.transitItemAnimation).toBe('guide-flow-in');
+  expect(motion.transitIndex).toBe('0');
+  expect(motion.transitIconAnimation).toBe('guide-flow-icon-stamp');
+
+  const checklistItem = page.getByRole('checkbox', { name: '核对身份证件、往返车票与入住日期' });
+  await checklistItem.check();
+  await expect(page.locator('.travel-checklist label.checked svg').first()).toHaveCSS('animation-name', 'guide-check-draw');
+});
+
+test('行前指南减少动效时恢复静态绘图', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(`${appBase}guide`);
+  const checklistItem = page.getByRole('checkbox', { name: '核对身份证件、往返车票与入住日期' });
+  await checklistItem.check();
+  const motion = await page.evaluate(() => {
+    const seasonCard = document.querySelector('.season-card');
+    const seasonTitle = seasonCard?.querySelector('h3');
+    const transitFlow = document.querySelector('.transit-flow');
+    const transitIcon = document.querySelector('.transit-icon');
+    const checkedMark = document.querySelector('.travel-checklist label.checked svg');
+    return {
+      cardAnimation: seasonCard ? getComputedStyle(seasonCard).animationName : '',
+      cardOpacity: seasonCard ? getComputedStyle(seasonCard).opacity : '',
+      titleAnimation: seasonTitle ? getComputedStyle(seasonTitle, '::after').animationName : '',
+      titleOpacity: seasonTitle ? getComputedStyle(seasonTitle, '::after').opacity : '',
+      lineAnimation: transitFlow ? getComputedStyle(transitFlow, '::before').animationName : '',
+      lineTransform: transitFlow ? getComputedStyle(transitFlow, '::before').transform : '',
+      itemAnimation: transitFlow?.querySelector('article') ? getComputedStyle(transitFlow.querySelector('article') as HTMLElement).animationName : '',
+      iconAnimation: transitIcon ? getComputedStyle(transitIcon).animationName : '',
+      checkAnimation: checkedMark ? getComputedStyle(checkedMark).animationName : '',
+    };
+  });
+  expect(motion).toMatchObject({
+    cardAnimation: 'none',
+    cardOpacity: '1',
+    titleAnimation: 'none',
+    titleOpacity: '0.82',
+    lineAnimation: 'none',
+    lineTransform: 'none',
+    itemAnimation: 'none',
+    iconAnimation: 'none',
+    checkAnimation: 'none',
+  });
+});
+
 test('轻量文字操作状态与全站交互色保持一致', async ({ page }) => {
   await page.goto(`${appBase}routes?city=shizuishan`);
   const routeClear = page.getByRole('button', { name: '清除筛选' });

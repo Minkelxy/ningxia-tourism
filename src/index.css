@@ -886,8 +886,9 @@ button { color: inherit; }
 .guide-hero { position: relative; overflow: hidden; padding: 92px 0 82px; background: #203f35; color: #fff; }
 .guide-hero::before { content: ""; position: absolute; width: 420px; height: 420px; right: -90px; top: -190px; border: 1px solid rgba(232,191,118,.35); border-radius: 50%; box-shadow: 0 0 0 50px rgba(232,191,118,.045), 0 0 0 105px rgba(232,191,118,.035); }
 .guide-hero-grid { position: relative; display: grid; grid-template-columns: 1.2fr .8fr; gap: 80px; align-items: center; }
+.guide-hero-grid > div:first-child { animation: guide-copy-in .62s cubic-bezier(.22,.8,.26,1) both; }
 .guide-hero-side { display: grid; gap: 18px; }
-.guide-hero-visual { position: relative; min-height: 238px; overflow: hidden; border: 10px solid rgba(255,255,255,.16); border-radius: 8px 26px 8px 26px; background: #18372d; box-shadow: 0 18px 55px rgba(8,25,20,.24); transform: rotate(2deg); }
+.guide-hero-visual { position: relative; min-height: 238px; overflow: hidden; border: 10px solid rgba(255,255,255,.16); border-radius: 8px 26px 8px 26px; background: #18372d; box-shadow: 0 18px 55px rgba(8,25,20,.24); transform: rotate(2deg); animation: guide-visual-in .68s cubic-bezier(.22,.8,.26,1) .14s both; }
 .guide-hero-visual picture, .guide-hero-visual img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .guide-hero-visual::after { position: absolute; inset: 0; content: ''; background: linear-gradient(180deg, rgba(8,25,20,0) 40%, rgba(8,25,20,.56) 100%); pointer-events: none; }
 .guide-hero-visual > span { position: absolute; z-index: 1; left: 16px; bottom: 16px; padding: 6px 10px; border-radius: 999px; background: rgba(31,57,47,.88); color: #fff; font-size: .68rem; font-weight: 800; letter-spacing: .04em; }
@@ -897,14 +898,14 @@ button { color: inherit; }
 .guide-hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
 .guide-hero .btn-primary { background: #e2b86f; color: #231e16; }
 .guide-hero .btn-quiet { border-color: rgba(255,255,255,.3); background: rgba(255,255,255,.06); color: #fff; box-shadow: 0 7px 20px rgba(8,25,20,.16); }
-.guide-hero-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; overflow: hidden; border: 1px solid rgba(255,255,255,.14); border-radius: 22px; background: rgba(255,255,255,.14); }
+.guide-hero-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; overflow: hidden; border: 1px solid rgba(255,255,255,.14); border-radius: 22px; background: rgba(255,255,255,.14); animation: guide-summary-in .55s cubic-bezier(.22,.8,.26,1) .28s both; }
 .guide-hero-summary div { min-height: 118px; display: flex; flex-direction: column-reverse; justify-content: center; padding: 20px; background: rgba(24,51,43,.84); }
 .guide-hero-summary dt { margin-top: 6px; color: rgba(255,255,255,.58); font-size: .72rem; }
 .guide-hero-summary dd { margin: 0; color: #f2cf91; font-family: var(--serif); font-size: 2.1rem; font-weight: 800; }
 .guide-page { padding-block: 80px 110px; }
 .guide-section + .guide-section { margin-top: 100px; }
 .season-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 32px; }
-.season-card { display: flex; flex-direction: column; min-height: 470px; padding: 26px; border: 1px solid var(--line); border-radius: 23px; background: var(--card); box-shadow: 0 12px 35px rgba(66,48,23,.055); }
+.season-card { position: relative; display: flex; flex-direction: column; min-height: 470px; padding: 26px; border: 1px solid var(--line); border-radius: 23px; background: var(--card); box-shadow: 0 12px 35px rgba(66,48,23,.055); animation: guide-card-in .48s cubic-bezier(.22,.8,.26,1) calc(220ms + var(--guide-card-delay, 0ms)) both; }
 .season-card-top { display: flex; justify-content: space-between; align-items: center; }
 .season-card-top span { padding: 7px 10px; border-radius: 999px; background: #e8dfd0; color: var(--green); font-size: .72rem; font-weight: 800; }
 .season-card-top svg { width: 25px; color: var(--sand-dark); }
@@ -912,7 +913,8 @@ button { color: inherit; }
 .season-summer { background: linear-gradient(160deg, #f8f4ec, #e2efe9); }
 .season-autumn { background: linear-gradient(160deg, #f8f4ec, #f3e3c7); }
 .season-winter { background: linear-gradient(160deg, #f8f4ec, #e6eced); }
-.season-card h3 { margin: 24px 0 12px; font-size: 1.6rem; }
+.season-card h3 { position: relative; width: fit-content; max-width: 100%; margin: 24px 0 12px; font-size: 1.6rem; }
+.season-card h3::after, .duration-card strong::after { position: absolute; left: 0; bottom: -5px; width: 92%; height: 2px; content: ''; background: linear-gradient(90deg, rgba(169,69,53,.64), rgba(200,157,77,.18)); opacity: 0; transform: scaleX(0); transform-origin: left; animation: guide-card-title-ink .4s cubic-bezier(.22,.8,.26,1) calc(430ms + var(--guide-card-delay, 0ms)) both; }
 .season-card > p { color: var(--muted); font-size: .86rem; }
 .season-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; }
 .season-tags span { padding: 5px 8px; border-radius: 999px; background: rgba(255,255,255,.75); color: var(--green); font-size: .67rem; font-weight: 750; }
@@ -922,22 +924,22 @@ button { color: inherit; }
 .season-card > a:hover, .season-card > a:focus-visible { background: #eef3ed; color: var(--red); }
 .season-card > a svg { width: 14px; }
 .duration-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 30px; }
-.duration-card { min-height: 190px; display: flex; flex-direction: column; padding: 21px; border: 1px solid var(--line); border-radius: 19px; background: #fff; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.duration-card { position: relative; min-height: 190px; display: flex; flex-direction: column; padding: 21px; border: 1px solid var(--line); border-radius: 19px; background: #fff; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; animation: guide-card-in .48s cubic-bezier(.22,.8,.26,1) calc(220ms + var(--guide-card-delay, 0ms)) both; }
 .duration-card:hover, .duration-card:focus-visible { transform: translateY(-4px); border-color: rgba(49,95,79,.28); box-shadow: var(--shadow); }
 .duration-card > span { color: var(--red); font-family: var(--serif); font-size: 2.4rem; font-weight: 800; }
 .duration-card > div { margin-top: auto; }
 .duration-card strong, .duration-card small { display: block; }
-.duration-card strong { font-family: var(--serif); }
+.duration-card strong { position: relative; width: fit-content; max-width: 100%; font-family: var(--serif); }
 .duration-card small { min-height: 38px; margin-top: 7px; color: var(--muted); font-size: .67rem; line-height: 1.4; }
 .duration-card > svg { align-self: flex-end; width: 19px; margin-top: 12px; color: var(--green); }
 .guide-transit-section { padding: clamp(30px, 5vw, 58px); border-radius: 30px; background: #e8dfd0; }
 .guide-transit-section .eyebrow { color: #963b2e; }
 .guide-transit-section .section-heading > p, .guide-transit-section .transit-flow p { color: #5c5951; }
 .transit-flow { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 38px; }
-.transit-flow::before { content: ""; position: absolute; left: 15%; right: 15%; top: 47px; border-top: 1px dashed #a98850; }
-.transit-flow article { position: relative; z-index: 1; padding: 0 18px 20px; text-align: center; }
+.transit-flow::before { content: ""; position: absolute; left: 15%; right: 15%; top: 47px; border-top: 1px dashed #a98850; transform: scaleX(0); transform-origin: left; animation: guide-transit-line-draw .72s cubic-bezier(.22,.8,.26,1) .34s both; }
+.transit-flow article { position: relative; z-index: 1; padding: 0 18px 20px; text-align: center; animation: guide-flow-in .42s cubic-bezier(.22,.8,.26,1) calc(450ms + var(--guide-flow-delay, 0ms)) both; }
 .transit-flow article > span { position: absolute; right: 12px; top: 4px; color: rgba(90,66,34,.25); font-family: var(--serif); font-size: 2.1rem; font-weight: 800; }
-.transit-icon { width: 58px; height: 58px; display: grid; place-items: center; margin: 18px auto 22px; border: 8px solid #e8dfd0; border-radius: 50%; background: var(--green); color: #fff; }
+.transit-icon { width: 58px; height: 58px; display: grid; place-items: center; margin: 18px auto 22px; border: 8px solid #e8dfd0; border-radius: 50%; background: var(--green); color: #fff; animation: guide-flow-icon-stamp .42s cubic-bezier(.22,.8,.26,1) calc(570ms + var(--guide-flow-delay, 0ms)) both; }
 .transit-icon svg { width: 22px; }
 .transit-flow h3 { margin-bottom: 9px; font-size: 1.3rem; }
 .transit-flow p { color: var(--muted); font-size: .82rem; }
@@ -959,6 +961,7 @@ button { color: inherit; }
 .travel-checklist label > span { width: 25px; height: 25px; display: grid; place-items: center; border: 1px solid #b9aa92; border-radius: 7px; color: transparent; }
 .travel-checklist label.checked > span { border-color: var(--green); background: var(--green); color: #fff; }
 .travel-checklist label > span svg { width: 15px; }
+.travel-checklist label.checked > span svg { stroke-dasharray: 24; stroke-dashoffset: 24; animation: guide-check-draw .32s ease-out both; }
 .travel-checklist label > strong { font-size: .76rem; line-height: 1.45; }
 .checklist-reset { min-height: 44px; display: inline-flex; align-items: center; gap: 7px; margin-top: 18px; border: 0; background: none; color: var(--red); font-weight: 750; cursor: pointer; }
 .checklist-reset:hover:not(:disabled), .checklist-reset:focus-visible:not(:disabled) { color: var(--green); }
@@ -1087,6 +1090,16 @@ button { color: inherit; }
 @keyframes hero-mountain-front-in { from { opacity: 0; transform: translateY(32px) scaleX(1.08); } to { opacity: 1; transform: translateY(0) scaleX(1.12); } }
 @keyframes hero-seal-stamp { from { opacity: 0; transform: rotate(-3deg) scale(.86) translateY(12px); } to { opacity: 1; transform: rotate(-3deg) scale(1) translateY(0); } }
 @keyframes hero-scroll-cue-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes guide-copy-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes guide-visual-in { from { opacity: 0; transform: rotate(2deg) translateY(14px) scale(.98); } to { opacity: 1; transform: rotate(2deg) translateY(0) scale(1); } }
+@keyframes guide-summary-in { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes guide-card-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes guide-card-title-ink { from { opacity: 0; transform: scaleX(0); } to { opacity: .82; transform: scaleX(1); } }
+@keyframes guide-transit-line-draw { from { opacity: 0; transform: scaleX(0); } to { opacity: 1; transform: scaleX(1); } }
+@keyframes guide-transit-line-draw-vertical { from { opacity: 0; transform: scaleY(0); } to { opacity: 1; transform: scaleY(1); } }
+@keyframes guide-flow-in { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes guide-flow-icon-stamp { from { opacity: 0; transform: scale(.72) rotate(-8deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+@keyframes guide-check-draw { from { stroke-dashoffset: 24; } to { stroke-dashoffset: 0; } }
 @keyframes map-region-draw { from { opacity: 0; stroke-dashoffset: 1; transform: translateY(6px) scale(.985); } to { opacity: 1; stroke-dashoffset: 0; transform: translateY(0) scale(1); } }
 @keyframes map-region-emphasis-draw { from { opacity: 0; stroke-dashoffset: 1; } to { opacity: .94; stroke-dashoffset: 0; } }
 @keyframes map-layer-pop-in { from { opacity: 0; transform: scale(.72); } to { opacity: 1; transform: scale(1); } }
@@ -1262,7 +1275,7 @@ button { color: inherit; }
   .season-card { min-height: auto; }
   .duration-card { min-height: 150px; }
   .transit-flow { grid-template-columns: 1fr; }
-  .transit-flow::before { top: 20px; bottom: 20px; left: 47px; right: auto; border-top: 0; border-left: 1px dashed #a98850; }
+  .transit-flow::before { top: 20px; bottom: 20px; left: 47px; right: auto; border-top: 0; border-left: 1px dashed #a98850; transform: scaleY(0); transform-origin: top; animation-name: guide-transit-line-draw-vertical; }
   .transit-flow article { display: grid; grid-template-columns: 58px 1fr; gap: 5px 18px; padding: 0; text-align: left; }
   .transit-icon { grid-row: 1 / 4; margin: 0; }
   .transit-flow article > span { display: none; }
@@ -1388,12 +1401,16 @@ button { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  .hero-orbit-one, .hero-orbit-two, .sun-disc, .river-ribbon, .mountain-back, .mountain-front, .hero-seal, .scroll-cue, .map-region, .map-region-emphasis, .map-attraction.is-selected .marker-dot, .map-attraction .marker-ink-ring, .map-viewport, .map-label__glyph, .map-attraction-glyph, .map-food-glyph, .map-government-glyph, .map-hub-glyph, .route-stops::before, .route-stop, .stop-number::after, .home-route-match, .home-route-match h3::after { animation: none !important; transition: none !important; }
+  .hero-orbit-one, .hero-orbit-two, .sun-disc, .river-ribbon, .mountain-back, .mountain-front, .hero-seal, .scroll-cue, .map-region, .map-region-emphasis, .map-attraction.is-selected .marker-dot, .map-attraction .marker-ink-ring, .map-viewport, .map-label__glyph, .map-attraction-glyph, .map-food-glyph, .map-government-glyph, .map-hub-glyph, .route-stops::before, .route-stop, .stop-number::after, .home-route-match, .home-route-match h3::after, .guide-hero-grid > div:first-child, .guide-hero-visual, .guide-hero-summary, .season-card, .season-card h3::after, .duration-card, .duration-card strong::after, .transit-flow::before, .transit-flow article, .transit-icon, .travel-checklist label.checked > span svg { animation: none !important; transition: none !important; }
   .map-region { opacity: 1; stroke-dasharray: none; stroke-dashoffset: 0; transform: none; }
   .map-region-emphasis { opacity: .94; stroke-dasharray: none; stroke-dashoffset: 0; }
   .map-attraction .marker-ink-ring { opacity: .7; stroke-dasharray: none; stroke-dashoffset: 0; transform: scale(1) rotate(8deg); }
   .home-route-match { opacity: 1; transform: none; }
   .home-route-match h3::after { opacity: .82; transform: scaleX(1); }
+  .guide-hero-grid > div:first-child, .guide-hero-visual, .guide-hero-summary, .season-card, .duration-card, .transit-flow article, .transit-icon { opacity: 1; transform: none; }
+  .season-card h3::after, .duration-card strong::after { opacity: .82; transform: scaleX(1); }
+  .transit-flow::before { opacity: 1; transform: none; }
+  .travel-checklist label.checked > span svg { stroke-dasharray: none; stroke-dashoffset: 0; }
   .map-label__glyph, .map-attraction-glyph, .map-food-glyph, .map-government-glyph, .map-hub-glyph { opacity: 1; transform: none; }
   .route-stops::before { transform: scaleY(1); }
   .route-stop { opacity: 1; transform: none; }
