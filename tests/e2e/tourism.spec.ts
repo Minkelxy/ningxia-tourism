@@ -441,6 +441,14 @@ test('城市详情和路线详情可直接访问', async ({ page }) => {
   await stopMapLink.hover();
   await expect(stopMapLink).toHaveCSS('color', 'rgb(169, 69, 53)');
   await expect(stopMapLink.locator('svg').last()).not.toHaveCSS('transform', 'none');
+
+  await page.goto(`${appBase}food/shouzhua-yangrou`);
+  const foodShareButton = page.locator('.food-detail-actions .btn-quiet');
+  await expect(foodShareButton).toHaveCSS('background-color', 'rgba(255, 255, 255, 0.7)');
+  await expect(foodShareButton).toHaveCSS('color', 'rgb(36, 35, 31)');
+  await foodShareButton.hover();
+  await expect(foodShareButton).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+  await expect(foodShareButton).toHaveCSS('color', 'rgb(36, 35, 31)');
 });
 
 test('路线日程深链接会定位到对应天数', async ({ page }) => {

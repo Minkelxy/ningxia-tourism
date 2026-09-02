@@ -36,7 +36,7 @@ export default function FoodDetail() {
               <p className="eyebrow"><UtensilsCrossed aria-hidden="true" /> {foodCategoryLabels[food.category]}</p>
               <h1>{food.name}</h1>
               <p><MapPin aria-hidden="true" /> 产地：{food.origin}{food.verificationLevel === 'verified' ? ' · 已核实' : ' · 待复核'}</p>
-              <div className="route-detail-actions"><button type="button" className="btn-quiet" onClick={handleShare}><Share2 aria-hidden="true" /> 分享美食</button></div>
+              <div className="food-detail-actions"><button type="button" className="btn-quiet" onClick={handleShare}><Share2 aria-hidden="true" /> 分享美食</button></div>
             </div>
             <div className="food-detail-visual">
               <ResponsiveImage src={food.image.src} alt={food.image.alt} width="720" height="480" loading="eager" fetchPriority="high" sizes="(max-width: 768px) 100vw, 42vw" />

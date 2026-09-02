@@ -266,6 +266,7 @@ button { color: inherit; }
 .food-detail-hero { padding-block: 64px; }
 .food-detail-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, .72fr); align-items: center; gap: 54px; }
 .food-detail-hero-grid > div:first-child { position: relative; z-index: 1; }
+.food-detail-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
 .food-detail-visual { position: relative; min-height: 300px; overflow: hidden; border: 10px solid rgba(255,255,255,.72); border-radius: 24px 6px 24px 6px; background: var(--paper-deep); box-shadow: var(--shadow); transform: rotate(2deg); }
 .food-detail-visual picture, .food-detail-visual img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .food-detail-visual > span { position: absolute; left: 16px; bottom: 16px; padding: 6px 10px; border-radius: 999px; background: rgba(31,57,47,.88); color: #fff; font-size: .68rem; font-weight: 800; letter-spacing: .04em; }
