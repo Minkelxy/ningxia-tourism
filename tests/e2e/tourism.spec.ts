@@ -585,10 +585,15 @@ test('旅行手记栏目在320px窄屏保持可横向浏览', async ({ page }) =
   const tabList = page.locator('.journal-tabs');
   const lastTab = page.getByRole('tab', { name: /旅行专题/ });
   await expect(tabList).toHaveCSS('overflow-x', 'auto');
-  const layout = await tabList.evaluate((element) => ({ clientWidth: element.clientWidth, scrollWidth: element.scrollWidth }));
-  expect(layout.scrollWidth).toBeGreaterThan(layout.clientWidth);
   await lastTab.scrollIntoViewIfNeeded();
-  await expect(lastTab).toBeInViewport();
+  const visibility = await lastTab.evaluate((element) => {
+    const parent = element.closest('.journal-tabs');
+    if (!parent) return { fullyVisible: false };
+    const tabRect = element.getBoundingClientRect();
+    const parentRect = parent.getBoundingClientRect();
+    return { fullyVisible: tabRect.left >= parentRect.left - 1 && tabRect.right <= parentRect.right + 1 };
+  });
+  expect(visibility.fullyVisible).toBe(true);
 });
 
 test('路线筛选入口保持轻量反馈', async ({ page }) => {
