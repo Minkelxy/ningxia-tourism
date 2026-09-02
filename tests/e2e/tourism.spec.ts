@@ -423,6 +423,59 @@ test('首页路线结果减少动效时保持静态内容与墨线', async ({ pa
   expect(motion).toEqual({ cardAnimation: 'none', cardOpacity: '1', titleAnimation: 'none', titleOpacity: '0.82' });
 });
 
+test('首页中段按区块、标题和内容卡片顺序渐进绘图', async ({ page }) => {
+  await page.goto(appBase);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('宁夏');
+  const motion = await page.evaluate(() => ({
+    sectionHeading: getComputedStyle(document.querySelector('.section-heading') as HTMLElement).animationName,
+    sectionInk: getComputedStyle(document.querySelector('.section-heading h2') as HTMLElement, '::after').animationName,
+    routeFinder: getComputedStyle(document.querySelector('.home-route-finder') as HTMLElement).animationName,
+    routeHeading: getComputedStyle(document.querySelector('.home-route-finder > .split-heading') as HTMLElement).animationName,
+    dayPicker: getComputedStyle(document.querySelector('.home-day-picker') as HTMLElement).animationName,
+    routeResults: getComputedStyle(document.querySelector('.home-route-results') as HTMLElement).animationName,
+    topicHeader: getComputedStyle(document.querySelector('.home-topics > header') as HTMLElement).animationName,
+    topicCards: [...document.querySelectorAll('.home-topic-card')].map((element) => getComputedStyle(element).animationName),
+    topicDelays: [...document.querySelectorAll('.home-topic-card')].map((element) => getComputedStyle(element).animationDelay),
+    topicFooter: getComputedStyle(document.querySelector('.home-topics-footer') as HTMLElement).animationName,
+    guideTeaser: getComputedStyle(document.querySelector('.home-guide-teaser') as HTMLElement).animationName,
+    guideCopy: getComputedStyle(document.querySelector('.home-guide-teaser > div:first-child') as HTMLElement).animationName,
+    guidePoints: [...document.querySelectorAll('.home-guide-points article')].map((element) => getComputedStyle(element).animationName),
+    journal: getComputedStyle(document.querySelector('.journal-home-card') as HTMLElement).animationName,
+    note: getComputedStyle(document.querySelector('.verification-note') as HTMLElement).animationName,
+  }));
+  expect(motion).toMatchObject({
+    sectionHeading: 'home-copy-in',
+    sectionInk: 'home-section-title-ink',
+    routeFinder: 'home-section-in',
+    routeHeading: 'home-copy-in',
+    dayPicker: 'home-control-in',
+    routeResults: 'home-section-in',
+    topicHeader: 'home-copy-in',
+    topicCards: ['home-card-in', 'home-card-in', 'home-card-in'],
+    topicFooter: 'home-action-in',
+    guideTeaser: 'home-section-in',
+    guideCopy: 'home-copy-in',
+    guidePoints: ['home-card-in', 'home-card-in', 'home-card-in'],
+    journal: 'home-section-in',
+    note: 'home-note-in',
+  });
+  expect(motion.topicDelays).toEqual(['0.14s', '0.22s', '0.3s']);
+});
+
+test('首页中段减少动效时恢复静态绘图', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(appBase);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('宁夏');
+  const motion = await page.evaluate(() => ({
+    elements: [...document.querySelectorAll('.section-heading, .home-route-finder, .home-route-finder > .split-heading, .home-day-picker, .home-route-results, .home-route-result-heading, .home-topic-card, .home-topics > header, .home-topics-footer, .home-guide-teaser, .home-guide-teaser > div:first-child, .home-guide-points article, .journal-home-card, .verification-note')].map((element) => getComputedStyle(element).animationName),
+    inks: [...document.querySelectorAll('.section-heading h2, .home-route-finder h2, .home-topics > header h2, .home-guide-teaser h2, .journal-home-card h2')].map((element) => getComputedStyle(element, '::after').animationName),
+    inkOpacity: getComputedStyle(document.querySelector('.home-topics > header h2') as HTMLElement, '::after').opacity,
+  }));
+  expect(motion.elements.every((name) => name === 'none')).toBe(true);
+  expect(motion.inks.every((name) => name === 'none')).toBe(true);
+  expect(motion.inkOpacity).toBe('0.76');
+});
+
 test('地图懒加载占位与正式画布保持同一视觉语言', async ({ page }) => {
   await page.addInitScript(() => {
     Object.defineProperty(window, 'IntersectionObserver', {
