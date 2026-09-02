@@ -141,6 +141,33 @@ test('桌面端首页旅行专题卡片行动入口保持底部对齐', async ({
   expect(Math.max(...bottoms) - Math.min(...bottoms)).toBeLessThanOrEqual(1);
 });
 
+test('桌面端旅行手记卡片按行保持行动入口底部对齐', async ({ page }) => {
+  if ((page.viewportSize()?.width ?? 999) <= 768) test.skip();
+  await page.goto(`${appBase}journal`);
+  const cards = page.locator('.journal-card');
+  await expect(cards.first()).toBeVisible();
+  const bottoms = await cards.evaluateAll((elements) => elements.map((element) => element.querySelector('.text-link')?.getBoundingClientRect().bottom ?? 0));
+  expect(bottoms.length).toBeGreaterThan(1);
+  for (let index = 0; index + 1 < bottoms.length; index += 2) {
+    expect(Math.abs(bottoms[index] - bottoms[index + 1])).toBeLessThanOrEqual(1);
+  }
+});
+
+test('移动端旅行手记卡片保持单列与页面宽度', async ({ page }) => {
+  if ((page.viewportSize()?.width ?? 999) > 768) test.skip();
+  await page.goto(`${appBase}journal`);
+  const cards = page.locator('.journal-card');
+  await expect(cards.first()).toBeVisible();
+  const layout = await cards.evaluateAll((elements) => elements.map((element) => {
+    const rect = element.getBoundingClientRect();
+    return { display: getComputedStyle(element).display, left: Math.round(rect.left), width: Math.round(rect.width) };
+  }));
+  expect(layout.length).toBe(15);
+  expect(layout.every((item) => item.display === 'flex')).toBe(true);
+  expect(new Set(layout.map((item) => item.left)).size).toBe(1);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(await page.evaluate(() => innerWidth));
+});
+
 test('比较表名称入口保持44px触控热区', async ({ page }) => {
   await page.goto(`${appBase}cities`);
   await expect(page.locator('.city-table-wrap tbody th a').first()).toHaveCSS('min-height', '44px');

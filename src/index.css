@@ -783,16 +783,17 @@ button { color: inherit; }
 .journal-result-bar button:hover, .journal-result-bar button:focus-visible { color: var(--green); }
 .journal-result-bar button svg { width: 16px; }
 .journal-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
-.journal-card { overflow: hidden; border: 1px solid rgba(58,48,32,.12); border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow-soft); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.journal-card { display: flex; overflow: hidden; flex-direction: column; border: 1px solid rgba(58,48,32,.12); border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow-soft); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
 .journal-card:hover, .journal-card:focus-within { transform: translateY(-4px); border-color: rgba(49,95,79,.24); box-shadow: var(--shadow); }
 .journal-photo { position: relative; display: block; aspect-ratio: 4/3; padding: 12px; background: #fff; }
 .journal-photo picture, .journal-photo img { width: 100%; height: 100%; object-fit: cover; }
 .journal-photo > span { position: absolute; right: 23px; bottom: 23px; padding: 4px 9px; background: var(--red); color: #fff; font-size: .72rem; }
 .journal-photo > span.guide { background: var(--green); }
-.journal-card > div { padding: 28px; }
+.journal-card > div { display: flex; flex: 1; flex-direction: column; padding: 28px; }
 .journal-card h2 { margin: 8px 0 12px; font-size: 2rem; }
 .journal-card > div > p:not(.eyebrow) { color: var(--muted); }
 .journal-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; color: var(--sand-dark); font-size: .76rem; }
+.journal-card .text-link { margin-top: auto; }
 .journal-empty { display: grid; grid-template-columns: .72fr 1.28fr; align-items: center; gap: 60px; min-height: 440px; padding: 52px; border: 1px dashed rgba(73,59,37,.28); border-radius: var(--radius); background: rgba(255,255,255,.43); }
 .journal-empty h2 { margin: 10px 0 14px; font-size: clamp(2rem, 4vw, 3.2rem); }
 .journal-empty p { color: var(--muted); }
