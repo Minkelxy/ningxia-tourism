@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-03 v0.3.118 发布复核：待 GitHub Actions 完成后回填代码提交、工作流编号与最终测试统计。景点预览面板使用 `map-preview-photo-in`、`map-preview-content-in`、`map-preview-eyebrow-in`、`map-preview-title-ink`、`map-preview-copy-in` 和 `map-preview-action-in` 完成图片、位置眉题、标题墨线、摘要与行动入口的分层渐进绘图；切换景点时重新铺开面板，减少动效设置下恢复静态内容与标题墨线，关闭、Esc 返回焦点、详情链接和移动端底部面板行为不变。
+
 2026-09-03 v0.3.117 发布复核：代码提交 [`16f374d`](https://github.com/Minkelxy/ningxia-tourism/commit/16f374d17c56cc54cc69228f7fc85d5177dd7d01) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33680930269)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、177 条 E2E 通过、15 条按端型跳过，Lighthouse 质量门禁通过：地图区县图例使用 `map-legend-in`、`map-legend-title-in`、`map-legend-item-in` 和 `map-legend-swatch-in` 完成面板、标题、条目与色块的错峰渐进绘图；切换城市时重新铺开图例，减少动效设置下恢复静态图例，图例键盘聚焦、区域高亮和地图层级行为不变。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
 2026-09-03 v0.3.116 发布复核：代码提交 [`f64e13a`](https://github.com/Minkelxy/ningxia-tourism/commit/f64e13a4fdc6e93bed84a13ad6cba61971954e7a) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33678968492)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、177 条 E2E 通过、15 条按端型跳过，Lighthouse 质量门禁通过：地图工具栏使用 `map-toolbar-in`、`map-breadcrumb-in`、`map-control-in`、`map-control-pressed`、`map-level-label-in` 和 `map-level-ink` 完成工具栏、层级、控制按钮和图层启用的渐进绘图；减少动效设置下恢复静态工具栏与墨线，地图缩放、重置、层级切换、交通/美食/政府图层和键盘行为不变。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。

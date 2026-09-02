@@ -2206,6 +2206,22 @@ test('移动端景点预览使用底部面板提示与入场动效', async ({ pa
   const preview = page.getByRole('dialog', { name: '沙坡头旅游景区' });
   await expect(preview).toBeVisible();
   await expect(preview).toHaveCSS('animation-name', 'map-preview-in');
+  const previewMotion = await preview.evaluate(() => ({
+    photo: getComputedStyle(document.querySelector('.map-preview picture') as HTMLElement).animationName,
+    content: getComputedStyle(document.querySelector('.map-preview-content') as HTMLElement).animationName,
+    eyebrow: getComputedStyle(document.querySelector('.map-preview-content .eyebrow') as HTMLElement).animationName,
+    titleInk: getComputedStyle(document.querySelector('.map-preview-content h3') as HTMLElement, '::after').animationName,
+    copy: getComputedStyle(document.querySelector('.map-preview-content > p:not(.eyebrow)') as HTMLElement).animationName,
+    action: getComputedStyle(document.querySelector('.map-preview-content .text-link') as HTMLElement).animationName,
+  }));
+  expect(previewMotion).toEqual({
+    photo: 'map-preview-photo-in',
+    content: 'map-preview-content-in',
+    eyebrow: 'map-preview-eyebrow-in',
+    titleInk: 'map-preview-title-ink',
+    copy: 'map-preview-copy-in',
+    action: 'map-preview-action-in',
+  });
   if ((page.viewportSize()?.width ?? 999) <= 768) {
     await expect(preview).toHaveCSS('position', 'fixed');
     await expect(preview.locator('.map-preview-handle')).toBeVisible();
@@ -2214,6 +2230,19 @@ test('移动端景点预览使用底部面板提示与入场动效', async ({ pa
     await expect(preview).toHaveCSS('position', 'absolute');
     await expect(preview.locator('.map-preview-handle')).not.toBeVisible();
   }
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.reload();
+  await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
+  await page.getByRole('region', { name: '宁夏交互式旅游地图' }).getByRole('button', { name: /沙坡头.*打开预览/ }).click();
+  const reducedPreview = page.getByRole('dialog', { name: '沙坡头旅游景区' });
+  await expect(reducedPreview).toBeVisible();
+  const reducedPreviewMotion = await reducedPreview.evaluate(() => ({
+    names: [...document.querySelectorAll('.map-preview, .map-preview picture, .map-preview-content, .map-preview-content .eyebrow, .map-preview-content > p:not(.eyebrow), .map-preview-content .text-link')].map((element) => getComputedStyle(element).animationName),
+    titleInkOpacity: getComputedStyle(document.querySelector('.map-preview-content h3') as HTMLElement, '::after').opacity,
+  }));
+  expect(reducedPreviewMotion.names.every((name) => name === 'none')).toBe(true);
+  expect(reducedPreviewMotion.titleInkOpacity).toBe('0.76');
 });
 
 test('地图政府标记图层可切换并展示自治区与五市政府', async ({ page }) => {
