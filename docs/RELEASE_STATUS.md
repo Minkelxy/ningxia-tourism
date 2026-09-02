@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.79 发布复核：代码提交 [`4776f2e`](https://github.com/Minkelxy/ningxia-tourism/commit/4776f2ee10db62241650ccd90b297cfc40b2cbae) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33611597733)为 **success**；179 条单元测试、110 条 E2E 通过、6 条按端型跳过，推荐路线卡片使用纵向弹性布局，桌面端行动入口底部对齐，移动端保持单列布局；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。线上 1440px 已复核首两张路线卡片行动入口底部坐标一致，页面无横向溢出。
+
 2026-09-02 v0.3.78 发布复核：代码提交 [`3239fcb`](https://github.com/Minkelxy/ningxia-tourism/commit/3239fcb61af63b65a37148e143131e15052d1e71) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33610326555)为 **success**；179 条单元测试、110 条 E2E 通过、6 条按端型跳过，路线卡片核实概览与景点详情多图选择器补充带名称的语义分组；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。随后提交 [`cdcf48b`](https://github.com/Minkelxy/ningxia-tourism/commit/cdcf48b2c26bec7545b41b554bd1cb367b960082) 收口 Playwright 浏览器缓存，避免应用修订号变化触发不必要的冷启动。
 
 2026-09-02 v0.3.77 发布复核：代码提交 [`12a8565`](https://github.com/Minkelxy/ningxia-tourism/commit/12a856587d3b93f1d222562ac149c781b04fcc22) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33607908687)为 **success**；179 条单元测试、110 条 E2E 通过、6 条按端型跳过，首页山河主题图形使用 `role="img"` 与可访问名称，行前清单进度使用 `role="progressbar"` 并随勾选实时更新；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。线上 390px 已复核首页图形语义、行前清单进度数值变化与页面宽度无横向溢出。
