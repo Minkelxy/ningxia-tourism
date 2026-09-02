@@ -375,6 +375,8 @@ test('地图懒加载占位与正式画布保持同一视觉语言', async ({ pa
 
 test('首页山河绘图与地图区域动效保持轻量并尊重减少动效设置', async ({ page }) => {
   await page.goto(appBase);
+  await expect(page.locator('.hero-landscape')).toBeVisible();
+  await expect(page.locator('.mountain-back, .mountain-front, .hero-seal, .scroll-cue')).toHaveCount(4);
   const heroAnimations = await page.locator('.sun-disc, .river-ribbon, .hero-orbit-one, .hero-orbit-two').evaluateAll((elements) => elements.map((element) => getComputedStyle(element).animationName));
   expect(heroAnimations.every((name) => name !== 'none')).toBe(true);
   const heroDrawingSequence = await page.locator('.mountain-back, .mountain-front, .hero-seal, .scroll-cue').evaluateAll((elements) => ({
