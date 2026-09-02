@@ -333,6 +333,56 @@ test('全屏状态页高度跟随响应式站点头部', async ({ page }) => {
   expect(Math.abs(parseFloat(layout.headerVariable) - layout.headerHeight)).toBeLessThanOrEqual(1);
 });
 
+test('公共状态按图标、标题和操作顺序渐进绘图', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto(`${appBase}this-page-does-not-exist`);
+  await expect(page.locator('.not-found-copy h1')).toBeVisible();
+  await expect(page.locator('.not-found-state')).toHaveCSS('animation-name', 'state-shell-in');
+  await expect(page.locator('.not-found-copy > svg')).toHaveCSS('animation-name', 'state-icon-in');
+  await expect(page.locator('.not-found-copy')).toHaveCSS('animation-name', 'state-copy-in');
+  await expect(page.locator('.not-found-copy h1')).toHaveCSS('animation-name', 'state-copy-in');
+  await expect(page.locator('.not-found-copy .state-actions')).toHaveCSS('animation-name', 'state-action-in');
+  await expect(page.locator('.not-found-visual')).toHaveCSS('animation-name', 'state-visual-in');
+  const notFoundTitleInk = await page.locator('.not-found-copy h1').evaluate((element) => getComputedStyle(element, '::after').animationName);
+  expect(notFoundTitleInk).toBe('state-title-ink');
+
+  await page.goto(`${appBase}attractions?q=not-a-real-ningxia-place`);
+  await expect(page.locator('.empty-state')).toBeVisible();
+  await expect(page.locator('.empty-state')).toHaveCSS('animation-name', 'state-shell-in');
+  await expect(page.locator('.empty-state > svg')).toHaveCSS('animation-name', 'state-icon-in');
+  await expect(page.locator('.empty-state h2')).toHaveCSS('animation-name', 'state-copy-in');
+  await expect(page.locator('.empty-state .btn-primary')).toHaveCSS('animation-name', 'state-action-in');
+  const emptyTitleInk = await page.locator('.empty-state h2').evaluate((element) => getComputedStyle(element, '::after').animationName);
+  expect(emptyTitleInk).toBe('state-title-ink');
+});
+
+test('公共状态减少动效时恢复静态绘图', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(`${appBase}this-page-does-not-exist`);
+  await expect(page.locator('.not-found-copy h1')).toBeVisible();
+  const notFoundMotion = await page.evaluate(() => ({
+    shell: getComputedStyle(document.querySelector('.not-found-state') as HTMLElement).animationName,
+    copy: getComputedStyle(document.querySelector('.not-found-copy') as HTMLElement).animationName,
+    icon: getComputedStyle(document.querySelector('.not-found-copy > svg') as HTMLElement).animationName,
+    title: getComputedStyle(document.querySelector('.not-found-copy h1') as HTMLElement).animationName,
+    inkAnimation: getComputedStyle(document.querySelector('.not-found-copy h1') as HTMLElement, '::after').animationName,
+    inkOpacity: getComputedStyle(document.querySelector('.not-found-copy h1') as HTMLElement, '::after').opacity,
+    visual: getComputedStyle(document.querySelector('.not-found-visual') as HTMLElement).animationName,
+  }));
+  expect(notFoundMotion).toEqual({ shell: 'none', copy: 'none', icon: 'none', title: 'none', inkAnimation: 'none', inkOpacity: '0.76', visual: 'none' });
+
+  await page.goto(`${appBase}attractions?q=not-a-real-ningxia-place`);
+  await expect(page.locator('.empty-state')).toBeVisible();
+  const emptyMotion = await page.evaluate(() => ({
+    shell: getComputedStyle(document.querySelector('.empty-state') as HTMLElement).animationName,
+    icon: getComputedStyle(document.querySelector('.empty-state > svg') as HTMLElement).animationName,
+    title: getComputedStyle(document.querySelector('.empty-state h2') as HTMLElement).animationName,
+    inkAnimation: getComputedStyle(document.querySelector('.empty-state h2') as HTMLElement, '::after').animationName,
+    action: getComputedStyle(document.querySelector('.empty-state .btn-primary') as HTMLElement).animationName,
+  }));
+  expect(emptyMotion).toEqual({ shell: 'none', icon: 'none', title: 'none', inkAnimation: 'none', action: 'none' });
+});
+
 test('首页可按天数缩小路线范围并阅读最新专题', async ({ page }) => {
   await page.goto(appBase);
   const fiveDays = page.getByRole('radio', { name: '5 天' });
@@ -1483,6 +1533,9 @@ test('路线筛选入口保持轻量反馈', async ({ page }) => {
   if ((page.viewportSize()?.width ?? 999) <= 768) {
     await page.getByRole('button', { name: /筛选路线/ }).click();
   }
+  await page.locator('.route-filter').evaluate(async (element) => {
+    await Promise.all(element.getAnimations().map((animation) => animation.finished));
+  });
   const cityFilter = page.getByRole('button', { name: '石嘴山', exact: true });
   await cityFilter.hover();
   await expect(cityFilter).toHaveCSS('background-color', 'rgb(238, 243, 237)');
