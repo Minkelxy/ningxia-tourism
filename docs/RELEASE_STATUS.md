@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.90 发布复核：代码提交 [`37453d7`](https://github.com/Minkelxy/ningxia-tourism/commit/37453d73f533a8767a5187459c549919befee85e) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33628244621)为 **success**；179 条单元测试、127 条 E2E 通过、11 条按端型跳过，行前指南首屏在 320px、360px 极窄屏下将两个主要入口保持等宽同排，并与路线详情操作区共享收口规则；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。线上已复核行前指南在 320px、360px、390px 下操作区同排、触控高度和页面宽度。
+
 2026-09-02 v0.3.89 发布复核：代码提交 [`ba3bdd9`](https://github.com/Minkelxy/ningxia-tourism/commit/ba3bdd943399e6d948aa0e7ee9d7664e0da88dcc) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33626706613)为 **success**；179 条单元测试、125 条 E2E 通过、11 条按端型跳过，行前指南首屏在 320px、360px 极窄屏下将“按季节开始”和“直接看路线”保持等宽同排，并与路线详情操作区共享收口规则；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。线上已复核行前指南在 320px、360px、390px 下操作区同排、触控高度和页面宽度。
 
 2026-09-02 v0.3.88 发布复核：代码提交 [`e213f5d`](https://github.com/Minkelxy/ningxia-tourism/commit/e213f5d59f2b1184e7ec99faaddae65cd81bd2e1) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33625348854)为 **success**；179 条单元测试、123 条 E2E 通过、11 条按端型跳过，路线详情在 320px、360px 极窄屏下将打印、分享、收藏入口保持同一行，保留 390px 与桌面端原有操作层级；生产构建、73 个页面 sitemap、深链回退、Lighthouse 与 Pages 部署均通过，Pages 状态为 built。线上已复核路线详情在 320px、360px、390px 下操作区同排、触控高度和页面宽度。
