@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-02 v0.3.60 发布复核：代码提交 [`4c78058`](https://github.com/Minkelxy/ningxia-tourism/commit/4c7805852a80fe101f8eac7c1ce2e93e2bc1e2ca) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33577932966)为 **success**；177 条单元测试、88 条 E2E 通过、4 条按端型跳过，页脚当前内容入口与顶部/移动导航统一使用路径匹配，当前页同步提供金色选中态与 `aria-current="page"`，Pages 状态为 built。
+
 2026-09-02 v0.3.59 发布复核：代码提交 [`5aa587b`](https://github.com/Minkelxy/ningxia-tourism/commit/5aa587b0897bf937681d3cf8113c6ada45f7e5e0) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33577172046)为 **success**；176 条单元测试、86 条 E2E 通过、4 条按端型跳过，顶部桌面导航、移动菜单与页脚“继续探索”统一读取 `src/lib/site-navigation.ts`，线上入口名称与路径保持一致，Pages 状态为 built。
 
 2026-09-02 v0.3.58 发布复核：代码提交 [`72bc684`](https://github.com/Minkelxy/ningxia-tourism/commit/72bc68479b25f3f92c921a3c541f47ec0ea5a8f6) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33575667033)为 **success**；176 条单元测试、84 条 E2E 通过、4 条按端型跳过，页脚“继续探索”已与顶部导航补齐六类内容入口，并将内容与资料链接分组为可识别导航区域，Pages 状态为 built。
