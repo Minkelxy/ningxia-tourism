@@ -1,4 +1,4 @@
-import { memo, type CSSProperties } from 'react';
+import { Fragment, memo, type CSSProperties } from 'react';
 import type { CityId } from '../../types';
 import {
   activateWithKeyboard,
@@ -58,24 +58,37 @@ function MapRegionLayer({
         if (selected) classNames.push('is-selected');
         if (focused) classNames.push('is-focused');
 
+        const path = geometryToPath(feature, project);
+        const key = code || `${featureName(feature)}-${index}`;
+
         return (
-          <path
-            key={code || `${featureName(feature)}-${index}`}
-            d={geometryToPath(feature, project)}
-            pathLength={1}
-            className={classNames.join(' ')}
-            style={{ '--region-color': regionColor, '--map-region-index': index } as CSSProperties}
-            tabIndex={0}
-            role="button"
-            aria-label={`${featureName(feature)}，按回车进入`}
-            onClick={(event) => {
-              event.stopPropagation();
-              action();
-            }}
-            onKeyDown={(event) => activateWithKeyboard(event, action)}
-            onFocus={() => onRegionFocus?.(feature)}
-            onBlur={() => onRegionFocus?.(null)}
-          />
+          <Fragment key={key}>
+            <path
+              d={path}
+              pathLength={1}
+              className={classNames.join(' ')}
+              style={{ '--region-color': regionColor, '--map-region-index': index } as CSSProperties}
+              tabIndex={0}
+              role="button"
+              aria-label={`${featureName(feature)}，按回车进入`}
+              onClick={(event) => {
+                event.stopPropagation();
+                action();
+              }}
+              onKeyDown={(event) => activateWithKeyboard(event, action)}
+              onFocus={() => onRegionFocus?.(feature)}
+              onBlur={() => onRegionFocus?.(null)}
+            />
+            {(selected || focused) && (
+              <path
+                d={path}
+                pathLength={1}
+                className="map-region-emphasis"
+                style={{ '--map-region-emphasis-color': selected ? '#f7d07b' : '#fff0c7' } as CSSProperties}
+                aria-hidden="true"
+              />
+            )}
+          </Fragment>
         );
       })}
     </g>

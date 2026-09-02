@@ -419,7 +419,7 @@ test('首页山河绘图与地图区域动效保持轻量并尊重减少动效�
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.reload();
   await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
-  const reducedMotion = await page.locator('.sun-disc, .mountain-back, .mountain-front, .hero-seal, .scroll-cue, .map-region, .map-attraction-glyph, .map-label__glyph').evaluateAll((elements) => elements.map((element) => getComputedStyle(element).animationName));
+  const reducedMotion = await page.locator('.sun-disc, .mountain-back, .mountain-front, .hero-seal, .scroll-cue, .map-region, .map-region-emphasis, .map-attraction-glyph, .map-label__glyph').evaluateAll((elements) => elements.map((element) => getComputedStyle(element).animationName));
   expect(reducedMotion.every((name) => name === 'none')).toBe(true);
 });
 
@@ -433,6 +433,8 @@ test('地图支持键盘进入城市、选择区县和切换交通图层', async
 
   await map.getByRole('button', { name: /兴庆区，按回车进入/ }).click();
   await expect(map.locator('.map-region.is-selected')).toHaveCount(1);
+  await expect(map.locator('.map-region-emphasis')).toHaveCount(1);
+  await expect(map.locator('.map-region-emphasis')).toHaveCSS('animation-name', 'map-region-emphasis-draw');
   await expect(map.getByLabel('地图层级')).toContainText('兴庆区');
 
   const transport = map.getByRole('button', { name: '交通' });
@@ -458,6 +460,8 @@ test('地图区县图例支持键盘聚焦并联动区域高亮', async ({ page 
   await legendItem.focus();
   await expect(legendItem).toBeFocused();
   await expect(map.locator('.map-region.is-focused')).toHaveCount(1);
+  await expect(map.locator('.map-region-emphasis')).toHaveCount(1);
+  await expect(map.locator('.map-region-emphasis')).toHaveCSS('animation-name', 'map-region-emphasis-draw');
   await expect(map.locator('.map-region.is-focused')).toHaveAttribute('aria-label', /兴庆区/);
   await map.getByRole('button', { name: '交通' }).focus();
   await expect(map.locator('.map-region.is-focused')).toHaveCount(0);
