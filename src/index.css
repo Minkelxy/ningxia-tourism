@@ -120,13 +120,13 @@ button { color: inherit; }
 .hero-landscape { position: relative; z-index: 1; height: 590px; border-radius: 48% 48% 16px 16px; overflow: hidden; background: linear-gradient(#ddd1b6 0 43%, #d5bd89 43% 100%); box-shadow: var(--shadow); }
 .sun-disc { position: absolute; top: 15%; right: 16%; width: 140px; height: 140px; border-radius: 50%; background: #b44b39; box-shadow: 0 0 0 20px rgba(180,75,57,.06); animation: sun-breathe 7s ease-in-out infinite; }
 .mountain { position: absolute; inset: auto -10% 27%; height: 42%; clip-path: polygon(0 84%, 16% 40%, 31% 66%, 46% 10%, 62% 67%, 78% 30%, 100% 84%, 100% 100%, 0 100%); }
-.mountain-back { background: #71806c; opacity: .7; transform: translateY(-20px); }
-.mountain-front { background: #3f5c4c; transform: scaleX(1.12); }
+.mountain-back { background: #71806c; opacity: .7; transform: translateY(-20px); animation: hero-mountain-back-in .9s cubic-bezier(.22,.8,.26,1) .18s both; }
+.mountain-front { background: #3f5c4c; transform: scaleX(1.12); animation: hero-mountain-front-in .78s cubic-bezier(.22,.8,.26,1) .34s both; }
 .river-ribbon { position: absolute; left: 17%; bottom: -10%; width: 34%; height: 58%; border-radius: 50%; border: 45px solid rgba(226,237,226,.8); transform: rotate(18deg); animation: river-shimmer 9s ease-in-out infinite; }
-.hero-seal { position: absolute; left: 36px; bottom: 34px; width: 96px; height: 108px; display: grid; place-content: center; border: 2px solid rgba(255,255,255,.85); outline: 1px solid rgba(255,255,255,.55); outline-offset: -7px; background: var(--red); color: #fff; font-family: var(--serif); text-align: center; transform: rotate(-3deg); }
+.hero-seal { position: absolute; left: 36px; bottom: 34px; width: 96px; height: 108px; display: grid; place-content: center; border: 2px solid rgba(255,255,255,.85); outline: 1px solid rgba(255,255,255,.55); outline-offset: -7px; background: var(--red); color: #fff; font-family: var(--serif); text-align: center; transform: rotate(-3deg); animation: hero-seal-stamp .62s cubic-bezier(.22,.8,.26,1) .72s both; }
 .hero-seal span { font-size: .82rem; letter-spacing: .25em; }
 .hero-seal strong { font-size: 1.8rem; }
-.scroll-cue { position: absolute; right: 30px; bottom: 28px; display: flex; align-items: center; gap: 7px; min-height: 44px; color: #fff; font-size: .78rem; transition: color .2s ease, transform .2s ease; }
+.scroll-cue { position: absolute; right: 30px; bottom: 28px; display: flex; align-items: center; gap: 7px; min-height: 44px; color: #fff; font-size: .78rem; transition: color .2s ease, transform .2s ease; animation: hero-scroll-cue-in .5s ease 1.08s both; }
 .scroll-cue:hover, .scroll-cue:focus-visible { color: #e3b66b; transform: translateY(3px); }
 .hero-orbit { position: absolute; border: 1px solid rgba(153,112,51,.15); border-radius: 50%; }
 .hero-orbit-one { width: 540px; height: 540px; left: -320px; top: -300px; animation: orbit-drift-one 18s ease-in-out infinite; }
@@ -1078,6 +1078,10 @@ button { color: inherit; }
 @keyframes river-shimmer { 0%, 100% { opacity: .72; transform: rotate(18deg) translateX(0); } 50% { opacity: .92; transform: rotate(18deg) translateX(8px); } }
 @keyframes orbit-drift-one { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(12px, 8px) rotate(3deg); } }
 @keyframes orbit-drift-two { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(-10px, -6px) rotate(-2deg); } }
+@keyframes hero-mountain-back-in { from { opacity: 0; transform: translateY(28px) scaleX(1.03); } to { opacity: .7; transform: translateY(-20px) scaleX(1); } }
+@keyframes hero-mountain-front-in { from { opacity: 0; transform: translateY(32px) scaleX(1.08); } to { opacity: 1; transform: translateY(0) scaleX(1.12); } }
+@keyframes hero-seal-stamp { from { opacity: 0; transform: rotate(-3deg) scale(.86) translateY(12px); } to { opacity: 1; transform: rotate(-3deg) scale(1) translateY(0); } }
+@keyframes hero-scroll-cue-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes map-region-draw { from { opacity: 0; stroke-dashoffset: 1; transform: translateY(6px) scale(.985); } to { opacity: 1; stroke-dashoffset: 0; transform: translateY(0) scale(1); } }
 @keyframes map-layer-pop-in { from { opacity: 0; transform: scale(.72); } to { opacity: 1; transform: scale(1); } }
 @keyframes route-rail-draw { to { transform: scaleY(1); } }
@@ -1374,7 +1378,7 @@ button { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  .hero-orbit-one, .hero-orbit-two, .sun-disc, .river-ribbon, .map-region, .map-attraction.is-selected .marker-dot, .map-viewport, .map-label__glyph, .map-attraction-glyph, .map-food-glyph, .map-government-glyph, .map-hub-glyph, .route-stops::before, .route-stop { animation: none !important; transition: none !important; }
+  .hero-orbit-one, .hero-orbit-two, .sun-disc, .river-ribbon, .mountain-back, .mountain-front, .hero-seal, .scroll-cue, .map-region, .map-attraction.is-selected .marker-dot, .map-viewport, .map-label__glyph, .map-attraction-glyph, .map-food-glyph, .map-government-glyph, .map-hub-glyph, .route-stops::before, .route-stop { animation: none !important; transition: none !important; }
   .map-region { opacity: 1; stroke-dasharray: none; stroke-dashoffset: 0; transform: none; }
   .map-label__glyph, .map-attraction-glyph, .map-food-glyph, .map-government-glyph, .map-hub-glyph { opacity: 1; transform: none; }
   .route-stops::before { transform: scaleY(1); }

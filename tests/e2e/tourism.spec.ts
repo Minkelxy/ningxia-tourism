@@ -377,6 +377,12 @@ test('首页山河绘图与地图区域动效保持轻量并尊重减少动效�
   await page.goto(appBase);
   const heroAnimations = await page.locator('.sun-disc, .river-ribbon, .hero-orbit-one, .hero-orbit-two').evaluateAll((elements) => elements.map((element) => getComputedStyle(element).animationName));
   expect(heroAnimations.every((name) => name !== 'none')).toBe(true);
+  const heroDrawingSequence = await page.locator('.mountain-back, .mountain-front, .hero-seal, .scroll-cue').evaluateAll((elements) => ({
+    names: elements.map((element) => getComputedStyle(element).animationName),
+    delays: elements.map((element) => getComputedStyle(element).animationDelay),
+  }));
+  expect(heroDrawingSequence.names).toEqual(['hero-mountain-back-in', 'hero-mountain-front-in', 'hero-seal-stamp', 'hero-scroll-cue-in']);
+  expect(heroDrawingSequence.delays).toEqual(['0.18s', '0.34s', '0.72s', '1.08s']);
 
   await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
   const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
@@ -411,7 +417,7 @@ test('首页山河绘图与地图区域动效保持轻量并尊重减少动效�
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.reload();
   await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
-  const reducedMotion = await page.locator('.sun-disc, .map-region, .map-attraction-glyph, .map-label__glyph').evaluateAll((elements) => elements.map((element) => getComputedStyle(element).animationName));
+  const reducedMotion = await page.locator('.sun-disc, .mountain-back, .mountain-front, .hero-seal, .scroll-cue, .map-region, .map-attraction-glyph, .map-label__glyph').evaluateAll((elements) => elements.map((element) => getComputedStyle(element).animationName));
   expect(reducedMotion.every((name) => name === 'none')).toBe(true);
 });
 
