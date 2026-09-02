@@ -657,6 +657,18 @@ test('五城卡片图片在极窄屏按卡片宽度自适应', async ({ page }) 
   expect(sizes.pageWidth).toBeLessThanOrEqual(320);
 });
 
+test('桌面端五城卡片按行保持行动入口底部对齐', async ({ page }) => {
+  if ((page.viewportSize()?.width ?? 999) <= 768) test.skip();
+  await page.goto(`${appBase}cities`);
+  const cards = page.locator('.city-card');
+  await expect(cards.first()).toBeVisible();
+  const bottoms = await cards.evaluateAll((elements) => elements.map((element) => element.querySelector('.text-link')?.getBoundingClientRect().bottom ?? 0));
+  expect(bottoms.length).toBe(5);
+  for (let index = 0; index + 1 < bottoms.length; index += 2) {
+    expect(Math.abs(bottoms[index] - bottoms[index + 1])).toBeLessThanOrEqual(1);
+  }
+});
+
 test('网络资料与区域配图说明透明可见', async ({ page }) => {
   await page.goto(`${appBase}attraction/pengyangtitian`);
   await expect(page.getByRole('heading', { level: 1, name: '彭阳梯田' })).toBeVisible();
