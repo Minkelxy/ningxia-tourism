@@ -4,7 +4,7 @@
 
 ## 当前发布快照
 
-2026-09-04 v0.3.124 发布复核：待 GitHub Actions 完成后回填最终代码提交、工作流编号与测试统计。路由进入首页、集合页、详情页或工具页时，主内容共享统一的轻量入场过渡；保留滚动回顶、主要内容焦点、移动端菜单、筛选与深链接行为，减少动效设置下恢复静态页面。
+2026-09-04 v0.3.124 发布复核：最终代码提交 [`43884e5`](https://github.com/Minkelxy/ningxia-tourism/commit/43884e521ef93d36ba886e8c8b92ffa661c9f265) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33782570486)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、188 条 E2E 通过、16 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。路由进入首页、集合页、详情页或工具页时，主内容共享统一的轻量入场过渡；保留滚动回顶、主要内容焦点、移动端菜单、筛选与深链接行为，减少动效设置下恢复静态页面。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
 2026-09-04 v0.3.123 发布复核：最终代码提交 [`92c9bc2`](https://github.com/Minkelxy/ningxia-tourism/commit/92c9bc278087652b88bb5dc30fc4890e0a0b735f) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33780539152)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、185 条 E2E 通过、15 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。地图从全区进入城市或区县视图时，行政区、标签、景点及已开启图层按当前地域范围重新挂载并渐进落印；保留缩放、拖拽、键盘进入、点位选择、预览、图层开关和图例联动，减少动效设置下恢复静态图层。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
