@@ -452,6 +452,13 @@ export default function NingxiaInteractiveMap() {
           </g>
         </svg>
 
+        <div className="map-compass" role="img" aria-label="地图方向指示：上方为北">
+          <span className="map-compass__north">N</span>
+          <span className="map-compass__needle map-compass__needle--north" aria-hidden="true" />
+          <span className="map-compass__needle map-compass__needle--south" aria-hidden="true" />
+          <span className="map-compass__hub" aria-hidden="true" />
+        </div>
+
         {selectedAttraction && (
           <MapPreview attraction={selectedAttraction} onClose={handleClosePreview} />
         )}
