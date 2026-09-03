@@ -1026,6 +1026,8 @@ test('城市详情和路线详情可直接访问', async ({ page }) => {
   await expect(dayTwoLink).toHaveAttribute('href', '#route-day-2');
   await dayTwoLink.click();
   await expect(page).toHaveURL(/#route-day-2$/);
+  await expect(page.locator('#route-day-2 .day-marker')).toHaveClass(/is-active/);
+  await expect(page.locator('#route-day-1 .day-marker')).not.toHaveClass(/is-active/);
   const routeDayOffset = await page.evaluate(() => {
     const target = document.querySelector<HTMLElement>('#route-day-2');
     const header = document.querySelector<HTMLElement>('.site-header');
@@ -1119,6 +1121,7 @@ test('路线详情按首屏、导航、日程与侧栏层级完成渐进绘图',
     const dayLink = first<HTMLElement>('.route-day-nav a');
     const audience = first<HTMLElement>('.route-audience');
     const marker = first<HTMLElement>('.day-marker');
+    const inactiveMarker = document.querySelector<HTMLElement>('.day-marker:not(.is-active)');
     const dayHeading = first<HTMLElement>('.day-content > header');
     const sidebar = first<HTMLElement>('.route-sidebar > *');
     return {
@@ -1133,6 +1136,7 @@ test('路线详情按首屏、导航、日程与侧栏层级完成渐进绘图',
       audienceAnimation: audience ? getComputedStyle(audience).animationName : '',
       markerAnimation: marker ? getComputedStyle(marker).animationName : '',
       markerInkAnimation: marker ? getComputedStyle(marker, '::after').animationName : '',
+      inactiveMarkerInkAnimation: inactiveMarker ? getComputedStyle(inactiveMarker, '::after').animationName : '',
       dayHeadingAnimation: dayHeading ? getComputedStyle(dayHeading).animationName : '',
       sidebarAnimation: sidebar ? getComputedStyle(sidebar).animationName : '',
       navLinkDelay: dayLink ? getComputedStyle(dayLink).animationDelay : '',
@@ -1149,7 +1153,8 @@ test('路线详情按首屏、导航、日程与侧栏层级完成渐进绘图',
     activeLinkInkAnimation: 'route-day-active-ink',
     audienceAnimation: 'route-section-in',
     markerAnimation: 'route-day-marker-in',
-    markerInkAnimation: 'route-day-marker-ink',
+    markerInkAnimation: 'route-day-marker-active-ink',
+    inactiveMarkerInkAnimation: 'route-day-marker-ink',
     dayHeadingAnimation: 'route-section-in',
     sidebarAnimation: 'route-sidebar-in',
     navLinkDelay: '0.26s',
@@ -1164,22 +1169,27 @@ test('路线详情减少动效时恢复静态层级与墨线', async ({ page }) 
     const first = <T extends Element>(selector: string) => document.querySelector<T>(selector);
     const title = first<HTMLElement>('.route-detail-hero h1');
     const marker = first<HTMLElement>('.day-marker');
+    const inactiveMarker = document.querySelector<HTMLElement>('.day-marker:not(.is-active)');
     const selectors = ['.route-detail-hero-grid > div:first-child', '.route-detail-visual', '.route-detail-facts span', '.route-detail-actions', '.route-day-nav', '.route-day-nav a', '.route-audience', '.day-marker', '.day-content > header', '.route-sidebar > *'];
     return {
       animations: selectors.map((selector) => getComputedStyle(first<HTMLElement>(selector) as HTMLElement).animationName),
       titleInkAnimation: title ? getComputedStyle(title, '::after').animationName : '',
       titleInkOpacity: title ? getComputedStyle(title, '::after').opacity : '',
       markerInkAnimation: marker ? getComputedStyle(marker, '::after').animationName : '',
+      inactiveMarkerInkAnimation: inactiveMarker ? getComputedStyle(inactiveMarker, '::after').animationName : '',
       activeLinkInkAnimation: getComputedStyle(document.querySelector('.route-day-nav a.active') as HTMLElement, '::after').animationName,
       markerInkOpacity: marker ? getComputedStyle(marker, '::after').opacity : '',
+      inactiveMarkerInkOpacity: inactiveMarker ? getComputedStyle(inactiveMarker, '::after').opacity : '',
     };
   });
   expect(motion.animations.every((animationName) => animationName === 'none')).toBe(true);
   expect(motion.titleInkAnimation).toBe('none');
   expect(motion.titleInkOpacity).toBe('0.86');
   expect(motion.markerInkAnimation).toBe('none');
+  expect(motion.inactiveMarkerInkAnimation).toBe('none');
   expect(motion.activeLinkInkAnimation).toBe('none');
-  expect(motion.markerInkOpacity).toBe('0.72');
+  expect(motion.markerInkOpacity).toBe('0.9');
+  expect(motion.inactiveMarkerInkOpacity).toBe('0.72');
 });
 
 test('路线详情极窄屏操作入口保持同一行', async ({ page }) => {
