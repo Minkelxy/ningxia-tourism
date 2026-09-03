@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-04 v0.3.134 发布复核：最终代码提交 [`6db6114`](https://github.com/Minkelxy/ningxia-tourism/commit/6db6114deb85aa1967868f92de33b9ea3b7b215d) 的[最终主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33805952490)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、194 条 E2E 通过、16 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。路线详情滚动识别到当前天数时，时间线 DAY 印章与顶部按天导航同步切换当前态并重新落印；保留锚点跳转、滚动识别、键盘访问与打印版布局，减少动效设置下恢复静态当前态。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径、CSS 与 JS 资源 HTTP 200。
+
 2026-09-04 v0.3.133 发布复核：最终代码提交 [`5fdb349`](https://github.com/Minkelxy/ningxia-tourism/commit/5fdb349c7ae1845510e4e15731bf2211b999555c) 的[最终主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33804093441)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、194 条 E2E 通过、16 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。移动端导航菜单与页脚当前入口增加统一激活墨线，与桌面主导航共享纸面状态反馈语言；保留导航路径、当前页语义、菜单焦点与滚动行为，减少动效设置下恢复静态显示。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径、CSS 与 JS 资源 HTTP 200。
 
 2026-09-04 v0.3.132 发布复核：最终代码提交 [`46383a5`](https://github.com/Minkelxy/ningxia-tourism/commit/46383a53c652a1a168597d4ec87175f6570f88a2) 的[最终主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33801194076)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、190 条 E2E 通过、16 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。全站收藏按钮切换为已收藏时增加轻量心形落印与底部手绘墨线，与筛选、栏目和路线日程共享纸面状态反馈语言；保留收藏逻辑、跨页面同步、深色头图对比度和 320px 窄屏图标化按钮，减少动效设置下恢复静态显示。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径、CSS 与 JS 资源 HTTP 200。
