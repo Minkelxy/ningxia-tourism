@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-04 v0.3.126 发布复核：最终代码提交 [`a3b7018`](https://github.com/Minkelxy/ningxia-tourism/commit/a3b7018ce4a68a54b6a69b9e0f164d14837da7b3) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33787006210)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、190 条 E2E 通过、16 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。路线详情“按天快速跳转”的激活日增加沿底边落笔墨线，并按天数索引错峰入场；保留锚点跳转、滚动激活、键盘访问和窄屏横向浏览，减少动效设置下恢复静态激活墨线。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
+
 2026-09-04 v0.3.125 发布复核：最终代码提交 [`e90af4d`](https://github.com/Minkelxy/ningxia-tourism/commit/e90af4dc1967918284181c8a4495b745f6d821c9) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33784666852)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、190 条 E2E 通过、16 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。交通、美食和政府地图标记开启时共享轻量墨线环落印；保留图层开关、点位语义、键盘/触控行为与地图层级切换，减少动效设置下恢复静态圆环。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
 2026-09-04 v0.3.124 发布复核：最终代码提交 [`43884e5`](https://github.com/Minkelxy/ningxia-tourism/commit/43884e521ef93d36ba886e8c8b92ffa661c9f265) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33782570486)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、188 条 E2E 通过、16 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。路由进入首页、集合页、详情页或工具页时，主内容共享统一的轻量入场过渡；保留滚动回顶、主要内容焦点、移动端菜单、筛选与深链接行为，减少动效设置下恢复静态页面。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
