@@ -64,6 +64,8 @@ export function RouteAnnouncer() {
 }
 
 function AppRoutes() {
+  const location = useLocation();
+
   return (
     <div className="site-frame">
       <a href="#main-content" className="skip-link">跳到主要内容</a>
@@ -73,7 +75,7 @@ function AppRoutes() {
       <Header />
       <NetworkStatus />
       <ServiceWorkerUpdate />
-      <main className="site-main" id="main-content" tabIndex={-1}><Suspense fallback={<Loading />}><Routes>
+      <main className="site-main" id="main-content" tabIndex={-1}><div key={location.pathname} className="route-transition"><Suspense fallback={<Loading />}><Routes>
         <Route path="/" element={<Home />} />
         <Route path="/attractions" element={<AttractionsList />} />
         <Route path="/attraction/:id" element={<AttractionDetail />} />
@@ -92,7 +94,7 @@ function AppRoutes() {
         {GeoJSONViewer && <Route path="/dev/geojson" element={<GeoJSONViewer />} />}
         {GeoJSONEditor && <Route path="/dev/editor" element={<GeoJSONEditor />} />}
         <Route path="*" element={<NotFound />} />
-      </Routes></Suspense></main>
+      </Routes></Suspense></div></main>
       <Footer />
     </div>
   );
