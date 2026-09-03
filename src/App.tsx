@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import Loading from './components/Loading';
 import NetworkStatus from './components/NetworkStatus';
+import ReadingProgress from './components/ReadingProgress';
 import ServiceWorkerUpdate from './components/ServiceWorkerUpdate';
 import { FavoritesProvider } from './lib/favorites';
 
@@ -69,6 +70,7 @@ function AppRoutes() {
   return (
     <div className="site-frame">
       <a href="#main-content" className="skip-link">跳到主要内容</a>
+      <ReadingProgress />
       <ScrollToTop />
       <RouteFocusManager />
       <RouteAnnouncer />

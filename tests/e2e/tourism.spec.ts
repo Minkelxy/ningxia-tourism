@@ -191,6 +191,42 @@ test('页面入场过渡在减少动效时恢复静态显示', async ({ page }) 
   await expect(transition).toHaveCSS('transform', 'none');
 });
 
+test('长页面滚动时绘制全站阅读进度墨线', async ({ page }) => {
+  await page.goto(`${appBase}routes/classic-3day`);
+  const progress = page.locator('.reading-progress');
+  const ink = progress.locator('.reading-progress__ink');
+  await expect(progress).toBeVisible();
+  await expect(progress).toHaveCSS('height', '4px');
+  await expect.poll(async () => Number(await progress.evaluate((element) => element.style.getPropertyValue('--reading-progress')))).toBeLessThan(0.01);
+
+  await page.evaluate(() => {
+    const root = document.documentElement;
+    const previousScrollBehavior = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    window.scrollTo(0, root.scrollHeight);
+    root.style.scrollBehavior = previousScrollBehavior;
+  });
+  await expect.poll(async () => Number(await progress.evaluate((element) => element.style.getPropertyValue('--reading-progress')))).toBeGreaterThan(0.95);
+  await expect(progress).toHaveClass(/is-started/);
+  await expect(ink).not.toHaveCSS('transform', 'none');
+});
+
+test('全站阅读进度墨线在减少动效时即时更新', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(`${appBase}routes/classic-3day`);
+  const progress = page.locator('.reading-progress');
+  await page.evaluate(() => {
+    const root = document.documentElement;
+    const previousScrollBehavior = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    window.scrollTo(0, root.scrollHeight / 2);
+    root.style.scrollBehavior = previousScrollBehavior;
+  });
+  await expect.poll(async () => Number(await progress.evaluate((element) => element.style.getPropertyValue('--reading-progress')))).toBeGreaterThan(0.2);
+  await expect(progress.locator('.reading-progress__ink')).toHaveCSS('transition-property', 'none');
+  await expect(progress.locator('.reading-progress__head')).toHaveCSS('transition-property', 'none');
+});
+
 test('导航搜索与收藏入口保持44px触控热区', async ({ page }) => {
   await page.goto(appBase);
   const favoritesLink = page.locator('.favorites-nav-link');
