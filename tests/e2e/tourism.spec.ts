@@ -797,6 +797,7 @@ test('景点页支持按旅行兴趣发现新增目的地', async ({ page }) => 
   await ancientTheme.hover();
   await expect(ancientTheme).toHaveCSS('background-color', 'rgb(240, 246, 241)');
   await expect(ancientTheme).toHaveCSS('transform', 'none');
+  await expect.poll(async () => ancientTheme.locator('strong').evaluate((element) => getComputedStyle(element, '::after').animationName)).toBe('collection-theme-active-ink');
   await expect(page.locator('.attraction-card')).toHaveCount(4);
   await expect(page.getByRole('heading', { name: '水洞沟旅游区' })).toBeVisible();
   await expect(page.getByRole('heading', { name: '须弥山旅游区' })).toBeVisible();
@@ -1366,7 +1367,7 @@ test('景点与美食筛选结果按新条件重新渐进绘图', async ({ page 
 test('发现型集合页减少动效时恢复静态绘图', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
 
-  await page.goto(`${appBase}attractions`);
+  await page.goto(`${appBase}attractions?theme=ancient-traces`);
   await expect(page.locator('.attraction-theme-card').first()).toBeVisible();
   const attractionsMotion = await page.evaluate(() => ({
     themes: getComputedStyle(document.querySelector('.attraction-themes') as HTMLElement).animationName,
@@ -1376,8 +1377,10 @@ test('发现型集合页减少动效时恢复静态绘图', async ({ page }) => 
     card: getComputedStyle(document.querySelector('.attraction-card') as HTMLElement).animationName,
     comparison: (() => { const element = document.querySelector('.comparison-panel'); return element ? getComputedStyle(element).animationName : ''; })(),
     ink: getComputedStyle(document.querySelector('.attraction-themes') as HTMLElement, '::before').transform,
+    themeInkAnimation: getComputedStyle(document.querySelector('.attraction-theme-card[aria-pressed="true"] strong') as HTMLElement, '::after').animationName,
+    themeInkOpacity: getComputedStyle(document.querySelector('.attraction-theme-card[aria-pressed="true"] strong') as HTMLElement, '::after').opacity,
   }));
-  expect(attractionsMotion).toMatchObject({ themes: 'none', theme: 'none', filter: 'none', result: 'none', card: 'none', ink: 'matrix(1, 0, 0, 1, 0, 0)' });
+  expect(attractionsMotion).toMatchObject({ themes: 'none', theme: 'none', filter: 'none', result: 'none', card: 'none', ink: 'matrix(1, 0, 0, 1, 0, 0)', themeInkAnimation: 'none', themeInkOpacity: '0.82' });
 
   await page.goto(`${appBase}routes`);
   await expect(page.locator('.route-card').first()).toBeVisible();
