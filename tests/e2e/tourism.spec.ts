@@ -110,6 +110,49 @@ test('移动端菜单项悬停反馈与桌面导航保持一致', async ({ page 
   await expect(attractionsLink).toHaveCSS('box-shadow', /rgba\(67, 48, 24, 0\.06\)/);
 });
 
+test('移动端导航与页脚激活态使用统一的纸面墨线', async ({ page }) => {
+  await page.goto(`${appBase}attractions`);
+  const footerAnimation = await page.locator('.footer-grid a.active').evaluate((element) => getComputedStyle(element, '::after').animationName);
+  expect(footerAnimation).toBe('footer-nav-active-ink');
+  if ((page.viewportSize()?.width ?? 999) > 768) return;
+  await page.getByRole('button', { name: '打开导航菜单' }).click();
+  const mobileAnimation = await page.evaluate(() => {
+    const mobileActive = document.querySelector<HTMLElement>('.mobile-nav a.active');
+    return mobileActive ? getComputedStyle(mobileActive, '::after').animationName : '';
+  });
+  expect(mobileAnimation).toBe('mobile-nav-active-ink');
+});
+
+test('移动端导航与页脚激活墨线在减少动效时保持静态', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(`${appBase}attractions`);
+  const footerStyles = await page.locator('.footer-grid a.active').evaluate((element) => {
+    const ink = getComputedStyle(element, '::after');
+    return {
+      footerAnimation: ink.animationName,
+      footerOpacity: ink.opacity,
+      footerTransform: ink.transform,
+    };
+  });
+  expect(footerStyles.footerAnimation).toBe('none');
+  expect(footerStyles.footerOpacity).toBe('0.86');
+  expect(footerStyles.footerTransform).not.toBe('none');
+  if ((page.viewportSize()?.width ?? 999) > 768) return;
+  await page.getByRole('button', { name: '打开导航菜单' }).click();
+  const mobileStyles = await page.evaluate(() => {
+    const mobileActive = document.querySelector<HTMLElement>('.mobile-nav a.active');
+    const mobileInk = mobileActive ? getComputedStyle(mobileActive, '::after') : null;
+    return {
+      mobileAnimation: mobileInk?.animationName ?? '',
+      mobileOpacity: mobileInk?.opacity ?? '',
+      mobileTransform: mobileInk?.transform ?? '',
+    };
+  });
+  expect(mobileStyles.mobileAnimation).toBe('none');
+  expect(mobileStyles.mobileOpacity).toBe('0.76');
+  expect(mobileStyles.mobileTransform).not.toBe('none');
+});
+
 test('移动端点击菜单入口后立即收起并恢复菜单按钮焦点', async ({ page }) => {
   if ((page.viewportSize()?.width ?? 999) > 768) test.skip();
   await page.goto(appBase);
