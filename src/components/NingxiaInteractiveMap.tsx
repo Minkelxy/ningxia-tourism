@@ -260,6 +260,11 @@ export default function NingxiaInteractiveMap() {
 
   const effectiveFocusedCode = legendHighlightCode ?? focusedFeatureCode;
   const selectedFeatureCode = featureCode(selectedDistrict) || undefined;
+  const mapScopeKey = selectedDistrict
+    ? featureCode(selectedDistrict)
+    : selectedCity
+      ? featureCode(selectedCity)
+      : 'province';
 
   if (loading)
     return (
@@ -406,6 +411,7 @@ export default function NingxiaInteractiveMap() {
           >
             <g filter="url(#mapGlow)">
               <MapRegionLayer
+                key={`regions-${mapScopeKey}`}
                 features={mapFeatures}
                 project={project}
                 activeCityId={activeCityId}
@@ -421,6 +427,7 @@ export default function NingxiaInteractiveMap() {
 
             {/* —— Task 4: 标签层 —— */}
             <MapLabelLayer
+              key={`labels-${mapScopeKey}`}
               features={labelFeatures}
               project={project}
               cityDetail={Boolean(selectedCity)}
@@ -429,18 +436,19 @@ export default function NingxiaInteractiveMap() {
             />
 
             <AttractionLayer
+              key={`attractions-${mapScopeKey}`}
               attractions={visibleAttractions}
               project={project}
               selectedAttractionId={selectedAttraction?.id}
               onSelect={setSelectedAttraction}
             />
             {showGovernment && (
-              <GovernmentLayer markers={governmentMarkers} project={project} />
+              <GovernmentLayer key={`government-${mapScopeKey}`} markers={governmentMarkers} project={project} />
             )}
             {showFood && (
-              <FoodLayer foods={publishedFoods} project={project} onSelect={handleFoodSelect} />
+              <FoodLayer key={`food-${mapScopeKey}`} foods={publishedFoods} project={project} onSelect={handleFoodSelect} />
             )}
-            {showTransport && <TransportLayer hubs={visibleHubs} project={project} />}
+            {showTransport && <TransportLayer key={`transport-${mapScopeKey}`} hubs={visibleHubs} project={project} />}
           </g>
         </svg>
 

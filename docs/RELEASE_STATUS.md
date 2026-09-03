@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-04 v0.3.123 发布复核：待 GitHub Actions 完成后回填最终代码提交、工作流编号与测试统计。地图从全区进入城市或区县视图时，行政区、标签、景点及已开启图层按当前地域范围重新挂载并渐进落印；保留缩放、拖拽、键盘进入、点位选择、预览、图层开关和图例联动，减少动效设置下恢复静态图层。
+
 2026-09-04 v0.3.122 发布复核：最终代码提交 [`32208fc`](https://github.com/Minkelxy/ningxia-tourism/commit/32208fc4b7164e9a209affd94e4abd291e9b4fdb) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33778813737)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、183 条 E2E 通过、15 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。景点与美食的关键词、城市或类型筛选变化时，结果摘要、卡片网格和空结果按新的内容重新挂载并渐进绘图；保留筛选、清除、收藏、对比、详情链接与响应式布局，减少动效设置下恢复静态结果。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
 2026-09-04 v0.3.121 发布复核：最终代码提交 [`366f06c`](https://github.com/Minkelxy/ningxia-tourism/commit/366f06c2974bb19e5500ffc9a5409e341586a9bd) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33776709805)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、181 条 E2E 通过、15 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。全站搜索关键词变化时，结果摘要、分类结果组、结果条目和无结果状态按新的内容重新挂载并渐进绘图；保留关键词提交、建议词、清空搜索、URL 同步和结果链接，减少动效设置下恢复静态结果。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。

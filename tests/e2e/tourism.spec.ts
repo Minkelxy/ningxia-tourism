@@ -655,6 +655,28 @@ test('地图工具栏与层级切换使用统一渐进绘图', async ({ page }) 
   expect(reducedMotion.inkOpacity).toBe('0.72');
 });
 
+test('地图层级变化后可见点位重新渐进落印', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto(appBase);
+  await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
+  const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
+  await expect(map.locator('.map-attraction-glyph').first()).toBeVisible();
+  await page.waitForTimeout(700);
+  await page.evaluate(() => {
+    document.body.dataset.mapScopeAnimations = 'armed';
+    document.addEventListener('animationstart', (event) => {
+      const target = event.target;
+      if (event.animationName === 'map-layer-pop-in' && target instanceof Element && target.classList.contains('map-attraction-glyph') && document.body.dataset.mapScopeAnimations === 'armed') {
+        document.body.dataset.mapScopeAnimations = 'map-layer-pop-in';
+      }
+    }, { capture: true });
+  });
+  await map.getByRole('button', { name: /银川市，按回车进入/ }).press('Enter');
+  await expect(map.getByRole('button', { name: /兴庆区，按回车进入/ })).toBeVisible();
+  await expect.poll(async () => page.evaluate(() => document.body.dataset.mapScopeAnimations)).toBe('map-layer-pop-in');
+  await expect(map.locator('.map-attraction-glyph').first()).toHaveCSS('animation-name', 'map-layer-pop-in');
+});
+
 test('地图区县图例支持键盘聚焦并联动区域高亮', async ({ page }) => {
   await page.goto(appBase);
   await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
