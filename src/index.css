@@ -666,9 +666,10 @@ button { color: inherit; }
 .route-filter { display: grid; gap: 16px; }
 .route-filter > div { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
 .route-filter > div > span { width: 78px; color: var(--muted); font-size: .78rem; font-weight: 700; }
-.route-filter button { min-height: 44px; padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; background: #fff; cursor: pointer; transition: transform .2s ease, background .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease; }
+.route-filter button { position: relative; min-height: 44px; padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; background: #fff; cursor: pointer; transition: transform .2s ease, background .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease; }
 .route-filter button:hover, .route-filter button:focus-visible { border-color: var(--green); background: #eef3ed; color: var(--green); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(49,95,79,.1); }
 .route-filter button.active { border-color: var(--green); background: var(--green); color: #fff; transform: none; }
+.route-filter button[aria-pressed="true"]::after { position: absolute; right: 14px; bottom: 3px; left: 14px; height: 2px; content: ''; border-radius: 999px; background: linear-gradient(90deg, rgba(240,197,121,.9), rgba(255,255,255,.24)); opacity: 0; transform: scaleX(0) rotate(-1deg); transform-origin: left; animation: route-filter-active-ink .38s cubic-bezier(.22,.8,.26,1) .16s both; pointer-events: none; }
 .route-comparison { position: relative; margin-bottom: 38px; padding: 30px; border: 1px solid var(--line); border-radius: 24px; background: linear-gradient(145deg, #fffdf8, #eee5d6); box-shadow: 0 12px 34px rgba(64,48,25,.06); animation: collection-comparison-in .5s cubic-bezier(.22,.8,.26,1) .12s both; }
 .route-comparison > header { display: flex; justify-content: space-between; align-items: end; gap: 32px; margin-bottom: 22px; }
 .route-comparison > header h2 { margin-top: 7px; font-size: clamp(1.8rem, 3vw, 2.6rem); }
@@ -1367,6 +1368,7 @@ button { color: inherit; }
 @keyframes collection-theme-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes collection-theme-active-ink { from { opacity: 0; transform: scaleX(0) rotate(-1deg); } to { opacity: .82; transform: scaleX(1) rotate(1deg); } }
 @keyframes collection-filter-in { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes route-filter-active-ink { from { opacity: 0; transform: scaleX(0) rotate(-1deg); } to { opacity: .9; transform: scaleX(1) rotate(1deg); } }
 @keyframes collection-result-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes collection-comparison-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes collection-table-row-in { from { opacity: 0; } to { opacity: 1; } }
@@ -1699,6 +1701,7 @@ button { color: inherit; }
   .home-route-match { opacity: 1; transform: none; }
   .home-route-match h3::after { opacity: .82; transform: scaleX(1); }
   .attraction-theme-card[aria-pressed="true"] strong::after { opacity: .82; transform: scaleX(1) rotate(1deg); }
+  .route-filter button[aria-pressed="true"]::after { animation: none !important; opacity: .9; transform: scaleX(1) rotate(1deg); }
   .guide-hero-grid > div:first-child, .guide-hero-visual, .guide-hero-summary, .season-card, .duration-card, .transit-flow article, .transit-icon { opacity: 1; transform: none; }
   .season-card h3::after, .duration-card strong::after { opacity: .82; transform: scaleX(1); }
   .transit-flow::before { opacity: 1; transform: none; }

@@ -1391,8 +1391,10 @@ test('发现型集合页减少动效时恢复静态绘图', async ({ page }) => 
     row: getComputedStyle(document.querySelector('.route-table-wrap tbody tr') as HTMLElement).animationName,
     card: getComputedStyle(document.querySelector('.route-card') as HTMLElement).animationName,
     chip: getComputedStyle(document.querySelector('.route-profile-strip span') as HTMLElement).animationName,
+    activeInkAnimation: getComputedStyle(document.querySelector('.route-filter button[aria-pressed="true"]') as HTMLElement, '::after').animationName,
+    activeInkOpacity: getComputedStyle(document.querySelector('.route-filter button[aria-pressed="true"]') as HTMLElement, '::after').opacity,
   }));
-  expect(routesMotion).toEqual({ filter: 'none', result: 'none', comparison: 'none', row: 'none', card: 'none', chip: 'none' });
+  expect(routesMotion).toEqual({ filter: 'none', result: 'none', comparison: 'none', row: 'none', card: 'none', chip: 'none', activeInkAnimation: 'none', activeInkOpacity: '0.9' });
 
   await page.goto(`${appBase}cities`);
   await expect(page.locator('.city-card').first()).toBeVisible();
@@ -1840,6 +1842,7 @@ test('路线筛选入口保持轻量反馈', async ({ page }) => {
   await expect(cityFilter).toHaveAttribute('aria-pressed', 'true');
   await expect(cityFilter).toHaveCSS('background-color', 'rgb(49, 95, 79)');
   await expect(cityFilter).toHaveCSS('color', 'rgb(255, 255, 255)');
+  await expect.poll(async () => cityFilter.evaluate((element) => getComputedStyle(element, '::after').animationName)).toBe('route-filter-active-ink');
 });
 
 test('中卫沙水专题可比较目的地并查看来源', async ({ page }) => {
