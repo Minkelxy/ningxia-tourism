@@ -405,6 +405,54 @@ export default function NingxiaInteractiveMap() {
             fill="url(#mapGrain)"
           />
 
+          <g className="map-topography" aria-hidden="true">
+            <ellipse
+              className="map-topography-ink"
+              cx={mapView.width * 0.28}
+              cy={mapView.height * 0.22}
+              rx={mapView.width * 0.12}
+              ry={mapView.height * 0.055}
+              transform={`rotate(-18 ${mapView.width * 0.28} ${mapView.height * 0.22})`}
+              pathLength="1"
+            />
+            <ellipse
+              className="map-topography-ink"
+              cx={mapView.width * 0.28}
+              cy={mapView.height * 0.22}
+              rx={mapView.width * 0.17}
+              ry={mapView.height * 0.08}
+              transform={`rotate(-18 ${mapView.width * 0.28} ${mapView.height * 0.22})`}
+              pathLength="1"
+            />
+            <ellipse
+              className="map-topography-ink"
+              cx={mapView.width * 0.28}
+              cy={mapView.height * 0.22}
+              rx={mapView.width * 0.22}
+              ry={mapView.height * 0.105}
+              transform={`rotate(-18 ${mapView.width * 0.28} ${mapView.height * 0.22})`}
+              pathLength="1"
+            />
+            <ellipse
+              className="map-topography-ink"
+              cx={mapView.width * 0.69}
+              cy={mapView.height * 0.69}
+              rx={mapView.width * 0.11}
+              ry={mapView.height * 0.06}
+              transform={`rotate(24 ${mapView.width * 0.69} ${mapView.height * 0.69})`}
+              pathLength="1"
+            />
+            <ellipse
+              className="map-topography-ink"
+              cx={mapView.width * 0.69}
+              cy={mapView.height * 0.69}
+              rx={mapView.width * 0.16}
+              ry={mapView.height * 0.09}
+              transform={`rotate(24 ${mapView.width * 0.69} ${mapView.height * 0.69})`}
+              pathLength="1"
+            />
+          </g>
+
           <g
             className={`map-viewport${isDragging ? ' is-dragging' : ''}`}
             style={{ transform: `translate(${mapView.width / 2 + pan.x}px, ${mapView.height / 2 + pan.y}px) scale(${zoom}) translate(${-mapView.width / 2}px, ${-mapView.height / 2}px)` }}

@@ -575,8 +575,11 @@ test('首页山河绘图与地图区域动效保持轻量并尊重减少动效�
   await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
   const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
   const compass = map.locator('.map-compass');
+  const topography = map.locator('.map-topography-ink');
   await expect(compass).toHaveAttribute('aria-label', '地图方向指示：上方为北');
   await expect(compass).toHaveCSS('animation-name', 'map-compass-in');
+  await expect(topography).toHaveCount(5);
+  await expect(topography.first()).toHaveCSS('animation-name', 'map-topography-draw');
   await expect(map.locator('.map-region').first()).toBeVisible();
   const mapAnimation = await map.locator('.map-region').evaluateAll((elements) => ({
     names: elements.slice(0, 3).map((element) => getComputedStyle(element).animationName),
@@ -615,7 +618,7 @@ test('首页山河绘图与地图区域动效保持轻量并尊重减少动效�
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.reload();
   await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
-  const reducedMotion = await page.locator('.sun-disc, .mountain-back, .mountain-front, .hero-seal, .scroll-cue, .map-compass, .map-region, .map-region-emphasis, .map-attraction-glyph, .map-label__glyph').evaluateAll((elements) => elements.map((element) => getComputedStyle(element).animationName));
+  const reducedMotion = await page.locator('.sun-disc, .mountain-back, .mountain-front, .hero-seal, .scroll-cue, .map-compass, .map-topography-ink, .map-region, .map-region-emphasis, .map-attraction-glyph, .map-label__glyph').evaluateAll((elements) => elements.map((element) => getComputedStyle(element).animationName));
   expect(reducedMotion.every((name) => name === 'none')).toBe(true);
 });
 
