@@ -1063,6 +1063,7 @@ test('路线详情按首屏、导航、日程与侧栏层级完成渐进绘图',
       actionAnimation: actions ? getComputedStyle(actions).animationName : '',
       dayNavAnimation: dayNav ? getComputedStyle(dayNav).animationName : '',
       dayLinkAnimation: dayLink ? getComputedStyle(dayLink).animationName : '',
+      activeLinkInkAnimation: dayLink ? getComputedStyle(dayLink, '::after').animationName : '',
       audienceAnimation: audience ? getComputedStyle(audience).animationName : '',
       markerAnimation: marker ? getComputedStyle(marker).animationName : '',
       markerInkAnimation: marker ? getComputedStyle(marker, '::after').animationName : '',
@@ -1079,6 +1080,7 @@ test('路线详情按首屏、导航、日程与侧栏层级完成渐进绘图',
     actionAnimation: 'route-detail-actions-in',
     dayNavAnimation: 'route-day-nav-in',
     dayLinkAnimation: 'route-day-link-in',
+    activeLinkInkAnimation: 'route-day-active-ink',
     audienceAnimation: 'route-section-in',
     markerAnimation: 'route-day-marker-in',
     markerInkAnimation: 'route-day-marker-ink',
@@ -1102,6 +1104,7 @@ test('路线详情减少动效时恢复静态层级与墨线', async ({ page }) 
       titleInkAnimation: title ? getComputedStyle(title, '::after').animationName : '',
       titleInkOpacity: title ? getComputedStyle(title, '::after').opacity : '',
       markerInkAnimation: marker ? getComputedStyle(marker, '::after').animationName : '',
+      activeLinkInkAnimation: getComputedStyle(document.querySelector('.route-day-nav a.active') as HTMLElement, '::after').animationName,
       markerInkOpacity: marker ? getComputedStyle(marker, '::after').opacity : '',
     };
   });
@@ -1109,6 +1112,7 @@ test('路线详情减少动效时恢复静态层级与墨线', async ({ page }) 
   expect(motion.titleInkAnimation).toBe('none');
   expect(motion.titleInkOpacity).toBe('0.86');
   expect(motion.markerInkAnimation).toBe('none');
+  expect(motion.activeLinkInkAnimation).toBe('none');
   expect(motion.markerInkOpacity).toBe('0.72');
 });
 
