@@ -863,6 +863,8 @@ test('收藏操作保持跨页面反馈一致', async ({ page }) => {
   await expect(attractionFavorite).toHaveCSS('color', 'rgb(169, 69, 53)');
   await attractionFavorite.click();
   await expect(attractionFavorite).toHaveAttribute('aria-pressed', 'true');
+  await expect.poll(async () => attractionFavorite.evaluate((element) => getComputedStyle(element, '::after').animationName)).toBe('favorite-active-ink');
+  await expect.poll(async () => attractionFavorite.locator('svg').evaluate((element) => getComputedStyle(element).animationName)).toBe('favorite-heart-stamp');
 
   await page.goto(`${appBase}routes`);
   const routeFavorite = page.getByRole('button', { name: /收藏/ }).first();
@@ -870,6 +872,9 @@ test('收藏操作保持跨页面反馈一致', async ({ page }) => {
   await routeFavorite.hover();
   await expect(routeFavorite).toHaveCSS('background-color', 'rgb(255, 243, 237)');
   await expect(routeFavorite).toHaveCSS('color', 'rgb(169, 69, 53)');
+  await routeFavorite.click();
+  await expect(routeFavorite).toHaveAttribute('aria-pressed', 'true');
+  await expect.poll(async () => routeFavorite.evaluate((element) => getComputedStyle(element, '::after').animationName)).toBe('favorite-active-ink');
 
   await page.goto(`${appBase}favorites`);
   await expect(page.getByRole('heading', { name: '收藏的景点' })).toBeVisible();
@@ -2144,6 +2149,8 @@ test('收藏与搜索工具页按内容层级完成渐进绘图', async ({ page 
       toolbarAnimation: toolbar ? getComputedStyle(toolbar).animationName : '',
       sectionAnimation: section ? getComputedStyle(section).animationName : '',
       rowAnimation: row ? getComputedStyle(row).animationName : '',
+      favoriteInkAnimation: row ? getComputedStyle(row.querySelector('.favorite-button[aria-pressed="true"]') as HTMLElement, '::after').animationName : '',
+      favoriteHeartAnimation: row ? getComputedStyle(row.querySelector('.favorite-button[aria-pressed="true"] svg') as HTMLElement).animationName : '',
     };
   });
   expect(favoritesMotion).toEqual({
@@ -2152,6 +2159,8 @@ test('收藏与搜索工具页按内容层级完成渐进绘图', async ({ page 
     toolbarAnimation: 'utility-toolbar-in',
     sectionAnimation: 'utility-section-in',
     rowAnimation: 'utility-row-in',
+    favoriteInkAnimation: 'favorite-active-ink',
+    favoriteHeartAnimation: 'favorite-heart-stamp',
   });
 
   await page.goto(`${appBase}search`);
@@ -2235,11 +2244,19 @@ test('收藏与搜索工具页减少动效时恢复静态绘图', async ({ page 
       animations: selectors.map((selector) => getComputedStyle(document.querySelector<HTMLElement>(selector) as HTMLElement).animationName),
       titleInkAnimation: title ? getComputedStyle(title, '::after').animationName : '',
       titleInkOpacity: title ? getComputedStyle(title, '::after').opacity : '',
+      favoriteInkAnimation: getComputedStyle(document.querySelector('.favorite-button[aria-pressed="true"]') as HTMLElement, '::after').animationName,
+      favoriteInkOpacity: getComputedStyle(document.querySelector('.favorite-button[aria-pressed="true"]') as HTMLElement, '::after').opacity,
+      favoriteHeartAnimation: getComputedStyle(document.querySelector('.favorite-button[aria-pressed="true"] svg') as HTMLElement).animationName,
+      favoriteHeartTransform: getComputedStyle(document.querySelector('.favorite-button[aria-pressed="true"] svg') as HTMLElement).transform,
     };
   });
   expect(favoritesMotion.animations.every((animationName) => animationName === 'none')).toBe(true);
   expect(favoritesMotion.titleInkAnimation).toBe('none');
   expect(favoritesMotion.titleInkOpacity).toBe('0.84');
+  expect(favoritesMotion.favoriteInkAnimation).toBe('none');
+  expect(favoritesMotion.favoriteInkOpacity).toBe('0.76');
+  expect(favoritesMotion.favoriteHeartAnimation).toBe('none');
+  expect(favoritesMotion.favoriteHeartTransform).toBe('none');
 
   await page.goto(`${appBase}search?q=沙漠`);
   await expect(page.locator('.search-group').first()).toBeVisible();
