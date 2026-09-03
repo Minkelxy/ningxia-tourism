@@ -4,7 +4,7 @@
 
 ## 当前发布快照
 
-2026-09-04 v0.3.132 发布复核：最终代码提交 [`46383a5`](https://github.com/Minkelxy/ningxia-tourism/commit/46383a53c652a1a168597d4ec87175f6570f88a2) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33800231282)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、190 条 E2E 通过、16 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。全站收藏按钮切换为已收藏时增加轻量心形落印与底部手绘墨线，与筛选、栏目和路线日程共享纸面状态反馈语言；保留收藏逻辑、跨页面同步、深色头图对比度和 320px 窄屏图标化按钮，减少动效设置下恢复静态显示。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径、CSS 与 JS 资源 HTTP 200。
+2026-09-04 v0.3.132 发布复核：最终代码提交 [`46383a5`](https://github.com/Minkelxy/ningxia-tourism/commit/46383a53c652a1a168597d4ec87175f6570f88a2) 的[最终主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33800669950)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、190 条 E2E 通过、16 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。全站收藏按钮切换为已收藏时增加轻量心形落印与底部手绘墨线，与筛选、栏目和路线日程共享纸面状态反馈语言；保留收藏逻辑、跨页面同步、深色头图对比度和 320px 窄屏图标化按钮，减少动效设置下恢复静态显示。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径、CSS 与 JS 资源 HTTP 200。
 
 2026-09-04 v0.3.131 发布复核：最终代码提交 [`4febbd2`](https://github.com/Minkelxy/ningxia-tourism/commit/4febbd233340fe316a9b7d042d2071af6489c7f1) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33798677022)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、190 条 E2E 最终通过、16 条按端型跳过，Lighthouse 质量门禁通过；GitHub 首次回归有 1 项桌面环境性 flaky，重试后通过。推荐路线筛选的已选天数、城市、主题与节奏条件在状态胶囊底部新增轻量手绘墨线，与景点兴趣、手记栏目和路线日程共享纸面反馈语言；保留筛选、URL 同步、比较表、路线卡片和窄屏布局，减少动效设置下恢复静态显示。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径、CSS 与 JS 资源 HTTP 200。
 
