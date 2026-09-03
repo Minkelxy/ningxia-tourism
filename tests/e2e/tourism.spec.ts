@@ -1270,6 +1270,38 @@ test('发现型集合页按筛选、比较和结果顺序渐进绘图', async ({
   await expect(page.locator('.source-directory a').first()).toHaveCSS('animation-name', 'about-source-link-in');
 });
 
+test('景点与美食筛选结果按新条件重新渐进绘图', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  const cases = [
+    { path: 'attractions', toggle: /筛选景点/, placeholder: '搜索景点、城市或亮点', summary: '#attraction-results', card: '.attraction-card', keyword: '沙坡头' },
+    { path: 'foods', toggle: /筛选美食/, placeholder: '搜索美食、产地或餐厅', summary: '#food-results', card: '.attraction-card', keyword: '八宝茶' },
+  ] as const;
+
+  for (const item of cases) {
+    await page.goto(`${appBase}${item.path}`);
+    if ((page.viewportSize()?.width ?? 999) <= 768) {
+      await page.getByRole('button', { name: item.toggle }).click();
+    }
+    await page.waitForTimeout(700);
+    await page.evaluate(() => {
+      document.body.dataset.resultAnimations = '';
+      document.addEventListener('animationstart', (event) => {
+        if (event.animationName === 'collection-result-in' || event.animationName === 'collection-card-in') {
+          const names = new Set((document.body.dataset.resultAnimations ?? '').split(',').filter(Boolean));
+          names.add(event.animationName);
+          document.body.dataset.resultAnimations = [...names].join(',');
+        }
+      }, { capture: true });
+    });
+    await page.getByPlaceholder(item.placeholder).fill(item.keyword);
+    const summary = page.locator(item.summary);
+    const card = page.locator(item.card).first();
+    await expect(summary).toBeVisible();
+    await expect(card).toBeVisible();
+    await expect.poll(async () => page.evaluate(() => document.body.dataset.resultAnimations?.split(',') ?? [])).toEqual(expect.arrayContaining(['collection-result-in', 'collection-card-in']));
+  }
+});
+
 test('发现型集合页减少动效时恢复静态绘图', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
 

@@ -36,6 +36,7 @@ export default function AttractionsList() {
   const compareAttractions = useMemo(() => {
     return publishedAttractions.filter((item) => compareIdSet.has(item.id));
   }, [compareIdSet]);
+  const resultKey = [normalizedQuery, city, category, theme].join('|');
   const toggleCompare = (id: string) => setCompareIds((current) => current.includes(id) ? current.filter((item) => item !== id) : current.length < 3 ? [...current, id] : current);
 
   return (
@@ -69,7 +70,7 @@ export default function AttractionsList() {
           <label><span><SlidersHorizontal aria-hidden="true" /> 类型</span><select value={category} onChange={(event) => setFilter('category', event.target.value)}><option value="all">全部类型</option>{Object.entries(categoryMeta).map(([value, meta]) => <option key={value} value={value}>{meta.label}</option>)}</select></label>
         </section>
 
-        <div id="attraction-results" className="result-summary" role="status" aria-live="polite"><strong>{attractions.length}</strong> 个符合条件的景点{activeTheme && <span className="active-filter-note">主题：{activeTheme.label}</span>}{activeFilterCount > 0 && <button type="button" onClick={() => { clearFilters(); setFiltersExpanded(false); }}>清除筛选</button>}</div>
+        <div id="attraction-results" key={`attraction-results-${resultKey}`} className="result-summary" role="status" aria-live="polite"><strong>{attractions.length}</strong> 个符合条件的景点{activeTheme && <span className="active-filter-note">主题：{activeTheme.label}</span>}{activeFilterCount > 0 && <button type="button" onClick={() => { clearFilters(); setFiltersExpanded(false); }}>清除筛选</button>}</div>
         {compareAttractions.length > 0 && <div className="compare-dock" role="status" aria-live="polite"><span><ArrowLeftRight aria-hidden="true" /><strong>已选 {compareAttractions.length}/3</strong><small>{compareAttractions.map((item) => item.name).join('、')}</small></span><a href="#attraction-comparison" className="btn-primary">查看对比</a></div>}
 
         <section className="attraction-themes" aria-labelledby="attraction-themes-title">
@@ -86,7 +87,7 @@ export default function AttractionsList() {
           </div>
         </section>
 
-        {attractions.length ? <div className="attraction-grid">{attractions.map((item) => {
+        {attractions.length ? <div key={`attraction-cards-${resultKey}`} className="attraction-grid">{attractions.map((item) => {
           const meta = categoryMeta[item.category as AttractionCategory];
           const cover = item.images[0];
           return (
@@ -95,7 +96,7 @@ export default function AttractionsList() {
               <div className="card-content"><div className="card-heading-row"><p className="card-location"><MapPin aria-hidden="true" /> {cityName(item.cityId as CityId)} · {item.locality}</p><FavoriteButton kind="attraction" id={item.id} label={item.name} /></div><h2><Link to={`/attraction/${item.id}`}>{item.name}</Link></h2><p>{item.summary}</p><div className="card-meta"><span><Clock3 aria-hidden="true" /> {item.visitInfo.duration}</span><span>{item.visitInfo.bestSeason}</span></div><div className="card-actions"><button type="button" className={`compare-toggle ${compareIdSet.has(item.id) ? 'is-active' : ''}`} aria-pressed={compareIdSet.has(item.id)} disabled={!compareIdSet.has(item.id) && compareIds.length >= 3} onClick={() => toggleCompare(item.id)}><ArrowLeftRight aria-hidden="true" /> {compareIdSet.has(item.id) ? '已加入对比' : '加入对比'}</button><Link to={`/attraction/${item.id}`} className="text-link">查看出行信息 <ArrowRight aria-hidden="true" /></Link></div></div>
             </article>
           );
-        })}</div> : <div className="empty-state"><Search aria-hidden="true" /><h2>没有找到匹配的景点</h2><p>换一个关键词，或者清除城市与类型筛选再试试。</p><button type="button" className="btn-primary" onClick={() => clearFilters()}>查看全部景点</button></div>}
+        })}</div> : <div key={`attraction-empty-${resultKey}`} className="empty-state"><Search aria-hidden="true" /><h2>没有找到匹配的景点</h2><p>换一个关键词，或者清除城市与类型筛选再试试。</p><button type="button" className="btn-primary" onClick={() => clearFilters()}>查看全部景点</button></div>}
         {compareAttractions.length > 0 && <section id="attraction-comparison" className="comparison-panel" aria-labelledby="attraction-comparison-title"><header><div><p className="eyebrow"><ArrowLeftRight aria-hidden="true" /> 横向比较</p><h2 id="attraction-comparison-title">把差异放在一张表里</h2></div><button type="button" className="text-button" onClick={() => setCompareIds([])}><X aria-hidden="true" /> 清空对比</button></header><div className="comparison-table-wrap" role="region" aria-label="景点横向比较表" tabIndex={0}><table><thead><tr><th scope="col">项目</th>{compareAttractions.map((item) => <th scope="col" key={item.id}>{item.name}<small>{cityName(item.cityId)}</small></th>)}</tr></thead><tbody><CompareRow label="类型" values={compareAttractions.map((item) => categoryMeta[item.category].label)} /><CompareRow label="建议时长" values={compareAttractions.map((item) => item.visitInfo.duration)} /><CompareRow label="最佳季节" values={compareAttractions.map((item) => item.visitInfo.bestSeason)} /><CompareRow label="票价参考" values={compareAttractions.map((item) => item.visitInfo.ticketPrice)} /><CompareRow label="预约提示" values={compareAttractions.map((item) => item.visitInfo.reservation)} /><CompareRow label="到达方式" values={compareAttractions.map((item) => item.visitInfo.transportation)} /><CompareRow label="资料状态" values={compareAttractions.map((item) => item.verificationLevel === 'verified' ? '核心资料已核实' : '资料待进一步复核')} /></tbody></table></div><p className="comparison-note">对比内容用于行程筛选；票价、预约、开放和交通属于易变信息，出发前请查看景区或机构最新公告。</p></section>}
       </div>
     </>

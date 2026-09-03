@@ -30,6 +30,7 @@ export default function FoodsList() {
     const matchesCity = city === 'all' || item.restaurants.some((r) => r.cityId === city) || item.origin.includes(cityName(city as CityId));
     return matchesQuery && matchesCity && (category === 'all' || item.category === category);
   }), [normalizedQuery, city, category]);
+  const resultKey = [normalizedQuery, city, category].join('|');
 
   return (
     <>
@@ -62,14 +63,14 @@ export default function FoodsList() {
           <label><span><Utensils aria-hidden="true" /> 类别</span><select value={category} onChange={(event) => setFilter('category', event.target.value)}><option value="all">全部类别</option>{(Object.entries(foodCategoryLabels) as Array<[FoodCategory, string]>).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
         </section>
 
-        <div id="food-results" className="result-summary" role="status" aria-live="polite"><strong>{foods.length}</strong> 个符合条件的美食{activeFilterCount > 0 && <button type="button" onClick={() => { clearFilters(); setFiltersExpanded(false); }}>清除筛选</button>}</div>
+        <div id="food-results" key={`food-results-${resultKey}`} className="result-summary" role="status" aria-live="polite"><strong>{foods.length}</strong> 个符合条件的美食{activeFilterCount > 0 && <button type="button" onClick={() => { clearFilters(); setFiltersExpanded(false); }}>清除筛选</button>}</div>
 
-        {foods.length ? <div className="attraction-grid">{foods.map((item) => (
+        {foods.length ? <div key={`food-cards-${resultKey}`} className="attraction-grid">{foods.map((item) => (
           <article className="attraction-card" key={item.id}>
             <Link to={`/food/${item.id}`} className="card-image food-card-image"><ResponsiveImage src={item.image.src} alt={item.image.alt} width="720" height="450" loading="lazy" sizes="(max-width: 768px) calc(100vw - 32px), (max-width: 1024px) 50vw, 390px" /><span className="category-badge">{foodCategoryLabels[item.category]}</span><span className={`verification-badge ${item.verificationLevel}`}>{item.verificationLevel === 'verified' ? '已核实' : '待复核'}</span></Link>
             <div className="card-content"><p className="card-location"><MapPin aria-hidden="true" /> {item.origin}</p><h2><Link to={`/food/${item.id}`}>{item.name}</Link></h2><p>{item.description}</p><div className="card-meta">{item.priceRange && <span>{item.priceRange}</span>}{item.bestSeason && <span>{item.bestSeason}</span>}</div><Link to={`/food/${item.id}`} className="text-link">查看美食详情 <ArrowRight aria-hidden="true" /></Link></div>
           </article>
-        ))}</div> : <div className="empty-state"><Search aria-hidden="true" /><h2>没有找到匹配的美食</h2><p>换一个关键词，或者清除城市与类别筛选再试试。</p><button type="button" className="btn-primary" onClick={() => clearFilters()}>查看全部美食</button></div>}
+        ))}</div> : <div key={`food-empty-${resultKey}`} className="empty-state"><Search aria-hidden="true" /><h2>没有找到匹配的美食</h2><p>换一个关键词，或者清除城市与类别筛选再试试。</p><button type="button" className="btn-primary" onClick={() => clearFilters()}>查看全部美食</button></div>}
       </div>
     </>
   );
