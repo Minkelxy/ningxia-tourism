@@ -1090,7 +1090,7 @@ test('城市详情和路线详情可直接访问', async ({ page }) => {
   await expect(page.locator('.stop-verification.verified')).toHaveCount(3);
   await expect(page.getByRole('link', { name: '大武口工业遗址公园' })).toBeVisible();
   const stopMapLink = page.locator('.route-stop .text-link').first();
-  await stopMapLink.hover();
+  await stopMapLink.focus();
   await expect(stopMapLink).toHaveCSS('color', 'rgb(169, 69, 53)');
   await expect(stopMapLink.locator('svg').last()).not.toHaveCSS('transform', 'none');
 
@@ -2147,13 +2147,13 @@ test('行前指南减少动效时恢复静态绘图', async ({ page }) => {
 test('轻量文字操作状态与全站交互色保持一致', async ({ page }) => {
   await page.goto(`${appBase}routes?city=shizuishan`);
   const routeClear = page.getByRole('button', { name: '清除筛选' });
-  await routeClear.hover();
+  await routeClear.focus();
   await expect(routeClear).toHaveCSS('color', 'rgb(169, 69, 53)');
   await expect(routeClear).toHaveCSS('transform', 'none');
 
   await page.goto(`${appBase}journal?type=guide&q=%E6%B2%99%E6%B9%96`);
   const journalClear = page.getByRole('button', { name: '清空筛选' });
-  await journalClear.hover();
+  await journalClear.focus();
   await expect(journalClear).toHaveCSS('color', 'rgb(49, 95, 79)');
   await expect(journalClear).toHaveCSS('transform', 'none');
 
@@ -2161,7 +2161,7 @@ test('轻量文字操作状态与全站交互色保持一致', async ({ page }) 
   const checklistItem = page.getByRole('checkbox', { name: '核对身份证件、往返车票与入住日期' });
   await checklistItem.check();
   const checklistReset = page.getByRole('button', { name: '重置清单' });
-  await checklistReset.hover();
+  await checklistReset.focus();
   await expect(checklistReset).toHaveCSS('color', 'rgb(49, 95, 79)');
   await expect(checklistReset).toHaveCSS('transform', 'none');
 });
@@ -2174,16 +2174,16 @@ test('首页与搜索起始入口保持轻量反馈', async ({ page }) => {
   await expect(searchNavLink).toHaveCSS('width', '44px');
   await expect(searchNavLink).toHaveCSS('height', '44px');
   const scrollCue = page.getByRole('link', { name: '向下探索' });
-  await scrollCue.hover();
+  await scrollCue.focus();
   await expect(scrollCue).toHaveCSS('color', 'rgb(227, 182, 107)');
   const methodLink = page.getByRole('link', { name: '了解内容方法' });
-  await methodLink.hover();
+  await methodLink.focus();
   await expect(methodLink).toHaveCSS('color', 'rgb(255, 255, 255)');
   await expect(methodLink).toHaveCSS('transform', 'none');
   await expect(methodLink.locator('svg').last()).not.toHaveCSS('transform', 'none');
   const topicsLink = page.getByRole('link', { name: '查看全部旅行专题' });
   await expect.poll(() => page.locator('.home-topics-footer').evaluate((element) => element.getAnimations().every((animation) => animation.playState === 'finished'))).toBe(true);
-  await page.locator('.home-topics-footer').hover();
+  await topicsLink.focus();
   await expect(topicsLink).toHaveCSS('background-color', 'rgb(135, 94, 36)');
   await expect(topicsLink).toHaveCSS('color', 'rgb(255, 255, 255)');
   await expect(topicsLink).not.toHaveCSS('transform', 'none');
