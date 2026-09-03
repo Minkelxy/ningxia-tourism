@@ -2101,6 +2101,19 @@ test('收藏与搜索工具页按内容层级完成渐进绘图', async ({ page 
   });
 });
 
+test('搜索关键词变化后结果按新内容重新渐进绘图', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto(`${appBase}search`);
+  await page.getByRole('button', { name: '沙漠', exact: true }).click();
+  const summary = page.locator('.search-result-summary');
+  const result = page.locator('.search-group > div > span').first();
+  await expect(summary).toBeVisible();
+  await expect(result).toBeVisible();
+  await expect.poll(async () => summary.evaluate((element) => element.getAnimations().some((animation) => animation.playState === 'running'))).toBe(true);
+  await expect.poll(async () => result.evaluate((element) => element.getAnimations().some((animation) => animation.playState === 'running'))).toBe(true);
+  await expect(page).toHaveURL(/q=%E6%B2%99%E6%BC%A0/);
+});
+
 test('收藏与搜索工具页减少动效时恢复静态绘图', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.addInitScript(() => {
