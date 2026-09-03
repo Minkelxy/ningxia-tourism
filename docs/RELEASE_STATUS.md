@@ -4,7 +4,7 @@
 
 ## 当前发布快照
 
-2026-09-04 v0.3.121 发布复核：待 GitHub Actions 完成后回填最终代码提交、工作流编号与测试统计。全站搜索关键词变化时，结果摘要、分类结果组、结果条目和无结果状态按新的内容重新挂载并渐进绘图；保留关键词提交、建议词、清空搜索、URL 同步和结果链接，减少动效设置下恢复静态结果。
+2026-09-04 v0.3.121 发布复核：最终代码提交 [`366f06c`](https://github.com/Minkelxy/ningxia-tourism/commit/366f06c2974bb19e5500ffc9a5409e341586a9bd) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33776709805)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、181 条 E2E 通过、15 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。全站搜索关键词变化时，结果摘要、分类结果组、结果条目和无结果状态按新的内容重新挂载并渐进绘图；保留关键词提交、建议词、清空搜索、URL 同步和结果链接，减少动效设置下恢复静态结果。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
 2026-09-03 v0.3.120 发布复核：最终代码提交 [`e4a09f9`](https://github.com/Minkelxy/ningxia-tourism/commit/e4a09f97c799782aea63db71d559aa21984c15fd) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33774855974)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、179 条 E2E 通过、15 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。旅行手记切换栏目、城市、标签或搜索词时，结果摘要、文章卡片和空结果按新的筛选结果重新挂载并渐进绘图，让内容筛选反馈与路线结果保持统一节奏；保留 URL 同步、栏目键盘切换、清空筛选与文章链接，减少动效设置下恢复静态结果。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
