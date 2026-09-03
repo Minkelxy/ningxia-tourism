@@ -4,7 +4,7 @@
 
 ## 当前发布快照
 
-2026-09-03 v0.3.119 发布复核：最终代码提交 [`ed52b94`](https://github.com/Minkelxy/ningxia-tourism/commit/ed52b9410677372756d8c0e0cd38e3928c8b4ffb) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33772887050)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、177 条 E2E 通过、15 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。路线筛选组合变化时，结果摘要、横向比较表、路线卡片与空结果按新的筛选结果重新挂载并渐进绘图，让筛选反馈与地图、预览面板保持统一节奏；保留 URL 同步、筛选语义、比较表横向浏览、收藏和路线链接，减少动效设置下恢复静态结果。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
+2026-09-03 v0.3.120 发布复核：待 GitHub Actions 完成后回填最终代码提交、工作流编号与测试统计。旅行手记切换栏目、城市、标签或搜索词时，结果摘要、文章卡片和空结果按新的筛选结果重新挂载并渐进绘图；保留 URL 同步、栏目键盘切换、清空筛选与文章链接，减少动效设置下恢复静态结果。
 
 2026-09-03 v0.3.118 发布复核：最终代码提交 [`683e74f`](https://github.com/Minkelxy/ningxia-tourism/commit/683e74fa866924420946ec7d4ede3a0100e41651) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33684553816)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、177 条 E2E 通过、15 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。景点预览面板使用 `map-preview-photo-in`、`map-preview-content-in`、`map-preview-eyebrow-in`、`map-preview-title-ink`、`map-preview-copy-in` 和 `map-preview-action-in` 完成图片、位置眉题、标题墨线、摘要与行动入口的分层渐进绘图；切换景点时重新铺开面板，首页专题入口通过稳定外层悬停命中区保留统一的沙金色抬升反馈，减少动效设置下恢复静态内容与标题墨线，关闭、Esc 返回焦点、详情链接和移动端底部面板行为不变。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 

@@ -1404,6 +1404,19 @@ test('旅行手记栏目切换保持轻量反馈', async ({ page }) => {
   await expect(travelTab).toHaveCSS('color', 'rgb(255, 255, 255)');
 });
 
+test('旅行手记筛选结果按新条件重新渐进绘图', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto(`${appBase}journal`);
+  const guideTab = page.getByRole('tab', { name: /旅行专题/ });
+  await guideTab.click();
+  const card = page.locator('#journal-results .journal-card').first();
+  await expect(card).toBeVisible();
+  await expect.poll(async () => card.evaluate((element) => element.getAnimations().some((animation) => animation.playState === 'running'))).toBe(true);
+  await expect.poll(async () => page.locator('.journal-result-bar').evaluate((element) => element.getAnimations().some((animation) => animation.playState === 'running'))).toBe(true);
+  await expect(page).toHaveURL(/type=guide/);
+  await expect(page.locator('.journal-card')).toHaveCount(15);
+});
+
 test('旅行手记栏目在320px窄屏保持可横向浏览', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 844 });
   await page.goto(`${appBase}journal`);
@@ -1488,6 +1501,7 @@ test('旅行手记减少动效时恢复静态绘图', async ({ page }) => {
     const card = document.querySelector('.journal-card');
     const title = card?.querySelector('h2');
     const cover = document.querySelector('.journal-photo-visual');
+    const resultBar = document.querySelector('.journal-result-bar');
     return {
       cardAnimation: card ? getComputedStyle(card).animationName : '',
       cardOpacity: card ? getComputedStyle(card).opacity : '',
@@ -1495,6 +1509,8 @@ test('旅行手记减少动效时恢复静态绘图', async ({ page }) => {
       titleOpacity: title ? getComputedStyle(title, '::after').opacity : '',
       coverAnimation: cover ? getComputedStyle(cover).animationName : '',
       coverOpacity: cover ? getComputedStyle(cover).opacity : '',
+      resultAnimation: resultBar ? getComputedStyle(resultBar).animationName : '',
+      resultOpacity: resultBar ? getComputedStyle(resultBar).opacity : '',
     };
   });
   expect(listMotion).toMatchObject({
@@ -1504,7 +1520,14 @@ test('旅行手记减少动效时恢复静态绘图', async ({ page }) => {
     titleOpacity: '0.82',
     coverAnimation: 'none',
     coverOpacity: '1',
+    resultAnimation: 'none',
+    resultOpacity: '1',
   });
+
+  await page.goto(`${appBase}journal?type=travel`);
+  await expect(page.getByRole('heading', { name: '第一篇游记正在路上' })).toBeVisible();
+  await expect.poll(async () => page.locator('.journal-empty').evaluate((element) => getComputedStyle(element).animationName)).toBe('none');
+  await expect(page.locator('.journal-empty')).toHaveCSS('opacity', '1');
 
   await page.goto(`${appBase}journal/guide/zhongwei-sand-water-choice`);
   await expect(page.locator('.journal-detail-title h1')).toBeVisible();
