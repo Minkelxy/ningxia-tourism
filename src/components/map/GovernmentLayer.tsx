@@ -19,6 +19,7 @@ function GovernmentLayer({ markers, project }: GovernmentLayerProps) {
         <g className="map-government-glyph">
           <circle r={10} />
           <Building2 aria-hidden="true" x={-7} y={-7} width={14} height={14} />
+          <path className="map-layer-ink-ring" d="M 0 -17 A 17 17 0 1 1 0 17 A 17 17 0 1 1 0 -17" pathLength={1} aria-hidden="true" />
           <title>{`${marker.name}（${levelLabel}）`}</title>
         </g>
       </g>

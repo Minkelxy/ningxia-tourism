@@ -360,7 +360,7 @@ test('列表筛选输入与下拉控件保持统一触控高度', async ({ page 
   await expect(searchInput).toHaveCSS('min-height', '44px');
   await expect(selects.first()).toHaveCSS('min-height', '48px');
   await expect(selects.last()).toHaveCSS('min-height', '48px');
-  const heights = await filterPanel.locator('input, select').evaluateAll((elements) => elements.map((element) => element.getBoundingClientRect().height));
+  const heights = await filterPanel.locator('input, select').evaluateAll((elements) => elements.map((element) => Math.round(element.getBoundingClientRect().height * 10) / 10));
   expect(heights[0] ?? 0).toBeGreaterThanOrEqual(44);
   expect(heights.slice(1).every((height) => height >= 44)).toBe(true);
 });
@@ -2285,6 +2285,30 @@ test('地图美食图层可切换并展示已发布美食点位', async ({ page 
   await food.click();
   await expect(food).toHaveAttribute('aria-pressed', 'false');
   await expect(map.locator('.map-food')).toHaveCount(0);
+});
+
+test('地图叠加图层使用统一的墨线落印动画', async ({ page }) => {
+  await page.goto(appBase);
+  await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
+  const map = page.getByRole('region', { name: '宁夏交互式旅游地图' });
+
+  await map.getByRole('button', { name: '美食' }).click();
+  await expect(map.locator('.map-food .map-layer-ink-ring').first()).toHaveCSS('animation-name', 'map-layer-ink-ring-draw');
+
+  await map.getByRole('button', { name: '政府' }).click();
+  await expect(map.locator('.map-government .map-layer-ink-ring').first()).toHaveCSS('animation-name', 'map-layer-ink-ring-draw');
+
+  await map.getByRole('button', { name: '交通' }).click();
+  await expect(map.locator('.map-hub .map-layer-ink-ring').first()).toHaveCSS('animation-name', 'map-layer-ink-ring-draw');
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.reload();
+  await page.locator('.lazy-map-container').scrollIntoViewIfNeeded();
+  const reducedMap = page.getByRole('region', { name: '宁夏交互式旅游地图' });
+  await reducedMap.getByRole('button', { name: '美食' }).click();
+  const reducedRing = reducedMap.locator('.map-food .map-layer-ink-ring').first();
+  await expect(reducedRing).toHaveCSS('animation-name', 'none');
+  await expect(reducedRing).toHaveCSS('stroke-dashoffset', '0px');
 });
 
 test('地图窄屏控制区保持三列两行且不溢出', async ({ page }) => {

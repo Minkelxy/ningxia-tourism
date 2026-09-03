@@ -38,6 +38,7 @@ function FoodLayer({ foods, project, onSelect }: FoodLayerProps) {
         <g className="map-food-glyph">
           <circle r="11" fill="#E85D4C" stroke="#fff" strokeWidth={2} />
           <UtensilsCrossed aria-hidden="true" x={-7} y={-7} width={14} height={14} />
+          <path className="map-layer-ink-ring" d="M 0 -18 A 18 18 0 1 1 0 18 A 18 18 0 1 1 0 -18" pathLength={1} aria-hidden="true" />
           <title>{food.name}</title>
         </g>
       </g>

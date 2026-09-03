@@ -14,7 +14,7 @@ function TransportLayer({ hubs, project }: TransportLayerProps) {
     const Icon = hub.type === 'airport' ? Plane : hub.type === 'bus' ? Bus : TrainFront;
     const hubClassName = hub.type === 'airport' ? 'map-hub map-hub--airport' : 'map-hub';
     const tooltip = hub.description && hub.address ? `${hub.name}：${hub.description}（${hub.address}）` : hub.name;
-    return <g key={hub.id} className={hubClassName} style={{ '--map-layer-index': index } as CSSProperties} transform={`translate(${point.x} ${point.y})`} role="img" aria-label={`${hub.name}，${hub.type === 'airport' ? '机场' : hub.type === 'bus' ? '客运站' : '火车站'}交通枢纽`}><g className="map-hub-glyph"><circle r="11" /><Icon x={-7} y={-7} width={14} height={14} /><title>{tooltip}</title></g></g>;
+    return <g key={hub.id} className={hubClassName} style={{ '--map-layer-index': index } as CSSProperties} transform={`translate(${point.x} ${point.y})`} role="img" aria-label={`${hub.name}，${hub.type === 'airport' ? '机场' : hub.type === 'bus' ? '客运站' : '火车站'}交通枢纽`}><g className="map-hub-glyph"><circle r="11" /><Icon x={-7} y={-7} width={14} height={14} /><path className="map-layer-ink-ring" d="M 0 -18 A 18 18 0 1 1 0 18 A 18 18 0 1 1 0 -18" pathLength={1} aria-hidden="true" /><title>{tooltip}</title></g></g>;
   });
 }
 
