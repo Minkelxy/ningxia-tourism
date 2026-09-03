@@ -473,6 +473,13 @@ export default function NingxiaInteractiveMap() {
               />
             </g>
 
+            <path
+              className="map-river-ink"
+              d="M 177 879 C 142 820, 151 758, 208 704 C 257 657, 305 623, 290 562 C 277 510, 218 472, 211 421 C 205 366, 247 327, 292 290 C 337 252, 364 213, 346 167 C 330 126, 361 91, 420 65"
+              pathLength="1"
+              aria-hidden="true"
+            />
+
             {/* —— Task 4: 标签层 —— */}
             <MapLabelLayer
               key={`labels-${mapScopeKey}`}
