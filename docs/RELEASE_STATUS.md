@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-04 v0.3.128 发布复核：最终代码提交 [`9f72a33`](https://github.com/Minkelxy/ningxia-tourism/commit/9f72a33df0e8ab00463b7a6eb2e7bc00a8c22549) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33791190713)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、190 条 E2E 通过、16 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。地图底图新增 5 条低对比度等高线纸面绘图，按地形簇错峰落笔并随地图视口移动；作为非交互装饰补足底图层次，减少动效设置下恢复静态等高线。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
+
 2026-09-04 v0.3.127 发布复核：最终代码提交 [`23b8458`](https://github.com/Minkelxy/ningxia-tourism/commit/23b84586c68078379b85f84457972e5af6e87580) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33789448441)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、190 条 E2E 通过、16 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。地图新增固定北向罗盘纸面绘图，首次进入轻量落印并固定在画布角落，不随拖拽/缩放移动；减少动效设置下恢复静态罗盘。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
 
 2026-09-04 v0.3.126 发布复核：最终代码提交 [`a3b7018`](https://github.com/Minkelxy/ningxia-tourism/commit/a3b7018ce4a68a54b6a69b9e0f164d14837da7b3) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33787006210)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、190 条 E2E 通过、16 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。路线详情“按天快速跳转”的激活日增加沿底边落笔墨线，并按天数索引错峰入场；保留锚点跳转、滚动激活、键盘访问和窄屏横向浏览，减少动效设置下恢复静态激活墨线。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径 HTTP 200。
