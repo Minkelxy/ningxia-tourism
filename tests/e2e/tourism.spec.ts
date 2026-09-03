@@ -1131,6 +1131,10 @@ test('路线筛选同步地址并展示内容核实概览', async ({ page }) => 
   await expect(routeFilters.getByRole('group', { name: '行程节奏' })).toBeVisible();
   const cityFilter = page.getByRole('button', { name: '石嘴山', exact: true });
   await cityFilter.click();
+  await expect.poll(() => page.locator('.route-card').first().evaluate((element) => element.getAnimations().some((animation) => animation.animationName === 'collection-card-in' && animation.playState === 'running'))).toBe(true);
+  if ((page.viewportSize()?.width ?? 999) > 768) {
+    await expect.poll(() => page.locator('.route-comparison').evaluate((element) => element.getAnimations().some((animation) => animation.animationName === 'collection-comparison-in' && animation.playState === 'running'))).toBe(true);
+  }
   await expect(page).toHaveURL(/city=shizuishan/);
   await expect(page.locator('#route-results')).toContainText('3 条路线');
   await expect(page.getByRole('heading', { name: '山湖与工业石嘴山两日游' })).toBeVisible();
