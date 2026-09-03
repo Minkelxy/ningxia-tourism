@@ -4,6 +4,8 @@
 
 ## 当前发布快照
 
+2026-09-04 v0.3.136 发布复核：最终代码提交 [`9450f30`](https://github.com/Minkelxy/ningxia-tourism/commit/9450f30480577b42c930fdb3e26aef8a9a4ed308) 的[最终主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33810645076)为 **success**，build 与 deploy 两个 job 均成功；181 条单元测试、198 条 E2E 通过、16 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。交互地图新增低对比度黄河水脉 SVG 绘图，沿地图视口渐进落笔并随缩放、拖拽移动；属于非交互装饰，减少动效设置下恢复静态显示，保留地图数据、图层、点位与操作逻辑。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径、CSS 与 JS 资源 HTTP 200。
+
 2026-09-04 v0.3.135 发布复核：最终代码提交 [`9e5add7`](https://github.com/Minkelxy/ningxia-tourism/commit/9e5add70f4f26df792ed054b8231135fec248841) 的[最终主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33808665211)为 **success**，build 与 deploy 两个 job 均成功；181 条单元测试、197 条 E2E 通过、1 条 E2E 首次运行后重试通过、16 条按端型跳过，Lighthouse 质量门禁通过。全站长页面顶部新增统一阅读进度墨线与红色笔尖，使用 `requestAnimationFrame` 合并滚动/尺寸更新，减少动效设置下即时更新；同时将跨端文字状态断言统一为键盘焦点验证，并补齐次级按钮的键盘激活态，保留滚动、键盘、移动端和打印版行为。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径、CSS 与 JS 资源 HTTP 200。
 
 2026-09-04 v0.3.134 发布复核：最终代码提交 [`6db6114`](https://github.com/Minkelxy/ningxia-tourism/commit/6db6114deb85aa1967868f92de33b9ea3b7b215d) 的[最终主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33805952490)为 **success**，build 与 deploy 两个 job 均成功；180 条单元测试、194 条 E2E 通过、16 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。路线详情滚动识别到当前天数时，时间线 DAY 印章与顶部按天导航同步切换当前态并重新落印；保留锚点跳转、滚动识别、键盘访问与打印版布局，减少动效设置下恢复静态当前态。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径、CSS 与 JS 资源 HTTP 200。
