@@ -1495,6 +1495,7 @@ test('旅行手记栏目切换保持轻量反馈', async ({ page }) => {
   await expect(travelTab).toHaveAttribute('aria-selected', 'true');
   await expect(travelTab).toHaveCSS('background-color', 'rgb(49, 95, 79)');
   await expect(travelTab).toHaveCSS('color', 'rgb(255, 255, 255)');
+  await expect.poll(async () => travelTab.evaluate((element) => getComputedStyle(element, '::after').animationName)).toBe('journal-tab-active-ink');
 });
 
 test('旅行手记筛选结果按新条件重新渐进绘图', async ({ page }) => {
@@ -1604,6 +1605,8 @@ test('旅行手记减少动效时恢复静态绘图', async ({ page }) => {
       coverOpacity: cover ? getComputedStyle(cover).opacity : '',
       resultAnimation: resultBar ? getComputedStyle(resultBar).animationName : '',
       resultOpacity: resultBar ? getComputedStyle(resultBar).opacity : '',
+      tabInkAnimation: getComputedStyle(document.querySelector('.journal-tabs button[aria-selected="true"]') as HTMLElement, '::after').animationName,
+      tabInkOpacity: getComputedStyle(document.querySelector('.journal-tabs button[aria-selected="true"]') as HTMLElement, '::after').opacity,
     };
   });
   expect(listMotion).toMatchObject({
@@ -1615,6 +1618,8 @@ test('旅行手记减少动效时恢复静态绘图', async ({ page }) => {
     coverOpacity: '1',
     resultAnimation: 'none',
     resultOpacity: '1',
+    tabInkAnimation: 'none',
+    tabInkOpacity: '0.86',
   });
 
   await page.goto(`${appBase}journal?type=travel`);
