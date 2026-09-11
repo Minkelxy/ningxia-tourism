@@ -1679,16 +1679,37 @@ test('旅行手记列表与详情按阅读层级完成渐进绘图', async ({ pa
       sidebarAnimation: sidebar ? getComputedStyle(sidebar).animationName : '',
     };
   });
-  expect(detailMotion).toMatchObject({
-    heroAnimation: 'journal-detail-photo-in',
-    titleAnimation: 'journal-detail-title-in',
+    expect(detailMotion).toMatchObject({
+      heroAnimation: 'journal-detail-photo-in',
+      titleAnimation: 'journal-detail-title-in',
     headingInkAnimation: 'journal-detail-title-ink',
     factsAnimation: 'journal-detail-fact-in',
     noteAnimation: 'journal-detail-block-in',
     bodyAnimation: 'journal-detail-body-in',
-    sidebarAnimation: 'journal-sidebar-in',
+      sidebarAnimation: 'journal-sidebar-in',
+    });
+
+    const galleryMotion = await page.evaluate(() => {
+      const gallery = document.createElement('section');
+      gallery.className = 'journal-gallery';
+      const probe = document.createElement('figure');
+      probe.style.setProperty('--journal-gallery-index', '1');
+      probe.style.setProperty('--journal-gallery-tilt', '1deg');
+      const caption = document.createElement('figcaption');
+      probe.append(caption);
+      gallery.append(probe);
+      document.body.append(gallery);
+      const figureStyle = getComputedStyle(probe);
+      const captionStyle = getComputedStyle(caption, '::before');
+      const result = {
+        figureAnimation: figureStyle.animationName,
+        captionAnimation: captionStyle.animationName,
+      };
+      gallery.remove();
+      return result;
+    });
+    expect(galleryMotion).toEqual({ figureAnimation: 'journal-gallery-photo-in', captionAnimation: 'journal-gallery-ink' });
   });
-});
 
 test('旅行手记减少动效时恢复静态绘图', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
