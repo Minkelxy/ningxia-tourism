@@ -1,8 +1,10 @@
 # 发布状态与验收记录
 
-更新时间：2026-09-04
+更新时间：2026-09-11
 
 ## 当前发布快照
+
+2026-09-11 v0.3.137 发布复核：最终代码提交 [`48ced53`](https://github.com/Minkelxy/ningxia-tourism/commit/48ced5352f8fae0fef79f28d700e1178bc858e5a) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/34608630910)为 **success**，build 与 deploy 两个 job 均成功；依赖审计通过，182 条单元测试、198 条 E2E 通过、16 条按端型跳过，Lighthouse 质量门禁通过（首页 95、景点 97、手记 94、指南 98；可访问性、最佳实践和 SEO 均为 100），无 flaky。旅行手记详情页图片画廊新增按阅读顺序错峰入场、轻微交错倾角与图片说明手绘墨线，与封面、卡片和标题墨线共享纸面视觉语言；减少动效设置下恢复静态图片与说明墨线，并保留图片来源、许可、懒加载和阅读结构。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built；线上根路径与 CSS/JS 资源 HTTP 200。
 
 2026-09-04 v0.3.136 发布复核：最终代码提交 [`9450f30`](https://github.com/Minkelxy/ningxia-tourism/commit/9450f30480577b42c930fdb3e26aef8a9a4ed308) 的[最终主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/33810645076)为 **success**，build 与 deploy 两个 job 均成功；181 条单元测试、198 条 E2E 通过、16 条按端型跳过，Lighthouse 质量门禁通过且无 flaky。交互地图新增低对比度黄河水脉 SVG 绘图，沿地图视口渐进落笔并随缩放、拖拽移动；属于非交互装饰，减少动效设置下恢复静态显示，保留地图数据、图层、点位与操作逻辑。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径、CSS 与 JS 资源 HTTP 200。
 
