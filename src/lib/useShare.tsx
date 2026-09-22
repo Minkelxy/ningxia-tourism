@@ -6,7 +6,8 @@ const TOAST_TIMEOUT_MS = 2400;
 /**
  * 统一详情页的分享逻辑：调用 sharePage（系统分享优先，否则剪贴板），
  * 捕获异常并显示 2.4 秒状态提示（toast）。
- * 返回 { shareStatus, handleShare, ShareToast }，详情页只需一次解构即可。
+ * 返回 { shareStatus, showToast, handleShare, ShareToast }，详情页只需一次解构即可。
+ * showToast 让同一页面上的其它操作（例如生成路书图片）复用同一条提示，避免两个 toast 叠在一起。
  */
 export default function useShare(title: string, text: string) {
   const [shareStatus, setShareStatus] = useState('');
@@ -20,6 +21,12 @@ export default function useShare(title: string, text: string) {
   }, []);
 
   useEffect(() => clearToast, [clearToast]);
+
+  const showToast = useCallback((message: string) => {
+    clearToast();
+    setShareStatus(message);
+    timeoutId.current = window.setTimeout(() => setShareStatus(''), TOAST_TIMEOUT_MS);
+  }, [clearToast]);
 
   const handleShare = useCallback(async () => {
     clearToast();
@@ -35,5 +42,5 @@ export default function useShare(title: string, text: string) {
 
   const ShareToast = shareStatus ? <div className="toast" role="status">{shareStatus}</div> : null;
 
-  return { shareStatus, handleShare, ShareToast };
+  return { shareStatus, showToast, handleShare, ShareToast };
 }

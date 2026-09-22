@@ -17,6 +17,7 @@ const FoodsList = lazy(() => import('./pages/FoodsList'));
 const CityOverview = lazy(() => import('./pages/CityOverview'));
 const RouteRecommendation = lazy(() => import('./pages/RouteRecommendation'));
 const RouteDetail = lazy(() => import('./pages/RouteDetail'));
+const RouteRoadbook = lazy(() => import('./pages/RouteRoadbook'));
 const Journal = lazy(() => import('./pages/Journal'));
 const JournalDetail = lazy(() => import('./pages/JournalDetail'));
 const TravelGuide = lazy(() => import('./pages/TravelGuide'));
@@ -87,6 +88,7 @@ function AppRoutes() {
         <Route path="/city/:name" element={<CityOverview />} />
         <Route path="/routes" element={<RouteRecommendation />} />
         <Route path="/routes/:routeId" element={<RouteDetail />} />
+        <Route path="/routes/:routeId/roadbook" element={<RouteRoadbook />} />
         <Route path="/journal" element={<Journal />} />
         <Route path="/journal/:type/:slug" element={<JournalDetail />} />
         <Route path="/guide" element={<TravelGuide />} />

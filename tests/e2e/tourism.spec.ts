@@ -2637,3 +2637,220 @@ test('地图政府标记与交通枢纽点位为纯展示语义且有可读 aria
   await expect(hub).toHaveAttribute('aria-label', /交通枢纽/);
   await expect(hub).not.toHaveAttribute('tabindex');
 });
+
+test('路线详情展示路书地理图与按天流线', async ({ page }) => {
+  await page.goto(`${appBase}routes/classic-3day`);
+  const roadbook = page.locator('.route-roadbook');
+  await roadbook.scrollIntoViewIfNeeded();
+  await expect(roadbook).toBeVisible();
+  await expect(page.getByRole('heading', { name: '这条路线在地图上怎么走' })).toBeVisible();
+
+  // 全站唯一的 main 不能被路书区块破坏。
+  await expect(page.locator('main')).toHaveCount(1);
+  await expect(page.locator('main#main-content')).toBeVisible();
+
+  const map = roadbook.locator('.roadbook-map__canvas');
+  await expect(map).toHaveAttribute('role', 'img');
+  await expect(map).toHaveAttribute('aria-label', /经典三日全景游线路示意：共 3 天、7 个停靠点，其中 5 个可定位已连线/);
+  await expect(map).not.toHaveAttribute('tabindex');
+  // 省界底图进入视口后才懒加载，等待要素出现。
+  await expect(roadbook.locator('.roadbook-map__province path').first()).toBeVisible();
+  // 第一天只有 1 个可定位停靠点，只画点不画线；其余两天各连成一段墨线。
+  await expect(roadbook.locator('.roadbook-route-ink')).toHaveCount(2);
+  await expect(roadbook.locator('.roadbook-node')).toHaveCount(5);
+  await expect(roadbook.locator('.roadbook-map__legend')).toContainText('2 个市区／车站类查询点无坐标');
+
+  const flow = roadbook.locator('.roadbook-flow');
+  await expect(flow.locator('.roadbook-flow__day')).toHaveCount(3);
+  // 编号跨天连续，而不是每天从 1 重排。
+  await expect(flow.locator('.roadbook-flow__num')).toHaveText(['1', '2', '3', '4', '5', '6', '7']);
+  // 无坐标路点只出现在流线图里。
+  await expect(flow.locator('.roadbook-flow__node.is-query-only')).toHaveCount(2);
+  await expect(flow.locator('.roadbook-flow__node.is-query-only')).toContainText(['怀远观光夜市', '银川前往中卫']);
+  await expect(flow.locator('.roadbook-flow__day').first()).toContainText('餐：');
+  await expect(flow.locator('.roadbook-flow__day').first()).toContainText('住：');
+});
+
+test('路书地理图与流线按墨线顺序绘制入场', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto(`${appBase}routes/classic-3day`);
+  const roadbook = page.locator('.route-roadbook');
+  await roadbook.scrollIntoViewIfNeeded();
+  await expect(roadbook.locator('.roadbook-map__province path').first()).toBeVisible();
+
+  const motion = await page.evaluate(() => {
+    const first = <T extends Element>(selector: string) => document.querySelector<T>(selector);
+    const head = first<HTMLElement>('.roadbook-head');
+    const map = first<HTMLElement>('.roadbook-map');
+    const ink = first<HTMLElement>('.roadbook-route-ink');
+    const node = first<HTMLElement>('.roadbook-node');
+    const day = first<HTMLElement>('.roadbook-flow__day');
+    const dayHeading = first<HTMLElement>('.roadbook-flow__head h3');
+    const row = first<HTMLElement>('.roadbook-flow__node');
+    return {
+      headAnimation: head ? getComputedStyle(head).animationName : '',
+      mapAnimation: map ? getComputedStyle(map).animationName : '',
+      inkAnimation: ink ? getComputedStyle(ink).animationName : '',
+      inkDashArray: ink ? getComputedStyle(ink).strokeDasharray : '',
+      nodeAnimation: node ? getComputedStyle(node).animationName : '',
+      dayAnimation: day ? getComputedStyle(day).animationName : '',
+      dayInkAnimation: dayHeading ? getComputedStyle(dayHeading, '::after').animationName : '',
+      rowAnimation: row ? getComputedStyle(row).animationName : '',
+      rowDelay: row ? getComputedStyle(row).animationDelay : '',
+      dayDelay: day ? getComputedStyle(day).animationDelay : '',
+    };
+  });
+  expect(motion).toMatchObject({
+    headAnimation: 'route-section-in',
+    mapAnimation: 'route-section-in',
+    inkAnimation: 'roadbook-route-draw',
+    nodeAnimation: 'roadbook-node-in',
+    dayAnimation: 'roadbook-day-in',
+    dayInkAnimation: 'roadbook-day-ink',
+    rowAnimation: 'roadbook-node-row-in',
+    rowDelay: '0.24s',
+    dayDelay: '0.16s',
+  });
+  // 墨线自绘依赖 pathLength=1 的虚线偏移。
+  expect(motion.inkDashArray).not.toBe('none');
+});
+
+test('路书在减少动效时恢复静态墨线', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(`${appBase}routes/classic-3day`);
+  const roadbook = page.locator('.route-roadbook');
+  await roadbook.scrollIntoViewIfNeeded();
+  await expect(roadbook.locator('.roadbook-map__province path').first()).toBeVisible();
+
+  const motion = await page.evaluate(() => {
+    const first = <T extends Element>(selector: string) => document.querySelector<T>(selector);
+    const selectors = ['.roadbook-head', '.roadbook-map', '.roadbook-flow__day', '.roadbook-flow__node', '.roadbook-node'];
+    const ink = first<HTMLElement>('.roadbook-route-ink');
+    const dayHeading = first<HTMLElement>('.roadbook-flow__head h3');
+    return {
+      animations: selectors.map((selector) => getComputedStyle(first<HTMLElement>(selector) as HTMLElement).animationName),
+      opacities: selectors.map((selector) => getComputedStyle(first<HTMLElement>(selector) as HTMLElement).opacity),
+      inkAnimation: ink ? getComputedStyle(ink).animationName : '',
+      inkOpacity: ink ? getComputedStyle(ink).opacity : '',
+      inkDashArray: ink ? getComputedStyle(ink).strokeDasharray : '',
+      inkDashOffset: ink ? getComputedStyle(ink).strokeDashoffset : '',
+      dayInkAnimation: dayHeading ? getComputedStyle(dayHeading, '::after').animationName : '',
+      dayInkOpacity: dayHeading ? getComputedStyle(dayHeading, '::after').opacity : '',
+    };
+  });
+  expect(motion.animations.every((animationName) => animationName === 'none')).toBe(true);
+  expect(motion.opacities.every((opacity) => opacity === '1')).toBe(true);
+  expect(motion.inkAnimation).toBe('none');
+  expect(motion.inkOpacity).toBe('0.92');
+  expect(motion.inkDashArray).toBe('none');
+  expect(motion.inkDashOffset).toBe('0px');
+  expect(motion.dayInkAnimation).toBe('none');
+  expect(motion.dayInkOpacity).toBe('0.8');
+});
+
+test('路书操作行保持44px触控热区且打印时隐藏', async ({ page }) => {
+  await page.goto(`${appBase}routes/classic-3day`);
+  const printButton = page.getByRole('button', { name: '打印路书' });
+  await printButton.scrollIntoViewIfNeeded();
+  await expect(printButton).toBeVisible();
+  await expect(printButton).toHaveCSS('min-height', '44px');
+  const box = await printButton.boundingBox();
+  expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
+
+  await page.emulateMedia({ media: 'print' });
+  await expect(page.locator('.roadbook-actions')).toBeHidden();
+  await expect(page.locator('.roadbook-map__canvas')).toBeVisible();
+  await expect(page.locator('.roadbook-flow')).toBeVisible();
+  await expect(page.locator('.route-roadbook')).toHaveCSS('break-before', 'page');
+});
+
+test('路书可以导出成 PNG 图片', async ({ page }) => {
+  await page.goto(`${appBase}routes/classic-3day`);
+  const button = page.getByRole('button', { name: '生成图片' });
+  await button.scrollIntoViewIfNeeded();
+  await expect(button).toBeVisible();
+  await expect(button).toHaveCSS('min-height', '44px');
+  const box = await button.boundingBox();
+  expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
+
+  const download = page.waitForEvent('download', { timeout: 20_000 }).catch(() => null);
+  await button.click();
+  const file = await download;
+  if (file) {
+    // 桌面无系统分享面板时走下载路径。
+    expect(file.suggestedFilename()).toBe('经典三日全景游-路书.png');
+  } else {
+    // 浏览器支持分享文件时走系统分享，只断言给出了可见反馈。
+    await expect(page.locator('.toast')).toContainText(/分享面板|下载/);
+  }
+  // 导出结束后离屏海报必须卸载，不能长期留在 DOM 里。
+  await expect(page.locator('.roadbook-poster-source')).toHaveCount(0);
+});
+
+test('独立路书页可以直接访问且只有一个主内容区', async ({ page }) => {
+  await page.goto(`${appBase}routes/classic-3day/roadbook`);
+  await expect(page.getByRole('heading', { level: 1, name: '经典三日全景游 路书' })).toBeVisible();
+  await expect(page.locator('main')).toHaveCount(1);
+  await expect(page.locator('main#main-content')).toBeVisible();
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/routes\/classic-3day\/roadbook$/);
+
+  const poster = page.getByRole('region', { name: '路书海报' });
+  await expect(poster).toBeVisible();
+  await expect(poster.locator('svg')).toHaveAttribute('role', 'img');
+  await expect(poster.locator('svg')).toHaveAttribute('aria-label', /经典三日全景游路书海报：共 3 天、7 个停靠点/);
+  // 海报是静态成品：不该挂任何 CSS 类或入场动画。
+  await expect(poster.locator('svg [class]')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: /返回路线详情/ })).toHaveAttribute('href', /\/routes\/classic-3day$/);
+
+  // 海报是 role="img"，读屏只能听到一句 aria-label，因此必须补一份等价的文字版。
+  const textVersion = page.getByRole('region', { name: '文字版路书' });
+  await expect(textVersion).toBeVisible();
+  await expect(textVersion.getByRole('heading', { level: 3 })).toHaveCount(3);
+  await expect(textVersion).toContainText('怀远观光夜市（查询点，未参与连线）');
+  await expect(textVersion).toContainText('7. 17:00 中卫高庙');
+});
+
+test('独立路书页的导出、打印与返回入口保持44px触控热区', async ({ page }) => {
+  await page.goto(`${appBase}routes/classic-3day/roadbook`);
+  for (const name of ['生成图片', '打印路书', '分享链接']) {
+    const button = page.getByRole('button', { name });
+    await expect(button).toBeVisible();
+    const box = await button.boundingBox();
+    expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
+  }
+  await expect(page.getByRole('link', { name: /返回路线详情/ })).toHaveCSS('min-height', '44px');
+
+  const download = page.waitForEvent('download', { timeout: 20_000 }).catch(() => null);
+  await page.getByRole('button', { name: '生成图片' }).click();
+  const file = await download;
+  if (file) expect(file.suggestedFilename()).toBe('经典三日全景游-路书.png');
+  else await expect(page.locator('.toast')).toContainText(/分享面板|下载/);
+});
+
+test('独立路书页打印时只留海报', async ({ page }) => {
+  await page.goto(`${appBase}routes/classic-3day/roadbook`);
+  await expect(page.getByRole('region', { name: '路书海报' })).toBeVisible();
+  await page.emulateMedia({ media: 'print' });
+  await expect(page.locator('.roadbook-page-actions')).toBeHidden();
+  await expect(page.locator('.roadbook-page-hero .back-link')).toBeHidden();
+  await expect(page.locator('.roadbook-page-text')).toBeHidden();
+  await expect(page.getByRole('region', { name: '路书海报' })).toBeVisible();
+});
+
+test('未收录的路线路书回退到未找到状态', async ({ page }) => {
+  await page.goto(`${appBase}routes/not-a-real-route/roadbook`);
+  await expect(page.getByRole('heading', { level: 1, name: '没有找到这条路线' })).toBeVisible();
+  await expect(page.getByRole('link', { name: '查看全部路线' })).toBeVisible();
+  await expect(page.locator('main')).toHaveCount(1);
+});
+
+test('路线详情可以跳转到完整路书页', async ({ page }) => {
+  await page.goto(`${appBase}routes/classic-3day`);
+  const link = page.getByRole('link', { name: '查看完整路书' });
+  await link.scrollIntoViewIfNeeded();
+  await expect(link).toHaveAttribute('href', /\/routes\/classic-3day\/roadbook$/);
+  const box = await link.boundingBox();
+  expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
+  await link.click();
+  await expect(page.getByRole('heading', { level: 1, name: '经典三日全景游 路书' })).toBeVisible();
+});

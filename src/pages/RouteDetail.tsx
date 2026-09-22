@@ -1,16 +1,23 @@
-import { type CSSProperties, useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, BadgeCheck, CalendarDays, CircleDollarSign, Clock3, ExternalLink, Footprints, Gauge, MapPin, MapPinned, Navigation, Printer, Share2, Sparkles, TrainFront, Utensils } from 'lucide-react';
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
+import { ArrowLeft, BadgeCheck, CalendarDays, CircleDollarSign, Clock3, ExternalLink, Footprints, Gauge, ImageDown, MapPin, MapPinned, Navigation, Printer, Route as RouteIcon, Share2, Sparkles, TrainFront, Utensils } from 'lucide-react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { getAttractionById } from '../data/attractions';
 import { cityName } from '../data/cities';
 import { routePaceMeta, routeWalkingMeta } from '../data/meta';
 import { getRouteById } from '../data/routes';
+import { exportSvgToPng } from '../lib/export-svg';
+import { buildRoadbookModel } from '../lib/roadbook';
 import { getRouteEvidenceSummary, type RouteEvidenceSummary } from '../lib/route';
 import { createAmapMarkerUrl, formatVerifiedDate } from '../lib/site';
 import useShare from '../lib/useShare';
 import FavoriteButton from '../components/FavoriteButton';
 import ResponsiveImage from '../components/ResponsiveImage';
+import RouteRoadbookFlow from '../components/roadbook/RouteRoadbookFlow';
+import RouteRoadbookMap from '../components/roadbook/RouteRoadbookMap';
+import RouteRoadbookPoster from '../components/roadbook/RouteRoadbookPoster';
+import { loadProvinceFeatures } from '../components/roadbook/province';
+import type { GeoFeature } from '../components/map/projection';
 
 const EMPTY_EVIDENCE: RouteEvidenceSummary = { totalStops: 0, verifiedStops: 0, reviewStops: 0, ordinaryStops: 0, cityIds: [] };
 export default function RouteDetail() {
@@ -19,8 +26,13 @@ export default function RouteDetail() {
   const route = getRouteById(routeId);
   // Hooks 必须在任何 early return 之前调用，参数使用空字符串/安全兜底
   const evidence = useMemo(() => (route ? getRouteEvidenceSummary(route) : EMPTY_EVIDENCE), [route]);
-  const { handleShare, ShareToast } = useShare(route?.name ?? '', route?.summary ?? '');
+  const roadbook = useMemo(() => (route ? buildRoadbookModel(route) : null), [route]);
+  const { showToast, handleShare, ShareToast } = useShare(route?.name ?? '', route?.summary ?? '');
   const [activeDay, setActiveDay] = useState(1);
+  // 海报只在导出瞬间挂到 DOM 上：平时不占节点，也不会把省界 GeoJSON 拉进首屏。
+  const [posterFeatures, setPosterFeatures] = useState<GeoFeature[] | null>(null);
+  const [exporting, setExporting] = useState(false);
+  const posterRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
     if (!route || route.days.length < 2 || typeof IntersectionObserver === 'undefined') return;
@@ -51,6 +63,32 @@ export default function RouteDetail() {
     return () => window.clearTimeout(timer);
   }, [location.hash, route]);
 
+  // 海报挂载且省界就绪后才序列化 —— 少任何一样都会导出残缺的图。
+  useEffect(() => {
+    if (!exporting || !posterFeatures || !route) return;
+    const svg = posterRef.current;
+    if (!svg) return;
+    let active = true;
+    exportSvgToPng(svg, `${route.name}-路书.png`)
+      .then((result) => { if (active) showToast(result === 'shared' ? '已打开分享面板' : '路书图片已开始下载'); })
+      .catch((error: unknown) => {
+        if (!active) return;
+        const isCancellation = error instanceof DOMException && error.name === 'AbortError';
+        showToast(isCancellation ? '已取消导出' : '图片生成失败，可改用打印路书');
+      })
+      .finally(() => { if (active) setExporting(false); });
+    return () => { active = false; };
+  }, [exporting, posterFeatures, route, showToast]);
+
+  const handleExportPoster = () => {
+    if (exporting) return;
+    setExporting(true);
+    if (!posterFeatures) {
+      // 失败也要往下走：没有省界底图的海报仍然可用，总比点了没反应好。
+      loadProvinceFeatures().then(setPosterFeatures, () => setPosterFeatures([]));
+    }
+  };
+
   if (!route) return <div className="full-state"><SEO title="路线未找到 · 宁夏旅行地图" noIndex /><CalendarDays aria-hidden="true" /><h1>没有找到这条路线</h1><p>回到路线列表，选择一条适合你的行程。</p><Link to="/routes" className="btn-primary">查看全部路线</Link></div>;
   return (
     <>
@@ -58,6 +96,32 @@ export default function RouteDetail() {
       <div className="route-detail-page">
         <header className="route-detail-hero"><div className="section-shell route-detail-hero-grid"><div><Link to="/routes" className="back-link"><ArrowLeft aria-hidden="true" /> 返回路线列表</Link><p className="eyebrow"><Sparkles aria-hidden="true" /> {route.themeLabel}</p><h1>{route.name}</h1><p>{route.summary}</p><div className="route-detail-facts"><span><Clock3 aria-hidden="true" /> {route.durationLabel}</span><span><Gauge aria-hidden="true" /> {routePaceMeta[route.pace].label}节奏</span><span><Footprints aria-hidden="true" /> 步行{routeWalkingMeta[route.walkingLevel].label}</span><span><CircleDollarSign aria-hidden="true" /> {route.budget}</span><span><CalendarDays aria-hidden="true" /> {route.bestSeason}</span></div><div className="route-detail-actions"><button type="button" className="btn-primary" onClick={() => window.print()}><Printer aria-hidden="true" /> 打印行程</button><button type="button" className="btn-quiet" onClick={handleShare}><Share2 aria-hidden="true" /> 分享路线</button><FavoriteButton kind="route" id={route.id} label={route.name} /></div></div><div className="route-detail-visual"><ResponsiveImage src={route.image.src} alt={route.image.alt} width="720" height="480" loading="eager" fetchPriority="high" sizes="(max-width: 768px) 100vw, 42vw" /><span>实景照片 · {route.image.credit}</span></div></div></header>
         {ShareToast}
+        {roadbook && (
+          <section className="route-roadbook" aria-labelledby="route-roadbook-title">
+            <div className="section-shell">
+              <header className="roadbook-head">
+                <p className="eyebrow"><RouteIcon aria-hidden="true" /> 线路一览</p>
+                <h2 id="route-roadbook-title">这条路线在地图上怎么走</h2>
+                <p>按天分段连线，编号与下方流线图一致。市区与车站类查询点没有坐标，只出现在流线图里，不会被画到地图上。</p>
+                <div className="roadbook-actions">
+                  <button type="button" className="btn-primary" onClick={handleExportPoster} disabled={exporting} aria-busy={exporting}><ImageDown aria-hidden="true" /> {exporting ? '正在生成图片…' : '生成图片'}</button>
+                  <button type="button" className="btn-quiet" onClick={() => window.print()}><Printer aria-hidden="true" /> 打印路书</button>
+                  <Link to={`/routes/${route.id}/roadbook`} className="btn-quiet"><RouteIcon aria-hidden="true" /> 查看完整路书</Link>
+                </div>
+              </header>
+              <div className="roadbook-grid">
+                <RouteRoadbookMap model={roadbook} />
+                <RouteRoadbookFlow model={roadbook} />
+              </div>
+            </div>
+          </section>
+        )}
+        {exporting && roadbook && (
+          // 离屏挂载：序列化需要真实的 DOM 节点，但不能让海报出现在页面上或被读屏念出来。
+          <div className="roadbook-poster-source" aria-hidden="true">
+            <RouteRoadbookPoster model={roadbook} features={posterFeatures ?? []} svgRef={posterRef} />
+          </div>
+        )}
         {route.days.length > 1 && <nav className="route-day-nav" aria-label="按天快速跳转"><div className="section-shell"><span>按天快速跳转</span><div>{route.days.map((day, index) => <a key={day.day} href={`#route-day-${day.day}`} className={activeDay === day.day ? 'active' : undefined} aria-current={activeDay === day.day ? 'location' : undefined} style={{ '--route-day-index': index } as CSSProperties}><strong>D{String(day.day).padStart(2, '0')}</strong><small>{day.title}</small></a>)}</div></div></nav>}
         <div className="section-shell route-detail-layout">
           <article className="timeline"><div className="route-audience"><span>适合人群</span><strong>{route.audience}</strong></div>{route.days.map((day, index) => <section key={day.day} id={`route-day-${day.day}`} className={`route-day${activeDay === day.day ? ' is-active' : ''}`} aria-labelledby={`route-day-${day.day}-title`} style={{ '--route-day-index': index } as CSSProperties}><div className={`day-marker${activeDay === day.day ? ' is-active' : ''}`}><span>DAY</span><strong>{String(day.day).padStart(2, '0')}</strong></div><div className="day-content"><header><h2 id={`route-day-${day.day}-title`}>{day.title}</h2><p>{day.summary}</p></header><div className="route-stops">{day.stops.map((stop, index) => {

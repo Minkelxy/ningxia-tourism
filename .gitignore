@@ -41,6 +41,9 @@ playwright-report
 .lighthouseci
 .tmp
 
+# 本机 Playwright 覆盖配置（硬编码本机 Chromium 路径，不入库）
+playwright.local.config.ts
+
 # GitHub Pages build
 docs-build
 

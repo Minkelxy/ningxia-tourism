@@ -863,6 +863,77 @@ button { color: inherit; }
 .route-evidence-card > p:last-child { margin-top: 13px; color: var(--muted); font-size: .75rem; }
 .route-notice strong { display: block; margin-top: 14px; font-size: .78rem; }
 
+/* ── 主题路线路书：地理缩略图 + 按天流线 ── */
+.route-roadbook { margin-top: 54px; padding-block: 48px 10px; border-top: 1px solid var(--line); }
+.roadbook-head { margin-bottom: 28px; animation: route-section-in .42s cubic-bezier(.22,.8,.26,1) both; }
+.roadbook-head .eyebrow { display: flex; align-items: center; gap: 8px; }
+.roadbook-head .eyebrow svg { width: 17px; }
+.roadbook-head h2 { position: relative; width: fit-content; max-width: 100%; margin-top: 8px; font-size: clamp(1.7rem, 3.2vw, 2.5rem); }
+.roadbook-head > p { max-width: 640px; margin-top: 12px; color: var(--muted); font-size: .86rem; }
+.roadbook-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.roadbook-actions .btn-primary:disabled { opacity: .72; cursor: progress; transform: none; }
+/* 导出用的离屏海报：必须保持布局盒（序列化读的是真实几何），只把它移出可视区。 */
+.roadbook-poster-source { position: absolute; top: 0; left: -10000px; width: 1px; height: 1px; overflow: hidden; pointer-events: none; }
+.roadbook-grid { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 32px; align-items: start; }
+
+/* 地理缩略图 */
+.roadbook-map { animation: route-section-in .42s cubic-bezier(.22,.8,.26,1) .08s both; }
+.roadbook-map__canvas { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow-soft); }
+.roadbook-map__state { min-height: 240px; display: flex; align-items: center; justify-content: center; padding: 24px; border: 1px dashed var(--line); border-radius: 20px; color: var(--muted); font-size: .82rem; text-align: center; }
+.roadbook-map__hint { fill: var(--muted); font-family: var(--serif); font-size: 11px; }
+.roadbook-map__province path { fill: #e4d7b6; stroke: rgba(120,88,44,.46); stroke-width: 1.1; }
+.roadbook-map__day-tag { fill: var(--green-dark); font-family: var(--sans); font-size: 9px; font-weight: 800; letter-spacing: .02em; paint-order: stroke; stroke: rgba(251,247,238,.9); stroke-width: 2.6; }
+.roadbook-map__segment { --roadbook-segment-color: var(--green); }
+.roadbook-route-ink { fill: none; stroke: var(--roadbook-segment-color); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0; pointer-events: none; stroke-dasharray: 1; stroke-dashoffset: 1; animation: roadbook-route-draw .9s cubic-bezier(.22,.8,.26,1) calc(var(--roadbook-segment-index, 0) * 120ms + .2s) both; }
+.roadbook-node { opacity: 0; transform-box: fill-box; transform-origin: center; animation: roadbook-node-in .4s cubic-bezier(.22,.8,.26,1) calc(var(--roadbook-node-index, 0) * 55ms + .34s) both; }
+.roadbook-node__dot { fill: var(--card); stroke: var(--green); stroke-width: 1.8; }
+.roadbook-node__num { fill: var(--green-dark); font-family: var(--sans); font-size: 8px; font-weight: 800; }
+.roadbook-map__legend { display: grid; gap: 6px; margin-top: 12px; color: var(--muted); font-size: .72rem; line-height: 1.6; }
+.roadbook-map__legend span { display: flex; align-items: flex-start; gap: 7px; }
+.roadbook-map__swatch { flex: 0 0 10px; width: 10px; height: 10px; margin-top: 5px; border: 1.6px solid var(--green); border-radius: 50%; background: var(--green); }
+.roadbook-map__swatch--hollow { background: transparent; border-style: dashed; }
+
+/* 按天流线 */
+.roadbook-flow { display: grid; gap: 15px; margin: 0; padding: 0; list-style: none; }
+.roadbook-flow__day { padding: 20px 22px; border: 1px solid var(--line); border-radius: 20px; background: var(--card); box-shadow: var(--shadow-soft); animation: roadbook-day-in .44s cubic-bezier(.22,.8,.26,1) calc(var(--roadbook-day-index, 0) * 90ms + .16s) both; }
+.roadbook-flow__head { display: flex; align-items: center; gap: 13px; padding-bottom: 13px; border-bottom: 1px dashed #d8d1c4; }
+.roadbook-flow__stamp { flex: 0 0 auto; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 13px 4px 13px 4px; background: var(--red); color: #fff; font-family: var(--serif); font-size: .95rem; font-weight: 800; }
+.roadbook-flow__head h3 { position: relative; width: fit-content; font-size: 1.1rem; }
+.roadbook-flow__head h3::after { position: absolute; left: 0; right: 0; bottom: -5px; height: 2px; content: ''; border-radius: 999px; background: linear-gradient(90deg, rgba(169,69,53,.6), rgba(200,157,77,.16)); opacity: 0; transform: scaleX(0); transform-origin: left; animation: roadbook-day-ink .42s cubic-bezier(.22,.8,.26,1) calc(var(--roadbook-day-index, 0) * 90ms + .3s) both; }
+.roadbook-flow__cities { margin-top: 7px; color: var(--muted); font-size: .76rem; }
+.roadbook-flow__nodes { display: grid; margin: 0; padding: 9px 0 0; list-style: none; }
+.roadbook-flow__node { position: relative; z-index: 1; display: grid; grid-template-columns: 26px 78px minmax(0, 1fr); align-items: center; gap: 10px; min-height: 44px; padding-left: 4px; animation: roadbook-node-row-in .38s cubic-bezier(.22,.8,.26,1) calc(var(--roadbook-node-index, 0) * 60ms + .24s) both; }
+.roadbook-flow__num { display: grid; place-items: center; width: 26px; height: 26px; border: 1.6px solid var(--green); border-radius: 50%; background: var(--green); color: #fff; font-size: .7rem; font-weight: 800; }
+.roadbook-flow__node.is-query-only .roadbook-flow__num { border-style: dashed; background: transparent; color: var(--muted); }
+.roadbook-flow__time { color: var(--muted); font-size: .74rem; font-variant-numeric: tabular-nums; }
+.roadbook-flow__title { min-width: 0; font-size: .86rem; font-weight: 650; overflow-wrap: anywhere; }
+.roadbook-flow__tag { margin-left: 8px; padding: 2px 7px; border: 1px dashed rgba(58,48,32,.28); border-radius: 999px; color: var(--muted); font-size: .64rem; font-weight: 700; white-space: nowrap; }
+.roadbook-flow__foot { display: grid; gap: 5px; margin-top: 11px; padding-top: 11px; border-top: 1px dashed #d8d1c4; color: var(--muted); font-size: .74rem; }
+
+/* ── 独立路书页：页面本身就是那件可分享的成品 ── */
+.roadbook-page-hero { padding-block: 46px 30px; border-bottom: 1px solid var(--line); }
+.roadbook-page-hero .back-link { margin-bottom: 16px; }
+.roadbook-page-hero h1 { position: relative; width: fit-content; max-width: 100%; margin-top: 8px; font-size: clamp(1.9rem, 4vw, 3rem); }
+.roadbook-page-hero > .section-shell > p:not(.eyebrow, .roadbook-page-note) { max-width: 660px; margin-top: 12px; color: var(--muted); font-size: .9rem; }
+.roadbook-page-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.roadbook-page-actions .btn-primary:disabled { opacity: .72; cursor: progress; transform: none; }
+.roadbook-page-note { margin-top: 14px; color: var(--muted); font-size: .78rem; }
+.roadbook-page-body { display: grid; gap: 40px; padding-block: 34px 60px; }
+.roadbook-page-poster-hint { display: none; }
+.roadbook-page-poster { width: min(100%, 900px); margin: 0 auto; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); box-shadow: var(--shadow); }
+/* 海报按 900 宽的 viewBox 绘制，页面里等比缩放到栏宽即可。 */
+.roadbook-page-poster svg { display: block; width: 100%; height: auto; }
+.roadbook-page-text { max-width: 780px; margin: 0 auto; }
+.roadbook-page-text h2 { position: relative; width: fit-content; font-size: 1.5rem; }
+.roadbook-page-text > p { margin-top: 12px; color: var(--muted); font-size: .84rem; }
+.roadbook-page-text ol { display: grid; gap: 16px; margin: 18px 0 0; padding: 0; list-style: none; }
+.roadbook-page-text > ol > li { padding: 18px 20px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); }
+.roadbook-page-text h3 { font-size: 1.05rem; }
+.roadbook-page-text > ol > li > p { margin-top: 6px; color: var(--muted); font-size: .78rem; }
+.roadbook-page-text ol ol { gap: 4px; margin-top: 10px; }
+.roadbook-page-text ol ol li { color: var(--ink); font-size: .84rem; line-height: 1.9; }
+.roadbook-page-back { margin-top: 22px; }
+
 .home-topics { padding-bottom: 88px; }
 .home-topics > header { margin-bottom: 30px; animation: home-copy-in .48s cubic-bezier(.22,.8,.26,1) both; }
 .home-topics > header .eyebrow { display: flex; align-items: center; gap: 8px; }
@@ -1425,6 +1496,12 @@ button { color: inherit; }
 @keyframes journal-gallery-photo-in { from { opacity: 0; transform: translateY(12px) rotate(var(--journal-gallery-tilt, -1deg)) scale(.98); } to { opacity: 1; transform: translateY(0) rotate(var(--journal-gallery-tilt, -1deg)) scale(1); } }
 @keyframes journal-gallery-ink { from { opacity: 0; transform: scaleX(0); } to { opacity: .72; transform: scaleX(1); } }
 
+@keyframes roadbook-route-draw { from { opacity: 0; stroke-dashoffset: 1; } to { opacity: .92; stroke-dashoffset: 0; } }
+@keyframes roadbook-node-in { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: scale(1); } }
+@keyframes roadbook-day-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes roadbook-day-ink { from { opacity: 0; transform: scaleX(0); } to { opacity: .8; transform: scaleX(1); } }
+@keyframes roadbook-node-row-in { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: translateX(0); } }
+
 @media (max-width: 960px) {
   .desktop-nav { display: none; }
   .mobile-menu-button { display: grid; place-items: center; }
@@ -1455,6 +1532,30 @@ button { color: inherit; }
   .duration-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .preparation-grid { grid-template-columns: 1fr; }
   .guide-source-panel { position: static; }
+  .roadbook-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .roadbook-map { max-width: 420px; }
+}
+
+@media (max-width: 768px) {
+  /* 海报缩到 375px 宽后字会小到看不清，改成可横向滑动，保留可读尺寸。 */
+  .roadbook-page-poster-hint { display: block; max-width: 900px; margin: 0 auto 8px; color: var(--muted); font-size: .74rem; }
+  .roadbook-page-poster { overflow-x: auto; }
+  .roadbook-page-poster svg { width: 640px; }
+}
+
+@media (max-width: 560px) {
+  .route-roadbook { margin-top: 40px; padding-block: 36px 8px; }
+  .roadbook-grid { gap: 18px; }
+  .roadbook-map { max-width: none; }
+  .roadbook-map__canvas { border-radius: 16px; }
+  .roadbook-actions > .btn-quiet { flex: 1 1 0; justify-content: center; }
+  .roadbook-flow__day { padding: 16px 15px; border-radius: 16px; }
+  .roadbook-flow__stamp { width: 40px; height: 40px; font-size: .82rem; }
+  .roadbook-flow__head h3 { font-size: 1rem; }
+  .roadbook-flow__node { grid-template-columns: 24px 70px minmax(0, 1fr); gap: 8px; }
+  .roadbook-flow__num { width: 24px; height: 24px; font-size: .66rem; }
+  .roadbook-flow__time { font-size: .7rem; }
+  .roadbook-flow__title { font-size: .82rem; }
 }
 
 @media (max-width: 768px) {
@@ -1775,6 +1876,12 @@ button { color: inherit; }
   .section-heading h2::after, .home-route-finder h2::after, .home-topics > header h2::after, .home-guide-teaser h2::after, .journal-home-card h2::after { animation: none !important; opacity: .76; transform: scaleX(1); }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .roadbook-head, .roadbook-map, .roadbook-flow__day, .roadbook-flow__node, .roadbook-flow__head h3::after, .roadbook-node { animation: none !important; transition: none !important; opacity: 1; transform: none; }
+  .roadbook-flow__head h3::after { opacity: .8; transform: scaleX(1); }
+  .roadbook-route-ink { animation: none !important; opacity: .92; stroke-dasharray: none; stroke-dashoffset: 0; }
+}
+
 @media print {
   @page { margin: 15mm 13mm; }
   .site-header, .site-footer, .route-detail-actions, .route-day-nav, .toast, .sw-update-toast { display: none !important; }
@@ -1811,6 +1918,38 @@ button { color: inherit; }
   .route-timeslots .eyebrow { color: #000; }
   .day-footer { border-top-color: #999; }
   .route-evidence-summary span, .route-summary-card span { background: #eee; color: #000; }
+  /* 路书是打印品：地图与流线必须留在纸上，只有操作按钮行被隐藏。 */
+  .roadbook-actions { display: none !important; }
+  .route-roadbook { margin-top: 22px; padding-block: 16px 0; border-top: 2px solid #000; break-before: page; }
+  .roadbook-head { margin-bottom: 14px; }
+  .roadbook-head .eyebrow { color: #000; }
+  .roadbook-head h2 { font-size: 20pt; }
+  .roadbook-head > p { max-width: none; color: #000; }
+  .roadbook-grid { grid-template-columns: minmax(0, 78mm) minmax(0, 1fr); gap: 8mm; break-inside: avoid; }
+  .roadbook-map { max-width: none; }
+  .roadbook-map__canvas { border-radius: 0; box-shadow: none; }
+  .roadbook-map__legend { color: #000; }
+  .roadbook-flow { gap: 8px; }
+  .roadbook-flow__day { padding: 10px 12px; border-color: #999; border-radius: 0; box-shadow: none; break-inside: avoid; }
+  .roadbook-flow__head { padding-bottom: 8px; border-bottom-color: #999; }
+  .roadbook-flow__stamp { border-radius: 0; background: #eee; color: #000; }
+  .roadbook-flow__head h3::after { opacity: .8; transform: scaleX(1); }
+  .roadbook-flow__nodes { padding-top: 4px; }
+  .roadbook-flow__node { min-height: 0; padding-block: 3px; }
+  .roadbook-flow__num { border-color: #000; background: #eee; color: #000; }
+  .roadbook-flow__node.is-query-only .roadbook-flow__num { background: transparent; color: #000; }
+  .roadbook-flow__foot { border-top-color: #999; }
+  /* 独立路书页：海报整幅按页宽缩放，操作行与文字版都不进纸面。 */
+  .roadbook-page-hero { padding: 0 0 14px; border-bottom: 2px solid #000; }
+  .roadbook-page-hero .back-link, .roadbook-page-actions { display: none !important; }
+  .roadbook-page-hero h1 { font-size: 22pt; }
+  .roadbook-page-hero > .section-shell > p:not(.eyebrow, .roadbook-page-note) { max-width: none; color: #000; }
+  .roadbook-page-note { color: #000; }
+  .roadbook-page-body { display: block; padding: 14px 0 0; }
+  /* 海报很高，按页高反推宽度，保证整幅落在同一页里。 */
+  .roadbook-page-poster { display: flex; justify-content: center; width: 100%; border: 0; border-radius: 0; box-shadow: none; break-inside: avoid; }
+  .roadbook-page-poster svg { width: auto; height: 230mm; max-width: 100%; }
+  .roadbook-page-text { display: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {

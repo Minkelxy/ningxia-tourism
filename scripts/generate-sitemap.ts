@@ -32,6 +32,7 @@ const urls: Array<{ path: string; lastmod?: string }> = [
   ...publishedFoods.map((item) => ({ path: `/food/${item.id}`, lastmod: item.verifiedAt })),
   ...cities.map((city) => ({ path: `/city/${city.id}`, lastmod: latest(publishedAttractions.filter((item) => item.cityId === city.id).map((item) => item.verifiedAt)) })),
   ...routes.map((item) => ({ path: `/routes/${item.id}`, lastmod: item.verifiedAt })),
+  ...routes.map((item) => ({ path: `/routes/${item.id}/roadbook`, lastmod: item.verifiedAt })),
   ...articles.map((item) => ({ path: `/journal/${item.type}/${item.slug}`, lastmod: item.updatedAt })),
 ];
 const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((item) => `  <url><loc>${base}${item.path}</loc>${item.lastmod ? `<lastmod>${item.lastmod}</lastmod>` : ''}</url>`).join('\n')}\n</urlset>\n`;
