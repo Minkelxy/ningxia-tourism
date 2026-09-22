@@ -1,8 +1,10 @@
 # 发布状态与验收记录
 
-更新时间：2026-09-11
+更新时间：2026-09-22
 
 ## 当前发布快照
+
+2026-09-22 v0.3.138 发布复核：代码提交 [`5466b26`](https://github.com/Minkelxy/ningxia-tourism/commit/5466b26b51910bdc19606807b624851e25002b14) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/35718358849)为 **success**，build 与 deploy 两个 job 均成功；197 条单元测试、218 条 E2E 通过、16 条按端型跳过，无 flaky；Lighthouse 质量门禁通过（首页 95、景点 95、手记 97、指南 94；可访问性、最佳实践和 SEO 均为 100）。主题路线新增可视化路书：路线详情页「线路一览」区块提供按天分段连线的地理缩略图与跨天连续编号的按天流线，新增独立路书页 `/routes/:routeId/roadbook`、2 倍 PNG 图片导出（优先 `navigator.share({ files })`）与打印优化。56 个停靠点中 15 个仅有高德查询串的市区／车站类查询点只进流线与图例，不参与地图连线，不新增推断坐标；路线数据模型、核实等级与内容事实未改动。生产构建、82 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built。线上根路径、CSS 与 JS 资源 HTTP 200。
 
 2026-09-11 v0.3.137 发布复核：最终代码提交 [`48ced53`](https://github.com/Minkelxy/ningxia-tourism/commit/48ced5352f8fae0fef79f28d700e1178bc858e5a) 的[主校验与 Pages 部署工作流](https://github.com/Minkelxy/ningxia-tourism/actions/runs/34608630910)为 **success**，build 与 deploy 两个 job 均成功；依赖审计通过，182 条单元测试、198 条 E2E 通过、16 条按端型跳过，Lighthouse 质量门禁通过（首页 95、景点 97、手记 94、指南 98；可访问性、最佳实践和 SEO 均为 100），无 flaky。旅行手记详情页图片画廊新增按阅读顺序错峰入场、轻微交错倾角与图片说明手绘墨线，与封面、卡片和标题墨线共享纸面视觉语言；减少动效设置下恢复静态图片与说明墨线，并保留图片来源、许可、懒加载和阅读结构。生产构建、73 个页面 sitemap、深链回退与 Pages 部署均通过，Pages 状态为 built；线上根路径与 CSS/JS 资源 HTTP 200。
 
