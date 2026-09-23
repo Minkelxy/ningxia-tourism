@@ -2800,6 +2800,10 @@ test('独立路书页可以直接访问且只有一个主内容区', async ({ pa
   await expect(poster.locator('svg')).toHaveAttribute('aria-label', /经典三日全景游路书海报：共 3 天、7 个停靠点/);
   // 海报是静态成品：不该挂任何 CSS 类或入场动画。
   await expect(poster.locator('svg [class]')).toHaveCount(0);
+  // 省界是异步加载的，必须真的落到海报上：若在它落定前就渲染或序列化，
+  // 会得到一张只有路线、没有地图底图的残缺海报。#ded0ab 是省界要素的专用填充色，
+  // 5 对应 ningxia-province-mobile.json 的 5 个要素，数据变更时应连同这里一起复核。
+  await expect(poster.locator('svg path[fill="#ded0ab"]')).toHaveCount(5);
   await expect(page.getByRole('link', { name: /返回路线详情/ })).toHaveAttribute('href', /\/routes\/classic-3day$/);
 
   // 海报是 role="img"，读屏只能听到一句 aria-label，因此必须补一份等价的文字版。

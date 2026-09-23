@@ -150,7 +150,7 @@ function RouteRoadbookPoster({ model, features = [], svgRef }: RouteRoadbookPost
       </text>
       {titleLines.map((line, index) => (
         <text
-          key={`title-${line}`}
+          key={`title-${index}`}
           x={PAD}
           y={titleTop + 34 + index * 58 + 32}
           fill={COLOR.ink}
@@ -163,7 +163,7 @@ function RouteRoadbookPoster({ model, features = [], svgRef }: RouteRoadbookPost
       ))}
       <rect x={PAD} y={titleTop + 34 + titleBlockHeight + 8} width={Math.min(300, CONTENT_WIDTH * 0.38)} height="4" rx="2" fill="url(#posterTitleInk)" />
       {summaryLines.map((line, index) => (
-        <text key={`summary-${line}`} x={PAD} y={summaryTop + index * 30 + 20} fill={COLOR.muted} fontSize="18">
+        <text key={`summary-${index}`} x={PAD} y={summaryTop + index * 30 + 20} fill={COLOR.muted} fontSize="18">
           {line}
         </text>
       ))}

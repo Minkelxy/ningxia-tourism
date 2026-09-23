@@ -8,8 +8,6 @@ import { loadProvinceFeatures } from './province';
 export const ROADBOOK_MAP_WIDTH = 360;
 export const ROADBOOK_MAP_HEIGHT = 300;
 const MAP_PADDING = 30;
-/** 兜底配色：当天没有可定位景点时使用站点沙金主色。 */
-const FALLBACK_ROUTE_COLOR = '#b9873c';
 
 interface RouteRoadbookMapProps {
   model: RoadbookModel;
@@ -111,11 +109,11 @@ function RouteRoadbookMap({ model }: RouteRoadbookMapProps) {
                     const { x, y } = project(node.coordinates!.lng, node.coordinates!.lat);
                     return { x, y };
                   });
-                  const color = segment.nodes[0].cityId ? undefined : FALLBACK_ROUTE_COLOR;
                   const head = points[0];
                   return (
+                    // 墨线颜色由 CSS 的 .roadbook-map__segment 提供，这里只传错峰用的分段序号。
                     <g key={segment.day} className="roadbook-map__segment"
-                      style={{ '--roadbook-segment-index': index, '--roadbook-segment-color': color } as CSSProperties}>
+                      style={{ '--roadbook-segment-index': index } as CSSProperties}>
                       {/* 单点分段只有点、没有线段，画 path 会得到空 d。 */}
                       {points.length >= 2 && (
                         <path
